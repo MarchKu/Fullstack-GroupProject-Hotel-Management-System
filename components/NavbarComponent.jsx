@@ -12,6 +12,8 @@ import {
 } from "../components/ui/navigation-menu.jsx";
 import { MenubarSeparator } from "./ui/menubar.jsx";
 import NeatlyLogo from "../assets/images/logo.svg";
+import Bell from "../assets/images/bell.svg";
+import userImage from "../assets/images/photo.png";
 import neatlyMobile from "../assets/images/mobile-logo.png";
 import { useMediaQuery } from "@/hooks/use-media-query.jsx";
 import { Drawer, DrawerContent, DrawerTrigger } from "./ui/drawer";
@@ -19,12 +21,13 @@ import { MenuIcon } from "lucide-react";
 
 const NavbarComponent = () => {
   const isDesktop = useMediaQuery("(min-width: 768px)");
+  const isUser = true;
   return (
     // flex justify-between max-w-[1024px] mx-auto
 
     isDesktop ? (
       <NavigationMenu className="flex items-center h-[100px] border-[1px] border-[#E4E6ED] justify-center w-screen">
-        <div className="min-w-[768px] flex justify-between text-[14px] px-[16px]">
+        <div className=" flex justify-between text-[14px] px-[16px] w-[1120px]">
           <div className="w-full max-w-[660px] flex items-center justify-between">
             <Link href="/" legacyBehavior passHref>
               <NavigationMenuLink className="">
@@ -49,13 +52,26 @@ const NavbarComponent = () => {
               </Link>
             </div>
           </div>
-          <div className="flex items-center">
-            <Link href="/" legacyBehavior passHref>
-              <NavigationMenuLink className="text-[14px] leading-[16px] font-semibold text-[#E76B39]">
-                Log in
-              </NavigationMenuLink>
-            </Link>
-          </div>
+
+          {isUser ? (
+            <div className="flex items-center gap-4 max-w-[163px] h-10">
+              <Link href="/" legacyBehavior passHref>
+                <Bell />
+              </Link>
+              <div className="flex items-center w-[107px] gap-2">
+                <Image src={userImage}></Image>
+                <h6>Kate Cho</h6>
+              </div>
+            </div>
+          ) : (
+            <div className="flex items-center">
+              <Link href="/" legacyBehavior passHref>
+                <NavigationMenuLink className="text-sm leading-4 mr-4 font-semibold text-[#E76B39]">
+                  Log in
+                </NavigationMenuLink>
+              </Link>
+            </div>
+          )}
         </div>
       </NavigationMenu>
     ) : (
