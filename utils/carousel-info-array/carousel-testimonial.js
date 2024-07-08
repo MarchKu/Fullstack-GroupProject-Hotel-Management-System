@@ -1,6 +1,6 @@
-import Katherine from "../../asset/carousel/testimonial/Katherine.png";
-import Jonathan from "../../asset/carousel/testimonial/Jonathan.png";
-import Rebert from "../../asset/carousel/testimonial/Rebert.png";
+import Katherine from "../../assets/carousel/testimonial/Katherine.png";
+import Jonathan from "../../assets/carousel/testimonial/Jonathan.png";
+import Rebert from "../../assets/carousel/testimonial/Rebert.png";
 
 export const carouselTestimonial = [
   {

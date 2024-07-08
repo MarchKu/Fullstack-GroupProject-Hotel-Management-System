@@ -1,12 +1,12 @@
 import React from 'react'
 import Image from 'next/image'
-import spa from '../../asset/service/spa.svg'
-import sauna from '../../asset/service/sauna.svg'
-import fitness from '../../asset/service/fitness.svg'
-import lounge from '../../asset/service/lounge.svg'
-import wifi from '../../asset/service/wifi.svg'
-import parking from '../../asset/service/parking.svg'
-import operation from '../../asset/service/operation.svg'
+import spa from '../../assets/service/spa.svg'
+import sauna from '../../assets/service/sauna.svg'
+import fitness from '../../assets/service/fitness.svg'
+import lounge from '../../assets/service/lounge.svg'
+import wifi from '../../assets/service/wifi.svg'
+import parking from '../../assets/service/parking.svg'
+import operation from '../../assets/service/operation.svg'
 
 const Service = () => {
   return (

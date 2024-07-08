@@ -5,7 +5,7 @@ import {
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
-} from "@/components/ui/carousel_about";
+} from "@/components/ui/carousel-about";
 import { Card, CardContent } from "@/components/ui/card";
 import { carouselAbout } from "@/utils/carousel-info-array/carousel-about";
 

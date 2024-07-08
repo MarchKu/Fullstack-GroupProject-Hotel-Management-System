@@ -5,7 +5,7 @@ import {
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
-} from "@/components/ui/carousel_testimonial";
+} from "../ui/carousel-testimonial";
 import { Card, CardContent } from "@/components/ui/card";
 import Autoplay from "embla-carousel-autoplay";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";

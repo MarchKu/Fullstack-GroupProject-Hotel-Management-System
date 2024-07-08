@@ -183,7 +183,7 @@ const CarouselNext = React.forwardRef(({ className, variant = "outline", size = 
       disabled={!canScrollNext}
       onClick={scrollNext}
       {...props}>
-      <ArrowRight className="size-8 md:size-14 text-orenge-500" />
+      <ArrowRight className="size-8 md:srol-span-1ize-14 text-orenge-500" />
       <span className="sr-only">Next slide</span>
     </Button>)
   );
