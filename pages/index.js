@@ -1,9 +1,7 @@
-import Image from "next/image";
+"use client";
 import { Inter } from "next/font/google";
-import { Heading1 } from "lucide-react";
 import NavbarComponent from "@/components/NavbarComponent";
-
-const inter = Inter({ subsets: ["latin"] });
+import FooterComponent from "@/components/FooterComponent";
 
 export default function Home() {
   return (
@@ -14,6 +12,7 @@ export default function Home() {
       <h1 className="text-8xl font-body">Hello</h1>
       <h1 className="text-8xl font-body">Hello</h1>
       <h1 className="text-8xl font-body">Hello</h1>
+      <FooterComponent />
     </>
   );
 }

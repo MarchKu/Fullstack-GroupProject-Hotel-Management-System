@@ -55,10 +55,7 @@ const DrawerHeader = ({ className, ...props }) => (
 DrawerHeader.displayName = "DrawerHeader";
 
 const DrawerFooter = ({ className, ...props }) => (
-  <div
-    className={cn("mt-auto flex flex-col gap-2", className)}
-    {...props}
-  />
+  <div className={cn("mt-auto flex flex-col gap-2", className)} {...props} />
 );
 DrawerFooter.displayName = "DrawerFooter";
 

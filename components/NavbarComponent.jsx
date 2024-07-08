@@ -11,37 +11,40 @@ import {
   NavigationMenuViewport,
 } from "../components/ui/navigation-menu.jsx";
 import { MenubarSeparator } from "./ui/menubar.jsx";
-import Bell from "../assets/images/bell.svg";
 import userImage from "../assets/images/photo.png";
+import bellIcon from "../assets/images/bell.png";
 import profileIcon from "../assets/images/Frame.png";
 import cardIcon from "../assets/images/credit.png";
 import bookingIcon from "../assets/images/booking.png";
 import logoutIcon from "../assets/images/logout.png";
-import neatlyMobile from "../assets/images/mobile-logo.png";
 import neatlyLogo from "../assets/images/NeatlyLogo.png";
-import { useMediaQuery } from "@/hooks/use-media-query.jsx";
-import { Drawer, DrawerContent, DrawerTrigger } from "./ui/drawer";
+import {
+  Drawer,
+  DrawerContent,
+  DrawerTrigger,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerDescription,
+} from "./ui/drawer";
 import { MenuIcon } from "lucide-react";
 
 const NavbarComponent = () => {
-  const isDesktop = useMediaQuery("(min-width: 768px)");
   const isUser = false;
 
-  const AuthenticatedUser = isDesktop ? (
-    <NavigationMenu className="flex items-center h-[100px] border-[1px] border-[#E4E6ED] justify-center w-screen">
+  const AuthenticatedUser = (
+    <NavigationMenu className="flex items-center md:h-[100px] h-[48px] border-[1px] border-[#E4E6ED] justify-center w-screen">
       <div className="flex justify-between text-[14px] px-[16px] w-[1120px]">
-        <div className="w-full max-w-[660px] flex items-center justify-between">
+        <div className="w-full max-w-[768px] flex items-center justify-between">
           <Link href="/" legacyBehavior passHref>
             <NavigationMenuLink>
               <Image
                 src={neatlyLogo}
                 alt="Neatly Logo"
-                width={167}
-                height={45}
+                className="md:w-[167px] md:h-[45px] w-[94px] h-[25px]"
               />
             </NavigationMenuLink>
           </Link>
-          <div className="w-full max-w-[444px] flex justify-between">
+          <div className="w-full max-w-[444px] justify-between hidden md:flex">
             <Link href="/" legacyBehavior passHref>
               <NavigationMenuLink className="px-[24px]">
                 About Neatly
@@ -58,40 +61,22 @@ const NavbarComponent = () => {
               </NavigationMenuLink>
             </Link>
           </div>
-        </div>
-        <div className="flex items-center gap-4 max-w-[163px] h-10">
-          <Link href="/" legacyBehavior passHref>
-            <Bell />
-          </Link>
-          <div className="flex items-center w-[107px] gap-2">
-            <Image src={userImage} alt="User" />
-            <h6>Kate Cho</h6>
-          </div>
-        </div>
-      </div>
-    </NavigationMenu>
-  ) : (
-    <NavigationMenu className="flex items-center h-[48px] border-[1px] border-[#E4E6ED] justify-center w-screen">
-      <div className="flex justify-between text-[14px] px-[16px] w-[1120px]">
-        <div className="w-full max-w-[660px] flex items-center justify-between">
-          <Link href="/" legacyBehavior passHref>
-            <NavigationMenuLink>
-              <Image
-                src={neatlyLogo}
-                alt="Neatly Logo"
-                width={94}
-                height={25}
-              />
-            </NavigationMenuLink>
-          </Link>
-          <Drawer direction="right">
+          <Drawer direction="right" className="md:hidden block">
             <DrawerTrigger>
-              <MenuIcon />
+              <MenuIcon className="md:hidden" />
             </DrawerTrigger>
             <DrawerContent className="w-screen mt-[48px] text-sm leading-4">
+              <DrawerHeader>
+                <DrawerTitle className="hidden">Navigation list</DrawerTitle>
+                <DrawerDescription className="hidden">
+                  Item on the list: Profile, Payment Method, Booking History,
+                  and Log out
+                </DrawerDescription>
+              </DrawerHeader>
+
               <div className="mt-6 mx-4">
                 <div className="flex items-center w-[107px] gap-2 mb-4">
-                  <Image src={userImage}></Image>
+                  <Image src={userImage} alt="user image"></Image>
                   <h6>Kate Cho</h6>
                 </div>
 
@@ -99,19 +84,19 @@ const NavbarComponent = () => {
 
                 <Link href="/">
                   <div className="flex items-center w-[343px] gap-3 mx-4 my-4">
-                    <Image src={profileIcon}></Image>
+                    <Image src={profileIcon} alt="profile icon"></Image>
                     <h6>Profile</h6>
                   </div>
                 </Link>
                 <Link href="/">
                   <div className="flex items-center w-[343px] gap-3 mx-4 my-4">
-                    <Image src={cardIcon}></Image>
+                    <Image src={cardIcon} alt="card icon"></Image>
                     <h6>Payment Method</h6>
                   </div>
                 </Link>
                 <Link href="/">
                   <div className="flex items-center w-[343px] gap-3 mx-4 my-4">
-                    <Image src={bookingIcon}></Image>
+                    <Image src={bookingIcon} alt="booking icon"></Image>
                     <h6>Booking History</h6>
                   </div>
                 </Link>
@@ -120,7 +105,7 @@ const NavbarComponent = () => {
 
                 <Link href="/">
                   <div className="flex items-center w-[343px] gap-3 mx-4 my-4">
-                    <Image src={logoutIcon}></Image>
+                    <Image src={logoutIcon} alt="logout icon"></Image>
                     <h6>Log out</h6>
                   </div>
                 </Link>
@@ -128,25 +113,33 @@ const NavbarComponent = () => {
             </DrawerContent>
           </Drawer>
         </div>
+        <div className="hidden md:flex items-center md:gap-4 gap-2 max-w-[163px] h-10">
+          <Link href="/" legacyBehavior passHref>
+            <Image src={bellIcon} alt="bell icon" />
+          </Link>
+          <div className="flex items-center w-[107px] gap-2">
+            <Image src={userImage} alt="User" />
+            <h6>Kate Cho</h6>
+          </div>
+        </div>
       </div>
     </NavigationMenu>
   );
 
-  const UnauthenticatedUser = isDesktop ? (
-    <NavigationMenu className="flex items-center h-[100px] border-[1px] border-[#E4E6ED] justify-center w-screen">
+  const UnauthenticatedUser = (
+    <NavigationMenu className="flex items-center md:h-[100px] h-[48px] border-[1px] border-[#E4E6ED] justify-center w-screen">
       <div className="flex justify-between text-[14px] px-[16px] w-[1120px]">
-        <div className="w-full max-w-[660px] flex items-center justify-between">
+        <div className="w-full max-w-[768px] flex items-center justify-between">
           <Link href="/" legacyBehavior passHref>
             <NavigationMenuLink>
               <Image
                 src={neatlyLogo}
                 alt="Neatly Logo"
-                width={167}
-                height={45}
+                className="md:w-[167px] md:h-[45px] w-[94px] h-[25px]"
               />
             </NavigationMenuLink>
           </Link>
-          <div className="w-full max-w-[444px] flex justify-between">
+          <div className="w-full max-w-[444px] hidden md:flex justify-between">
             <Link href="/" legacyBehavior passHref>
               <NavigationMenuLink className="px-[24px]">
                 About Neatly
@@ -163,33 +156,9 @@ const NavbarComponent = () => {
               </NavigationMenuLink>
             </Link>
           </div>
-        </div>
-        <div className="flex items-center">
-          <Link href="/" legacyBehavior passHref>
-            <NavigationMenuLink className="text-sm leading-4 mr-4 font-semibold text-[#E76B39]">
-              Log in
-            </NavigationMenuLink>
-          </Link>
-        </div>
-      </div>
-    </NavigationMenu>
-  ) : (
-    <NavigationMenu className="flex items-center h-[48px] border-[1px] border-[#E4E6ED] justify-center w-screen">
-      <div className="flex justify-between text-[14px] px-[16px] w-[1120px]">
-        <div className="w-full max-w-[660px] flex items-center justify-between">
-          <Link href="/" legacyBehavior passHref>
-            <NavigationMenuLink>
-              <Image
-                src={neatlyLogo}
-                alt="Neatly Logo"
-                width={94}
-                height={25}
-              />
-            </NavigationMenuLink>
-          </Link>
-          <Drawer direction="right">
+          <Drawer direction="right" className="md:hidden block">
             <DrawerTrigger>
-              <MenuIcon />
+              <MenuIcon className="md:hidden" />
             </DrawerTrigger>
             <DrawerContent className="w-screen mt-12 text-sm leading-4">
               <div className="mt-12 mx-4">
@@ -211,6 +180,13 @@ const NavbarComponent = () => {
               </div>
             </DrawerContent>
           </Drawer>
+        </div>
+        <div className="flex items-center mr-4 min-w-10">
+          <Link href="/" legacyBehavior passHref>
+            <NavigationMenuLink className="hidden md:block text-sm leading-4 font-semibold text-[#E76B39]">
+              Log in
+            </NavigationMenuLink>
+          </Link>
         </div>
       </div>
     </NavigationMenu>
