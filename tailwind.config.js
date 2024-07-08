@@ -29,7 +29,7 @@ module.exports = {
         primary: {
           DEFAULT: "#C14817",
           foreground: "hsl(var(--primary-foreground))",
-          heading : "#2F3E35" 
+          heading: "#2F3E35",
         },
         secondary: {
           DEFAULT: "hsl(var(--secondary))",
@@ -73,17 +73,17 @@ module.exports = {
         "orenge-700": "#803010",
         "orenge-800": "#631F04",
         "orenge-900": "#401808",
-        "gray-100":"#F6F7FC",
-        "gray-200":"#F1F2F6",
-        "gray-300":"#E4E6ED",
-        "gray-400":"#D6D9E4",
-        "gray-500":"#C8CCDB",
-        "gray-600":"#9AA1B9",
-        "gray-700":"#646D89",
-        "gray-800":"#424C6B",
-        "gray-900":"#2A2E3F",
-        red:"#B61515",
-        bg:"#F7F7FB",
+        "gray-100": "#F6F7FC",
+        "gray-200": "#F1F2F6",
+        "gray-300": "#E4E6ED",
+        "gray-400": "#D6D9E4",
+        "gray-500": "#C8CCDB",
+        "gray-600": "#9AA1B9",
+        "gray-700": "#646D89",
+        "gray-800": "#424C6B",
+        "gray-900": "#2A2E3F",
+        red: "#B61515",
+        bg: "#F7F7FB",
       },
       borderRadius: {
         lg: "var(--radius)",
@@ -109,9 +109,9 @@ module.exports = {
         body: "Inter",
       },
     },
-    fontFamily:{
-      heading : "Noto_Serif",
-      body : "Inter"
+    fontFamily: {
+      heading: "Noto_Serif",
+      body: "Inter",
     },
   },
   plugins: [require("tailwindcss-animate")],

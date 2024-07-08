@@ -139,7 +139,7 @@ const CarouselItem = React.forwardRef(({ className, ...props }, ref) => {
       role="group"
       aria-roledescription="slide"
       className={cn(
-        "min-w-0 shrink-0 grow-0 h-full basis-1/3",
+        "min-w-0 shrink-0 grow-0 h-full basis-1/2 md:basis-1/3",
         orientation === "horizontal" ? "pl-4" : "pt-4",
         className
       )}
@@ -156,13 +156,13 @@ const CarouselPrevious = React.forwardRef(({ className, variant = "outline", siz
       ref={ref}
       variant={variant}
       size={size}
-      className={cn("absolute  size-28 rounded-full border-white bg-transparent", orientation === "horizontal"
+      className={cn("absolute size-14 md:size-28 rounded-full border-white bg-transparent", orientation === "horizontal"
         ? "left-12 top-1/2 -translate-y-1/2"
         : "-top-12 left-1/2 -translate-x-1/2 rotate-90", className)}
       disabled={!canScrollPrev}
       onClick={scrollPrev}
       {...props}>
-      <ArrowLeft className="size-14 text-white" />
+      <ArrowLeft className="size-10 md:size-14 text-white" />
       <span className="sr-only">Previous slide</span>
     </Button>)
   );
@@ -177,13 +177,13 @@ const CarouselNext = React.forwardRef(({ className, variant = "outline", size = 
       ref={ref}
       variant={variant}
       size={size}
-      className={cn("absolute size-28 rounded-full border-white bg-transparent", orientation === "horizontal"
+      className={cn("absolute size-14 md:size-28 rounded-full border-white bg-transparent", orientation === "horizontal"
         ? "right-12 top-1/2 -translate-y-1/2"
         : "-bottom-12 left-1/2 -translate-x-1/2 rotate-90", className)}
       disabled={!canScrollNext}
       onClick={scrollNext}
       {...props}>
-      <ArrowRight className="size-14 text-white" />
+      <ArrowRight className="size-10 md:size-14 text-white" />
       <span className="sr-only">Next slide</span>
     </Button>)
   );
