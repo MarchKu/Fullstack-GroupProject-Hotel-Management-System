@@ -2,22 +2,8 @@ import Link from "next/link";
 import Image from "next/image";
 import {
   NavigationMenu,
-  NavigationMenuContent,
-  NavigationMenuIndicator,
-  NavigationMenuItem,
   NavigationMenuLink,
-  NavigationMenuList,
-  NavigationMenuTrigger,
-  NavigationMenuViewport,
-} from "../components/ui/navigation-menu.jsx";
-import { MenubarSeparator } from "./ui/menubar.jsx";
-import userImage from "../assets/images/photo.png";
-import bellIcon from "../assets/images/bell.png";
-import profileIcon from "../assets/images/Frame.png";
-import cardIcon from "../assets/images/credit.png";
-import bookingIcon from "../assets/images/booking.png";
-import logoutIcon from "../assets/images/logout.png";
-import neatlyLogo from "../assets/images/NeatlyLogo.png";
+} from "../ui/navigation-menu";
 import {
   Drawer,
   DrawerContent,
@@ -25,11 +11,19 @@ import {
   DrawerHeader,
   DrawerTitle,
   DrawerDescription,
-} from "./ui/drawer";
+} from "../ui/drawer";
 import { MenuIcon } from "lucide-react";
+import { MenubarSeparator } from "../ui/menubar.jsx";
+import userImage from "../../assets/Navigation/UserImage.png";
+import bellIcon from "../../assets/Navigation/bellIcon.png";
+import profileIcon from "../../assets/Navigation/profileIcon.png";
+import cardIcon from "../../assets/Navigation/cardIcon.png";
+import bookingIcon from "../../assets/Navigation/bookingIcon.png";
+import logoutIcon from "../../assets/Navigation/logoutIcon.png";
+import neatlyLogo from "../../assets/Navigation/neatlyLogo.png";
 
 const NavbarComponent = () => {
-  const isUser = false;
+  const isUser = true;
 
   const AuthenticatedUser = (
     <NavigationMenu className="flex items-center md:h-[100px] h-[48px] border-[1px] border-[#E4E6ED] justify-center w-screen">
@@ -181,9 +175,9 @@ const NavbarComponent = () => {
             </DrawerContent>
           </Drawer>
         </div>
-        <div className="flex items-center mr-4 min-w-10">
+        <div className="hidden md:flex items-center mr-4 min-w-10">
           <Link href="/" legacyBehavior passHref>
-            <NavigationMenuLink className="hidden md:block text-sm leading-4 font-semibold text-[#E76B39]">
+            <NavigationMenuLink className="text-sm leading-4 font-semibold text-[#E76B39]">
               Log in
             </NavigationMenuLink>
           </Link>
