@@ -32,7 +32,7 @@ const NavbarComponent = () => {
   const isUser = true;
 
   const AuthenticatedUser = (
-    <NavigationMenu className="flex items-center md:h-[100px] h-[48px] border-[1px] border-[#E4E6ED] justify-center w-screen">
+    <NavigationMenu className="flex items-center md:h-[100px] h-[48px] border-[1px] border-[#E4E6ED] justify-center w-full">
       <div className="flex justify-between text-[14px] px-[16px] w-[1120px]">
         <div className="w-full flex items-center justify-between">
           <Link href="/" legacyBehavior passHref>
@@ -71,7 +71,7 @@ const NavbarComponent = () => {
                     className="w-6 h-6 md:min-w-10 md:min-h-10"
                   />
                 </MenubarTrigger>
-                <MenubarContent className="md:w-[370px] md:h-auto w-screen h-screen px-[14px] py-2 md:absolute top-0 right-[-32px] md:right-[-50px]">
+                <MenubarContent className="md:w-[370px] md:h-auto w-full h-screen px-[14px] py-2 md:absolute top-0 right-[-32px] md:right-[-50px]">
                   <MenubarItem className="gap-3 px-0 py-4 flex items-start">
                     <Image src={notiImage} className="w-8 h-8 rounded-full" />
                     <p>
@@ -98,7 +98,7 @@ const NavbarComponent = () => {
               <DrawerTrigger>
                 <MenuIcon className="md:hidden w-6 h-6" />
               </DrawerTrigger>
-              <DrawerContent className="w-screen mt-[48px] text-sm leading-4">
+              <DrawerContent className="w-full mt-[48px] text-sm leading-4">
                 <DrawerHeader>
                   <DrawerTitle className="hidden">Navigation list</DrawerTitle>
                   <DrawerDescription className="hidden">
@@ -185,7 +185,7 @@ const NavbarComponent = () => {
   );
 
   const UnauthenticatedUser = (
-    <NavigationMenu className="flex items-center md:h-[100px] h-[48px] border-[1px] border-[#E4E6ED] justify-center w-screen">
+    <NavigationMenu className="flex items-center md:h-[100px] h-[48px] border-[1px] border-[#E4E6ED] justify-center w-full">
       <div className="flex justify-between text-[14px] px-[16px] w-[1120px]">
         <div className="w-full max-w-[768px] flex items-center justify-between">
           <Link href="/" legacyBehavior passHref>
@@ -218,7 +218,7 @@ const NavbarComponent = () => {
             <DrawerTrigger>
               <MenuIcon className="md:hidden" />
             </DrawerTrigger>
-            <DrawerContent className="w-screen mt-12 text-sm leading-4">
+            <DrawerContent className="w-full mt-12 text-sm leading-4">
               <div className="mt-12 mx-4">
                 <div className="flex flex-col gap-12 mb-10">
                   <Link href="/" className="mx-4">
