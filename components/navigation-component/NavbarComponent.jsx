@@ -63,7 +63,7 @@ const NavbarComponent = () => {
           </div>
           <div className="flex items-center gap-1 w-[180px] h-10 justify-end">
             <Menubar className="flex rounded-full border-0 p-0">
-              <MenubarMenu>
+              <MenubarMenu className="w-full">
                 <MenubarTrigger className="rounded-full p-1">
                   <Image
                     src={bellIcon}
@@ -71,10 +71,10 @@ const NavbarComponent = () => {
                     className="w-6 h-6 md:min-w-10 md:min-h-10"
                   />
                 </MenubarTrigger>
-                <MenubarContent className="md:w-[370px] md:h-auto w-full h-screen px-[14px] py-2 md:absolute top-0 right-[-32px] md:right-[-50px]">
+                <MenubarContent className="md:w-[370px] md:h-auto w-screen h-screen px-[14px] py-2 md:absolute top-0 right-[-32px] md:right-[-50px]">
                   <MenubarItem className="gap-3 px-0 py-4 flex items-start">
                     <Image src={notiImage} className="w-8 h-8 rounded-full" />
-                    <p>
+                    <p className="max-w-full">
                       Tomorrow is your check-in date with Super Premier View
                       Room
                       <span className="font-semibold">{` ‘Th, 19 Oct 2022’ `}</span>
