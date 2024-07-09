@@ -71,8 +71,8 @@ const NavbarComponent = () => {
                     className="w-6 h-6 md:min-w-10 md:min-h-10"
                   />
                 </MenubarTrigger>
-                <MenubarContent className="md:w-[370px] md:h-auto w-screen h-screen px-[14px] py-2 md:absolute top-0 right-[-32px] md:right-[-50px]">
-                  <MenubarItem className="gap-3 px-0 py-4 flex items-start">
+                <MenubarContent className="md:w-[370px] md:h-auto w-screen h-screen md:px-[14px] py-2 md:absolute top-0 right-[-32px] md:right-[-50px]">
+                  <MenubarItem className="gap-3 px-2 py-4 flex items-start">
                     <Image src={notiImage} className="w-8 h-8 rounded-full" />
                     <p className="max-w-full">
                       Tomorrow is your check-in date with Super Premier View
@@ -81,7 +81,7 @@ const NavbarComponent = () => {
                       We will wait for your arrival!
                     </p>
                   </MenubarItem>
-                  <MenubarItem className="gap-3 px-0 py-4 flex items-start">
+                  <MenubarItem className="gap-3 px-2 py-4 flex items-start">
                     <Image src={notiImage} className="w-8 h-8 rounded-full" />
                     <p>
                       Tomorrow is your check-in date with Super Premier View
@@ -116,8 +116,8 @@ const NavbarComponent = () => {
                   <MenubarSeparator />
 
                   <Link href="/">
-                    <div className="flex items-center w-[343px] gap-3 mx-4 my-4">
-                      <Image src={profileIcon} alt="profile icon"></Image>
+                    <div className="flex items-center w-full gap-3 mx-4 my-4 ">
+                      <Image src={profileIcon} alt="profile icon" ></Image>
                       <h6>Profile</h6>
                     </div>
                   </Link>
@@ -154,30 +154,26 @@ const NavbarComponent = () => {
                   </div>
                 </MenubarTrigger>
                 <MenubarContent className="w-[198px] px-[14px] py-2 md:mx-4">
-                  <MenubarItem className="gap-3 px-0 py-2">
+                  <MenubarItem className="gap-3 px-2 py-2">
                     <Image src={profileIcon} className="w-4 h-4" />
                     <p>Profile</p>
                   </MenubarItem>
-                  <MenubarItem className="gap-3 px-0">
+                  <MenubarItem className="gap-3 px-2 py-2">
                     <Image src={cardIcon} className="w-4 h-4" />
                     <p>Payment Method</p>
                   </MenubarItem>
-                  <MenubarItem className="gap-3 px-0">
+                  <MenubarItem className="gap-3 px-2 py-2">
                     <Image src={bookingIcon} className="w-4 h-4" />
                     <p>Booking History</p>
                   </MenubarItem>
                   <MenubarSeparator />
-                  <MenubarItem className="gap-3 px-0">
+                  <MenubarItem className="gap-3 px-2 py-2">
                     <Image src={logoutIcon} />
                     <p>Log out</p>
                   </MenubarItem>
                 </MenubarContent>
               </MenubarMenu>
             </Menubar>
-            {/* <div className="hidden md:flex items-center w-[107px] gap-2">
-              <Image src={userImage} alt="User" className="w-10 h-10"/>
-              <h6 className="min-w-[59px]">Kate Cho</h6>
-            </div> */}
           </div>
         </div>
       </div>
