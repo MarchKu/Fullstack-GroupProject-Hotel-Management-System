@@ -23,7 +23,7 @@ function AuthProvider(props) {
       }
       toastr["success"]("You are successfully logged in");
       setTimeout(function () {
-        window.location.replace("/homeTest");
+        window.location.replace("/");
       }, 1000);
     } catch (error) {
       console.log(error.message);
@@ -36,7 +36,7 @@ function AuthProvider(props) {
       await axios.post("http://localhost:3000/api/auth/register", data);
       toastr["success"]("You are successfully registered");
       setTimeout(function () {
-        window.location.replace("/loginTest");
+        window.location.replace("/login");
       }, 1000);
     } catch (error) {
       console.log(error.message);
@@ -47,10 +47,11 @@ function AuthProvider(props) {
   const logout = () => {
     if (typeof window !== "undefined") {
       localStorage.removeItem("token") || "";
+      localStorage.removeItem("user") || "";
     }
     toastr["success"]("Logged out successfully");
     setTimeout(function () {
-      window.location.replace("/loginTest");
+      window.location.replace("/login");
     }, 1000);
   };
 
