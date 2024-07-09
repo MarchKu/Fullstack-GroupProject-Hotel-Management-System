@@ -26,6 +26,7 @@ import cardIcon from "../../assets/Navigation/cardIcon.png";
 import bookingIcon from "../../assets/Navigation/bookingIcon.png";
 import logoutIcon from "../../assets/Navigation/logoutIcon.png";
 import neatlyLogo from "../../assets/Navigation/neatlyLogo.png";
+import notiImage from "../../assets/Navigation/NotiImage.png";
 
 const NavbarComponent = () => {
   const isUser = true;
@@ -71,22 +72,23 @@ const NavbarComponent = () => {
                   />
                 </MenubarTrigger>
                 <MenubarContent className="md:w-[370px] md:h-auto w-screen h-screen px-[14px] py-2 md:absolute top-0 right-[-32px] md:right-[-50px]">
-                  <MenubarItem className="gap-3 px-0 py-2">
-                    <Image src={profileIcon} className="w-4 h-4" />
-                    <p>Profile</p>
+                  <MenubarItem className="gap-3 px-0 py-4 flex items-start">
+                    <Image src={notiImage} className="w-8 h-8 rounded-full" />
+                    <p>
+                      Tomorrow is your check-in date with Super Premier View
+                      Room
+                      <span className="font-semibold">{` ‘Th, 19 Oct 2022’ `}</span>
+                      We will wait for your arrival!
+                    </p>
                   </MenubarItem>
-                  <MenubarItem className="gap-3 px-0">
-                    <Image src={cardIcon} className="w-4 h-4" />
-                    <p>Payment Method</p>
-                  </MenubarItem>
-                  <MenubarItem className="gap-3 px-0">
-                    <Image src={bookingIcon} className="w-4 h-4" />
-                    <p>Booking History</p>
-                  </MenubarItem>
-                  <MenubarSeparator />
-                  <MenubarItem className="gap-3 px-0">
-                    <Image src={logoutIcon} />
-                    <p>Log out</p>
+                  <MenubarItem className="gap-3 px-0 py-4 flex items-start">
+                    <Image src={notiImage} className="w-8 h-8 rounded-full" />
+                    <p>
+                      Tomorrow is your check-in date with Super Premier View
+                      Room
+                      <span className="font-semibold">{` ‘Th, 19 Oct 2022’ `}</span>
+                      We will wait for your arrival!
+                    </p>
                   </MenubarItem>
                 </MenubarContent>
               </MenubarMenu>
