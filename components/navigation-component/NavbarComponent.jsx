@@ -32,19 +32,21 @@ import { useAuth } from "@/contexts/authentication";
 const NavbarComponent = ({ isAuthenticated }) => {
   const { logout } = useAuth();
   const AuthenticatedUser = (
-    <NavigationMenu className="flex items-center md:h-[100px] h-[48px] border-[1px] border-[#E4E6ED] justify-center w-full">
-      <div className="flex justify-between text-[14px] px-[16px] w-[1120px]">
-        <div className="w-full flex items-center justify-between">
-          <Link href="/" legacyBehavior passHref>
-            <NavigationMenuLink>
-              <Image
-                src={neatlyLogo}
-                alt="Neatly Logo"
-                className="md:w-[167px] md:h-[45px] w-[94px] h-[25px]"
-              />
-            </NavigationMenuLink>
-          </Link>
-          <div className="w-full max-w-[444px] justify-between hidden md:flex md:flex-1 mx-2">
+    <NavigationMenu className="flex justify-center items-center w-full h-[5vh] md:h-[10vh] px-[5%] md:px-[10%] border-[1px] border-gray-300">
+      <div className="w-full flex justify-between items-center text-[1rem] ">
+        <div className="flex w-[30%] items-center ">
+          {/* logo */}
+            <Link href="/" legacyBehavior passHref>
+              <NavigationMenuLink>
+                <Image
+                  src={neatlyLogo}
+                  alt="Neatly Logo"
+                  className="md:min-w-[167px] md:h-[45px] w-[94px] h-[25px]"
+                />
+              </NavigationMenuLink>
+            </Link>
+          {/* link */}
+          <div className="hidden gap-[1rem] md:w-full md:min-w-[585px] md:flex md:pl-[10%]">
             <Link href="/" legacyBehavior passHref>
               <NavigationMenuLink className="px-3">
                 About Neatly
@@ -61,80 +63,81 @@ const NavbarComponent = ({ isAuthenticated }) => {
               </NavigationMenuLink>
             </Link>
           </div>
-          <div className="flex items-center gap-1 w-[180px] h-10 justify-end">
-            <Menubar className="flex rounded-full border-0 p-0">
-              <MenubarMenu>
-                <MenubarTrigger className="rounded-full p-1">
-                  <Image
-                    src={bellIcon}
-                    alt="bell icon"
-                    className="w-6 h-6 md:min-w-10 md:min-h-10"
-                  />
-                </MenubarTrigger>
-                <MenubarContent className="md:w-[370px] md:h-auto w-screen h-screen px-[14px] py-2 md:absolute top-0 right-[-32px] md:right-[-50px]">
-                  <MenubarItem className="gap-3 px-0 py-4 flex items-start">
-                    <Image src={notiImage} className="w-8 h-8 rounded-full" />
-                    <p>
-                      Tomorrow is your check-in date with Super Premier View
-                      Room
-                      <span className="font-semibold">{` ‘Th, 19 Oct 2022’ `}</span>
-                      We will wait for your arrival!
-                    </p>
-                  </MenubarItem>
-                  <MenubarItem className="gap-3 px-0 py-4 flex items-start">
-                    <Image src={notiImage} className="w-8 h-8 rounded-full" />
-                    <p>
-                      Tomorrow is your check-in date with Super Premier View
-                      Room
-                      <span className="font-semibold">{` ‘Th, 19 Oct 2022’ `}</span>
-                      We will wait for your arrival!
-                    </p>
-                  </MenubarItem>
-                </MenubarContent>
-              </MenubarMenu>
-            </Menubar>
+        </div>
+      </div>
 
-            <Drawer direction="right" className="md:hidden flex">
-              <DrawerTrigger>
-                <MenuIcon className="md:hidden w-6 h-6" />
-              </DrawerTrigger>
-              <DrawerContent className="w-screen mt-[48px] text-sm leading-4">
-                <DrawerHeader>
-                  <DrawerTitle className="hidden">Navigation list</DrawerTitle>
-                  <DrawerDescription className="hidden">
-                    Item on the list: Profile, Payment Method, Booking History,
-                    and Log out
-                  </DrawerDescription>
-                </DrawerHeader>
+      <div className="flex items-center gap-1 h-10 justify-end">
+        <Menubar className="flex rounded-full border-0 p-0">
+          <MenubarMenu>
+            <MenubarTrigger className="rounded-full p-1">
+              <Image
+                src={bellIcon}
+                alt="bell icon"
+                className="min-w-6 min-h-6 md:min-w-10 md:min-h-10"
+              />
+            </MenubarTrigger>
+            <MenubarContent className="md:w-[370px] md:h-auto w-screen h-screen px-[14px] py-2 md:absolute top-0 right-[-32px] md:right-[-50px]">
+              <MenubarItem className="w-full gap-3 px-0 py-4 flex items-start">
+                <Image src={notiImage} className="w-8 h-8 rounded-full" />
+                <p className="w-full">
+                  Tomorrow is your check-in date with Super Premier View Room
+                  <span className="font-semibold">{` ‘Th, 19 Oct 2022’ `}</span>
+                  We will wait for your arrival!
+                </p>
+              </MenubarItem>
+              <MenubarItem className="gap-3 px-0 py-4 flex items-start">
+                <Image src={notiImage} className="w-8 h-8 rounded-full" />
+                <p>
+                  Tomorrow is your check-in date with Super Premier View Room
+                  <span className="font-semibold">{` ‘Th, 19 Oct 2022’ `}</span>
+                  We will wait for your arrival!
+                </p>
+              </MenubarItem>
+            </MenubarContent>
+          </MenubarMenu>
+        </Menubar>
 
-                <div className="mt-6 mx-4">
-                  <div className="flex items-center w-[107px] gap-2 mb-4">
-                    <Image src={userImage} alt="user image"></Image>
-                    <h6>Kate Cho</h6>
-                  </div>
+        <Drawer direction="right" className="md:hidden flex">
+          <DrawerTrigger>
+            <MenuIcon className="md:hidden w-6 h-6" />
+          </DrawerTrigger>
+          <DrawerContent className="w-full mt-[48px] text-sm leading-4">
+            <DrawerHeader>
+              <DrawerTitle className="hidden">Navigation list</DrawerTitle>
+              <DrawerDescription className="hidden">
+                Item on the list: Profile, Payment Method, Booking History, and
+                Log out
+              </DrawerDescription>
+            </DrawerHeader>
 
-                  <MenubarSeparator />
+            <div className="mt-6 mx-4">
+              <div className="flex items-center w-[107px] gap-2 mb-4">
+                <Image src={userImage} alt="user image"></Image>
+                <h6>Kate Cho</h6>
+              </div>
 
-                  <Link href="/">
-                    <div className="flex items-center w-[343px] gap-3 mx-4 my-4">
-                      <Image src={profileIcon} alt="profile icon"></Image>
-                      <h6>Profile</h6>
-                    </div>
-                  </Link>
-                  <Link href="/">
-                    <div className="flex items-center w-[343px] gap-3 mx-4 my-4">
-                      <Image src={cardIcon} alt="card icon"></Image>
-                      <h6>Payment Method</h6>
-                    </div>
-                  </Link>
-                  <Link href="/">
-                    <div className="flex items-center w-[343px] gap-3 mx-4 my-4">
-                      <Image src={bookingIcon} alt="booking icon"></Image>
-                      <h6>Booking History</h6>
-                    </div>
-                  </Link>
+              <MenubarSeparator />
 
-                  <MenubarSeparator />
+              <Link href="/">
+                <div className="flex items-center w-[343px] gap-3 mx-4 my-4">
+                  <Image src={profileIcon} alt="profile icon"></Image>
+                  <h6>Profile</h6>
+                </div>
+              </Link>
+              <Link href="/">
+                <div className="flex items-center w-[343px] gap-3 mx-4 my-4">
+                  <Image src={cardIcon} alt="card icon"></Image>
+                  <h6>Payment Method</h6>
+                </div>
+              </Link>
+              <Link href="/">
+                <div className="flex items-center w-[343px] gap-3 mx-4 my-4">
+                  <Image src={bookingIcon} alt="booking icon"></Image>
+                  <h6>Booking History</h6>
+                </div>
+              </Link>
+
+              <MenubarSeparator />
 
                   <Link href="/">
                     <div className="flex items-center w-[343px] gap-3 mx-4 my-4">
@@ -167,7 +170,7 @@ const NavbarComponent = ({ isAuthenticated }) => {
                     <p>Booking History</p>
                   </MenubarItem>
                   <MenubarSeparator />
-                  <MenubarItem className="gap-3 px-0" onClick={logout}>
+                  <MenubarItem className="gap-3 px-0">
                     <Image src={logoutIcon} />
                     <p>Log out</p>
                   </MenubarItem>
@@ -178,14 +181,12 @@ const NavbarComponent = ({ isAuthenticated }) => {
               <Image src={userImage} alt="User" className="w-10 h-10"/>
               <h6 className="min-w-[59px]">Kate Cho</h6>
             </div> */}
-          </div>
-        </div>
       </div>
     </NavigationMenu>
   );
 
   const UnauthenticatedUser = (
-    <NavigationMenu className="flex items-center md:h-[100px] h-[48px] border-[1px] border-[#E4E6ED] justify-center w-full">
+    <NavigationMenu className="flex items-center md:h-[100px] h-[48px] border-[1px] border-[#E4E6ED] justify-center w-screen">
       <div className="flex justify-between text-[14px] px-[16px] w-[1120px]">
         <div className="w-full max-w-[768px] flex items-center justify-between">
           <Link href="/" legacyBehavior passHref>
@@ -218,7 +219,7 @@ const NavbarComponent = ({ isAuthenticated }) => {
             <DrawerTrigger>
               <MenuIcon className="md:hidden" />
             </DrawerTrigger>
-            <DrawerContent className="w-screen mt-12 text-sm leading-4">
+            <DrawerContent className="w-full mt-12 text-sm leading-4">
               <div className="mt-12 mx-4">
                 <div className="flex flex-col gap-12 mb-10">
                   <Link href="/" className="mx-4">

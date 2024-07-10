@@ -4,6 +4,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import background from "../../assets/hero/hero-pic.png";
+import { SearchBox } from "../search-component/SearchBox";
 
 const Hero = () => {
   return (
@@ -16,8 +17,9 @@ const Hero = () => {
         <h1>Neatly Experience</h1>
       </div>
       {/* Mock up component */}
-
-      <Card className="w-full h-[50%] md:h-[250px] px-[2%] py-[4%] ">
+      
+     <SearchBox/>
+      {/* <Card className="w-full h-[50%] md:h-[250px] px-[2%] py-[4%] ">
         <CardContent className="w-full h-full">
           <form className="w-full h-full pt-4 flex flex-col justify-between items-center md:flex-row md:justify-between md:items-end font-body">
             <div className="flex flex-col space-y-1.5 w-full md:w-[20%]">
@@ -55,7 +57,7 @@ const Hero = () => {
             </Button>
           </form>
         </CardContent>
-      </Card>
+      </Card> */}
     </section>
   );
 };

@@ -16,7 +16,7 @@ const RoomDetail = () => {
   }
   const carouselImg = carouselAbout;
   return (
-    <section className="w-full h-[150vh] py-[5%] flex flex-col justify-startitem center">
+    <section className="w-full h-[150vh] py-[5%] flex flex-col justify-startitem center overflow-hidden">
       <div className="w-screen h-[30%] md:h-[40%]">
         <Carousel
           opts={{

@@ -164,57 +164,45 @@ const CarouselPrevious = React.forwardRef(
   ({ className, variant = "outline", size = "icon", ...props }, ref) => {
     const { orientation, scrollPrev, canScrollPrev } = useCarousel();
 
-    return (
-      <Button
-        ref={ref}
-        variant={variant}
-        size={size}
-        className={cn(
-          "absolute size-20 md:size-28 rounded-full border-orenge-500 bg-transparent",
-          orientation === "horizontal"
-            ? "left-[30%] -bottom-56 md:left-[10%] md:top-1/2 -translate-y-1/2"
-            : "-top-12 left-1/2 -translate-x-1/2 rotate-90",
-          className
-        )}
-        disabled={!canScrollPrev}
-        onClick={scrollPrev}
-        {...props}
-      >
-        <ArrowLeft className="size-8 md:size-14 text-orenge-500" />
-        <span className="sr-only">Previous slide</span>
-      </Button>
-    );
-  }
-);
-CarouselPrevious.displayName = "CarouselPrevious";
+  return (
+    (<Button
+      ref={ref}
+      variant={variant}
+      size={size}
+      className={cn("absolute size-16 md:size-28 rounded-full border-orenge-500 bg-transparent", orientation === "horizontal"
+        ? "left-[30%] -bottom-56 md:left-[10%] md:top-1/2 -translate-y-1/2"
+        : "-top-12 left-1/2 -translate-x-1/2 rotate-90", className)}
+      disabled={!canScrollPrev}
+      onClick={scrollPrev}
+      {...props}>
+      <ArrowLeft className="size-8 md:size-14 text-orenge-500" />
+      <span className="sr-only">Previous slide</span>
+    </Button>)
+  );
+})
+CarouselPrevious.displayName = "CarouselPrevious"
 
 const CarouselNext = React.forwardRef(
   ({ className, variant = "outline", size = "icon", ...props }, ref) => {
     const { orientation, scrollNext, canScrollNext } = useCarousel();
 
-    return (
-      <Button
-        ref={ref}
-        variant={variant}
-        size={size}
-        className={cn(
-          "absolute size-20 md:size-28 rounded-full border-orenge-500 bg-transparent",
-          orientation === "horizontal"
-            ? "right-[30%] -bottom-56 md:right-[10%] md:top-1/2 -translate-y-1/2"
-            : "-bottom-12 left-1/2 -translate-x-1/2 rotate-90",
-          className
-        )}
-        disabled={!canScrollNext}
-        onClick={scrollNext}
-        {...props}
-      >
-        <ArrowRight className="size-8 md:srol-span-1ize-14 text-orenge-500" />
-        <span className="sr-only">Next slide</span>
-      </Button>
-    );
-  }
-);
-CarouselNext.displayName = "CarouselNext";
+  return (
+    (<Button
+      ref={ref}
+      variant={variant}
+      size={size}
+      className={cn("absolute size-16 md:size-28 rounded-full border-orenge-500 bg-transparent", orientation === "horizontal"
+        ? "right-[30%] -bottom-56 md:right-[10%] md:top-1/2 -translate-y-1/2"
+        : "-bottom-12 left-1/2 -translate-x-1/2 rotate-90", className)}
+      disabled={!canScrollNext}
+      onClick={scrollNext}
+      {...props}>
+      <ArrowRight className="size-8 md:srol-span-1ize-14 text-orenge-500" />
+      <span className="sr-only">Next slide</span>
+    </Button>)
+  );
+})
+CarouselNext.displayName = "CarouselNext"
 
 export {
   Carousel,
