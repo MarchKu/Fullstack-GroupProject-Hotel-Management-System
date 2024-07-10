@@ -1,11 +1,11 @@
 import React, { useEffect } from "react";
-import img1 from "../../assets/room&suit/1.png";
-import img2 from "../../assets/room&suit/2.png";
-import img3 from "../../assets/room&suit/3.png";
-import img4 from "../../assets/room&suit/4.png";
-import img5 from "../../assets/room&suit/5.png";
-import img6 from "../../assets/room&suit/6.png";
-import arrow from "../../assets/room&suit/arrow.svg";
+import img1 from "../../assets/room&suite/1.png";
+import img2 from "../../assets/room&suite/2.png";
+import img3 from "../../assets/room&suite/3.png";
+import img4 from "../../assets/room&suite/4.png";
+import img5 from "../../assets/room&suite/5.png";
+import img6 from "../../assets/room&suite/6.png";
+import arrow from "../../assets/room&suite/arrow.svg";
 
 const RoomSuite = () => {
   return (
