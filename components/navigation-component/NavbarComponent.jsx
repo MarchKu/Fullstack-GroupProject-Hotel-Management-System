@@ -27,10 +27,10 @@ import bookingIcon from "../../assets/Navigation/bookingIcon.png";
 import logoutIcon from "../../assets/Navigation/logoutIcon.png";
 import neatlyLogo from "../../assets/Navigation/neatlyLogo.png";
 import notiImage from "../../assets/Navigation/NotiImage.png";
+import { useAuth } from "@/contexts/authentication";
 
-const NavbarComponent = () => {
-  const isUser = true;
-
+const NavbarComponent = ({ isAuthenticated }) => {
+  const { logout } = useAuth();
   const AuthenticatedUser = (
     <NavigationMenu className="flex justify-center items-center w-full h-[5vh] md:h-[10vh] px-[5%] md:px-[10%] border-[1px] border-gray-300">
       <div className="w-full flex justify-between items-center text-[1rem] ">
@@ -139,45 +139,45 @@ const NavbarComponent = () => {
 
               <MenubarSeparator />
 
-              <Link href="/">
-                <div className="flex items-center w-[343px] gap-3 mx-4 my-4">
-                  <Image src={logoutIcon} alt="logout icon"></Image>
-                  <h6>Log out</h6>
+                  <Link href="/">
+                    <div className="flex items-center w-[343px] gap-3 mx-4 my-4">
+                      <Image src={logoutIcon} alt="logout icon"></Image>
+                      <h6>Log out</h6>
+                    </div>
+                  </Link>
                 </div>
-              </Link>
-            </div>
-          </DrawerContent>
-        </Drawer>
-        <Menubar className="hidden md:flex rounded-full border-0 ">
-          <MenubarMenu>
-            <MenubarTrigger className="rounded-full p-2">
-              <div className="hidden md:flex items-center w-[107px] gap-2">
-                <Image src={userImage} alt="User" className="w-10 h-10" />
-                <h6 className="min-w-[59px]">Kate Cho</h6>
-              </div>
-            </MenubarTrigger>
-            <MenubarContent className="w-[198px] px-[14px] py-2 md:mx-4">
-              <MenubarItem className="gap-3 px-0 py-2">
-                <Image src={profileIcon} className="w-4 h-4" />
-                <p>Profile</p>
-              </MenubarItem>
-              <MenubarItem className="gap-3 px-0">
-                <Image src={cardIcon} className="w-4 h-4" />
-                <p>Payment Method</p>
-              </MenubarItem>
-              <MenubarItem className="gap-3 px-0">
-                <Image src={bookingIcon} className="w-4 h-4" />
-                <p>Booking History</p>
-              </MenubarItem>
-              <MenubarSeparator />
-              <MenubarItem className="gap-3 px-0">
-                <Image src={logoutIcon} />
-                <p>Log out</p>
-              </MenubarItem>
-            </MenubarContent>
-          </MenubarMenu>
-        </Menubar>
-        {/* <div className="hidden md:flex items-center w-[107px] gap-2">
+              </DrawerContent>
+            </Drawer>
+            <Menubar className="hidden md:flex rounded-full border-0 ">
+              <MenubarMenu>
+                <MenubarTrigger className="rounded-full p-2">
+                  <div className="hidden md:flex items-center w-[107px] gap-2">
+                    <Image src={userImage} alt="User" className="w-10 h-10" />
+                    <h6 className="min-w-[59px]">Kate Cho</h6>
+                  </div>
+                </MenubarTrigger>
+                <MenubarContent className="w-[198px] px-[14px] py-2 md:mx-4">
+                  <MenubarItem className="gap-3 px-0 py-2">
+                    <Image src={profileIcon} className="w-4 h-4" />
+                    <p>Profile</p>
+                  </MenubarItem>
+                  <MenubarItem className="gap-3 px-0">
+                    <Image src={cardIcon} className="w-4 h-4" />
+                    <p>Payment Method</p>
+                  </MenubarItem>
+                  <MenubarItem className="gap-3 px-0">
+                    <Image src={bookingIcon} className="w-4 h-4" />
+                    <p>Booking History</p>
+                  </MenubarItem>
+                  <MenubarSeparator />
+                  <MenubarItem className="gap-3 px-0">
+                    <Image src={logoutIcon} />
+                    <p>Log out</p>
+                  </MenubarItem>
+                </MenubarContent>
+              </MenubarMenu>
+            </Menubar>
+            {/* <div className="hidden md:flex items-center w-[107px] gap-2">
               <Image src={userImage} alt="User" className="w-10 h-10"/>
               <h6 className="min-w-[59px]">Kate Cho</h6>
             </div> */}
@@ -186,8 +186,8 @@ const NavbarComponent = () => {
   );
 
   const UnauthenticatedUser = (
-    <NavigationMenu className="flex items-center md:h-[100px] h-[48px] border-[1px] border-[#E4E6ED] justify-center w-full">
-      <div className="flex justify-between text-[14px] px-[16px] w-full">
+    <NavigationMenu className="flex items-center md:h-[100px] h-[48px] border-[1px] border-[#E4E6ED] justify-center w-screen">
+      <div className="flex justify-between text-[14px] px-[16px] w-[1120px]">
         <div className="w-full max-w-[768px] flex items-center justify-between">
           <Link href="/" legacyBehavior passHref>
             <NavigationMenuLink>
@@ -251,7 +251,7 @@ const NavbarComponent = () => {
     </NavigationMenu>
   );
 
-  return isUser ? AuthenticatedUser : UnauthenticatedUser;
+  return isAuthenticated ? AuthenticatedUser : UnauthenticatedUser;
 };
 
 export default NavbarComponent;

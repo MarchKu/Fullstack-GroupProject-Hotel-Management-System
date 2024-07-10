@@ -52,7 +52,9 @@ const Hero = () => {
                 className="h-[4rem] text-[1.25rem]"
               />
             </div>
-            <Button className="w-[20%] h-[4rem] md:text-[1.25rem]">Search</Button>
+            <Button className="w-[20%] h-[4rem] md:text-[1.25rem]">
+              Search
+            </Button>
           </form>
         </CardContent>
       </Card> */}

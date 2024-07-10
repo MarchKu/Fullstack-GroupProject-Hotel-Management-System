@@ -1,4 +1,6 @@
-import React, { useState } from "react";
+"use client";
+
+import React from "react";
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
 import toastr from "toastr";
@@ -14,13 +16,9 @@ function AuthProvider(props) {
         data
       );
       const token = result.data.token;
-      if (typeof window !== "undefined") {
-        localStorage.setItem("token", token) || "";
-      }
+      localStorage.setItem("token", token);
       const userDataFromToken = jwtDecode(token);
-      if (typeof window !== "undefined") {
-        localStorage.setItem("user", userDataFromToken) || "";
-      }
+      localStorage.setItem("user", userDataFromToken);
       toastr["success"]("You are successfully logged in");
       setTimeout(function () {
         window.location.replace("/");
@@ -45,13 +43,11 @@ function AuthProvider(props) {
   };
 
   const logout = () => {
-    if (typeof window !== "undefined") {
-      localStorage.removeItem("token") || "";
-      localStorage.removeItem("user") || "";
-    }
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
     toastr["success"]("Logged out successfully");
     setTimeout(function () {
-      window.location.replace("/login");
+      window.location.replace("/");
     }, 1000);
   };
 

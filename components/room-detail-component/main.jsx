@@ -11,7 +11,9 @@ import { carouselAbout } from "@/utils/carousel-info-array/carousel-about";
 import { Button } from "@/components/ui/button";
 
 const RoomDetail = () => {
-  {/* render data */}
+  {
+    /* render data */
+  }
   const carouselImg = carouselAbout;
   return (
     <section className="w-full h-[150vh] py-[5%] flex flex-col justify-startitem center overflow-hidden">
@@ -98,9 +100,7 @@ const RoomDetail = () => {
             <li className=" h-[2rem]">Minibar</li>
             <li className=" h-[2rem]">Telephone</li>
             <li className=" h-[2rem]">Ironing board</li>
-            <li className=" h-[2rem]">
-              accessible via a guest room key
-            </li>
+            <li className=" h-[2rem]">accessible via a guest room key</li>
             <li className=" h-[2rem]">Alarm clock</li>
             <li className=" h-[2rem]">Bathrobe</li>
           </div>

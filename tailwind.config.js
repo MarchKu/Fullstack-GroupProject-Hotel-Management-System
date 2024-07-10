@@ -107,7 +107,12 @@ module.exports = {
       },
       fontFamily: {
         heading: "Noto_Serif",
-        body: "Inter",
+        body: ["Inter", "sans-serif"],
+
+        serif: ["Noto Serif", "serif"],
+      },
+      backgroundImage: {
+        "background-register": "url('../public/img/bg-register_page.jpg')",
       },
     },
     fontFamily: {

@@ -10,6 +10,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import Autoplay from "embla-carousel-autoplay";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { carouselTestimonial } from "@/utils/carousel-info-array/carousel-testimonial";
+import emblaCarouselAutoplay from "embla-carousel-autoplay";
 
 const Testimonial = () => {
   const carouselInfo = carouselTestimonial;

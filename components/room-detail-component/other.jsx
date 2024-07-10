@@ -34,7 +34,6 @@ const OtherRoom = () => {
                     className="size-full bg-center bg-cover bg-slate-300 bg-blend-multiply flex flex-col justify-end p-[5%]"
                     style={{ backgroundImage: `url(${img.image})` }}
                   >
-                  
                     <h3 className="font-heading text-white text-[3rem]">
                       {img.category}
                     </h3>
