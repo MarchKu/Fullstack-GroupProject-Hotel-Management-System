@@ -32,7 +32,7 @@ import { useAuth } from "@/contexts/authentication";
 const NavbarComponent = ({ isAuthenticated }) => {
   const { logout } = useAuth();
   const AuthenticatedUser = (
-    <NavigationMenu className="flex items-center md:h-[100px] h-[48px] border-[1px] border-[#E4E6ED] justify-center w-screen">
+    <NavigationMenu className="flex items-center md:h-[100px] h-[48px] border-[1px] border-[#E4E6ED] justify-center w-full">
       <div className="flex justify-between text-[14px] px-[16px] w-[1120px]">
         <div className="w-full flex items-center justify-between">
           <Link href="/" legacyBehavior passHref>
@@ -185,7 +185,7 @@ const NavbarComponent = ({ isAuthenticated }) => {
   );
 
   const UnauthenticatedUser = (
-    <NavigationMenu className="flex items-center md:h-[100px] h-[48px] border-[1px] border-[#E4E6ED] justify-center w-screen">
+    <NavigationMenu className="flex items-center md:h-[100px] h-[48px] border-[1px] border-[#E4E6ED] justify-center w-full">
       <div className="flex justify-between text-[14px] px-[16px] w-[1120px]">
         <div className="w-full max-w-[768px] flex items-center justify-between">
           <Link href="/" legacyBehavior passHref>
