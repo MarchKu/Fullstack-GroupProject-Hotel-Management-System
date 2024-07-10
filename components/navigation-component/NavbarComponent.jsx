@@ -32,7 +32,7 @@ const NavbarComponent = () => {
   const isUser = true;
 
   const AuthenticatedUser = (
-    <NavigationMenu className="flex justify-center items-center w-full h-[5vh] md:h-[10vh] px-[5%] md:px-[10%] ">
+    <NavigationMenu className="flex justify-center items-center w-full h-[5vh] md:h-[10vh] px-[5%] md:px-[10%] border-[1px] border-gray-300">
       <div className="w-full flex justify-between items-center text-[1rem] ">
         <div className="flex w-[30%] items-center ">
           {/* logo */}
@@ -76,10 +76,10 @@ const NavbarComponent = () => {
                 className="min-w-6 min-h-6 md:min-w-10 md:min-h-10"
               />
             </MenubarTrigger>
-            <MenubarContent className="md:w-[370px] md:h-auto w-full h-screen px-[14px] py-2 md:absolute top-0 right-[-32px] md:right-[-50px]">
-              <MenubarItem className="gap-3 px-0 py-4 flex items-start">
+            <MenubarContent className="md:w-[370px] md:h-auto w-screen h-screen px-[14px] py-2 md:absolute top-0 right-[-32px] md:right-[-50px]">
+              <MenubarItem className="w-full gap-3 px-0 py-4 flex items-start">
                 <Image src={notiImage} className="w-8 h-8 rounded-full" />
-                <p>
+                <p className="w-full">
                   Tomorrow is your check-in date with Super Premier View Room
                   <span className="font-semibold">{` ‘Th, 19 Oct 2022’ `}</span>
                   We will wait for your arrival!
