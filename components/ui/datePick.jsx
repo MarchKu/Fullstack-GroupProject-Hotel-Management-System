@@ -24,7 +24,7 @@ export function DatePicker({ control, name, label, placeholder, description }) {
       control={control}
       name={name}
       render={({ field }) => (
-        <FormItem className="flex flex-col">
+        <FormItem className="flex flex-col pt-2">
           <FormLabel>{label}</FormLabel>
           <Popover>
             <PopoverTrigger asChild>
@@ -39,7 +39,7 @@ export function DatePicker({ control, name, label, placeholder, description }) {
                   {field.value ? (
                     format(field.value, "PPP")
                   ) : (
-                    <span>{placeholder}</span>
+                    <span className="text-[#9AA1B9]">{placeholder}</span>
                   )}
                   <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
                 </Button>

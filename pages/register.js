@@ -1,3 +1,4 @@
+"use client";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -9,22 +10,45 @@ import DatePicker from "../components/ui/datePick";
 import CountryPicker from "../components/ui/countryPick";
 import InputFile from "@/components/ui/uploadFile";
 
+const minAge = 18;
 const registerSchema = z.object({
   fullName: z.string().min(2),
   username: z
     .string()
     .min(2, { message: "Username must be at least 2 characters." }),
+  //refine checkUniqueUsername
   password: z
     .string()
-    .min(6, { message: "Password must be at least 6 characters." }),
+    .min(12, { message: "Password must be at least 12 characters." }),
   email: z.string().email({ message: "Please enter a valid email address." }),
-  idNumber: z.string(),
-  dateBirth: z.date({
-    message: "A date of birth is required.",
-  }),
+  idNumber: z
+    .string()
+    .min(13, { message: "ID Number must be at least 13 digits." }),
+  //refine checkUniqueIdNumber
+  dateBirth: z
+    .date({
+      message: "A date of birth is required.",
+    })
+    .refine(
+      (date) => {
+        const ageCalculated = Date.now() - date.getTime();
+        const ageDate = new Date(ageCalculated);
+        return Math.abs(ageDate.getUTCFullYear() - 1970) >= minAge;
+      },
+      { message: `You must be at least ${minAge} years old.` }
+    ),
   country: z.string().nonempty({ message: "Please select a country." }),
   profilepic: z.string(),
+  cardOwner: z.string().nonempty({ message: "Card Owner is required." }),
+  expiryDate: z.string().nonempty({ message: "Expiry Date is required." }),
+  cvv: z.string().nonempty({ message: "CVV is required." }),
+  cardnumber: z
+    .string()
+    .length(16, { message: "Credit Card must be 16 digits long." })
+    .regex(/^\d+$/, { message: "Credit Card must be numeric." }),
 });
+
+//call API get data and check if user exists
 
 export default function Register() {
   const form = useForm({
@@ -51,21 +75,21 @@ export default function Register() {
   };
 
   return (
-    <div className=" sm:h-max md:h-screen flex-col  bg-cover bg-no-repeat bg-center bg-[url('../public/img/bg-register_page.jpg')]  ">
-      <div className="flex justify-center p-10 lg:inset-0 bg-gradient-to-b from-[#00000099] to-transparent">
-        <div className="container  md:h-max sm:h-full sm:w-full sm:max-w-4xl  bg-[#F7F7FB] p-16  ">
-          <h1 className="text-[68px] font-serif text-[#2F3E35] font-medium tracking-tighter">
-            Register
-          </h1>
-          <div className="flex flex-col gap-5 pt-10 font-body ">
-            <h2 className="text-xl font-semibold tracking-tighter text-[#9AA1B9]">
+    <div className="w-screen h-screen inset-0 bg-cover bg-no-repeat bg-center bg-[url('../public/img/bg-register_page.jpg')]">
+      <div className="absolute  h-full w-full  flex justify-center items-center  bg-gradient-to-b from-[#00000099] to-transparent ">
+        <div className="relative p-2 md:p-14  md:w-[45%] bg-[#F7F7FB]  rounded-lg">
+          <div className="  flex flex-col gap-5 font-body ">
+            <h1 className="text-7xl font-serif text-[#2F3E35] font-medium tracking-tighter">
+              Register
+            </h1>
+            <h2 className="text-xl pt-5 pb-5 font-semibold tracking-tighter text-[#9AA1B9]">
               Basic Information
             </h2>
 
             <Form {...form}>
               <form
                 onSubmit={form.handleSubmit(onSubmit)}
-                className="text-base font-normal grid grid-cols-2 gap-8 w-max-fit"
+                className="text-base font-normal gap-3 grid grid-cols-1 md:grid-cols-2 "
               >
                 <div className="col-span-2">
                   <FormFieldComponent
@@ -123,13 +147,12 @@ export default function Register() {
                 <InputFile
                   control={form.control}
                   name="profilepic"
-                  label="Upload Profile Picture"
+                  label="Upload  Picture"
                   id="profilepic"
                   type="file"
-                  description="Select a file to upload."
                 />
 
-                <h1 className="text-xl col-span-2 font-semibold  tracking-tighter text-[#9AA1B9]">
+                <h1 className="border-t pt-5 border-[#E4E6ED] text-xl col-span-2 font-semibold  tracking-tighter text-[#9AA1B9]">
                   Credit Card
                 </h1>
                 <FormFieldComponent
@@ -158,10 +181,10 @@ export default function Register() {
                   name="cvv"
                   label="cvv"
                   type="text"
-                  placeholder="Enter your cvv number"
+                  placeholder="CVC/CVV"
                 />
-                <Button type="submit" className="">
-                  Submit
+                <Button type="submit" className="mt-5 bg-[#C14817]">
+                  Register
                 </Button>
               </form>
             </Form>

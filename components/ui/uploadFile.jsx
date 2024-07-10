@@ -14,12 +14,10 @@ function InputFile({ control, name, type, label, id, description }) {
   const [selectedFile, setSelectedFile] = useState(null);
   const [previewUrl, setPreviewUrl] = useState(null);
 
-  // Function to handle file selection
   const handleFileChange = (event) => {
     const file = event.target.files[0];
     setSelectedFile(file);
 
-    // Generate preview URL for image files
     if (file && file.type.startsWith("image/")) {
       const reader = new FileReader();
       reader.onloadend = () => {
@@ -43,33 +41,34 @@ function InputFile({ control, name, type, label, id, description }) {
       control={control}
       name={name}
       render={(field) => (
-        <FormItem>
+        <FormItem className="flex flex-col gap-5">
           <FormLabel
             htmlFor={id}
-            className="block text-sm font-medium text-gray-700"
+            className="block text-xl tracking-tight font-semibold text-[#9AA1B9]"
           >
             {label}
           </FormLabel>
           <Input
             id={id}
             type={type}
-            onChange={handleFileChange} // Handle file selection
-            className="sr-only" // Hide the input element for screen readers
+            onChange={handleFileChange}
+            className="sr-only"
             {...field}
           />
-          <div className="mt-1 flex items-center">
+          <div className="flex md:flex md:items-center ">
             <button
               type="button"
-              onClick={() => document.getElementById(id)?.click()} // Click on the file input element
-              className="inline-flex items-center justify-center w-44 h-44 px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+              onClick={() => document.getElementById(id)?.click()}
+              className="flex flex-col gap-2 items-center justify-center w-20  h-20 md:w-44 md:h-44 px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-[#E76B39] bg-[#F1F2F6] hover:bg-slate-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
             >
-              Select File
+              <img src="/img/icon-upload-pic.svg" />
+              Upload photo
             </button>
             {selectedFile && previewUrl && (
               <img
                 src={previewUrl}
                 alt="Preview"
-                className="ml-7 w-60 h-60 object-cover rounded-md border border-gray-200"
+                className="ml-7 w-40 h-40 md:w-60 md:h-60 object-cover rounded-md border border-gray-200"
               />
             )}
           </div>

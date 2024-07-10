@@ -21,11 +21,24 @@ function FormFieldComponent({
     <FormField
       control={control}
       name={name}
-      render={({ field }) => (
+      render={({ field, fieldState }) => (
         <FormItem>
           <FormLabel>{label}</FormLabel>
           <FormControl>
-            <Input type={type} placeholder={placeholder} {...field} />
+            <div className="flex relative ">
+              <Input
+                type={type}
+                placeholder={placeholder}
+                hasError={fieldState.invalid}
+                {...field}
+              />
+              {fieldState.invalid && (
+                <img
+                  src="/img/error-trigger.svg"
+                  className="absolute right-3 top-3"
+                />
+              )}
+            </div>
           </FormControl>
           {description && <FormDescription>{description}</FormDescription>}
           <FormMessage />
