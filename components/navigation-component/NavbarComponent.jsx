@@ -28,9 +28,11 @@ import logoutIcon from "../../assets/Navigation/logoutIcon.png";
 import neatlyLogo from "../../assets/Navigation/neatlyLogo.png";
 import notiImage from "../../assets/Navigation/NotiImage.png";
 import { useAuth } from "@/contexts/authentication";
+import { useRouter } from "next/router";
 
 const NavbarComponent = ({ isAuthenticated }) => {
   const { logout } = useAuth();
+  const router = useRouter();
   const AuthenticatedUser = (
     <NavigationMenu className="flex justify-center items-center w-full h-[5vh] md:h-[10vh] px-[5%] md:px-[10%] border-[1px] border-gray-300">
       <div className="w-full flex justify-between items-center text-[1rem] ">
@@ -139,8 +141,8 @@ const NavbarComponent = ({ isAuthenticated }) => {
 
               <MenubarSeparator />
 
-                  <Link href="/">
-                    <div className="flex items-center w-[343px] gap-3 mx-4 my-4">
+                  <Link href="/" onClick={()=>logout()}>
+                    <div className="flex items-center w-[343px] gap-3 mx-4 my-4" >
                       <Image src={logoutIcon} alt="logout icon"></Image>
                       <h6>Log out</h6>
                     </div>
@@ -170,7 +172,7 @@ const NavbarComponent = ({ isAuthenticated }) => {
                     <p>Booking History</p>
                   </MenubarItem>
                   <MenubarSeparator />
-                  <MenubarItem className="gap-3 px-0">
+                  <MenubarItem className="gap-3 px-0" onClick={()=>logout()}>
                     <Image src={logoutIcon} />
                     <p>Log out</p>
                   </MenubarItem>
@@ -186,31 +188,32 @@ const NavbarComponent = ({ isAuthenticated }) => {
   );
 
   const UnauthenticatedUser = (
-    <NavigationMenu className="flex items-center md:h-[100px] h-[48px] border-[1px] border-[#E4E6ED] justify-center w-screen">
-      <div className="flex justify-between text-[14px] px-[16px] w-[1120px]">
+    <NavigationMenu className="flex justify-center items-center w-full h-[5vh] md:h-[10vh] px-[5%] md:px-[10%] border-[1px] border-gray-300">
+      <div className="w-full flex justify-between items-center text-[1rem]">
         <div className="w-full max-w-[768px] flex items-center justify-between">
-          <Link href="/" legacyBehavior passHref>
-            <NavigationMenuLink>
-              <Image
-                src={neatlyLogo}
-                alt="Neatly Logo"
-                className="md:w-[167px] md:h-[45px] w-[94px] h-[25px]"
-              />
-            </NavigationMenuLink>
-          </Link>
-          <div className="w-full max-w-[444px] hidden md:flex justify-between">
+          {/* logo */}
             <Link href="/" legacyBehavior passHref>
-              <NavigationMenuLink className="px-[24px]">
+              <NavigationMenuLink>
+                <Image
+                  src={neatlyLogo}
+                  alt="Neatly Logo"
+                  className="md:min-w-[167px] md:h-[45px] w-[94px] h-[25px]"
+                />
+              </NavigationMenuLink>
+            </Link>
+          <div className="hidden gap-[1rem] md:w-full md:min-w-[585px] md:flex md:pl-[10%]">
+            <Link href="/" legacyBehavior passHref>
+              <NavigationMenuLink className="px-3">
                 About Neatly
               </NavigationMenuLink>
             </Link>
             <Link href="/" legacyBehavior passHref>
-              <NavigationMenuLink className="px-[24px]">
+              <NavigationMenuLink className="px-3">
                 Service & Facilities
               </NavigationMenuLink>
             </Link>
             <Link href="/" legacyBehavior passHref>
-              <NavigationMenuLink className="px-[24px]">
+              <NavigationMenuLink className="px-3">
                 Rooms & Suits
               </NavigationMenuLink>
             </Link>
@@ -233,7 +236,7 @@ const NavbarComponent = ({ isAuthenticated }) => {
                   </Link>
                 </div>
                 <MenubarSeparator className="mb-10" />
-                <Link href="/" className="mx-4 font-semibold text-[#E76B39]">
+                <Link href="/" className="mx-4 font-semibold text-[#E76B39]" onClick={()=>router.push("/loginTest")}>
                   Log in
                 </Link>
               </div>
@@ -242,7 +245,7 @@ const NavbarComponent = ({ isAuthenticated }) => {
         </div>
         <div className="hidden md:flex items-center mr-4 min-w-10">
           <Link href="/" legacyBehavior passHref>
-            <NavigationMenuLink className="text-sm leading-4 font-semibold text-[#E76B39]">
+            <NavigationMenuLink className="text-[1rem] leading-4 font-semibold text-[#E76B39]" onClick={()=>router.push("/loginTest")}>
               Log in
             </NavigationMenuLink>
           </Link>
