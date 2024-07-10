@@ -10,7 +10,7 @@ import TwitterIcon from "../../assets/Footer/TwitterIcon.png";
 
 const FooterComponent = () => {
   return (
-    <div className="w-screen px-4 md:px-[120px] bg-[#2F3E35] h-[529px] md:h-[485px] flex flex-col items-center text-white md:justify-between">
+    <div className="w-full px-[5%] md:px-[120px] bg-[#2F3E35] h-[529px] md:h-[40vh] flex flex-col items-center text-white md:justify-between">
       <div className="flex flex-col md:flex-row md:justify-between md:w-full md:max-w-[1200px] gap-6 mb-6 md:mb-0 max-w-[343px] md:mt-[66px]">
         <div>
           <Image
