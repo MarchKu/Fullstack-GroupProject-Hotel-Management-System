@@ -6,7 +6,7 @@ function main() {
   return (
     <>
       <RoomDetail />
-      <OtherRoom/>
+      <OtherRoom />
     </>
   );
 }

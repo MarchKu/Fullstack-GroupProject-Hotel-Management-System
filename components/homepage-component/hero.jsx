@@ -16,7 +16,7 @@ const Hero = () => {
         <h1>Neatly Experience</h1>
       </div>
       {/* Mock up component */}
-      
+
       <Card className="w-full h-[50%] md:h-[250px] px-[2%] py-[4%] ">
         <CardContent className="w-full h-full">
           <form className="w-full h-full pt-4 flex flex-col justify-between items-center md:flex-row md:justify-between md:items-end font-body">
@@ -50,7 +50,9 @@ const Hero = () => {
                 className="h-[4rem] text-[1.25rem]"
               />
             </div>
-            <Button className="w-[20%] h-[4rem] md:text-[1.25rem]">Search</Button>
+            <Button className="w-[20%] h-[4rem] md:text-[1.25rem]">
+              Search
+            </Button>
           </form>
         </CardContent>
       </Card>
