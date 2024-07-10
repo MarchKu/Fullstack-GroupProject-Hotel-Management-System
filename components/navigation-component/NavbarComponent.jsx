@@ -1,3 +1,4 @@
+"use client";
 import Link from "next/link";
 import Image from "next/image";
 import { NavigationMenu, NavigationMenuLink } from "../ui/navigation-menu";
@@ -27,15 +28,41 @@ import bookingIcon from "../../assets/Navigation/bookingIcon.png";
 import logoutIcon from "../../assets/Navigation/logoutIcon.png";
 import neatlyLogo from "../../assets/Navigation/neatlyLogo.png";
 import notiImage from "../../assets/Navigation/NotiImage.png";
+import { useEffect, useState } from "react";
 
 const NavbarComponent = () => {
-  const isUser = true;
+  const [isUser, setIsUser] = useState(false);
+
+  const logOut = async () => {
+    console.log("logout");
+    await localStorage.removeItem("token");
+    setIsUser(false)
+  };
+
+  const logIn = async () => {
+    console.log("login");
+    await localStorage.setItem("token", "aFakeToken");
+    setIsUser(true)
+  }
+
+  const checkUser = async () => {
+    let result = await localStorage.getItem("token");
+    if (result) {
+      console.log("we have a token");
+      setIsUser(true);
+    } else {
+      console.log("we dont have a token");
+      setIsUser(false);
+    }
+  };
+  useEffect(() => {
+    checkUser();
+  }, [isUser]);
 
   const AuthenticatedUser = (
     <NavigationMenu className="flex items-center md:h-[100px] h-[48px] border-[1px] border-[#E4E6ED] justify-center w-full">
       <div className="flex justify-between text-[14px] px-[16px] w-[1120px]">
         <div className="w-full flex items-center justify-between">
-          <Link href="/" legacyBehavior passHref>
             <NavigationMenuLink>
               <Image
                 src={neatlyLogo}
@@ -43,7 +70,6 @@ const NavbarComponent = () => {
                 className="md:w-[167px] md:h-[45px] w-[94px] h-[25px]"
               />
             </NavigationMenuLink>
-          </Link>
           <div className="w-full max-w-[444px] justify-between hidden md:flex md:flex-1 mx-2">
             <Link href="/" legacyBehavior passHref>
               <NavigationMenuLink className="px-3">
@@ -117,7 +143,7 @@ const NavbarComponent = () => {
 
                   <Link href="/">
                     <div className="flex items-center w-full gap-3 mx-4 my-4 ">
-                      <Image src={profileIcon} alt="profile icon" ></Image>
+                      <Image src={profileIcon} alt="profile icon"></Image>
                       <h6>Profile</h6>
                     </div>
                   </Link>
@@ -167,7 +193,7 @@ const NavbarComponent = () => {
                     <p>Booking History</p>
                   </MenubarItem>
                   <MenubarSeparator />
-                  <MenubarItem className="gap-3 px-2 py-2">
+                  <MenubarItem className="gap-3 px-2 py-2" onClick={logOut}>
                     <Image src={logoutIcon} />
                     <p>Log out</p>
                   </MenubarItem>
@@ -185,7 +211,7 @@ const NavbarComponent = () => {
       <div className="flex justify-between text-[14px] px-[16px] w-[1120px]">
         <div className="w-full max-w-[768px] flex items-center justify-between">
           <Link href="/" legacyBehavior passHref>
-            <NavigationMenuLink>
+            <NavigationMenuLink  onClick={logIn}>
               <Image
                 src={neatlyLogo}
                 alt="Neatly Logo"
