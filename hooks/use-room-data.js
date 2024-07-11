@@ -11,7 +11,7 @@ export default function useRoomData() {
   const [isError, setIsError] = useState(false);
 
 
-  const getDataByID = async (id) => {
+  const getRoomDetailByID = async (id) => {
     try {
       if (id) {
         setIsLoading(true);
@@ -26,5 +26,7 @@ export default function useRoomData() {
       setIsError(true)
     }
   };
+
+
   return {roomData,getDataByID,isLoading,isError}
 }
