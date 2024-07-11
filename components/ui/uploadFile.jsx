@@ -32,8 +32,7 @@ function InputFile({ control, name, type, label, id, description }) {
 
   // Update form context with the selected file URL
   const updateProfilePicUrl = (file) => {
-    const url = URL.createObjectURL(file); //create URL
-    setValue(name, url);
+    setValue(name, file);
   };
 
   return (

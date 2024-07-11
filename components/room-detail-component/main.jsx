@@ -11,9 +11,14 @@ import { carouselAbout } from "@/utils/carousel-info-array/carousel-about";
 import { Button } from "@/components/ui/button";
 
 const RoomDetail = () => {
-  {
-    /* render data */
-  }
+  const router = useRouter();
+  const { id } = router.query;
+  const { roomData, getDataByID, isLoading, isError } = useRoomData();
+  useEffect(() => {
+    getDataByID(id);
+  }, [id]);
+  const roomInfo = roomData;
+  console.log(roomInfo);
   const carouselImg = carouselAbout;
   return (
     <section className="w-full h-[150vh] py-[5%] flex flex-col justify-startitem center overflow-hidden">

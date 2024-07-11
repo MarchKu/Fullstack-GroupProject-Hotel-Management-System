@@ -38,15 +38,15 @@ const NavbarComponent = ({ isAuthenticated }) => {
       <div className="w-full flex justify-between items-center text-[1rem] ">
         <div className="flex w-[30%] items-center ">
           {/* logo */}
-            <Link href="/" legacyBehavior passHref>
-              <NavigationMenuLink>
-                <Image
-                  src={neatlyLogo}
-                  alt="Neatly Logo"
-                  className="md:min-w-[167px] md:h-[45px] w-[94px] h-[25px]"
-                />
-              </NavigationMenuLink>
-            </Link>
+          <Link href="/" legacyBehavior passHref>
+            <NavigationMenuLink>
+              <Image
+                src={neatlyLogo}
+                alt="Neatly Logo"
+                className="md:min-w-[167px] md:h-[45px] w-[94px] h-[25px]"
+              />
+            </NavigationMenuLink>
+          </Link>
           {/* link */}
           <div className="hidden gap-[1rem] md:w-full md:min-w-[585px] md:flex md:pl-[10%]">
             <Link href="/" legacyBehavior passHref>
@@ -141,45 +141,45 @@ const NavbarComponent = ({ isAuthenticated }) => {
 
               <MenubarSeparator />
 
-                  <Link href="/" onClick={()=>logout()}>
-                    <div className="flex items-center w-[343px] gap-3 mx-4 my-4" >
-                      <Image src={logoutIcon} alt="logout icon"></Image>
-                      <h6>Log out</h6>
-                    </div>
-                  </Link>
+              <Link href="/" onClick={() => logout()}>
+                <div className="flex items-center w-[343px] gap-3 mx-4 my-4">
+                  <Image src={logoutIcon} alt="logout icon"></Image>
+                  <h6>Log out</h6>
                 </div>
-              </DrawerContent>
-            </Drawer>
-            <Menubar className="hidden md:flex rounded-full border-0 ">
-              <MenubarMenu>
-                <MenubarTrigger className="rounded-full p-2">
-                  <div className="hidden md:flex items-center w-[107px] gap-2">
-                    <Image src={userImage} alt="User" className="w-10 h-10" />
-                    <h6 className="min-w-[59px]">Kate Cho</h6>
-                  </div>
-                </MenubarTrigger>
-                <MenubarContent className="w-[198px] px-[14px] py-2 md:mx-4">
-                  <MenubarItem className="gap-3 px-0 py-2">
-                    <Image src={profileIcon} className="w-4 h-4" />
-                    <p>Profile</p>
-                  </MenubarItem>
-                  <MenubarItem className="gap-3 px-0">
-                    <Image src={cardIcon} className="w-4 h-4" />
-                    <p>Payment Method</p>
-                  </MenubarItem>
-                  <MenubarItem className="gap-3 px-0">
-                    <Image src={bookingIcon} className="w-4 h-4" />
-                    <p>Booking History</p>
-                  </MenubarItem>
-                  <MenubarSeparator />
-                  <MenubarItem className="gap-3 px-0" onClick={()=>logout()}>
-                    <Image src={logoutIcon} />
-                    <p>Log out</p>
-                  </MenubarItem>
-                </MenubarContent>
-              </MenubarMenu>
-            </Menubar>
-            {/* <div className="hidden md:flex items-center w-[107px] gap-2">
+              </Link>
+            </div>
+          </DrawerContent>
+        </Drawer>
+        <Menubar className="hidden md:flex rounded-full border-0 ">
+          <MenubarMenu>
+            <MenubarTrigger className="rounded-full p-2">
+              <div className="hidden md:flex items-center w-[107px] gap-2">
+                <Image src={userImage} alt="User" className="w-10 h-10" />
+                <h6 className="min-w-[59px]">Kate Cho</h6>
+              </div>
+            </MenubarTrigger>
+            <MenubarContent className="w-[198px] px-[14px] py-2 md:mx-4">
+              <MenubarItem className="gap-3 px-0 py-2">
+                <Image src={profileIcon} className="w-4 h-4" />
+                <p>Profile</p>
+              </MenubarItem>
+              <MenubarItem className="gap-3 px-0">
+                <Image src={cardIcon} className="w-4 h-4" />
+                <p>Payment Method</p>
+              </MenubarItem>
+              <MenubarItem className="gap-3 px-0">
+                <Image src={bookingIcon} className="w-4 h-4" />
+                <p>Booking History</p>
+              </MenubarItem>
+              <MenubarSeparator />
+              <MenubarItem className="gap-3 px-0" onClick={() => logout()}>
+                <Image src={logoutIcon} />
+                <p>Log out</p>
+              </MenubarItem>
+            </MenubarContent>
+          </MenubarMenu>
+        </Menubar>
+        {/* <div className="hidden md:flex items-center w-[107px] gap-2">
               <Image src={userImage} alt="User" className="w-10 h-10"/>
               <h6 className="min-w-[59px]">Kate Cho</h6>
             </div> */}
@@ -192,15 +192,15 @@ const NavbarComponent = ({ isAuthenticated }) => {
       <div className="w-full flex justify-between items-center text-[1rem]">
         <div className="w-full max-w-[768px] flex items-center justify-between">
           {/* logo */}
-            <Link href="/" legacyBehavior passHref>
-              <NavigationMenuLink>
-                <Image
-                  src={neatlyLogo}
-                  alt="Neatly Logo"
-                  className="md:min-w-[167px] md:h-[45px] w-[94px] h-[25px]"
-                />
-              </NavigationMenuLink>
-            </Link>
+          <Link href="/" legacyBehavior passHref>
+            <NavigationMenuLink>
+              <Image
+                src={neatlyLogo}
+                alt="Neatly Logo"
+                className="md:min-w-[167px] md:h-[45px] w-[94px] h-[25px]"
+              />
+            </NavigationMenuLink>
+          </Link>
           <div className="hidden gap-[1rem] md:w-full md:min-w-[585px] md:flex md:pl-[10%]">
             <Link href="/" legacyBehavior passHref>
               <NavigationMenuLink className="px-3">
@@ -236,7 +236,10 @@ const NavbarComponent = ({ isAuthenticated }) => {
                   </Link>
                 </div>
                 <MenubarSeparator className="mb-10" />
-                <Link href="/" className="mx-4 font-semibold text-[#E76B39]" onClick={()=>router.push("/loginTest")}>
+                <Link
+                  href="/login"
+                  className="mx-4 font-semibold text-[#E76B39]"
+                >
                   Log in
                 </Link>
               </div>
@@ -244,8 +247,8 @@ const NavbarComponent = ({ isAuthenticated }) => {
           </Drawer>
         </div>
         <div className="hidden md:flex items-center mr-4 min-w-10">
-          <Link href="/" legacyBehavior passHref>
-            <NavigationMenuLink className="text-[1rem] leading-4 font-semibold text-[#E76B39]" onClick={()=>router.push("/loginTest")}>
+          <Link href="/login" legacyBehavior passHref>
+            <NavigationMenuLink className="text-[1rem] leading-4 font-semibold text-[#E76B39]">
               Log in
             </NavigationMenuLink>
           </Link>
