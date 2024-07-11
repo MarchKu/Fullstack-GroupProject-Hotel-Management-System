@@ -9,12 +9,21 @@ import {
 import { Card, CardContent } from "@/components/ui/card";
 import { carouselAbout } from "@/utils/carousel-info-array/carousel-about";
 import { Button } from "@/components/ui/button";
+import useRoomData from "@/hooks/use-room-data";
+import { useEffect } from "react";
+import { useRouter } from "next/router";
 
 const RoomDetail = () => {
-  {
-    /* render data */
-  }
+  const router = useRouter();
+  const { id } = router.query;
+  const { roomData, getDataByID, isLoading, isError } = useRoomData();
+  useEffect(() => {
+    getDataByID(id);
+  }, [id]);
+  const roomInfo = roomData
+  console.log(roomInfo);
   const carouselImg = carouselAbout;
+
   return (
     <section className="w-full h-[150vh] py-[5%] flex flex-col justify-startitem center overflow-hidden">
       <div className="w-screen h-[30%] md:h-[40%]">
@@ -46,6 +55,7 @@ const RoomDetail = () => {
       <div className="w-full h-[60%] pt-[5%] px-[5%] md:px-[15%] flex flex-col gap-[5%] md:gap-[8%]">
         <h2 className="w-full h-[20%] text-[4rem] md:text-[5rem] text-start content-center font-heading text-primary-heading">
           Superior Garden View
+          {/* {roomInfo.type_name} */}
         </h2>
         {/* Need to render */}
         <div className="w-full h-[30%] flex flex-col md:flex-row items-center justify-between">
