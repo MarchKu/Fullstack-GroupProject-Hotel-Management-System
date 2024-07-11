@@ -9,22 +9,23 @@ import {
   MenubarSeparator,
   MenubarTrigger,
 } from "../ui/menubar";
-import userImage from "../../assets/Navigation/UserImage.png";
+// import userImage from "../../assets/Navigation/UserImage.png";
 import profileIcon from "../../assets/Navigation/profileIcon.png";
 import cardIcon from "../../assets/Navigation/cardIcon.png";
 import bookingIcon from "../../assets/Navigation/bookingIcon.png";
 import logoutIcon from "../../assets/Navigation/logoutIcon.png";
 import { useAuth } from "@/contexts/authentication";
 
-const UserMenuDesktop = () => {
-   const {logout} = useAuth()
+const UserMenuDesktop = (props) => {
+  const { logout } = useAuth()
+  const {image, name} = props
   return (
     <Menubar className="hidden md:flex rounded-full border-0 ">
       <MenubarMenu>
         <MenubarTrigger className="rounded-full p-2">
           <div className="flex items-center w-[107px] gap-2">
-            <Image src={userImage} alt="User" className="w-10 h-10" />
-            <h6 className="min-w-[59px]">Kate Cho</h6>
+            <Image src={image} alt="User" width={40} height={40} className="w-10 h-10 rounded-full object-contain" />
+            <h6 className="min-w-[59px]">{ name}</h6>
           </div>
         </MenubarTrigger>
         <MenubarContent className="w-[198px] px-[14px] py-2 md:mx-4">

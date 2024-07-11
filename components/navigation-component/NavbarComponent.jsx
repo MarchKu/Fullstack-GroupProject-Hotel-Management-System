@@ -1,42 +1,35 @@
+"use client";
 import Link from "next/link";
 import Image from "next/image";
+import { useEffect, useState } from "react";
 import { NavigationMenu, NavigationMenuLink } from "../ui/navigation-menu";
-import {
-  Drawer,
-  DrawerContent,
-  DrawerTrigger,
-  DrawerHeader,
-  DrawerTitle,
-  DrawerDescription,
-} from "../ui/drawer";
-import { MenuIcon } from "lucide-react";
-import {
-  Menubar,
-  MenubarContent,
-  MenubarItem,
-  MenubarMenu,
-  MenubarSeparator,
-  MenubarShortcut,
-  MenubarTrigger,
-} from "../ui/menubar";
-import userImage from "../../assets/Navigation/UserImage.png";
-import bellIcon from "../../assets/Navigation/bellIcon.png";
-import profileIcon from "../../assets/Navigation/profileIcon.png";
-import cardIcon from "../../assets/Navigation/cardIcon.png";
-import bookingIcon from "../../assets/Navigation/bookingIcon.png";
-import logoutIcon from "../../assets/Navigation/logoutIcon.png";
-import neatlyLogo from "../../assets/Navigation/neatlyLogo.png";
-import notiImage from "../../assets/Navigation/NotiImage.png";
-import { useAuth } from "@/contexts/authentication";
-import { useRouter } from "next/router";
+
 import Notification from "./Notification";
 import UserMenuMobile from "./UserMenuMobile";
 import UserMenuDesktop from "./UserMenuDesktop";
 import Logo from "./Logo";
 import NavLinkDesktop from "./NavLinkDesktop";
 import NonUserMenuMobile from "./NonUserMenuMobile";
+import { useAuth } from "@/contexts/authentication";
+import UserImage from "../../assets/Navigation/UserImage.png";
 
 const NavbarComponent = ({ isAuthenticated }) => {
+  const [user, setUser] = useState({});
+  useEffect(() => {
+    const fetchUserData = async () => {
+      const userData = localStorage.getItem("user");
+      if (userData) {
+        const parsedData = JSON.parse(userData);
+        setUser(parsedData);
+      }
+    };
+    fetchUserData();
+  }, []);
+
+  useEffect(() => {
+    console.log("user:", user);
+    console.log("user:", user.fullName);
+  }, [user]);
   const AuthenticatedUser = (
     <NavigationMenu className="flex justify-center items-center w-full h-[5vh] md:h-[10vh] px-[5%] md:px-[10%] border-[1px] border-gray-300">
       <div className="w-full flex justify-between items-center text-[1rem] ">
@@ -45,11 +38,11 @@ const NavbarComponent = ({ isAuthenticated }) => {
           <NavLinkDesktop />
         </div>
       </div>
-
+      {/* <Image src={user.profilePicture} width={50} height={50}></Image> */}
       <div className="flex items-center gap-1 h-10 justify-end">
         <Notification />
-        <UserMenuMobile />
-        <UserMenuDesktop />
+        <UserMenuMobile image={user.profilePicture} name={user.fullName} />
+        <UserMenuDesktop image={user.profilePicture} name={user.fullName} />
       </div>
     </NavigationMenu>
   );

@@ -18,8 +18,9 @@ import bookingIcon from "../../assets/Navigation/bookingIcon.png";
 import logoutIcon from "../../assets/Navigation/logoutIcon.png";
 import { useAuth } from "@/contexts/authentication";
 
-const UserMenuMobile = () => {
+const UserMenuMobile = (props) => {
   const { logout } = useAuth();
+  const { image, name } = props;
   return (
     <Drawer direction="right" className="md:hidden flex">
       <DrawerTrigger>
@@ -36,8 +37,8 @@ const UserMenuMobile = () => {
         <div className="mt-6 mx-4">
           <Link href="/">
             <div className="flex items-center w-[107px] gap-2 mb-4">
-              <Image src={userImage} alt="user image"></Image>
-              <h6>Kate Cho</h6>
+              <Image src={image} width={40} height={40} alt="user image" className="rounded-full"></Image>
+              <h6>{name}</h6>
             </div>
           </Link>
 
