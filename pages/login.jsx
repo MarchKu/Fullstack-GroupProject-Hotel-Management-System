@@ -56,7 +56,7 @@ const login = () => {
               <div className="flex flex-col gap-1">
                 <label htmlFor="">Password</label>
                 <input
-                  type="text"
+                  type="password"
                   className="w-full px-4 py-3 border-[#D6D9E4] border-[1px] rounded text-base"
                   placeholder="Enter your password"
                   onChange={(e) => {
@@ -73,7 +73,7 @@ const login = () => {
                 </button>
                 <p>
                   Don’t have an account yet?{" "}
-                  <a href="/" className="font-semibold text-[#E76B39]">
+                  <a href="/register" className="font-semibold text-[#E76B39]">
                     Register
                   </a>
                 </p>
