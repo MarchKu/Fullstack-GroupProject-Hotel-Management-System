@@ -1,8 +1,6 @@
-"use client"
-import React from "react";
+
 import axios from "axios";
-import { useRouter } from "next/router";
-import { useState, useEffect } from "react";
+import { useState} from "react";
 
 
 export default function useRoomData() {
@@ -27,6 +25,18 @@ export default function useRoomData() {
     }
   };
 
-
-  return {roomData,getDataByID,isLoading,isError}
+  const getAllRoomsData = async () =>{
+    try{
+      setIsLoading(true);
+        const result = await axios.get(`http://localhost:3000/api/rooms`);
+        setRoomData(result.data);
+        setIsLoading(false);
+        setIsError(false)
+    }catch (error) {
+      console.error(error);
+      setIsLoading(false)
+      setIsError(true)
+    }
+  }
+  return {roomData,getRoomDetailByID,getAllRoomsData,isLoading,isError}
 }
