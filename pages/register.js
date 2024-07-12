@@ -12,22 +12,42 @@ import CountryPicker from "../components/ui/countryPick";
 import InputFile from "@/components/ui/uploadFile";
 import { useAuth } from "@/contexts/authentication";
 import NavbarComponent from "@/components/navigation-component/NavbarComponent";
-
+import { checkUniqueUser } from "../lib/checkUniqueUser";
+import { checkUniqueProfile } from "../lib/checkUniqueProfile";
 const minAge = 18;
 const registerSchema = z.object({
   fullName: z.string().min(2),
   username: z
     .string()
-    .min(2, { message: "Username must be at least 2 characters." }),
+    .min(2, { message: "Username must be at least 2 characters." })
+    .refine(
+      async (username) => {
+        return await checkUniqueUser("username", username);
+      },
+      { message: "username already exists" }
+    ),
   //refine checkUniqueUsername
   password: z
     .string()
     .min(12, { message: "Password must be at least 12 characters." }),
-  email: z.string().email({ message: "Please enter a valid email address." }),
+  email: z
+    .string()
+    .email({ message: "Please enter a valid email address." })
+    .refine(
+      async (email) => {
+        return await checkUniqueUser("email", email);
+      },
+      { message: "username already exists" }
+    ),
   idNumber: z
     .string()
-    .min(13, { message: "ID Number must be at least 13 digits." }),
-  //refine checkUniqueIdNumber
+    .min(13, { message: "ID Number must be at least 13 digits." })
+    .refine(
+      async (idNumber) => {
+        return await checkUniqueProfile("id_number", idNumber);
+      },
+      { message: "ID Number already exists" }
+    ),
   dateBirth: z
     .date({
       message: "A date of birth is required.",
@@ -41,7 +61,9 @@ const registerSchema = z.object({
       { message: `You must be at least ${minAge} years old.` }
     ),
   country: z.string().nonempty({ message: "Please select a country." }),
-  profilepic: z.instanceof(File),
+  profilepic: z.custom((file) => file instanceof File, {
+    message: "Profile Picture is required.",
+  }),
   cardOwner: z.string().nonempty({ message: "Card Owner is required." }),
   expiryDate: z.string().nonempty({ message: "Expiry Date is required." }),
   cvv: z.string().nonempty({ message: "CVV is required." }),
@@ -50,8 +72,6 @@ const registerSchema = z.object({
     .length(16, { message: "Credit Card must be 16 digits long." })
     .regex(/^\d+$/, { message: "Credit Card must be numeric." }),
 });
-
-//call API get data and check if user exists
 
 export default function Register() {
   const form = useForm({
@@ -98,21 +118,21 @@ export default function Register() {
       <NavbarComponent />
       <div className="w-full h-full inset-0 bg-cover bg-no-repeat bg-center bg-[url('../public/img/bg-register_page.jpg')]">
         <div className="w-full h-full flex justify-center items-center  bg-gradient-to-b from-[#00000099] to-transparent ">
-          <div className="relative mt-14 mb-20 p-2 md:p-14  md:w-[45%] bg-[#F7F7FB]  rounded-lg">
-            <div className="  flex flex-col gap-5 font-body ">
+          <div className="relative w-full md:mt-14 md:mb-20 p-2 md:p-14 m-0 md:w-[45%] bg-[#F7F7FB] pt-10 md:rounded-lg">
+            <div className="  flex flex-col gap-5  font-body ">
               <h1 className="text-7xl font-serif text-[#2F3E35] font-medium tracking-tighter">
                 Register
               </h1>
-              <h2 className="text-xl pt-5 pb-5 font-semibold tracking-tighter text-[#9AA1B9]">
+              <h2 className="text-xl pt-10 pb-5 font-semibold tracking-tighter text-[#9AA1B9]">
                 Basic Information
               </h2>
 
               <Form {...form}>
                 <form
                   onSubmit={form.handleSubmit(onSubmit)}
-                  className="text-base font-normal gap-3 grid grid-cols-1 md:grid-cols-2 "
+                  className="text-base font-normal gap-3 md:grid md:grid-cols-2 "
                 >
-                  <div className="col-span-2">
+                  <div className="md:col-span-2">
                     <FormFieldComponent
                       control={form.control}
                       name="fullName"
@@ -204,7 +224,10 @@ export default function Register() {
                     type="text"
                     placeholder="CVC/CVV"
                   />
-                  <Button type="submit" className="mt-5 bg-[#C14817]">
+                  <Button
+                    type="submit"
+                    className="mt-5 bg-[#C14817] w-full md:col-span-1"
+                  >
                     Register
                   </Button>
                 </form>
