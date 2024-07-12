@@ -31,36 +31,42 @@ const NavbarComponent = ({ isAuthenticated }) => {
     console.log("user:", user.fullName);
   }, [user]);
   const AuthenticatedUser = (
-    <NavigationMenu className="flex justify-center items-center w-full h-[5vh] md:h-[10vh] px-[5%] md:px-[10%] border-[1px] border-gray-300">
-      <div className="w-full flex justify-between items-center text-[1rem] ">
-        <div className="flex w-[30%] items-center ">
-          <Logo />
-          <NavLinkDesktop />
+    <NavigationMenu className="flex items-center md:h-[100px] h-[48px] border-[1px] border-[#E4E6ED] justify-center w-full">
+      <div className="flex justify-between w-full max-w-[1440px]">
+        <div className="flex justify-between text-[14px] px-[16px] md:w-[608px]">
+          <div className="w-full flex items-center justify-between">
+            <Logo />
+            <NavLinkDesktop />
+          </div>
         </div>
-      </div>
-      {/* <Image src={user.profilePicture} width={50} height={50}></Image> */}
-      <div className="flex items-center gap-1 h-10 justify-end">
-        <Notification />
-        <UserMenuMobile image={user.profilePicture} name={user.fullName} />
-        <UserMenuDesktop image={user.profilePicture} name={user.fullName} />
+        <div className="flex items-center justify-end">
+          <Notification />
+          <UserMenuMobile image={user.profilePicture} name={user.fullName} />
+          <UserMenuDesktop
+            image={user.profilePicture}
+            name={ user.fullName}
+          />
+        </div>
       </div>
     </NavigationMenu>
   );
 
   const UnauthenticatedUser = (
-    <NavigationMenu className="flex justify-center items-center w-full h-[5vh] md:h-[10vh] px-[5%] md:px-[10%] border-[1px] border-gray-300">
-      <div className="w-full flex justify-between items-center text-[1rem]">
-        <div className="w-full max-w-[768px] flex items-center justify-between">
-          <Logo />
-          <NavLinkDesktop />
-          <NonUserMenuMobile />
-        </div>
-        <div className="hidden md:flex items-center mr-4 min-w-10">
-          <Link href="/login" legacyBehavior passHref>
-            <NavigationMenuLink className="text-[1rem] leading-4 font-semibold text-[#E76B39]">
-              Log in
-            </NavigationMenuLink>
-          </Link>
+    <NavigationMenu className="flex items-center md:h-[100px] h-[48px] border-[1px] border-[#E4E6ED] justify-center w-full">
+      <div className="flex justify-between w-full max-w-[1440px] mx-4">
+        <div className="w-full flex justify-between items-center text-[1rem]">
+          <div className="w-full flex items-center justify-between">
+            <Logo />
+            <NavLinkDesktop />
+            <NonUserMenuMobile />
+          </div>
+          <div className="hidden md:flex items-center ">
+            <Link href="/login" legacyBehavior passHref>
+              <NavigationMenuLink className="text-[1rem] leading-4 font-semibold text-[#E76B39]">
+                <p className="whitespace-nowrap">Log in</p>
+              </NavigationMenuLink>
+            </Link>
+          </div>
         </div>
       </div>
     </NavigationMenu>

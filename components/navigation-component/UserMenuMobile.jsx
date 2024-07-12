@@ -24,7 +24,7 @@ const UserMenuMobile = (props) => {
   return (
     <Drawer direction="right" className="md:hidden flex">
       <DrawerTrigger>
-        <MenuIcon className="md:hidden w-6 h-6" />
+        <MenuIcon className="md:hidden w-6 h-6 mr-3" />
       </DrawerTrigger>
       <DrawerContent className="w-full mt-[48px] text-sm leading-4">
         <DrawerHeader>
