@@ -17,8 +17,8 @@ const Hero = () => {
         <h1>Neatly Experience</h1>
       </div>
       {/* Mock up component */}
-      
-     <SearchBox/>
+
+      <SearchBox />
       {/* <Card className="w-full h-[50%] md:h-[250px] px-[2%] py-[4%] ">
         <CardContent className="w-full h-full">
           <form className="w-full h-full pt-4 flex flex-col justify-between items-center md:flex-row md:justify-between md:items-end font-body">
