@@ -6,6 +6,8 @@ import {
   CalendarDays as CalendarIcon,
   CirclePlus,
   CircleMinus,
+  ChevronUp,
+  ChevronDown,
 } from "lucide-react";
 
 import { cn } from "@/lib/utils";
@@ -16,6 +18,8 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { Arrow } from "@radix-ui/react-popover";
+const PopoverArrow = Arrow;
 
 export function SearchBox({ className }) {
   const [date, setDate] = React.useState({
@@ -74,8 +78,10 @@ export function SearchBox({ className }) {
 
   return (
     <form onSubmit={handleSubmit} className="">
-      <div className="flex flex-col justify-center items-center gap-6  md:w-[1000px] md:flex-row md:justify-between md:h-[76px]">
-        <div className="flex flex-col justify-center items-center gap-4 md:gap-2 md:flex-row">
+      <div className="flex flex-col justify-center items-center gap-[20px] md:gap-[22px] lg:gap-[45px]  md:w-full md:max-w-[1000px] md:flex-row md:justify-between md:h-[76px]">
+        <div className="flex flex-col justify-center items-center gap-4 md:gap-[12px] lg:gap-[22px] md:flex-row">
+          {/* checkin button */}
+
           <Popover open={isCheckInOpen} onOpenChange={setIsCheckInOpen}>
             <PopoverTrigger asChild>
               <div>
@@ -84,7 +90,7 @@ export function SearchBox({ className }) {
                   id="date"
                   variant={"outline"}
                   className={cn(
-                    "w-[310px] h-12 justify-between text-left font-normal text-gray-600 text-base md:w-[240px]",
+                    "w-[310px] h-12 justify-between text-left font-normal text-gray-600 text-base md:max-w-[180px] lg:max-w-[240px]",
                     isCheckInOpen ? "bg-gray-200" : "bg-white"
                   )}
                 >
@@ -98,7 +104,11 @@ export function SearchBox({ className }) {
               </div>
             </PopoverTrigger>
 
-            <PopoverContent className="w-auto p-0" align="start">
+            <PopoverContent
+              className="w-auto p-0 relative left-[15px] md:left-[0px]"
+              align="start"
+            >
+              <PopoverArrow className="relative left-[15px]" />
               <Calendar
                 initialFocus
                 mode="single"
@@ -122,6 +132,8 @@ export function SearchBox({ className }) {
           </Popover>
           <p className="hidden md:flex"> - </p>
 
+          {/* checkout button */}
+
           <Popover open={isCheckOutOpen} onOpenChange={setIsCheckOutOpen}>
             <PopoverTrigger asChild>
               <div>
@@ -130,7 +142,7 @@ export function SearchBox({ className }) {
                   id="date"
                   variant={"outline"}
                   className={cn(
-                    "w-[310px] h-12 justify-between text-left font-normal text-gray-600 text-base md:w-[240px]",
+                    "w-[310px] h-12 justify-between text-left font-normal text-gray-600 text-base md:max-w-[180px] lg:max-w-[240px]",
                     isCheckOutOpen ? "bg-gray-200" : "bg-white"
                   )}
                 >
@@ -144,9 +156,10 @@ export function SearchBox({ className }) {
               </div>
             </PopoverTrigger>
             <PopoverContent
-              className="w-auto p-0 relative top-0 md:relative md:top-0 md:right-[295px]"
+              className="w-auto p-0 relative top-0 left-[15px] md:top-0 md:right-[0px] md:left-[-260px]"
               align="start"
             >
+              <PopoverArrow className="relative left-[17px] md:relative md:left-[-250px]" />
               <Calendar
                 initialFocus
                 mode="single"
@@ -170,6 +183,8 @@ export function SearchBox({ className }) {
           </Popover>
         </div>
 
+        {/* room&guests button */}
+
         <div>
           <h3 className="text-gray-900">Room & Guests</h3>
           <Popover onOpenChange={setIsRoomGuestsOpen}>
@@ -177,11 +192,12 @@ export function SearchBox({ className }) {
               <Button
                 variant="outline"
                 className={cn(
-                  "w-[310px] md:w-[240px] h-12 justify-between text-left font-normal text-gray-600 text-base",
+                  "w-[310px] h-12 justify-between text-left font-normal text-gray-600 text-base md:max-w-[180px] lg:max-w-[240px]",
                   isRoomGuestsOpen ? "bg-gray-200" : "bg-white"
                 )}
               >
                 {room} room, {guests} guests
+                {isRoomGuestsOpen ? <ChevronUp /> : <ChevronDown />}
               </Button>
             </PopoverTrigger>
             <PopoverContent className="w-[240px] text-gray-700 text-base">
@@ -227,12 +243,14 @@ export function SearchBox({ className }) {
           </Popover>
         </div>
 
-        <button
-          className="w-[310px] my-4 md:w-[240px] h-[48px] rounded bg-orange-600 text-white hover:bg-orange-500 md:my-0 md:self-end md:mb-1"
+        {/* search button */}
+
+        <Button
+          className="w-[310px] my-4  text-[16px]  h-[48px]  rounded text-white font-semibold md:max-lg:absolute sm: md:w-[145px] md:my-0 md:self-end md:mb-1"
           type="submit"
         >
           Search
-        </button>
+        </Button>
       </div>
     </form>
   );
