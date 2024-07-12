@@ -35,6 +35,9 @@ function InputFile({ control, name, type, label, id, description }) {
     setValue(name, file);
   };
 
+  const removeFile = () => {
+    setSelectedFile(null);
+  };
   return (
     <FormField
       control={control}
@@ -54,21 +57,29 @@ function InputFile({ control, name, type, label, id, description }) {
             className="sr-only"
             {...field}
           />
-          <div className="flex md:flex md:items-center ">
+          <div className="flex gap-5 pb-10 pt-2">
             <button
               type="button"
               onClick={() => document.getElementById(id)?.click()}
-              className="flex flex-col gap-2 items-center justify-center w-20  h-20 md:w-44 md:h-44 px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-[#E76B39] bg-[#F1F2F6] hover:bg-slate-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+              className="flex flex-col gap-2 items-center justify-center w-40  h-40 md:w-50 md:h-50 border border-transparent shadow-sm text-sm font-medium rounded-md text-[#E76B39] bg-[#F1F2F6] hover:bg-slate-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
             >
               <img src="/img/icon-upload-pic.svg" />
               Upload photo
             </button>
             {selectedFile && previewUrl && (
-              <img
-                src={previewUrl}
-                alt="Preview"
-                className="ml-7 w-40 h-40 md:w-60 md:h-60 object-cover rounded-md border border-gray-200"
-              />
+              <div>
+                <img
+                  src={previewUrl}
+                  alt="Preview"
+                  className="w-40 h-40 md:w-52 md:h-52 object-cover rounded-md border border-gray-200 absolute"
+                />
+                <button
+                  onClick={removeFile}
+                  className="relative w-20 left-[8.5rem] bottom-5  md:left-[11.5rem] md:bottom-5"
+                >
+                  <img src="/img/delete.svg" alt="Error Trigger" />
+                </button>
+              </div>
             )}
           </div>
           {description && (
@@ -76,7 +87,8 @@ function InputFile({ control, name, type, label, id, description }) {
               {description}
             </FormDescription>
           )}
-          <FormMessage className="mt-2 text-sm text-red-600" />
+
+          <FormMessage />
         </FormItem>
       )}
     />
