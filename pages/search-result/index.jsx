@@ -66,7 +66,7 @@ export default function Search_result() {
         <div className="w-full h-24 border">
           <NavbarComponent />
         </div>
-        <div className=" w-full h-[400px] flex border-1 border-gray-200 p-4 bg-rose-400 rounded shadow-xl shadow-gray-200 bg-white justify-center items-center md:h-[150px] md:sticky md:top-0 md:z-10 ">
+        <div className=" w-full h-[400px] flex border-1 border-gray-200 p-4  rounded shadow-xl shadow-gray-200 bg-white justify-center items-center md:h-[150px] md:sticky md:top-0 md:z-10 ">
           <SearchBox />
         </div>
         {/* room search result */}/{" "}
