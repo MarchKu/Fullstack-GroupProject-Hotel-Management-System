@@ -1,11 +1,11 @@
 import React, { useEffect } from "react";
-import img1 from "../../assets/room&suit/1.png";
-import img2 from "../../assets/room&suit/2.png";
-import img3 from "../../assets/room&suit/3.png";
-import img4 from "../../assets/room&suit/4.png";
-import img5 from "../../assets/room&suit/5.png";
-import img6 from "../../assets/room&suit/6.png";
-import arrow from "../../assets/room&suit/arrow.svg";
+import img1 from "../../assets/room&suite/1.png";
+import img2 from "../../assets/room&suite/2.png";
+import img3 from "../../assets/room&suite/3.png";
+import img4 from "../../assets/room&suite/4.png";
+import img5 from "../../assets/room&suite/5.png";
+import img6 from "../../assets/room&suite/6.png";
+import arrow from "../../assets/room&suite/arrow.svg";
 
 const RoomSuite = () => {
   return (
@@ -34,7 +34,9 @@ const RoomSuite = () => {
             className="bg-slate-300 md:col-span-3 bg-center bg-cover bg-blend-multiply flex flex-col justify-end p-[5%]"
             style={{ backgroundImage: `url(${img2.src})` }}
           >
-            <h3 className="font-heading text-white text-[3rem] md:text-[4rem]">Deluxe</h3>
+            <h3 className="font-heading text-white text-[3rem] md:text-[4rem]">
+              Deluxe
+            </h3>
             <div className="flex gap-2 justify-start items-center">
               <h1 className="font-body text-white text-[1rem] md:text-[1.5rem]">
                 Explore Room
@@ -46,7 +48,9 @@ const RoomSuite = () => {
             className="bg-slate-300 md:col-span-2 bg-center bg-cover bg-blend-multiply flex flex-col justify-end p-[5%]"
             style={{ backgroundImage: `url(${img3.src})` }}
           >
-            <h3 className="font-heading text-white text-[3rem] md:text-[4rem]">Superior</h3>
+            <h3 className="font-heading text-white text-[3rem] md:text-[4rem]">
+              Superior
+            </h3>
             <div className="flex gap-2 justify-start items-center">
               <h1 className="font-body text-white text-[1rem] md:text-[1.5rem]">
                 Explore Room
@@ -68,14 +72,16 @@ const RoomSuite = () => {
               <h1 className="font-body text-white text-[1.25rem] md:text-[1.5rem]">
                 Explore Room
               </h1>
-              <img src={arrow.src} /> 
+              <img src={arrow.src} />
             </div>
           </div>
           <div
             className="bg-slate-300 md:col-span-4 bg-center bg-cover bg-blend-multiply flex flex-col justify-end p-[5%]"
             style={{ backgroundImage: `url(${img5.src})` }}
           >
-            <h3 className="font-heading text-white text-[3rem] md:text-[4rem]">Supreme</h3>
+            <h3 className="font-heading text-white text-[3rem] md:text-[4rem]">
+              Supreme
+            </h3>
             <div className="flex gap-2 justify-start items-center">
               <h1 className="font-body text-white text-[1rem] md:text-[1.5rem]">
                 Explore Room
@@ -87,7 +93,9 @@ const RoomSuite = () => {
             className="bg-slate-300 md:col-span-4 bg-center bg-cover bg-blend-multiply flex flex-col justify-end p-[5%]"
             style={{ backgroundImage: `url(${img6.src})` }}
           >
-            <h3 className="font-heading text-white text-[3rem] md:text-[4rem]">Suite</h3>
+            <h3 className="font-heading text-white text-[3rem] md:text-[4rem]">
+              Suite
+            </h3>
             <div className="flex gap-2 justify-start items-center">
               <h1 className="font-body text-white text-[1rem] md:text-[1.5rem]">
                 Explore Room

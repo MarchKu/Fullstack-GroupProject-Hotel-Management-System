@@ -34,6 +34,7 @@ module.exports = {
         secondary: {
           DEFAULT: "hsl(var(--secondary))",
           foreground: "hsl(var(--secondary-foreground))",
+          body: "#465C50",
         },
         destructive: {
           DEFAULT: "hsl(var(--destructive))",
@@ -106,7 +107,12 @@ module.exports = {
       },
       fontFamily: {
         heading: "Noto_Serif",
-        body: "Inter",
+        body: ["Inter", "sans-serif"],
+
+        serif: ["Noto Serif", "serif"],
+      },
+      backgroundImage: {
+        "background-register": "url('../public/img/bg-register_page.jpg')",
       },
     },
     fontFamily: {

@@ -12,7 +12,7 @@ import { carouselAbout } from "@/utils/carousel-info-array/carousel-about";
 const About = () => {
   const carouselImg = carouselAbout;
   return (
-    <section className="flex flex-col w-full h-[100vh] md:h-[130vh] pt-[6%] pb-[4%]">
+    <section className="flex flex-col w-full h-[100vh] md:h-[130vh] pt-[6%] pb-[4%] overflow-hidden">
       <div className="w-full h-[60%] flex flex-col gap-10 px-[5%] md:px-[10%]">
         <h1 className="font-heading text-[4.5rem] text-center text-primary-heading md:text-[7rem] md:text-left">
           Neatly Hotel
