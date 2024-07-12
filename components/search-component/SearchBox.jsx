@@ -238,7 +238,7 @@ export function SearchBox({ className }) {
         </div>
 
         {/* Search button */}
-        <Button className="w-[180px] h-[4rem] md:text-[1.25rem]" type="submit">
+        <Button className="w-[180px] h-[3rem] md:text-[1.25rem]" type="submit">
           Search
         </Button>
       </div>
