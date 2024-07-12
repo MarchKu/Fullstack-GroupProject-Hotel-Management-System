@@ -3,6 +3,9 @@ import withSvgr from "@svgr/webpack";
 
 const nextConfig = {
   reactStrictMode: true,
+  images: {
+    domains: ["mxhmryetxradarukkhgs.supabase.co"],
+  },
   webpack(config, options) {
     config.module.rules.push({
       test: /\.svg$/,

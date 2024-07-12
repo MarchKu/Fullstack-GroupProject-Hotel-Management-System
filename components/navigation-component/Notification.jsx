@@ -16,11 +16,11 @@ const Notification = () => {
   return (
     <Menubar className="flex rounded-full border-0 p-0">
       <MenubarMenu>
-        <MenubarTrigger className="rounded-full p-1">
+        <MenubarTrigger className="rounded-full p-1 md:min-w-10 md:min-h-10 flex justify-center">
           <Image
             src={bellIcon}
             alt="bell icon"
-            className="min-w-6 min-h-6 md:min-w-10 md:min-h-10"
+            className="w-6 h-6 md:w-10 md:h-10"
           />
         </MenubarTrigger>
         <MenubarContent className="md:w-[370px] md:h-auto w-screen h-screen px-2 py-2 md:absolute md:top-0 right-[-32px] md:right-[-50px]">

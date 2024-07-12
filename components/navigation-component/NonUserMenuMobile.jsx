@@ -8,7 +8,7 @@ const NonUserMenuMobile = () => {
   return (
     <Drawer direction="right" className="md:hidden block">
       <DrawerTrigger>
-        <MenuIcon className="md:hidden" />
+        <MenuIcon className="md:hidden " />
       </DrawerTrigger>
       <DrawerContent className="w-full mt-12 text-sm leading-4">
         <div className="mt-12 mx-4">
