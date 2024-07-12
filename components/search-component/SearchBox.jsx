@@ -155,7 +155,6 @@ export function SearchBox({ className }) {
               className="w-auto p-0 relative top-0 left-[15px] md:top-0 md:right-[0px] md:left-[-260px]"
               align="start"
             >
-              <PopoverArrow className="relative left-[17px] md:relative md:left-[-250px]" />
               <Calendar
                 initialFocus
                 mode="single"
