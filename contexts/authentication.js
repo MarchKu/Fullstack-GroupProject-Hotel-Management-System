@@ -31,16 +31,20 @@ function AuthProvider(props) {
 
   const register = async (data) => {
     try {
-      await axios.post("http://localhost:3000/api/auth/register", data, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
+      const response = await axios.post(
+        "http://localhost:3000/api/auth/register",
+        data,
+        {
+          headers: { "Content-Type": "multipart/form-data" },
+        }
+      );
       toastr["success"]("You are successfully registered");
       setTimeout(function () {
         window.location.replace("/login");
       }, 1000);
     } catch (error) {
       console.log(error.message);
-      toastr["error"]("Registration failed");
+      toastr["error"]("Registration Failed");
     }
   };
 
