@@ -4,6 +4,8 @@ import {
   CalendarDays as CalendarIcon,
   CirclePlus,
   CircleMinus,
+  ChevronUp,
+  ChevronDown,
 } from "lucide-react";
 
 import { cn } from "@/lib/utils";
@@ -150,7 +152,7 @@ export function SearchBox({ className }) {
               </div>
             </PopoverTrigger>
             <PopoverContent
-              className="w-auto p-0 relative top-0 md:relative md:top-0 md:right-[295px]"
+              className="w-auto p-0 relative top-0 left-[15px] md:top-0 md:right-[0px] md:left-[-260px]"
               align="start"
             >
               <Calendar
@@ -189,6 +191,7 @@ export function SearchBox({ className }) {
                 )}
               >
                 {room} room, {guests} guests
+                {isRoomGuestsOpen ? <ChevronUp /> : <ChevronDown />}
               </Button>
             </PopoverTrigger>
             <PopoverContent className="w-[240px] text-gray-700 text-base">
