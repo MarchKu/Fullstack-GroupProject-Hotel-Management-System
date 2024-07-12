@@ -39,7 +39,7 @@ const Sidebar = () => {
           return (
             <Link
               href={item.title}
-              className="flex w-full hover:bg-[#5D7B6A] text-white gap-4 pl-6 py-6 items-center"
+              className="flex w-full hover:bg-[#5D7B6A] text-white gap-4 pl-[10%] py-6 items-center"
               key={item.title}
             >
               <Image src={item.icon} width={24} height={24} alt={item.title} />
