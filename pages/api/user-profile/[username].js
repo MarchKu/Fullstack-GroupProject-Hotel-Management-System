@@ -70,9 +70,9 @@ export default async function handler(req, res) {
       return res.status(500).json(error.message);
     }
   }
-  
+
   if (req.method === "GET") {
-    try  {
+    try {
       const { username } = req.query;
       const userData = await connectionPool.query(
         `select * from users where username = $1`,
@@ -101,7 +101,7 @@ export default async function handler(req, res) {
       `,
         [username]
       );
-      return res.status(200).json(userInfo.rows[0])
+      return res.status(200).json(userInfo.rows[0]);
     } catch (error) {
       return res.status(500).json(error.message);
     }

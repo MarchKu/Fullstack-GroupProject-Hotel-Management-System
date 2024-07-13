@@ -15,9 +15,11 @@ import cardIcon from "../../assets/Navigation/cardIcon.png";
 import bookingIcon from "../../assets/Navigation/bookingIcon.png";
 import logoutIcon from "../../assets/Navigation/logoutIcon.png";
 import { useAuth } from "@/contexts/authentication";
+import { useRouter } from "next/router";
 
 const UserMenuDesktop = () => {
-   const {logout} = useAuth()
+  const { logout } = useAuth();
+  const router = useRouter();
   return (
     <Menubar className="hidden md:flex rounded-full border-0 ">
       <MenubarMenu>
@@ -28,7 +30,10 @@ const UserMenuDesktop = () => {
           </div>
         </MenubarTrigger>
         <MenubarContent className="w-[198px] px-[14px] py-2 md:mx-4">
-          <MenubarItem className="gap-3 px-0 py-2">
+          <MenubarItem
+            className="gap-3 px-0 py-2"
+            onClick={() => router.push("/profile")}
+          >
             <Image src={profileIcon} className="w-4 h-4" />
             <p>Profile</p>
           </MenubarItem>

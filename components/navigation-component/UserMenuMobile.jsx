@@ -43,7 +43,7 @@ const UserMenuMobile = () => {
 
           <MenubarSeparator />
 
-          <Link href="/">
+          <Link href="/profile">
             <div className="flex items-center w-[343px] gap-3 mx-4 my-4">
               <Image src={profileIcon} alt="profile icon"></Image>
               <h6>Profile</h6>

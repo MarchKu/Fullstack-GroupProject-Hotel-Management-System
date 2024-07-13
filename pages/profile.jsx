@@ -17,7 +17,7 @@ import { checkUniqueProfile } from "../lib/checkUniqueProfile";
 const minAge = 18;
 const registerSchema = z.object({
   fullName: z.string().min(2),
-  username: z 
+  username: z
     .string()
     .min(2, { message: "Username must be at least 2 characters." })
     .refine(
@@ -121,7 +121,7 @@ export default function Register() {
           <div className="relative w-full md:mt-14 md:mb-20 p-2 md:p-14 m-0 md:w-[45%] bg-[#F7F7FB] pt-10 md:rounded-lg">
             <div className="  flex flex-col gap-5  font-body ">
               <h1 className="text-7xl font-serif text-[#2F3E35] font-medium tracking-tighter">
-                Register
+                Profile
               </h1>
               <h2 className="text-xl pt-10 pb-5 font-semibold tracking-tighter text-[#9AA1B9]">
                 Basic Information
