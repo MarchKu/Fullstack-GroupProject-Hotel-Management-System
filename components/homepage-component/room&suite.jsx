@@ -9,8 +9,8 @@ import arrow from "../../assets/room&suite/arrow.svg";
 
 const RoomSuite = () => {
   return (
-    <section className="w-full h-[200vh] md:h-[250vh] px-[5%] md:px-[10%] py-[6%] flex flex-col justify-start items-center gap-[2%] md:gap-[4%]">
-      <h2 className="font-heading w-full text-center text-[4.5rem] md:text-[7rem] text-primary-foreground text-primary-heading ">
+    <section className="w-full h-[200vh] min-h-[2140px] px-[5%] md:px-[10%] py-[6%] flex flex-col justify-start items-center gap-[2%] md:gap-[4%]">
+      <h2 className="font-heading w-full text-center text-[4rem] md:text-[6rem] text-primary-foreground text-primary-heading ">
         Rooms & Suits
       </h2>
       <div className="w-full h-full flex flex-col gap-[1.5rem]">
