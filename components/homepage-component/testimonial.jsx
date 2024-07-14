@@ -16,7 +16,7 @@ const Testimonial = () => {
   const carouselInfo = carouselTestimonial;
   return (
     <section className="w-full min-h-[750px] h-[70vh] bg-green-200 flex flex-col gap-[2rem] py-[10%]">
-      <h2 className="w-full h-[20%] text-[4rem] md:text-[5rem] lg:text-[6rem] font-heading text-center content-center text-primary-heading">
+      <h2 className="w-full h-[20%] text-[3.5rem] md:text-[5rem] lg:text-[6rem] font-heading text-center content-center text-primary-heading">
         Our Customer Says
       </h2>
       <div className="h-[80%]">

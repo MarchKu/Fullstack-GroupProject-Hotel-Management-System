@@ -17,8 +17,10 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { CardContent } from "../ui/card";
+import { useRouter } from "next/router";
 
 export function SearchBox({ className }) {
+  const router = useRouter();
   const [date, setDate] = React.useState({
     from: addDays(new Date(), 1),
     to: addDays(new Date(), 2),
@@ -76,9 +78,9 @@ export function SearchBox({ className }) {
   return (
     <form
       onSubmit={handleSubmit}
-      className="w-full h-[20%] md:h-[30%] md:max-h-[222px] px-[5%] bg-white flex justify-beyween items-center rounded-lg"
-    >
-      <div className="w-full h-full flex flex-col justify-between items-center md:items-center md:w-full md:flex-row md:justify-start md:h-full">
+      className="w-full h-full md:max-h-[222px] bg-white flex justify-between items-center rounded-lg "
+    >   
+      <div className="w-full h-full flex flex-col md:flex-row justify-between items-center md:items-end md:w-full   md:h-full">
         {/* Check in */}
 
         <Popover open={isCheckInOpen} onOpenChange={setIsCheckInOpen}>
@@ -126,7 +128,7 @@ export function SearchBox({ className }) {
           </PopoverContent>
         </Popover>
 
-        <p className="hidden md:flex md:mx-[5%]"> - </p>
+        <p className="hidden md:flex md:mx-[5%] md:pb-[1rem]"> - </p>
 
         {/* Check out */}
         <div className="w-full md:w-[20%] ">
@@ -238,7 +240,11 @@ export function SearchBox({ className }) {
         </div>
 
         {/* Search button */}
-        <Button className="w-[180px] h-[3rem] md:text-[1.25rem]" type="submit">
+        <Button
+          className="w-[180px] h-[3rem] md:text-[1.25rem]"
+          type="submit"
+          onClick={() => router.push("/search-result")}
+        >
           Search
         </Button>
       </div>

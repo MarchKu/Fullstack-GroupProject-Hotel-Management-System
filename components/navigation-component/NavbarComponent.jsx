@@ -32,8 +32,8 @@ const NavbarComponent = ({ isAuthenticated }) => {
   }, [user]);
   const AuthenticatedUser = (
     <NavigationMenu className="flex items-center min-h-[48px] md:min-h-[100px] h-[5vh] border-[1px] border-[#E4E6ED] justify-center w-full">
-      <div className="flex justify-between w-full max-w-[80vw]">
-        <div className="flex justify-between text-[14px] px-[16px] md:w-[608px]">
+      <div className="flex justify-between w-full px-[5%] xl:px-[10%]">
+        <div className="flex justify-between text-[14px]  md:w-full">
           <div className="w-full flex items-center justify-between">
             <Logo />
             <NavLinkDesktop />
@@ -52,19 +52,19 @@ const NavbarComponent = ({ isAuthenticated }) => {
   );
 
   const UnauthenticatedUser = (
-    <NavigationMenu className="flex items-center md:h-[100px] h-[48px] border-[1px] border-[#E4E6ED] justify-center w-full">
-      <div className="flex justify-between w-full max-w-[1440px] mx-4">
-        <div className="w-full flex justify-between items-center text-[1rem]">
+    <NavigationMenu className="flex items-center min-h-[48px] md:min-h-[100px] h-[5vh] border-[1px] border-[#E4E6ED] justify-center w-full">
+      <div className="flex justify-between w-full px-[5%] xl:px-[10%]">
+        <div className="flex justify-between text-[14px]  w-full">
           <div className="w-full flex items-center justify-between">
             <Logo />
             <NavLinkDesktop />
             <NonUserMenuMobile />
           </div>
-          <div className="hidden md:flex items-center ">
+          <div className="flex items-center justify-end">
             <Link href="/login" legacyBehavior passHref>
-              <NavigationMenuLink className="text-[1rem] leading-4 font-semibold text-[#E76B39]">
+              <NavigationMenuLink className="text-[1rem] ml-2 leading-4 font-semibold text-[#E76B39]">
                 <p className="whitespace-nowrap">Log in</p>
-              </NavigationMenuLink>
+              </NavigationMenuLink> 
             </Link>
           </div>
         </div>

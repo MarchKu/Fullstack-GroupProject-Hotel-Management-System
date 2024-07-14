@@ -50,7 +50,7 @@ const About = () => {
                 <Card className="w-screen md:w-full h-full">
                   <CardContent className="h-full flex items-center justify-center p-0">
                     <div
-                      className="size-full bg-center bg-cover bg-slate-300 bg-ble"
+                      className="size-full bg-center bg-cover bg-slate-300 bg-blend-multiply"
                       style={{ backgroundImage: `url(${img})` }}
                     ></div>
                   </CardContent>
