@@ -2,7 +2,6 @@
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import vector from "../../assets/search_result/vector.svg";
-import { arrRoomImage } from "@/utils/carousel-info-array/carousel-search-result";
 import { cn } from "@/lib/utils";
 import { X } from "lucide-react";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -12,6 +11,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogClose,
+  DialogOverlay,
 } from "@/components/ui/dialog-room-popup";
 import {
   Carousel,
@@ -26,7 +26,7 @@ import FooterComponent from "@/components/footer-component/FooterComponent";
 import NavbarComponent from "@/components/navigation-component/NavbarComponent";
 
 import useRoomData from "@/hooks/use-room-data";
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 
 export default function Search_result() {
@@ -68,14 +68,14 @@ export default function Search_result() {
 
   return roomData ? (
     <>
-      <div className="flex flex-col justify-center items-center font-body">
-        <div className="w-full h-24 border">
-          <NavbarComponent isAuthenticated={isAuthenticated}/>
+      <div className="flex flex-col items-center font-body">
+        <div className="w-full  border">
+          <NavbarComponent isAuthenticated={isAuthenticated} />
         </div>
-        <div className=" w-full h-[400px] flex border-1 border-gray-200 p-4  rounded shadow-xl shadow-gray-200 bg-white justify-center items-center md:h-[150px] md:sticky md:top-0 md:z-10 ">
+        <div className=" w-full flex justify-center items-center border-1 border-gray-200 p-4  rounded shadow-md shadow-gray-300 bg-white md:h-[150px] md:sticky md:top-0 md:z-10">
           <SearchBox />
         </div>
-        {/* room search result */}/{" "}
+        {/* room search result */}
         <div className="w-full flex flex-col items-center md:mt-12 md:mb-28 md:z-0">
           {roomData.map((room, index) => {
             return (
