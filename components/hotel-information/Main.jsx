@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import neatlyIcon from "../../assets/Navigation/neatlyLogo.png";
+import Image from "next/image";
 
 const Main = () => {
   const [hotelData, setHotelData] = useState({
@@ -53,12 +54,21 @@ const Main = () => {
               onChange={handleHotelDescription}
             />
           </div>
-          <div className="flex flex-col gap-1">
+          <div className="flex flex-col gap-2">
             <label htmlFor="">Hotel logo *</label>
-            <input
-              type="file"
-              className="border-[1px] border-[#D6D9E4] py-[6px] px-3 rounded resize-none"
-            />
+            {hotelData.logo ? (
+              <div className="relative w-[167px] h-[167px] flex bg-[#F1F2F6] rounded">
+                <Image src={hotelData.logo} className="object-contain" />
+                <button className="absolute top-0 right-0 w-6 h-6 pb-[2px] rounded-full bg-[#B61515] text-white flex justify-center items-center">
+                  x
+                </button>
+              </div>
+            ) : (
+              <input
+                type="file"
+                className="border-[1px] border-[#D6D9E4] py-[6px] px-3 rounded resize-none"
+              />
+            )}
           </div>
         </form>
       </section>
