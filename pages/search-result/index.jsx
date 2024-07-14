@@ -1,4 +1,4 @@
-import { useState } from "react";
+"use client";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import vector from "../../assets/search_result/vector.svg";
@@ -26,12 +26,18 @@ import FooterComponent from "@/components/footer-component/FooterComponent";
 import NavbarComponent from "@/components/navigation-component/NavbarComponent";
 
 import useRoomData from "@/hooks/use-room-data";
-import { useEffect } from "react";
+import { useState,useEffect } from "react";
 import { useRouter } from "next/router";
 
 export default function Search_result() {
   const [isRoomdetailOpen, setIsRoomDetailOpen] = useState(false);
   const [isRoomImgOpen, setIsRoomImgOpen] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    setIsAuthenticated(Boolean(token));
+  }, []);
 
   const handlePopUpRoomDetail = () => {
     setIsRoomDetailOpen(true);
@@ -64,7 +70,7 @@ export default function Search_result() {
     <>
       <div className="flex flex-col justify-center items-center font-body">
         <div className="w-full h-24 border">
-          <NavbarComponent />
+          <NavbarComponent isAuthenticated={isAuthenticated}/>
         </div>
         <div className=" w-full h-[400px] flex border-1 border-gray-200 p-4  rounded shadow-xl shadow-gray-200 bg-white justify-center items-center md:h-[150px] md:sticky md:top-0 md:z-10 ">
           <SearchBox />

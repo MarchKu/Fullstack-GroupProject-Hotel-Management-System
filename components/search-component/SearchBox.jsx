@@ -76,7 +76,7 @@ export function SearchBox({ className }) {
   return (
     <form
       onSubmit={handleSubmit}
-      className="w-full h-[50%] md:h-[30%] md:max-h-[222px] px-[5%] py-[10%] md:p-[5%] bg-white flex justify-beyween items-center rounded-lg"
+      className="w-full h-[20%] md:h-[30%] md:max-h-[222px] px-[5%] bg-white flex justify-beyween items-center rounded-lg"
     >
       <div className="w-full h-full flex flex-col justify-between items-center md:items-center md:w-full md:flex-row md:justify-start md:h-full">
         {/* Check in */}
