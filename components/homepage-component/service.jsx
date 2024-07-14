@@ -11,7 +11,7 @@ import operation from "../../assets/service/operation.png";
 const Service = () => {
   console.log(spa.displayImage);
   return (
-    <section className="w-full h-screen min-h-[700px] md:min-h-[500px] md:h-[50vh] px-[5%]  py-[5%] bg-green-700 flex flex-col justify-between items-start text-center text-white">
+    <section className="w-full h-screen min-h-[700px] md:min-h-[500px] md:h-[50vh] px-[5%]  py-[5%] bg-green-700 flex flex-col justify-between items-start text-center text-white" id="service">
       <h2 className="w-full h-[20%] text-center content-center md:h-[50%] font-heading text-[4rem] md:text-[5rem] lg:text-[6rem]">
         Service & Facilities{" "}
       </h2>

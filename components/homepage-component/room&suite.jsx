@@ -6,10 +6,11 @@ import img4 from "../../assets/room&suite/4.png";
 import img5 from "../../assets/room&suite/5.png";
 import img6 from "../../assets/room&suite/6.png";
 import arrow from "../../assets/room&suite/arrow.svg";
+import Link from "next/link";
 
 const RoomSuite = () => {
   return (
-    <section className="w-full h-[200vh] min-h-[2140px] px-[5%] md:px-[10%] py-[6%] flex flex-col justify-start items-center gap-[2%] md:gap-[4%]">
+    <section className="w-full h-[200vh] min-h-[2140px] px-[5%] md:px-[10%] py-[6%] flex flex-col justify-start items-center gap-[2%] md:gap-[4%]" id="room&suite">
       <h2 className="font-heading w-full text-center text-[4rem] md:text-[6rem] text-primary-foreground text-primary-heading ">
         Rooms & Suits
       </h2>
@@ -24,10 +25,10 @@ const RoomSuite = () => {
               Superior Garden View
             </h3>
             <div className="flex gap-2 justify-start items-center">
-              <h1 className="font-body text-white text-[1rem] md:text-[1.5rem]">
+              <Link href="/rooms/1" className="font-body text-white text-[1rem] md:text-[1.5rem] hover:underline">
                 Explore Room
-              </h1>
-              <img src={arrow.src} />
+                <span><img src={arrow.src} /></span>
+              </Link>
             </div>
           </div>
           <div
@@ -38,10 +39,10 @@ const RoomSuite = () => {
               Deluxe
             </h3>
             <div className="flex gap-2 justify-start items-center">
-              <h1 className="font-body text-white text-[1rem] md:text-[1.5rem]">
+              <Link href="/rooms/2" className="font-body text-white text-[1rem] md:text-[1.5rem] hover:underline">
                 Explore Room
-              </h1>
-              <img src={arrow.src} />
+                <span><img src={arrow.src} /></span>
+              </Link>
             </div>
           </div>
           <div
@@ -52,10 +53,10 @@ const RoomSuite = () => {
               Superior
             </h3>
             <div className="flex gap-2 justify-start items-center">
-              <h1 className="font-body text-white text-[1rem] md:text-[1.5rem]">
+              <Link href="/rooms/3" className="font-body text-white text-[1rem] md:text-[1.5rem] hover:underline">
                 Explore Room
-              </h1>
-              <img src={arrow.src} />
+                <span><img src={arrow.src} /></span>
+              </Link>
             </div>
           </div>
         </div>
@@ -69,10 +70,10 @@ const RoomSuite = () => {
               Premier Sea View
             </h3>
             <div className="flex gap-2 justify-start items-center">
-              <h1 className="font-body text-white text-[1.25rem] md:text-[1.5rem]">
+              <Link href="/rooms/4" className="font-body text-white text-[1rem] md:text-[1.5rem] hover:underline">
                 Explore Room
-              </h1>
-              <img src={arrow.src} />
+                <span><img src={arrow.src} /></span>
+              </Link>
             </div>
           </div>
           <div
@@ -83,10 +84,10 @@ const RoomSuite = () => {
               Supreme
             </h3>
             <div className="flex gap-2 justify-start items-center">
-              <h1 className="font-body text-white text-[1rem] md:text-[1.5rem]">
+              <Link href="/rooms/5" className="font-body text-white text-[1rem] md:text-[1.5rem] hover:underline">
                 Explore Room
-              </h1>
-              <img src={arrow.src} />
+                <span><img src={arrow.src} /></span>
+              </Link>
             </div>
           </div>
           <div
@@ -97,34 +98,15 @@ const RoomSuite = () => {
               Suite
             </h3>
             <div className="flex gap-2 justify-start items-center">
-              <h1 className="font-body text-white text-[1rem] md:text-[1.5rem]">
+              <Link href="/rooms/6" className="font-body text-white text-[1rem] md:text-[1.5rem] hover:underline">
                 Explore Room
-              </h1>
-              <img src={arrow.src} />
+                <span><img src={arrow.src} /></span>
+              </Link>
             </div>
           </div>
         </div>
       </div>
 
-      {/* show only above md screen size */}
-      {/* 
-
-          <div className="w-[60%] flex flex-col gap-5">
-            <div
-              className="h-[50%] bg-center flex flex-col justify-end p-[5%] bg-cover bg-slate-300 bg-blend-multiply"
-              style={{ backgroundImage: `url(${img5.src})` }}
-            >
-              
-            </div>
-            <div
-              className="h-[50%] bg-center flex flex-col justify-end p-[5%] bg-cover bg-slate-300 bg-blend-multiply"
-              style={{ backgroundImage: `url(${img6.src})` }}
-            >
-              
-            </div>
-          </div>
-        </div>
-      </div> */}
     </section>
   );
 };
