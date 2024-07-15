@@ -1,97 +1,108 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import neatlyIcon from "../../assets/Navigation/neatlyLogo.png";
-import Image from "next/image";
+import { useForm } from "react-hook-form";
 import axios from "axios";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+import { Form } from "@/components/ui/formComponent";
+import InputFile from "../ui/uploadFile";
+import FormFieldComponent from "../ui/FormField";
 
+const hotelSchema = z.object({
+  hotelName: z.string().min(1),
+  hotelDescription: z.string().min(2),
+  hotelLogo: z.custom((file) => file instanceof File, {
+    message: "Hotel Logo is required",
+  }),
+});
 const Main = () => {
-  const [hotelData, setHotelData] = useState({});
+  const form = useForm({
+    resolver: zodResolver(hotelSchema),
+  });
+
+  const { reset } = form;
+
   useEffect(() => {
     const getHotelData = async () => {
       const result = await axios.get("http://localhost:3000/api/getHotelData");
-      // console.log("result: ", result.data.data);
-      await setHotelData({
-        ...result.data.data,
+
+      console.log("hotelData: ", result.data.data);
+
+      reset({
+        hotelName: result.data.data.hotel_name,
+        hotelDescription: result.data.data.hotel_description,
+        hotelLogo: result.data.data.hotel_logo,
       });
     };
     getHotelData();
-    console.log(hotelData);
-  }, []);
+  }, [reset]);
 
   const updateHotelData = async (data) => {
     try {
-      await axios.post(
-        "http://localhost:3000/api/updateHotelProperties",
-        data,
-        {
-          headers: { "Content-Type": "multipart/form-data" },
-        }
-      );
+      await axios.post("http://localhost:3000/api/hotel/property", data, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
     } catch (error) {
       console.log(error);
     }
   };
+  const onSubmit = async (data) => {
+    const formData = new FormData();
+    formData.append("hotelName", data.hotelName);
+    formData.append("hotelDescription", data.hotelDescription);
+    formData.append("hotelLogo", data.hotelLogo);
+    formData.append("adminId", 1);
 
-  const handleHotelName = (e) => {
-    let newHotelData = { ...hotelData };
-    newHotelData.hotel_name = e.target.value;
-    setHotelData(newHotelData);
+    updateHotelData(formData);
   };
-  const handleHotelDescription = (e) => {
-    let newHotelData = { ...hotelData };
-    newHotelData.hotel_description = e.target.value;
-    setHotelData(newHotelData);
-  };
-
 
   return (
-    <form className="w-full bg-[#F6F7FC]">
-      <section className="flex justify-between items-center px-[60px] py-[25px] bg-white h-[80px]">
-        <h1 className="text-xl font-semibold">Hotel Information</h1>
-        <button className="bg-[#C14817] text-white h-12 px-8 rounded">
-          Update
-        </button>
-      </section>
-      <section className="bg-white mx-[60px] my-10 py-10 px-[80px] rounded flex flex-col gap-10">
-        
+    <Form {...form}>
+      <form
+        className="w-full bg-[#F6F7FC]"
+        onSubmit={form.handleSubmit(onSubmit)}
+      >
+        <section className="flex justify-between items-center px-[60px] py-[25px] bg-white h-[80px]">
+          <h1 className="text-xl font-semibold">Hotel Information</h1>
+          <button
+            className="bg-[#C14817] text-white h-12 px-8 rounded"
+            type="submit"
+          >
+            Update
+          </button>
+        </section>
+        <section className="bg-white mx-[60px] my-10 py-10 px-[80px] rounded flex flex-col gap-10">
           <div className="flex flex-col gap-1">
-            <label htmlFor="">Hotel name *</label>
-            <input
+            <FormFieldComponent
+              control={form.control}
+              name="hotelName"
+              label="Hotel Name*"
               type="text"
-              value={hotelData.hotel_name}
-              className="border-[1px] border-[#D6D9E4] py-[6px] px-3 rounded"
-              onChange={handleHotelName}
+              placeholder="Enter your name and last name"
             />
           </div>
           <div className="flex flex-col gap-1">
-            <label htmlFor="">Hotel description *</label>
-            <textarea
-              type="text"
-              value={hotelData.hotel_description}
-              rows={6}
-              className="border-[1px] border-[#D6D9E4] py-[6px] px-3 rounded resize-y"
-              onChange={handleHotelDescription}
+            <FormFieldComponent
+              control={form.control}
+              name="hotelDescription"
+              label="Hotel Description*"
+              type="textarea"
+              placeholder="Enter description"
             />
           </div>
           <div className="flex flex-col gap-2">
-            <label htmlFor="">Hotel logo *</label>
-            {hotelData.logo ? (
-              <div className="relative w-[167px] h-[167px] flex bg-[#F1F2F6] rounded">
-                <Image src={hotelData.logo} className="object-contain" />
-                <button className="absolute top-0 right-0 w-6 h-6 pb-[2px] rounded-full bg-[#B61515] text-white flex justify-center items-center">
-                  x
-                </button>
-              </div>
-            ) : (
-              <input
-                type="file"
-                className="border-[1px] border-[#D6D9E4] py-[6px] px-3 rounded resize-none"
-              />
-            )}
+
+            <InputFile
+              control={form.control}
+              name="hotelLogo"
+              label="Hotel Logo*"
+              id="hotelLogo"
+              type="file"
+            />
           </div>
-        
-      </section>
-    </form>
+        </section>
+      </form>
+    </Form>
   );
 };
 
