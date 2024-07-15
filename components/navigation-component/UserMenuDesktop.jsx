@@ -17,7 +17,7 @@ import logoutIcon from "../../assets/Navigation/logoutIcon.png";
 import { useAuth } from "@/contexts/authentication";
 import { useRouter } from "next/router";
 
-const UserMenuDesktop = () => {
+const UserMenuDesktop = (props) => {
   const { logout } = useAuth();
   const router = useRouter();
   const {image, name} = props
