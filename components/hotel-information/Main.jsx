@@ -1,5 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
+import Image from "next/image";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -7,6 +8,7 @@ import { z } from "zod";
 import { Form } from "@/components/ui/formComponent";
 import InputFile from "../ui/uploadFile";
 import FormFieldComponent from "../ui/FormField";
+import toastr from "toastr";
 
 const hotelSchema = z.object({
   hotelName: z.string().min(1),
@@ -16,6 +18,8 @@ const hotelSchema = z.object({
   }),
 });
 const Main = () => {
+  const [hotelData, setHotelData] = useState({});
+  const [hasImage, setHasImage] = useState(true);
   const form = useForm({
     resolver: zodResolver(hotelSchema),
   });
@@ -25,8 +29,9 @@ const Main = () => {
   useEffect(() => {
     const getHotelData = async () => {
       const result = await axios.get("http://localhost:3000/api/getHotelData");
-
-      console.log("hotelData: ", result.data.data);
+      setHotelData(result.data.data);
+      console.log("hotelData: ", hotelData);
+      console.log("has image: ", hasImage);
 
       reset({
         hotelName: result.data.data.hotel_name,
@@ -37,13 +42,20 @@ const Main = () => {
     getHotelData();
   }, [reset]);
 
+  useEffect(() => {
+    hotelData.hotel_logo ? setHasImage(true) : setHasImage(false);
+    console.log(hotelData);
+  }, [hotelData]);
+
   const updateHotelData = async (data) => {
     try {
       await axios.post("http://localhost:3000/api/hotel/property", data, {
         headers: { "Content-Type": "multipart/form-data" },
       });
+      toastr["success"]("Updated hotel information successfully");
     } catch (error) {
       console.log(error);
+      toastr["error"]("Failed to updat hotel information successfully");
     }
   };
   const onSubmit = async (data) => {
@@ -91,14 +103,34 @@ const Main = () => {
             />
           </div>
           <div className="flex flex-col gap-2">
-
-            <InputFile
-              control={form.control}
-              name="hotelLogo"
-              label="Hotel Logo*"
-              id="hotelLogo"
-              type="file"
-            />
+            {hasImage ? (
+              <>
+                <label htmlFor="">Hotel logo *</label>
+                <div className="relative w-[167px] h-[167px] flex justify-center bg-[#F1F2F6] rounded">
+                  <Image
+                    src={hotelData.hotel_logo}
+                    className="object-contain"
+                    width={160}
+                    height={160}
+                    alt={hotelData.hotel_name}
+                  />
+                  <button
+                    className="absolute top-0 right-0 w-6 h-6 pb-[2px] rounded-full bg-[#B61515] text-white flex justify-center items-center"
+                    onClick={() => setHasImage(false)}
+                  >
+                    x
+                  </button>
+                </div>
+              </>
+            ) : (
+              <InputFile
+                control={form.control}
+                name="hotelLogo"
+                label="Hotel Logo*"
+                id="hotelLogo"
+                type="file"
+              />
+            )}
           </div>
         </section>
       </form>
