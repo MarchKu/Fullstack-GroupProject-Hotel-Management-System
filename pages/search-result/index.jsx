@@ -34,6 +34,25 @@ export default function Search_result() {
   const [isRoomImgOpen, setIsRoomImgOpen] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
+  const router = useRouter()
+
+  const [user, setUser] = useState({});
+  useEffect(() => {
+    const fetchUserData = async () => {
+      const userData = localStorage.getItem("user");
+      if (userData) {
+        const parsedData = JSON.parse(userData);
+        setUser(parsedData);
+      }
+    };
+    fetchUserData();
+  }, []);
+
+  useEffect(() => {
+    console.log("user:", user);
+    console.log("user:", user.fullName);
+  }, [user]);
+
   useEffect(() => {
     const token = localStorage.getItem("token");
     setIsAuthenticated(Boolean(token));
@@ -93,7 +112,7 @@ export default function Search_result() {
                     onClick={handlePopUpRoomImage}
                   />
                 </div>
-                <div className="h-[55%] md:h-full md:w-[45%] xl:w-[50%]"> 
+                <div className="h-[55%] md:h-full md:w-[45%] xl:w-[50%]">
                   <div className="py-[5%] size-full flex flex-col md:w-full md:h-full md:justify-between ">
                     <div className="md:flex">
                       <div className="w-full md:w-[50%] flex flex-col gap-[1.5rem]">
@@ -101,8 +120,12 @@ export default function Search_result() {
                           {room.type_name}
                         </h1>
                         <div className="w-full text-gray-700 flex md:text-[0.7rem] xl:text-[1.5rem]">
-                          <span className="text-center">{room.room_capacity} Guests</span>
-                          <span className="border-x border-gray-500 mx-2 px-2 text-center">{room.bed_type}</span>
+                          <span className="text-center">
+                            {room.room_capacity} Guests
+                          </span>
+                          <span className="border-x border-gray-500 mx-2 px-2 text-center">
+                            {room.bed_type}
+                          </span>
                           <span className="text-center">{room.room_size}</span>
                         </div>
                         <p className="w-full text-gray-700 mb-4 xl:text-[1.5rem]">
@@ -119,7 +142,9 @@ export default function Search_result() {
                           </p>
                         </div>
                         <div className="my-4">
-                          <p className="text-gray-700 xl:text-[1.25rem]">Per Night</p>
+                          <p className="text-gray-700 xl:text-[1.25rem]">
+                            Per Night
+                          </p>
                           <p className="text-gray-700 xl:text-[1.25rem]">
                             (Including Taxes & Fees)
                           </p>
@@ -134,7 +159,15 @@ export default function Search_result() {
                       >
                         Room Detail
                       </Button>
-                      <Button className="w-40 xl:w-[180px] rounded xl:text-[1.25rem]">Book Now</Button>
+                      {isAuthenticated ? (
+                        <Button className="w-40 xl:w-[180px] rounded xl:text-[1.25rem]" onClick={()=>router.push("/booking")}>
+                          Book Now
+                        </Button>
+                      ) : (
+                        <Button className="w-40 xl:w-[180px] rounded xl:text-[1.25rem]" onClick={()=>router.push("/login")}>
+                          Book Now
+                        </Button>
+                      )}
                     </div>
                   </div>
 
