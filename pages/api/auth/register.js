@@ -10,6 +10,19 @@ export default async function POST(req, res) {
 
   const user = { ...req.body };
 
+  if (
+    !user.username ||
+    !user.password ||
+    !user.email ||
+    !user.full_name ||
+    !user.id_number ||
+    !user.date_of_birth ||
+    !user.country ||
+    !req.file
+  ) {
+    return res.status(401).json({ message: "Missing data, please try again." });
+  }
+
   const checkUsername = await connectionPool.query(
     `
     SELECT *
@@ -78,7 +91,7 @@ export default async function POST(req, res) {
       upLoadResult = await uploadFile(
         buffer,
         "user_uploads",
-        `profile_pictures/${user.username}`,
+        `profile_pictures/${userId}`,
         mimetype
       );
     }

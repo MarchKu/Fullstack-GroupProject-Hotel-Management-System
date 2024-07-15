@@ -36,6 +36,8 @@ export default async function POST(req, res) {
     {
       fullName: userData.full_name,
       profilePicture: userData.profile_picture,
+      username: userData.username,
+      userId: userData.user_id,
     },
     "ae1f83fefc225dcde470245736067d411c8220ffbd4a45317ee8d18e3a0653e9",
     { expiresIn: 900000 }
