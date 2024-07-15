@@ -2,7 +2,7 @@ import connectionPool from "@/utils/connectionPool/db";
 import hotelLogoMulter, {
   runHotelLogoMulter,
 } from "@/middleware/hotelLogoMulter";
-import { uploadLogo } from "./uploadHotelLogo";
+import { uploadLogo } from "../uploadHotelLogo";
 
 export default async function POST(req, res) {
   await runHotelLogoMulter(req, res, hotelLogoMulter);
