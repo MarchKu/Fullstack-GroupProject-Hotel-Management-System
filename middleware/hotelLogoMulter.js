@@ -4,10 +4,10 @@ const storage = multer.memoryStorage();
 
 const upload = multer({ storage: storage });
 
-const hotelLogoMulter = upload.single("hotel_logo");
+const hotelLogoMulter = upload.single("hotelLogo");
 
 export const runHotelLogoMulter = (req, res, fn) => {
-  return Promise((resolve, reject) => {
+  return new Promise((resolve, reject) => {
     fn(req, res, (result) => {
       if (result instanceof Error) {
         return reject(result);

@@ -2,7 +2,7 @@ import connectionPool from "@/utils/connectionPool/db";
 import hotelLogoMulter, {
   runHotelLogoMulter,
 } from "@/middleware/hotelLogoMulter";
-import { uploadLogo } from "@api/uploadHotelLogo";
+import { uploadLogo } from "@/pages/api/uploadHotelLogo";
 
 export default async function POST(req, res) {
   await runHotelLogoMulter(req, res, hotelLogoMulter);
@@ -15,8 +15,8 @@ export default async function POST(req, res) {
            values ($1, $2, $3)
            RETURNING hotel_property_id`,
       [
-        hotelProperties.name,
-        hotelProperties.description,
+        hotelProperties.hotelName,
+        hotelProperties.hotelDescription,
         hotelProperties.adminId,
       ]
     );
@@ -30,8 +30,8 @@ export default async function POST(req, res) {
 
       upLoadResult = await uploadLogo(
         buffer,
-        "user_uploads",
-        `hotel_logo/${hotelProperties.name}`,
+        "admin_uploads",
+        `hotel_images/${hotelProperties.hotelName}`,
         mimetype
       );
     }
@@ -42,7 +42,7 @@ export default async function POST(req, res) {
       ` 
             UPDATE hotel_properties
             SET hotel_logo = $1
-            WHERE hotel_id = $2`,
+            WHERE hotel_property_id = $2`,
       [imageUrl, hotelPropertiesId]
     );
 
