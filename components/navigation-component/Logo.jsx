@@ -14,7 +14,7 @@ const Logo = () => {
         <Image
           src={neatlyLogo}
           alt="Neatly Logo"
-          className="md:min-w-[167px] md:h-[45px] w-[94px] h-[25px]"
+          className="lg:min-w-[167px] lg:h-[45px] md:w-[94px] w-[94px] h-[25px]"
         />
       </NavigationMenuLink>
     </Link>

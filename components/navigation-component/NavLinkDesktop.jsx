@@ -4,17 +4,21 @@ import { NavigationMenu, NavigationMenuLink } from "../ui/navigation-menu";
 
 const NavLinkDesktop = () => {
   return (
-    <div className="hidden gap-[1rem] md:w-full md:min-w-[585px] md:flex md:pl-[10%]">
-      <Link href="/" legacyBehavior passHref>
-        <NavigationMenuLink className="px-3">About Neatly</NavigationMenuLink>
+    <div className="w-full hidden md:flex md:flex-1 mx-2 gap-3 pt-[2px]">
+      <Link href="/#about" legacyBehavior passHref>
+        <NavigationMenuLink className="whitespace-nowrap px-3">
+          About Neatly
+        </NavigationMenuLink>
       </Link>
-      <Link href="/" legacyBehavior passHref>
-        <NavigationMenuLink className="px-3">
+      <Link href="/#service" legacyBehavior passHref>
+        <NavigationMenuLink className="whitespace-nowrap px-3">
           Service & Facilities
         </NavigationMenuLink>
       </Link>
-      <Link href="/" legacyBehavior passHref>
-        <NavigationMenuLink className="px-3">Rooms & Suits</NavigationMenuLink>
+      <Link href="/#room&suite" legacyBehavior passHref>
+        <NavigationMenuLink className="whitespace-nowrap px-3">
+          Rooms & Suits
+        </NavigationMenuLink>
       </Link>
     </div>
   );

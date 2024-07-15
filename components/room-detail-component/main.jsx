@@ -11,11 +11,35 @@ import { Card, CardContent } from "@/components/ui/card";
 import { carouselAbout } from "@/utils/carousel-info-array/carousel-about";
 import { Button } from "@/components/ui/button";
 import useRoomData from "@/hooks/use-room-data";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
+import Loading from "./loading";
 
 const RoomDetail = () => {
   const router = useRouter();
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [user, setUser] = useState({});
+  useEffect(() => {
+    const fetchUserData = async () => {
+      const userData = localStorage.getItem("user");
+      if (userData) {
+        const parsedData = JSON.parse(userData);
+        setUser(parsedData);
+      }
+    };
+    fetchUserData();
+  }, []);
+
+  useEffect(() => {
+    console.log("user:", user);
+    console.log("user:", user.fullName);
+  }, [user]);
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    setIsAuthenticated(Boolean(token));
+  }, []);
+
   const { id } = router.query;
 
   const { roomData, getRoomDetailByID, isLoading, isError } = useRoomData();
@@ -30,28 +54,26 @@ const RoomDetail = () => {
   }, [id]);
 
   if (isLoading || id === null || id === undefined) {
-    return <h1>Loading...</h1>;
+    return <Loading />;
   }
   if (isError) {
     return <h1>Error fetching data</h1>;
   }
 
-  const carouselImg = carouselAbout;
-
   return roomData ? (
-    <section className="w-full h-[150vh] py-[5%] flex flex-col justify-startitem center overflow-hidden">
-      <div className="w-screen h-[30%] md:h-[40%]">
+    <section className="w-full min-h-[1000px] h-[200vh] md:h-[150vh] md:min-h-[1600px] py-[5%] flex flex-col justify-start items-center overflow-hidden">
+      <div className="w-full h-[30%] md:h-[40%] ">
         <Carousel
           opts={{
             align: "start",
             loop: true,
           }}
-          className="w-full h-full"
+          className="w-screen h-full"
         >
           <CarouselContent className="w-full h-full ">
             {roomData.gallery_images.map((img, index) => (
               <CarouselItem key={index}>
-                <Card className="w-full h-full">
+                <Card className="w-screen md:w-full h-full">
                   <CardContent className="w-full h-full flex items-center justify-center p-0">
                     <div
                       className="size-full bg-center bg-cover bg-slate-300 bg-ble"
@@ -66,13 +88,13 @@ const RoomDetail = () => {
           <CarouselNext />
         </Carousel>
       </div>
-      <div className="w-full h-[60%] pt-[5%] px-[5%] md:px-[15%] flex flex-col gap-[5%] md:gap-[8%]">
-        <h2 className="w-full h-[20%] text-[4rem] md:text-[5rem] text-start content-center font-heading text-primary-heading">
+      <div className="w-full h-[70%] md:h-[60%] pt-[5%] px-[5%] md:px-[15%] flex flex-col gap-[2.5%] md:gap-[5%]">
+        <h2 className="w-full h-[10%] text-[3rem] md:text-[4rem] xl:text-[6rem] text-start content-center font-heading text-primary-heading">
           {roomData.type_name}
         </h2>
         {/* Need to render */}
         <div className="w-full h-[30%] flex flex-col md:flex-row items-center justify-between">
-          <div className="w-full md:w-[50%] h-full flex flex-col justify-between font-body md:text-[1.25rem] gap-[1.5rem] md:gap-[2rem]">
+          <div className="w-full md:w-[50%] h-full flex flex-col justify-between font-body md:text-[1.25rem] xl:text-[1.5rem] gap-[1.5rem] md:gap-[2rem]">
             <p className="h-[80%] text-secondary-body">
               {/* render data */}
               {roomData.room_description}
@@ -94,37 +116,53 @@ const RoomDetail = () => {
           </div>
           <div className="w-full md:w-[50%] h-full flex md:flex-col justify-between items-end font-body pt-[1.5rem]">
             <div>
-              <p className="text-[1.25rem] text-end text-secondary-body">
+              <p className="md:text-[1.25rem] text start md:text-end text-secondary-body xl:text-[1.5rem]">
                 <s>
                   {/* render data */}
                   THB {roomData.current_price}
                 </s>
-              </p>
-              <p className="text-[1.5rem] text-start font-bold">
+              </p>  
+              <p className="text-[1.25rem] md:text-[1.5rem] xl:text-[1.7rem]  font-bold">
                 {/* render data */}
                 THB {roomData.promotional_price}
               </p>
             </div>
 
-            <Button className="w-[180px] h-[4rem] text-[1.25rem] font-body">
-              Book Now
-            </Button>
+            {isAuthenticated ? (
+              <Button
+                className="w-40 xl:w-[180px] rounded xl:text-[1.5rem]"
+                onClick={() => router.push("/booking")}
+              >
+                Book Now
+              </Button>
+            ) : (
+              <Button
+                className="w-40 xl:w-[180px] rounded xl:text-[1.25rem]"
+                onClick={() => router.push("/login")}
+              >
+                Book Now
+              </Button>
+            )}
           </div>
         </div>
         <hr />
-        <div className="w-full h-[50%]">
+        <div className="w-full h-[60%]">
           <h3 className="font-body font-bold text-[1.5rem]">Room Amenities</h3>
-          <div className="w-full grid md:grid-cols-2 md:text-[1.25rem] font-body pt-8 text-secondary-body">
+          <div className="w-full flex flex-col md:flex-row md:flex-wrap text-[1rem] lg:text-[1.25rem] xl:text-[1.5rem] font-body pt-8 text-secondary-body">
             {/* render data */}
             {roomData.amenities.map((info, index) => {
-              return <li className=" h-[2rem]" key={index}>{info}</li>;
+              return (
+                <li className="w-full md:w-[50%]" key={index}>
+                  {info}
+                </li>
+              );
             })}
           </div>
         </div>
       </div>
     </section>
   ) : (
-    <h1> Loading...</h1>
+    <Loading />
   );
 };
 

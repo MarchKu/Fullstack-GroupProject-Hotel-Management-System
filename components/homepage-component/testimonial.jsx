@@ -15,8 +15,8 @@ import emblaCarouselAutoplay from "embla-carousel-autoplay";
 const Testimonial = () => {
   const carouselInfo = carouselTestimonial;
   return (
-    <section className="w-full h-[70vh] bg-green-200 flex flex-col gap-[2rem]">
-      <h2 className="w-full h-[20%] text-[4.5rem] md:text-[7rem] font-heading text-center content-center text-primary-heading">
+    <section className="w-full min-h-[750px] h-[70vh] bg-green-200 flex flex-col gap-[2rem] py-[10%]">
+      <h2 className="w-full h-[20%] text-[3.5rem] md:text-[5rem] lg:text-[6rem] font-heading text-center content-center text-primary-heading">
         Our Customer Says
       </h2>
       <div className="h-[80%]">
@@ -37,9 +37,9 @@ const Testimonial = () => {
             {carouselInfo.map((info, index) => (
               <CarouselItem key={index}>
                 <Card className="size-full rounded-none bg-green-200 px-[5%] md:px-[10%]">
-                  <CardContent className="h-full flex items-center justify-center p-0">
-                    <div className="size-full flex flex-col justify-start items-center gap-10 pt-[8%]">
-                      <p className="w-full text-center text-[1.5rem] md:text-[2.5rem] font-body px-0 md:px-[10%] text-primary-heading">
+                  <CardContent className="h-full flex items-center justify-between p-0">
+                    <div className="size-full flex flex-col justify-start items-center gap-10 pt-[5%]">
+                      <p className="w-full text-center text-[1.5rem] md:text-[1.7rem] xl:text-[2rem] font-body px-0 md:px-[10%] text-primary-heading">
                         {info.review}
                       </p>
                       <div className="flex gap-5 justify-center items-center">
@@ -50,7 +50,7 @@ const Testimonial = () => {
                           />
                           <AvatarFallback>CN</AvatarFallback>
                         </Avatar>
-                        <p className="font-body text-[1.25rem] md:text-[2rem] text-gray-600">{info.name}</p>
+                        <p className="font-body text-[1.25rem] md:text-[1.5rem] text-gray-600">{info.name}</p>
                       </div>
                     </div>
                   </CardContent>
