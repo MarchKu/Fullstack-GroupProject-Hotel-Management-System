@@ -9,15 +9,11 @@ const login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
-  const { login } = useAuth();
+  const { adminLogin } = useAuth();
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    const data = {
-      username,
-      password,
-    };
-    login(data);
+    adminLogin(username, password);
   };
   return (
     <>
