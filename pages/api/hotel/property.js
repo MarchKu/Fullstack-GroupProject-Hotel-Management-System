@@ -11,13 +11,13 @@ export default async function POST(req, res) {
 
   try {
     const hotelData = await connectionPool.query(
-      `INSERT INTO hotel_properties (hotel_name, hotel_description, admin_id)
+      `INSERT INTO hotel_properties (hotel_name, hotel_description, admin_username)
            values ($1, $2, $3)
            RETURNING hotel_property_id`,
       [
         hotelProperties.hotelName,
         hotelProperties.hotelDescription,
-        hotelProperties.adminId,
+        hotelProperties.adminUsername,
       ]
     );
 

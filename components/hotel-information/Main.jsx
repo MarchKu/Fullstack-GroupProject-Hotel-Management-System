@@ -20,6 +20,7 @@ const hotelSchema = z.object({
 const Main = () => {
   const [hotelData, setHotelData] = useState({});
   const [hasImage, setHasImage] = useState(true);
+  const [adminData, setAdminData] = useState(null);
   const form = useForm({
     resolver: zodResolver(hotelSchema),
   });
@@ -30,8 +31,6 @@ const Main = () => {
     const getHotelData = async () => {
       const result = await axios.get("http://localhost:3000/api/getHotelData");
       setHotelData(result.data.data);
-      console.log("hotelData: ", hotelData);
-      console.log("has image: ", hasImage);
 
       reset({
         hotelName: result.data.data.hotel_name,
@@ -39,13 +38,24 @@ const Main = () => {
         hotelLogo: result.data.data.hotel_logo,
       });
     };
+
+    const getAdminData = () => {
+      const admin = localStorage.getItem("admin");
+      const parsedAdminData = JSON.parse(admin);
+      const adminUsername = parsedAdminData.username;
+      console.log("adminUsername: ", adminUsername);
+      setAdminData(adminUsername);
+    };
+
     getHotelData();
+    getAdminData();
   }, [reset]);
 
   useEffect(() => {
     hotelData.hotel_logo ? setHasImage(true) : setHasImage(false);
+    console.log(adminData);
     console.log(hotelData);
-  }, [hotelData]);
+  }, [hotelData, adminData]);
 
   const updateHotelData = async (data) => {
     try {
@@ -63,7 +73,7 @@ const Main = () => {
     formData.append("hotelName", data.hotelName);
     formData.append("hotelDescription", data.hotelDescription);
     formData.append("hotelLogo", data.hotelLogo);
-    formData.append("adminId", 1);
+    formData.append("adminUsername", adminData);
 
     updateHotelData(formData);
   };
