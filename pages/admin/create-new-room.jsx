@@ -1,15 +1,28 @@
-import React from "react";
+"use client";
+
+import React, { useState } from "react";
 import Sidebar from "@/components/admin-side/Sidebar";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { Form } from "@/components/ui/formComponent";
-import FormFieldComponent from "@/components/ui/FormField";
-import DatePicker from "@/components/ui/datePick";
-import CountryPicker from "@/components/ui/countryPick";
-import InputFile from "@/components/ui/uploadFile";
-import { useAuth } from "@/contexts/authentication";
-import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
 
 const createRoomSchema = z.object({
   roomType: z.string(),
@@ -35,6 +48,9 @@ const createRoomSchema = z.object({
 });
 
 const CreateNewRoom = () => {
+  const [isDisabled, setIsDisabled] = useState(false);
+  const [selectedBedValue, setSelectedBedValue] = useState("Double bed");
+  const [selectedGuestValue, setSelectedGuestValue] = useState("2");
   const form = useForm({
     resolver: zodResolver(createRoomSchema),
     defaultValues: {
@@ -95,137 +111,164 @@ const CreateNewRoom = () => {
               Create
             </button>
           </article>
-
           <article className="w-full flex flex-col gap-10 mx-[60px] mt-10 px-20 pt-10 bg-white">
             <h2 className="w-full font-semibold text-xl text-[#9AA1B9]">
               Basic Information
             </h2>
-            <FormFieldComponent
+            <FormField
               control={form.control}
               name="roomType"
-              label="Room Type *"
-              type="text"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Room Type *</FormLabel>
+                  <FormControl>
+                    <Input {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
             />
-
+            {/* ---------- Room size & Bed type ---------- */}
             <div className="w-full flex gap-10">
               <div className="w-full">
-                <FormFieldComponent
+                <FormField
                   control={form.control}
                   name="roomSize"
-                  label="Room size (sqm) *"
-                  type="text"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Room size (sqm) *</FormLabel>
+                      <FormControl>
+                        <Input {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
                 />
               </div>
+
               <div className="w-full">
-                <FormFieldComponent
+                <FormField
                   control={form.control}
                   name="bedType"
-                  label="Room Type *"
-                  type="text"
+                  render={() => (
+                    <FormItem>
+                      <FormLabel>Bed type *</FormLabel>
+                      <FormControl>
+                        <Select
+                          value={selectedBedValue}
+                          onValueChange={setSelectedBedValue}
+                        >
+                          <SelectTrigger className="w-full">
+                            <SelectValue placeholder="Select a fruit" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectGroup>
+                              <SelectItem value="Double bed">
+                                Double bed
+                              </SelectItem>
+                              <SelectItem value="Single bed">
+                                Single bed
+                              </SelectItem>
+                            </SelectGroup>
+                          </SelectContent>
+                        </Select>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
                 />
               </div>
             </div>
-          </article>
 
-          {/*               
-          <div className="md:col-span-2">
-            <FormFieldComponent
+            {/* ---------- Guest ---------- */}
+            <div className="w-1/2 flex flex-col">
+              <FormField
+                control={form.control}
+                name="guest"
+                render={() => (
+                  <FormItem className="pr-5">
+                    <FormLabel>Guest(s) *</FormLabel>
+                    <FormControl>
+                      <Select
+                        value={selectedGuestValue}
+                        onValueChange={setSelectedGuestValue}
+                      >
+                        <SelectTrigger className="w-full">
+                          <SelectValue placeholder="Select a fruit" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectGroup>
+                            <SelectItem value="2">2</SelectItem>
+                            <SelectItem value="4">4</SelectItem>
+                          </SelectGroup>
+                        </SelectContent>
+                      </Select>
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+            </div>
+
+            {/* ---------- Price & Promotion ---------- */}
+            <div className="w-full flex gap-10 items-end">
+              <div className="w-full">
+                <FormField
+                  control={form.control}
+                  name="pricePerNight"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Price per Night (THB) *</FormLabel>
+                      <FormControl>
+                        <Input {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+              <div className="w-full flex gap-4">
+                <input
+                  type="checkbox"
+                  name=""
+                  id="setIsDisabled"
+                  className="w-6"
+                  checked={isDisabled}
+                  onChange={() => setIsDisabled(!isDisabled)}
+                />
+                <label htmlFor="setIsDisabled">Promotion Price</label>
+                <FormField
+                  control={form.control}
+                  name="promotionPrice"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormControl>
+                        <Input
+                          {...field}
+                          disabled={isDisabled ? false : true}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+            </div>
+
+            {/* ---------- Room Description ---------- */}
+            <FormField
               control={form.control}
-              name="fullName"
-              label="Full Name"
-              type="text"
-              placeholder="Enter your name and last name"
+              name="roomDescription"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Room Description *</FormLabel>
+                  <FormControl>
+                    <Input {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
             />
-          </div>
-
-          <FormFieldComponent
-            control={form.control}
-            name="username"
-            label="Username"
-            type="text"
-            placeholder="Enter your username"
-          />
-          <FormFieldComponent
-            control={form.control}
-            name="email"
-            label="Email"
-            type="email"
-            placeholder="Enter your email"
-          />
-          <FormFieldComponent
-            control={form.control}
-            name="password"
-            label="Password"
-            type="password"
-            placeholder="Enter your password"
-          />
-          <FormFieldComponent
-            control={form.control}
-            name="idNumber"
-            label="ID Number"
-            type="text"
-            placeholder="Enter your ID number"
-          />
-          <DatePicker
-            control={form.control}
-            name="dateBirth"
-            label="Date of Birth"
-            placeholder="Enter your date of birth"
-          />
-
-          <CountryPicker
-            control={form.control}
-            name="country"
-            label="Country"
-            placeholder="Select your country"
-          />
-          <div className="col-span-2 border-b border-[#E4E6ED]"></div>
-
-          <InputFile
-            control={form.control}
-            name="profilepic"
-            label="Upload  Picture"
-            id="profilepic"
-            type="file"
-          />
-
-          <h1 className="border-t pt-5 border-[#E4E6ED] text-xl col-span-2 font-semibold  tracking-tighter text-[#9AA1B9]">
-            Credit Card
-          </h1>
-          <FormFieldComponent
-            control={form.control}
-            name="cardnumber"
-            label="Card Number"
-            type="text"
-            placeholder="Enter your card number"
-          />
-          <FormFieldComponent
-            control={form.control}
-            name="cardOwner"
-            label="Card Owner"
-            type="text"
-            placeholder="Enter your card name"
-          />
-          <FormFieldComponent
-            control={form.control}
-            name="expiryDate"
-            label=" Expiry Date"
-            type="text"
-            placeholder="MM/YY"
-          />
-          <FormFieldComponent
-            control={form.control}
-            name="cvv"
-            label="cvv"
-            type="text"
-            placeholder="CVC/CVV"
-          />
-          <Button
-            type="submit"
-            className="mt-5 bg-[#C14817] w-full md:col-span-1"
-          >
-            Register
-          </Button> */}
+          </article>
         </form>
       </Form>
     </div>
