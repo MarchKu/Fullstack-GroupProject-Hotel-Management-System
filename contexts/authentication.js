@@ -5,6 +5,8 @@ import axios from "axios";
 import { jwtDecode } from "jwt-decode";
 import toastr from "toastr";
 import "toastr/build/toastr.min.css";
+import { signInWithEmailAndPassword } from "@firebase/auth";
+import { auth } from "../utils/firebase-config/firebase.js";
 
 const AuthContext = React.createContext();
 
@@ -31,13 +33,9 @@ function AuthProvider(props) {
 
   const register = async (data) => {
     try {
-      const response = await axios.post(
-        "http://localhost:3000/api/auth/register",
-        data,
-        {
-          headers: { "Content-Type": "multipart/form-data" },
-        }
-      );
+      await axios.post("http://localhost:3000/api/auth/register", data, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
       toastr["success"]("You are successfully registered");
       setTimeout(function () {
         window.location.replace("/login");
@@ -57,8 +55,36 @@ function AuthProvider(props) {
     }, 1000);
   };
 
+  const adminLogin = async (email, password) => {
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+      const admin = auth.currentUser;
+      localStorage.setItem("auth", true);
+      toastr["success"]("Admin logged in successfully");
+      window.location.replace("/admin/hotel-information");
+    } catch (error) {
+      console.log(error.message);
+      toastr["error"]("Invalid username, email or password");
+      window.location.replace("/admin/login");
+    }
+  };
+
+  const adminLogout = async () => {
+    try {
+      auth.signOut();
+      localStorage.removeItem("auth");
+      localStorage.removeItem("admin");
+      window.location.replace("/admin/login");
+      toastr["success"]("Admin logged out successfully");
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
   return (
-    <AuthContext.Provider value={{ login, logout, register }}>
+    <AuthContext.Provider
+      value={{ login, logout, register, adminLogin, adminLogout }}
+    >
       {props.children}
     </AuthContext.Provider>
   );

@@ -8,8 +8,11 @@ import hotelIcon from "../../assets/admin-sidebar/hotel.png";
 import manageIcon from "../../assets/admin-sidebar/manage.png";
 import roomIcon from "../../assets/admin-sidebar/room.png";
 import logoutIcon from "../../assets/admin-sidebar/logout.png";
+import { useAuth } from "@/contexts/authentication";
 
 const Sidebar = () => {
+  const { adminLogout } = useAuth();
+
   const menuLink = [
     {
       title: "Customer Booking",
@@ -50,11 +53,18 @@ const Sidebar = () => {
       </section>
 
       <Link
-        href="/logout"
+        href=""
         className="flex w-full hover:bg-[#5D7B6A] text-white gap-4 pl-6 py-6 items-center"
       >
         <Image src={logoutIcon} width={24} height={24} alt="logout icon" />
-        <p className="font-medium">Log out</p>
+        <p
+          className="font-medium"
+          onClick={() => {
+            adminLogout();
+          }}
+        >
+          Log out
+        </p>
       </Link>
     </aside>
   );
