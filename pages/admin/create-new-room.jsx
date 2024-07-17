@@ -6,6 +6,9 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Input } from "@/components/ui/input";
+import UploadMainImage from "@/components/admin-side/uploadMainImage";
+import UploadimageGallery from "@/components/admin-side/UploadimageGallery";
+import { Textarea } from "@/components/ui/textarea";
 import {
   Select,
   SelectContent,
@@ -262,12 +265,21 @@ const CreateNewRoom = () => {
                 <FormItem>
                   <FormLabel>Room Description *</FormLabel>
                   <FormControl>
-                    <Input {...field} />
+                    <Textarea className="resize-none" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
+            <h2 className="text-xl font-semibold text-[#9AA1B9] pt-6 border-t-[1px]">
+              Room Image
+            </h2>
+
+            <UploadMainImage control={form.control} name="mainImage" />
+            <UploadimageGallery control={form.control} name="imageGallery" />
+            <h2 className="text-xl font-semibold text-[#9AA1B9] pt-6 border-t-[1px]">
+              Room Amenities
+            </h2>
           </article>
         </form>
       </Form>
