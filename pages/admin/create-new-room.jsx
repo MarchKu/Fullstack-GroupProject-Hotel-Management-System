@@ -112,24 +112,26 @@ const CreateNewRoom = () => {
   };
 
   return (
-    <div className="flex w-full">
+    <div className="flex w-full bg-[#2F3E35]">
       <Sidebar />
-      <FormProvider {...form}>
+      <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="flex items-center w-full flex-col bg-[#F6F7FC]"
+          className="flex items-center w-full flex-col bg-[#F6F7FC] pb-[135px]"
         >
           <article className="w-full flex items-center gap-4 bg-white px-[60px] py-[25px] ">
             <h1 className="w-full font-semibold text-xl">Create New Room</h1>
-            <button className="bg-white text-[#E76B39] font-semibold rounded border-[1px] border-[#E76B39] px-8 py-4">
+            <Button
+              className="bg-white text-[#E76B39] font-semibold rounded border-[1px] border-[#E76B39] px-8 py-4"
+            >
               Cancel
-            </button>
-            <button
+            </Button>
+            <Button
               type="submit"
               className="bg-[#C14817] text-white font-semibold rounded px-8 py-4"
             >
               Create
-            </button>
+            </Button>
           </article>
           <article className="w-full flex flex-col gap-10 mx-[60px] mt-10 px-20 pt-10 pb-[60px]  bg-white">
             <h2 className="w-full font-semibold text-xl text-[#9AA1B9]">
@@ -313,7 +315,10 @@ const CreateNewRoom = () => {
                   value={amenity.value}
                   onChange={(e) => handleInputChange(e, index)}
                 />
-                <Button className="w-1/6 text-[#C8CCDB] bg-white hover:bg-red hover:text-white">
+                <Button
+                  className="w-1/6 text-[#C8CCDB] bg-white hover:bg-red hover:text-white"
+                  onClick={handleRemoveAmenity}
+                >
                   Delete
                 </Button>
               </div>
@@ -326,7 +331,7 @@ const CreateNewRoom = () => {
             </Button>
           </article>
         </form>
-      </FormProvider>
+      </Form>
     </div>
   );
 };
