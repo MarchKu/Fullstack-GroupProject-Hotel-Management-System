@@ -4,8 +4,9 @@ import React, { useState } from "react";
 import Sidebar from "@/components/admin-side/Sidebar";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
+import { useForm, FormProvider } from "react-hook-form";
 import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 import UploadMainImage from "@/components/admin-side/uploadMainImage";
 import UploadimageGallery from "@/components/admin-side/UploadimageGallery";
 import { Textarea } from "@/components/ui/textarea";
@@ -28,15 +29,15 @@ import {
 } from "@/components/ui/form";
 
 const createRoomSchema = z.object({
-  roomType: z.string(),
-  roomSize: z.string(),
-  bedType: z.array(z.string()),
-  guest: z.array(z.string()),
+  roomType: z.string().min(4),
+  roomSize: z.string().min(2),
+  bedType: z.string(),
+  guest: z.string(),
   pricePerNight: z.string(),
   promotionPrice: z.optional(z.string()),
   roomDescription: z.string(),
   mainImage: z.custom((file) => file instanceof File, {
-    message: "Room image is required.",
+    message: "Main image is required.",
   }),
   imageGallery: z
     .array(
@@ -54,6 +55,7 @@ const CreateNewRoom = () => {
   const [isDisabled, setIsDisabled] = useState(false);
   const [selectedBedValue, setSelectedBedValue] = useState("Double bed");
   const [selectedGuestValue, setSelectedGuestValue] = useState("2");
+  const [amenities, setAmenities] = useState([{ value: "" }]);
   const form = useForm({
     resolver: zodResolver(createRoomSchema),
     defaultValues: {
@@ -74,12 +76,8 @@ const CreateNewRoom = () => {
     const formData = new FormData();
     formData.append("roomType", data.roomType);
     formData.append("roomSize", data.roomSize);
-    data.bedType.forEach((bed, index) =>
-      formData.append(`bedType[${index}]`, bed)
-    );
-    data.guest.forEach((guest, index) =>
-      formData.append(`guest[${index}]`, guest)
-    );
+    formData.append("bedType", data.bedType);
+    formData.append("guest", guest);
     formData.append("pricePerNight", data.pricePerNight);
     if (data.promotionPrice) {
       formData.append("promotionPrice", data.promotionPrice);
@@ -94,10 +92,29 @@ const CreateNewRoom = () => {
     );
     console.log("Form Data Submitted:", formData);
   };
+
+  const handleAddAmenity = () => {
+    setAmenities([...amenities, { value: "" }]);
+  };
+
+  const handleRemoveAmenity = (index) => {
+    const list = [...amenities];
+    list.splice(index, 1);
+    setAmenities(list);
+  };
+
+  const handleInputChange = (e, index) => {
+    const { value } = e.target;
+    const list = [...amenities];
+    list[index].value = value;
+    setAmenities(list);
+    console.log("amenities: ", amenities);
+  };
+
   return (
     <div className="flex w-full">
       <Sidebar />
-      <Form {...form}>
+      <FormProvider {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
           className="flex items-center w-full flex-col bg-[#F6F7FC]"
@@ -114,7 +131,7 @@ const CreateNewRoom = () => {
               Create
             </button>
           </article>
-          <article className="w-full flex flex-col gap-10 mx-[60px] mt-10 px-20 pt-10 bg-white">
+          <article className="w-full flex flex-col gap-10 mx-[60px] mt-10 px-20 pt-10 pb-[60px]  bg-white">
             <h2 className="w-full font-semibold text-xl text-[#9AA1B9]">
               Basic Information
             </h2>
@@ -275,14 +292,41 @@ const CreateNewRoom = () => {
               Room Image
             </h2>
 
-            <UploadMainImage control={form.control} name="mainImage" />
-            <UploadimageGallery control={form.control} name="imageGallery" />
+            <UploadMainImage
+              control={form.control}
+              name="mainImage"
+              label="Main Image"
+            />
+            <UploadimageGallery
+              control={form.control}
+              name="imageGallery"
+              label="Image Gallery (At least 4 pictures)"
+            />
             <h2 className="text-xl font-semibold text-[#9AA1B9] pt-6 border-t-[1px]">
               Room Amenities
             </h2>
+            {amenities.map((amenity, index) => (
+              <div key={index} className="flex gap-6">
+                <Input
+                  type="text"
+                  name={`amenity[${index}]`}
+                  value={amenity.value}
+                  onChange={(e) => handleInputChange(e, index)}
+                />
+                <Button className="w-1/6 text-[#C8CCDB] bg-white hover:bg-red hover:text-white">
+                  Delete
+                </Button>
+              </div>
+            ))}
+            <Button
+              onClick={handleAddAmenity}
+              className="w-1/4 bg-white text-[#E76B39] border-[1px] border-[#E76B39] hover:text-white"
+            >
+              + Add Amenity
+            </Button>
           </article>
         </form>
-      </Form>
+      </FormProvider>
     </div>
   );
 };
