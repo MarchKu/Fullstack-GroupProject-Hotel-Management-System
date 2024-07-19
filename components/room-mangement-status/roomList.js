@@ -14,6 +14,7 @@ export default function RoomList() {
 
   useEffect(() => {
     fetchRoomData(currentPage);
+    setStartPage(Math.floor((currentPage - 1) / 5) * 5 + 1);
   }, [currentPage]);
 
   const fetchRoomData = async (page) => {
@@ -45,29 +46,30 @@ export default function RoomList() {
   const handleNextPage = () => {
     if (startPage + 5 <= totalPages) {
       setStartPage(startPage + 1);
+      setCurrentPage(currentPage + 1);
     }
   };
 
   const handlePrevPage = () => {
     if (startPage > 1) {
       setStartPage(startPage - 1);
+      setCurrentPage(currentPage - 1);
     }
   };
 
   const renderPageNumberButton = () => {
     const pageNumber = [];
+
     for (let i = startPage; i < startPage + 5 && i <= totalPages; i++) {
+      const buttonClassCurrent = `bg-white border-[1px] border-[#D5DFDA] rounded-sm py-1 text-sm px-2`;
+      const buttonClassNone = `  rounded-sm py-1 text-sm px-2`;
       pageNumber.push(
         <button
           key={i}
           onClick={() => handlePageCLick(i)}
-          disabled={i === currentPage}
-          className={`mr-2 bg-${i === currentPage ? "[#FFFFFF]" : "gray"} 
-          border-[1px] border-${i === currentPage ? "[#D5DFDA]" : "none"} 
-          rounded-${i === currentPage ? "sm" : "none"}
-          p-${i === currentPage ? "1" : "none"}
-          px-${i === currentPage ? "2" : "none"}
-          text-sm `}
+          className={`${
+            i === currentPage ? buttonClassCurrent : buttonClassNone
+          } ${i === currentPage ? "text-[#5D7B6A]" : "text-[#C8CCDB]"}`}
         >
           {i}
         </button>
@@ -87,7 +89,7 @@ export default function RoomList() {
         <div>
           {roomData.map((room) => (
             <PostStatus
-              key={room.id}
+              key={room.room_id}
               roomNumber={room.room_id}
               typeBed={room.bed_type}
               typeRoom={room.type_name}
@@ -96,11 +98,25 @@ export default function RoomList() {
           ))}
         </div>
       )}
-      <div className="flex justify-center m-6">
-        {startPage > 1 && <button onClick={handlePrevPage}>{"<"}</button>}
+      <div className="flex justify-center m-6 gap-5">
+        {startPage === 1 && (
+          <button>
+            <img
+              className="transform rotate-180 opacity-20"
+              src="/img/next.svg"
+            />
+          </button>
+        )}
+        {startPage > 1 && (
+          <button onClick={handlePrevPage}>
+            <img className="transform rotate-180 " src="/img/next.svg" />
+          </button>
+        )}
         {renderPageNumberButton()}
         {startPage + 4 < totalPages && (
-          <button onClick={handleNextPage}>{">"}</button>
+          <button onClick={handleNextPage}>
+            <img src="/img/next.svg" />
+          </button>
         )}
       </div>
     </div>

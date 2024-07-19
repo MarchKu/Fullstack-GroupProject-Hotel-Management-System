@@ -21,105 +21,105 @@ const statuses = [
   {
     value: "vacant",
     button: (
-      <button className="bg-[#F0F2F8] rounded-sm p-3 pt-1 pb-1 text-[#006753] text-sm tracking-tighter font-medium">
+      <div className="hover:cursor-pointer bg-[#F0F2F8] rounded-sm p-3 pt-1 pb-1 text-[#006753] text-sm tracking-tighter font-medium">
         Vacant
-      </button>
+      </div>
     ),
   },
   {
     value: "occupied",
     button: (
-      <button className="bg-[#E4ECFF] rounded-sm p-3 pt-1 pb-1 text-[#084BAF] text-sm tracking-tighter font-medium">
+      <div className=" hover:cursor-pointer bg-[#E4ECFF] rounded-sm p-3 pt-1 pb-1 text-[#084BAF] text-sm tracking-tighter font-medium">
         Occupied
-      </button>
+      </div>
     ),
   },
   {
     value: "assign clean",
     button: (
-      <button className="bg-[#E5FFFA] rounded-sm p-3 pt-1 pb-1 text-[#006753] text-sm tracking-tighter font-medium">
+      <div className="hover:cursor-pointer bg-[#E5FFFA] rounded-sm p-3 pt-1 pb-1 text-[#006753] text-sm tracking-tighter font-medium">
         Assign Clean
-      </button>
+      </div>
     ),
   },
   {
     value: "assign dirty",
     button: (
-      <button className="bg-[#FFE5E5] rounded-sm p-3 pt-1 pb-1 text-[#A50606] text-sm tracking-tighter font-medium">
+      <div className="hover:cursor-pointer bg-[#FFE5E5] rounded-sm p-3 pt-1 pb-1 text-[#A50606] text-sm tracking-tighter font-medium">
         Assign Dirty
-      </button>
+      </div>
     ),
   },
   {
     value: "vacant clean",
     button: (
-      <button className="bg-[#E5FFFA] rounded-sm p-3 pt-1 pb-1 text-[#006753] text-sm tracking-tighter font-medium">
+      <div className="hover:cursor-pointer bg-[#E5FFFA] rounded-sm p-3 pt-1 pb-1 text-[#006753] text-sm tracking-tighter font-medium">
         Vacant Clean
-      </button>
+      </div>
     ),
   },
   {
     value: "vacant clean inspected",
     button: (
-      <button className="bg-[#FFF9E5] rounded-sm p-3 pt-1 pb-1 text-[#766A00] text-sm tracking-tighter font-medium">
+      <div className="hover:cursor-pointer bg-[#FFF9E5] rounded-sm p-3 pt-1 pb-1 text-[#766A00] text-sm tracking-tighter font-medium">
         Vacant Clean Inspected
-      </button>
+      </div>
     ),
   },
   {
     value: "vacant clean pick up",
     button: (
-      <button className="bg-[#E5FFFA] rounded-sm p-3 pt-1 pb-1 text-[#006753] text-sm tracking-tighter font-medium">
+      <div className="hover:cursor-pointer bg-[#E5FFFA] rounded-sm p-3 pt-1 pb-1 text-[#006753] text-sm tracking-tighter font-medium">
         Vacant Clean Pick Up
-      </button>
+      </div>
     ),
   },
   {
     value: "occupied clean",
     button: (
-      <button className="bg-[#E4ECFF] rounded-sm p-3 pt-1 pb-1 text-[#084BAF] text-sm tracking-tighter font-medium">
+      <div className="hover:cursor-pointer bg-[#E4ECFF] rounded-sm p-3 pt-1 pb-1 text-[#084BAF] text-sm tracking-tighter font-medium">
         Occupied Clean
-      </button>
+      </div>
     ),
   },
   {
     value: "Occupied clean inspected",
     button: (
-      <button className="bg-[#FFF9E5] rounded-sm p-3 pt-1 pb-1 text-[#766A00] text-sm tracking-tighter font-medium">
+      <div className="hover:cursor-pointer bg-[#FFF9E5] rounded-sm p-3 pt-1 pb-1 text-[#766A00] text-sm tracking-tighter font-medium">
         Occupied Clean Inspected
-      </button>
+      </div>
     ),
   },
   {
     value: "occupied dirty",
     button: (
-      <button className="bg-[#FFE5E5] rounded-sm p-3 pt-1 pb-1 text-[#A50606] text-sm tracking-tighter font-medium">
+      <div className=" hover:cursor-pointer bg-[#FFE5E5] rounded-sm p-3 pt-1 pb-1 text-[#A50606] text-sm tracking-tighter font-medium">
         Occupied Dirty
-      </button>
+      </div>
     ),
   },
   {
     value: "out of order",
     button: (
-      <button className="bg-[#F0F1F8] rounded-sm p-3 pt-1 pb-1 text-[#6E7288] text-sm tracking-tighter font-medium">
+      <div className="hover:cursor-pointer bg-[#F0F1F8] rounded-sm p-3 pt-1 pb-1 text-[#6E7288] text-sm tracking-tighter font-medium">
         Out of Order
-      </button>
+      </div>
     ),
   },
   {
     value: "out of service",
     button: (
-      <button className="bg-[#F0F1F8] rounded-sm p-3 pt-1 pb-1 text-[#6E7288] text-sm tracking-tighter font-medium">
+      <div className="hover:cursor-pointer bg-[#F0F1F8] rounded-sm p-3 pt-1 pb-1 text-[#6E7288] text-sm tracking-tighter font-medium">
         Out of Service
-      </button>
+      </div>
     ),
   },
   {
     value: "out of inventory",
     button: (
-      <button className="bg-[#F0F1F8] rounded-sm p-3 pt-1 pb-1 text-[#6E7288] text-sm tracking-tighter font-medium">
+      <div className="hover:cursor-pointer bg-[#F0F1F8] rounded-sm p-3 pt-1 pb-1 text-[#6E7288] text-sm tracking-tighter font-medium">
         Out of Inventory
-      </button>
+      </div>
     ),
   },
 ];

@@ -6,13 +6,15 @@ export default function useUpdateRoomStatus() {
   const updateStatus = async (roomId, newStatus) => {
     try {
       setIsLoading(true);
+      console.log(
+        `Sending update request for room ${roomId} with status ${newStatus}`
+      );
       await axios.put(`http://localhost:3000/api/updateRoomStatus-Admin/`, {
-        roomId,
+        room_id: roomId,
         status: newStatus,
       });
       setIsLoading(false);
       setIsError(false);
-      getRoom();
     } catch (error) {
       console.error(error);
       setIsLoading(false);
