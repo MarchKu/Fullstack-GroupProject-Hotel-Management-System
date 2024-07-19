@@ -70,15 +70,7 @@ const UploadimageGallery = ({ name, label }) => {
         multiple
         ref={inputRef}
       />
-      <div className="flex gap-5 pb-10">
-        <button
-          type="button"
-          onClick={() => inputRef.current.click()}
-          className="flex flex-col gap-2 items-center justify-center w-40 h-40 md:w-50 md:h-50 border border-transparent shadow-sm text-sm font-medium rounded-md text-[#E76B39] bg-[#F1F2F6] hover:bg-slate-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-        >
-          <img src="/img/icon-upload-pic.svg" alt="Upload" />
-          Upload photo
-        </button>
+      <div className="flex gap-5 pb-10 flex-wrap">
         {previewUrls.map((previewUrl, index) => (
           <div key={index} className="relative">
             <img
@@ -95,6 +87,14 @@ const UploadimageGallery = ({ name, label }) => {
             </button>
           </div>
         ))}
+        <button
+          type="button"
+          onClick={() => inputRef.current.click()}
+          className="flex flex-col gap-2 items-center justify-center w-40 h-40 md:w-50 md:h-50 border border-transparent shadow-sm text-sm font-medium rounded-md text-[#E76B39] bg-[#F1F2F6] hover:bg-slate-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+        >
+          <img src="/img/icon-upload-pic.svg" alt="Upload" />
+          Upload photo
+        </button>
       </div>
     </div>
   );
