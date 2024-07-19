@@ -56,6 +56,7 @@ const AmenityInput = ({ amenities, setAmenities, control }) => {
           </div>
           {/* <Input type="text" onChange={(e) => handleInputChange(e, index)} /> */}
           <Button
+            type="button"
             className="w-1/6 text-[#E76B39] bg-white hover:bg-red hover:text-white"
             onClick={() => handleRemoveAmenity(index)}
           >
@@ -66,6 +67,7 @@ const AmenityInput = ({ amenities, setAmenities, control }) => {
       <Button
         onClick={handleAddAmenity}
         className="w-1/4 bg-white text-[#E76B39] border-[1px] border-[#E76B39] hover:text-white"
+        type="button"
       >
         + Add Amenity
       </Button>
