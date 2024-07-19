@@ -39,7 +39,7 @@ const UploadMainImage = ({ control, name, label }) => {
   const removeFile = () => {
     setSelectedFile(null);
     setPreviewUrl(null);
-    setValue(name, null);
+    setValue(null, null);
   };
 
   return (
@@ -47,8 +47,8 @@ const UploadMainImage = ({ control, name, label }) => {
       control={control}
       name={name}
       render={(field) => (
-        <FormItem className="flex flex-col">
-          <FormLabel htmlFor={name}>Main Image</FormLabel>
+        <FormItem className="">
+          <FormLabel htmlFor={name}>{label}</FormLabel>
           <FormControl>
             <Input
               id={name}
@@ -62,7 +62,7 @@ const UploadMainImage = ({ control, name, label }) => {
             <button
               type="button"
               onClick={() => document.getElementById(name)?.click()}
-              className="flex flex-col gap-2 items-center justify-center w-40 h-40 md:w-50 md:h-50 border border-transparent shadow-sm text-sm font-medium rounded-md text-[#E76B39] bg-[#F1F2F6] hover:bg-slate-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+              className="flex flex-col gap-2 items-center justify-center w-60 h-60 border border-transparent shadow-sm text-sm font-medium rounded-md text-[#E76B39] bg-[#F1F2F6] hover:bg-slate-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
             >
               <img src="/img/icon-upload-pic.svg" alt="Upload" />
               Upload photo
@@ -72,7 +72,7 @@ const UploadMainImage = ({ control, name, label }) => {
                 <img
                   src={previewUrl}
                   alt="Preview"
-                  className="w-40 h-40 md:w-52 md:h-52 object-cover rounded-md border border-gray-200"
+                  className="w-40 h-40 md:w-60 md:h-60 object-cover rounded-md border border-gray-200"
                 />
                 <button
                   type="button"

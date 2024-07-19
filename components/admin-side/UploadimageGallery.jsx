@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useFormContext } from "react-hook-form";
 
-const UploadimageGallery = ({ control, name, label }) => {
+const UploadimageGallery = ({ name, label }) => {
   const { setValue } = useFormContext();
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [previewUrls, setPreviewUrls] = useState([]);
@@ -28,13 +28,14 @@ const UploadimageGallery = ({ control, name, label }) => {
   }, [selectedFiles]);
 
   const handleFileChange = (event) => {
-    const files = Array.from(event.target.files)
+    const files = Array.from(event.target.files);
     setSelectedFiles(files);
-    updateProfilePicUrl(files);
+    updateValue(files);
   };
 
-  const updateProfilePicUrl = (files) => {
-    setValue(name, files);
+  const updateValue = (files) => {
+    console.log(files);
+    setValue(name, files, {});
   };
 
   const removeFile = (index) => {
@@ -46,6 +47,8 @@ const UploadimageGallery = ({ control, name, label }) => {
     console.log(selectedFiles);
   };
 
+  const inputRef = useRef();
+
   return (
     <div className="flex flex-col gap-2">
       <label htmlFor={name}>{label}</label>
@@ -55,11 +58,12 @@ const UploadimageGallery = ({ control, name, label }) => {
         onChange={handleFileChange}
         className="sr-only"
         multiple
+        ref={inputRef}
       />
       <div className="flex gap-5 pb-10">
         <button
           type="button"
-          onClick={() => document.getElementById(name)?.click()}
+          onClick={() => inputRef.current.click()}
           className="flex flex-col gap-2 items-center justify-center w-40 h-40 md:w-50 md:h-50 border border-transparent shadow-sm text-sm font-medium rounded-md text-[#E76B39] bg-[#F1F2F6] hover:bg-slate-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
         >
           <img src="/img/icon-upload-pic.svg" alt="Upload" />

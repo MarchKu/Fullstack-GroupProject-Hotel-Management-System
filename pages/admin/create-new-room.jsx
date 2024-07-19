@@ -40,16 +40,29 @@ const createRoomSchema = z.object({
   }),
   promotionPrice: z.string(),
   roomDescription: z.string(),
+  mainImage: z.custom((file) => file instanceof File, {
+    message: "Main Image is required.",
+  }),
+  imageGallery: z
+    .array(
+      z.custom((file) => file instanceof File, {
+        message: "Each image must be a file.",
+      })
+    )
+    .min(4, {
+      message: "please select at least 4 image.",
+    }),
 });
 
 const createRoom = async (data) => {
   try {
+    console.log(Object.fromEntries(data).imageGallery);
     await axios.post("http://localhost:3000/api/hotel/rooms", data, {
       headers: { "Content-Type": "multipart/form-data" },
     });
     toastr["success"]("You are successfully registered");
     setTimeout(function () {
-      window.location.replace("/login");
+      window.location.replace("/admin/create-new-room");
     }, 1000);
   } catch (error) {
     console.log(error.message);
@@ -58,8 +71,6 @@ const createRoom = async (data) => {
 };
 
 const CreateNewRoom = () => {
-  const [selectedBedValue, setSelectedBedValue] = useState("Double bed");
-  const [selectedGuestValue, setSelectedGuestValue] = useState("2");
   const [isDisabled, setIsDisabled] = useState(false);
   const form = useForm({
     resolver: zodResolver(createRoomSchema),
@@ -71,6 +82,8 @@ const CreateNewRoom = () => {
       pricePerNight: "0",
       promotionPrice: "0",
       roomDescription: "",
+      mainImage: {},
+      imageGallery: {},
     },
   });
 
@@ -83,9 +96,16 @@ const CreateNewRoom = () => {
     formData.append("pricePerNight", data.pricePerNight);
     formData.append("promotionPrice", data.promotionPrice);
     formData.append("roomDescription", data.roomDescription);
+    formData.append("mainImage", data.mainImage);
+    for (let i = 0; i < data.imageGallery.length; i++) {
+      formData.append("imageGallery", data.imageGallery[i]);
+    }
     console.log("Form Data Submitted:", Object.fromEntries(formData));
     createRoom(formData);
   };
+
+  const imageGallery = form.watch("imageGallery");
+  console.log("imageGallery: ", imageGallery);
 
   return (
     <div className="flex w-full bg-[#2F3E35]">
@@ -285,6 +305,21 @@ const CreateNewRoom = () => {
                   <FormMessage />
                 </FormItem>
               )}
+            />
+
+            {/* ---------- Room Image ---------- */}
+
+            <h2 className="text-xl font-semibold text-[#9AA1B9] pt-6 border-t-[1px]">
+              Room Image
+            </h2>
+            <UploadMainImage
+              control={form.control}
+              name="mainImage"
+              label="Main Image"
+            />
+            <UploadimageGallery
+              name="imageGallery"
+              label="Image Gallery(At least 4 pictures) *"
             />
           </article>
         </form>
