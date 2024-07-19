@@ -16,6 +16,7 @@ export default async function POST(req, res) {
     pricePerNight: parseInt(req.body.pricePerNight),
     promotionPrice: parseInt(req.body.promotionPrice),
     roomDescription: req.body.roomDescription,
+    amenity: req.body.amenity,
   };
   console.log("room: ", room);
   if (
@@ -31,8 +32,8 @@ export default async function POST(req, res) {
   }
 
   try {
-    const query = `INSERT INTO rooms (room_type_id, room_size, bed_type, room_capacity, current_price, promotion_price, room_description)
-                   VALUES ($1, $2, $3, $4, $5, $6, $7)
+    const query = `INSERT INTO rooms (room_type_id, room_size, bed_type, room_capacity, current_price, promotion_price, room_description, amenities)
+                   VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
                    RETURNING room_id`;
 
     const values = [
@@ -43,6 +44,7 @@ export default async function POST(req, res) {
       room.pricePerNight,
       room.promotionPrice,
       room.roomDescription,
+      room.amenity,
     ];
 
     const roomData = await connectionPool.query(query, values);
