@@ -29,6 +29,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import AmenityInput from "@/components/admin-side/createRoom/AmenityInput";
 
 const createRoomSchema = z.object({
   roomTypeId: z.string(),
@@ -57,7 +58,10 @@ const createRoomSchema = z.object({
 
 const createRoom = async (data) => {
   try {
-    console.log(Object.fromEntries(data).imageGallery);
+    console.log(
+      "Object.fromEntries(data).imageGallery: ",
+      Object.fromEntries(data).imageGallery
+    );
     await axios.post("http://localhost:3000/api/hotel/rooms", data, {
       headers: { "Content-Type": "multipart/form-data" },
     });
@@ -80,7 +84,7 @@ const CreateNewRoom = () => {
     defaultValues: {
       roomTypeId: "1",
       roomSize: "32",
-      bedType: "Double bed",
+      bedType: "Single bed",
       guest: "2",
       pricePerNight: "0",
       promotionPrice: "0",
@@ -114,8 +118,8 @@ const CreateNewRoom = () => {
     createRoom(formData);
   };
 
-  const amenityWatch = form.watch("amenity");
-  console.log("amenityWatch: ", amenityWatch);
+  const imageGall = form.watch("imageGallery");
+  console.log("imageGallWatch: ", imageGall);
 
   return (
     <div className="flex w-full bg-[#2F3E35]">
@@ -211,15 +215,21 @@ const CreateNewRoom = () => {
                             }
                           >
                             <SelectTrigger className="w-full">
-                              <SelectValue placeholder="Select a fruit" />
+                              <SelectValue />
                             </SelectTrigger>
                             <SelectContent>
                               <SelectGroup>
+                                <SelectItem value="Single bed">
+                                  Single bed
+                                </SelectItem>
                                 <SelectItem value="Double bed">
                                   Double bed
                                 </SelectItem>
-                                <SelectItem value="Single bed">
-                                  Single bed
+                                <SelectItem value="Double bed (King size)">
+                                  Double bed (King size)
+                                </SelectItem>
+                                <SelectItem value="Twin bed">
+                                  Twin bed
                                 </SelectItem>
                               </SelectGroup>
                             </SelectContent>
@@ -254,6 +264,7 @@ const CreateNewRoom = () => {
                             <SelectGroup>
                               <SelectItem value="2">2</SelectItem>
                               <SelectItem value="4">4</SelectItem>
+                              <SelectItem value="6">6</SelectItem>
                             </SelectGroup>
                           </SelectContent>
                         </Select>
@@ -341,57 +352,16 @@ const CreateNewRoom = () => {
               <h2 className="text-xl font-semibold text-[#9AA1B9] pt-6 border-t-[1px]">
                 Room Amenities
               </h2>
-              <Amenities amenities={amenities} setAmenities={setAmenities} />
+              <AmenityInput
+                amenities={amenities}
+                setAmenities={setAmenities}
+                control={form.control}
+              />
             </article>
           </form>
         </Form>
       </FormProvider>
     </div>
-  );
-};
-
-const Amenities = ({ amenities, setAmenities }) => {
-  const { setValue } = useFormContext();
-
-  const handleAddAmenity = () => {
-    setAmenities([...amenities, ""]);
-  };
-
-  const handleRemoveAmenity = (index) => {
-    const list = [...amenities];
-    list.splice(index, 1);
-    setAmenities(list);
-    setValue("amenity", amenities);
-  };
-
-  const handleInputChange = (e, index) => {
-    const targetValue = e.target.value;
-    const list = [...amenities];
-    list[index] = targetValue;
-    setAmenities(list);
-    setValue("amenity", list);
-  };
-
-  return (
-    <>
-      {amenities.map((amenity, index) => (
-        <div key={index} className="flex gap-6">
-          <Input type="text" onChange={(e) => handleInputChange(e, index)} />
-          <Button
-            className="w-1/6 text-[#C8CCDB] bg-white hover:bg-red hover:text-white"
-            onClick={() => handleRemoveAmenity(index)}
-          >
-            Delete
-          </Button>
-        </div>
-      ))}
-      <Button
-        onClick={handleAddAmenity}
-        className="w-1/4 bg-white text-[#E76B39] border-[1px] border-[#E76B39] hover:text-white"
-      >
-        + Add Amenity
-      </Button>
-    </>
   );
 };
 

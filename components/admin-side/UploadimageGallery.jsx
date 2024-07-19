@@ -5,6 +5,7 @@ const UploadimageGallery = ({ name, label }) => {
   const { setValue } = useFormContext();
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [previewUrls, setPreviewUrls] = useState([]);
+  const inputRef = useRef();
 
   useEffect(() => {
     if (selectedFiles.length) {
@@ -29,13 +30,20 @@ const UploadimageGallery = ({ name, label }) => {
 
   const handleFileChange = (event) => {
     const files = Array.from(event.target.files);
-    setSelectedFiles(files);
-    updateValue(files);
-  };
+    const newFiles = [...selectedFiles, ...files];
+    setSelectedFiles(newFiles);
+    setValue(name, newFiles);
+    console.log("newFile: ", newFiles);
 
-  const updateValue = (files) => {
-    console.log(files);
-    setValue(name, files, {});
+    files.forEach((file) => {
+      if (file.type.startsWith("image/")) {
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          setPreviewUrls((prevUrls) => [...prevUrls, reader.result]);
+        };
+        reader.readAsDataURL(file);
+      }
+    });
   };
 
   const removeFile = (index) => {
@@ -44,10 +52,12 @@ const UploadimageGallery = ({ name, label }) => {
     setSelectedFiles(newFiles);
     setPreviewUrls(newPreviews);
     setValue(name, newFiles);
-    console.log(selectedFiles);
+    console.log("newFile: ", newFiles);
+    const dataTransfer = new DataTransfer();
+    newFiles.forEach((file) => dataTransfer.items.add(file));
+    inputRef.current.files = dataTransfer.files;
+    console.log("dataInInput: ", inputRef.current.files);
   };
-
-  const inputRef = useRef();
 
   return (
     <div className="flex flex-col gap-2">

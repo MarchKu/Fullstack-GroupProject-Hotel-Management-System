@@ -30,6 +30,15 @@ export default async function POST(req, res) {
   ) {
     return res.status(400).json({ message: "Missing data, please try again." });
   }
+  let formatRoomAmentity;
+  console.log(typeof room.amenity);
+  console.log(room.amenity);
+  if (typeof room.amenity === "string" && room.amenity !== "") {
+    room.amenity = [room.amenity];
+  } else if (room.amenity === "") {
+    room.amenity = null
+  }
+  console.log("formatRoomAmentity: ", room.amenity);
 
   try {
     const query = `INSERT INTO rooms (room_type_id, room_size, bed_type, room_capacity, current_price, promotion_price, room_description, amenities)

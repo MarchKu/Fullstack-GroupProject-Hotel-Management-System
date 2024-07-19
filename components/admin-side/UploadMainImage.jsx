@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import {
   FormField,
   FormItem,
@@ -8,7 +8,7 @@ import {
   FormMessage,
 } from "@/components/ui/formComponent";
 import { Input } from "@/components/ui/inputRegisterForm";
-import { useFormContext, Controller } from "react-hook-form";
+import { useFormContext } from "react-hook-form";
 import { FormControl } from "../ui/form";
 
 const UploadMainImage = ({ control, name, label }) => {
@@ -39,8 +39,11 @@ const UploadMainImage = ({ control, name, label }) => {
   const removeFile = () => {
     setSelectedFile(null);
     setPreviewUrl(null);
-    setValue(null, null);
+    setValue(name, null);
+    uploadButtonRef.current.value = null;
   };
+
+  const uploadButtonRef = useRef();
 
   return (
     <FormField
@@ -55,19 +58,12 @@ const UploadMainImage = ({ control, name, label }) => {
               type="file"
               onChange={handleFileChange}
               className="sr-only"
+              ref={uploadButtonRef}
               {...field}
             />
           </FormControl>
           <div className="flex gap-5 pb-10">
-            <button
-              type="button"
-              onClick={() => document.getElementById(name)?.click()}
-              className="flex flex-col gap-2 items-center justify-center w-60 h-60 border border-transparent shadow-sm text-sm font-medium rounded-md text-[#E76B39] bg-[#F1F2F6] hover:bg-slate-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-            >
-              <img src="/img/icon-upload-pic.svg" alt="Upload" />
-              Upload photo
-            </button>
-            {selectedFile && previewUrl && (
+            {selectedFile && previewUrl ? (
               <div className="relative">
                 <img
                   src={previewUrl}
@@ -82,6 +78,15 @@ const UploadMainImage = ({ control, name, label }) => {
                   x
                 </button>
               </div>
+            ) : (
+              <button
+                type="button"
+                onClick={() => uploadButtonRef.current.click()}
+                className="flex flex-col gap-2 items-center justify-center w-60 h-60 border border-transparent shadow-sm text-sm font-medium rounded-md text-[#E76B39] bg-[#F1F2F6] hover:bg-slate-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+              >
+                <img src="/img/icon-upload-pic.svg" alt="Upload" />
+                Upload photo
+              </button>
             )}
           </div>
 
