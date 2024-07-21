@@ -9,7 +9,7 @@ export async function uploadFile(file, bucketName, filePath, mimetype) {
   let { data, error } = await supabase.storage
     .from(bucketName)
     .upload(filePath, file, {
-      cacheControl: "3600",
+      cacheControl: "no-cache, no-store, must-revalidate",
       upsert: true,
       contentType: mimetype,
     });
