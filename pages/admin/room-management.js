@@ -7,8 +7,8 @@ export default function roomManagement() {
     <div className=" w-screen h-screen flex">
       <Sidebar />
       <div className=" bg-[#F6F7FC] w-full h-full flex flex-col">
-        <NavbarRoom />
-        <div className="  p-14">
+        <NavbarRoom title={"Room Management"} />
+        <div className=" p-14">
           <div className=" h-10 grid grid-cols-7 font-body text-sm font-medium tracking-tighter text-[#424C6B]">
             <div className="bg-[#E4E6ED] pl-5 flex justify-between items-center ">
               Room no.
