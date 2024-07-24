@@ -199,7 +199,7 @@ const EditRoomProperties = () => {
     formData.append("bedType", data.bedType);
     formData.append("guest", data.guest);
     formData.append("pricePerNight", data.pricePerNight);
-    if (isChecked) {
+    if (!isChecked) {
       formData.append("promotionPrice", data.promotionPrice);
     }
     formData.append("roomDescription", data.roomDescription);
@@ -215,8 +215,8 @@ const EditRoomProperties = () => {
     await UpdateRoom(formData);
   };
 
-  // const imageGalleryWatch = form.watch("imageGallery");
-  // console.log("imageGalleryWatch:", imageGalleryWatch);
+  const promotionWatch = form.watch("promotionPrice");
+  console.log("promotionWatch:", promotionWatch);
 
   const deleteRoom = async () => {
     try {

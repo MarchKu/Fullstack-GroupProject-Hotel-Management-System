@@ -140,6 +140,7 @@ export default async function handler(req, res) {
     } else if (req.body.amenity === "") {
       req.body.amenity = null;
     }
+    console.log("req.body.promotionPrice: ", req.body.promotionPrice);
     if (req.body.promotionPrice === '0') {
       req.body.promotionPrice = null;
     }
