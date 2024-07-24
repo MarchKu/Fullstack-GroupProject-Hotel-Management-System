@@ -1,6 +1,5 @@
 "use client";
-
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import {
   FormField,
   FormItem,
@@ -10,11 +9,18 @@ import {
 import { Input } from "@/components/ui/inputRegisterForm";
 import { useFormContext } from "react-hook-form";
 import { FormControl } from "../ui/form";
+import { set } from "date-fns";
 
-const UploadMainImage = ({ control, name, label }) => {
+const UploadMainImage = ({ control, name, label, mainImage }) => {
   const { setValue } = useFormContext();
   const [selectedFile, setSelectedFile] = useState(null);
   const [previewUrl, setPreviewUrl] = useState(null);
+  useEffect(() => {
+    if (mainImage) {
+      setPreviewUrl(mainImage);
+      setSelectedFile(mainImage);
+    }
+  }, [mainImage]);
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
@@ -28,11 +34,11 @@ const UploadMainImage = ({ control, name, label }) => {
       reader.readAsDataURL(file);
     }
     if (file) {
-      updateProfilePicUrl(file);
+      updateMainImage(file);
     }
   };
 
-  const updateProfilePicUrl = (file) => {
+  const updateMainImage = (file) => {
     setValue(name, file);
   };
 
@@ -49,6 +55,7 @@ const UploadMainImage = ({ control, name, label }) => {
     <FormField
       control={control}
       name={name}
+      defaultValue={mainImage}
       render={(field) => (
         <FormItem className="">
           <FormLabel htmlFor={name}>{label}</FormLabel>

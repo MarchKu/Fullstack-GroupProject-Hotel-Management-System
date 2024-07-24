@@ -1,39 +1,30 @@
+import { setLogLevel } from "@firebase/firestore";
+import { set } from "date-fns";
 import React, { useState, useEffect, useRef } from "react";
 import { useFormContext } from "react-hook-form";
+import { boolean } from "zod";
 
-const UploadimageGallery = ({ name, label }) => {
+const UploadimageGallery = ({ name, label, imageGallery }) => {
   const { setValue } = useFormContext();
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [previewUrls, setPreviewUrls] = useState([]);
   const inputRef = useRef();
 
   useEffect(() => {
-    if (selectedFiles.length) {
-      const newPreviewUrls = selectedFiles.map((file) => {
-        if (file && file.type.startsWith("image/")) {
-          const reader = new FileReader();
-          reader.readAsDataURL(file);
-          return new Promise((resolve) => {
-            reader.onloadend = () => {
-              resolve(reader.result);
-            };
-          });
-        }
-        return null;
-      });
-
-      Promise.all(newPreviewUrls).then((urls) => {
-        setPreviewUrls(urls.filter((url) => url !== null));
-      });
+    // console.log(imageGallery);
+    if (imageGallery) {
+      setSelectedFiles(imageGallery);
+      setPreviewUrls(imageGallery);
     }
-  }, [selectedFiles]);
+  }, [imageGallery]);
 
   const handleFileChange = (event) => {
     const files = Array.from(event.target.files);
+    validateImage(files);
     const newFiles = [...selectedFiles, ...files];
     setSelectedFiles(newFiles);
     setValue(name, newFiles);
-    console.log("newFile: ", newFiles);
+    console.log("newInputFile: ", newFiles);
 
     files.forEach((file) => {
       if (file.type.startsWith("image/")) {
@@ -46,19 +37,39 @@ const UploadimageGallery = ({ name, label }) => {
     });
   };
 
-  const removeFile = (index) => {
-    const newFiles = selectedFiles.filter((_, i) => i !== index);
-    const newPreviews = previewUrls.filter((_, i) => i !== index);
-    setSelectedFiles(newFiles);
-    setPreviewUrls(newPreviews);
-    setValue(name, newFiles);
-    console.log("newFile: ", newFiles);
-    const dataTransfer = new DataTransfer();
-    newFiles.forEach((file) => dataTransfer.items.add(file));
-    inputRef.current.files = dataTransfer.files;
-    console.log("dataInInput: ", inputRef.current.files);
+  const validateImage = (imagesToPreview) => {
+    if (imagesToPreview.length) {
+      const newPreviewUrls = imagesToPreview.map((file) => {
+        if (file && file.type.startsWith("image/")) {
+          const reader = new FileReader();
+          reader.readAsDataURL(file);
+          return new Promise((resolve) => {
+            reader.onloadend = () => {
+              resolve(reader.result);
+            };
+          });
+        }
+        return null;
+      });
+
+      return Promise.all(newPreviewUrls).then((urls) => {
+        // setPreviewUrls(urls.filter((url) => url !== null));
+        // console.log(urls);
+      });
+    }
   };
 
+  const removeFile = (index) => {
+    const newFiles = selectedFiles.filter((_, i) => i !== index);
+    const newPreviewUrls = previewUrls.filter((_, i) => i !== index);
+    setSelectedFiles(newFiles);
+    setPreviewUrls(newPreviewUrls);
+    setValue(name, newFiles);
+    console.log("newFile: ", newFiles);
+    console.log("dataInInput: ", inputRef.current.files);
+    inputRef.current.value = "";
+    console.log("dataInInputClear: ", inputRef.current.value);
+  };
   return (
     <div className="flex flex-col gap-2">
       <label htmlFor={name}>{label}</label>

@@ -1,9 +1,11 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import Image from "next/image";
 import { useFormContext } from "react-hook-form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import DragButton from "@/assets/admin/drag.png";
 import {
   Form,
   FormControl,
@@ -13,8 +15,14 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 
-const AmenityInput = ({ amenities, setAmenities, control }) => {
+const AmenityInput = ({ amenities, setAmenities, control, prevAmenities }) => {
   const { setValue } = useFormContext();
+
+  useEffect(() => {
+    if (prevAmenities) {
+      setAmenities(prevAmenities);
+    }
+  }, [prevAmenities]);
 
   const handleAddAmenity = () => {
     setAmenities([...amenities, ""]);
@@ -36,9 +44,13 @@ const AmenityInput = ({ amenities, setAmenities, control }) => {
   };
 
   return (
-    <>
+    <section className="flex flex-col gap-6">
       {amenities.map((amenity, index) => (
-        <div key={index} className="flex gap-6 items-end">
+        <div key={index} className="flex items-end gap-6">
+          <div className="flex items-center justify-center gap-[2px] h-full pt-2">
+            <Image src={DragButton} />
+            <Image src={DragButton} />
+          </div>
           <div className="w-full">
             <FormField
               control={control}
@@ -47,17 +59,19 @@ const AmenityInput = ({ amenities, setAmenities, control }) => {
                 <FormItem>
                   <FormLabel>Amenity *</FormLabel>
                   <FormControl>
-                    <Input onChange={(e) => handleInputChange(e, index)} />
+                    <Input
+                      value={amenity}
+                      onChange={(e) => handleInputChange(e, index)}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
           </div>
-          {/* <Input type="text" onChange={(e) => handleInputChange(e, index)} /> */}
           <Button
             type="button"
-            className="w-1/6 text-[#E76B39] bg-white hover:bg-red hover:text-white"
+            className=" text-[#E76B39] bg-white hover:bg-red hover:text-white"
             onClick={() => handleRemoveAmenity(index)}
           >
             Delete
@@ -71,7 +85,7 @@ const AmenityInput = ({ amenities, setAmenities, control }) => {
       >
         + Add Amenity
       </Button>
-    </>
+    </section>
   );
 };
 
