@@ -8,8 +8,6 @@ import { uploadFile } from "../upload";
 import { error } from "toastr";
 console.log("Before handler");
 export default async function handler(req, res) {
-  console.log("Hi");
-  console.log("req : ", req);
   if (req.method === "POST") {
     await runMiddleware(req, res, uploadFilesMulter);
     console.log("req.file: ", req.files);
@@ -136,13 +134,13 @@ export default async function handler(req, res) {
     }
   } else if (req.method === "PUT") {
     await runMiddleware(req, res, uploadFilesMulter);
-    console.log(req.body);
+    console.log("req.body: ", req.body);
     if (typeof req.body.amenity === "string" && req.body.amenity !== "") {
       req.body.amenity = [req.body.amenity];
     } else if (req.body.amenity === "") {
       req.body.amenity = null;
     }
-    if (req.body.promotionPrice === 0) {
+    if (req.body.promotionPrice === '0') {
       req.body.promotionPrice = null;
     }
     try {

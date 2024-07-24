@@ -266,7 +266,6 @@ const EditRoomProperties = () => {
                 Basic Information
               </h2>
               {/* ---------- Room Type ---------- */}
-
               <FormField
                 control={form.control}
                 name="roomTypeId"
@@ -302,6 +301,7 @@ const EditRoomProperties = () => {
                 )}
               />
               {/* ---------- Room size & Bed type ---------- */}
+
               <div className="w-full flex gap-10">
                 <div className="w-full">
                   <FormField
@@ -403,7 +403,7 @@ const EditRoomProperties = () => {
                       <FormItem>
                         <FormLabel>Price per Night (THB) *</FormLabel>
                         <FormControl>
-                          <Input {...field} />
+                          <Input {...field} type="number" />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -429,8 +429,9 @@ const EditRoomProperties = () => {
                         <FormControl>
                           <Input
                             {...field}
+                            type="number"
                             disabled={!isChecked ? false : true}
-                            value={isChecked ? field.value : 0}
+                            value={!isChecked ? field.value : 0}
                           />
                         </FormControl>
                         <FormMessage />
