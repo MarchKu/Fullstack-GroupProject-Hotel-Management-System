@@ -4,7 +4,7 @@ import PostStatus from "./postStatus";
 
 const room_per_page = 10;
 
-export default function RoomList() {
+export default function RoomList({ search }) {
   const [roomData, setRoomData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
@@ -15,16 +15,20 @@ export default function RoomList() {
   useEffect(() => {
     fetchRoomData(currentPage);
     setStartPage(Math.floor((currentPage - 1) / 5) * 5 + 1);
-  }, [currentPage]);
+  }, [currentPage, search]);
 
   const fetchRoomData = async (page) => {
     try {
       setIsLoading(true);
       const result = await axios.get(
-        `http://localhost:3000/api/getRoomStatus-Admin?page=${page}&limit=${room_per_page}`
+        `http://localhost:3000/api/getRoomStatus-Admin?page=${page}&limit=${room_per_page}&search=${search}`
       );
-      setRoomData(result.data.rooms);
-      setTotalPages(Math.ceil(result.data.total / room_per_page));
+      const fetchedRooms = result.data.rooms;
+      const totalRooms = result.data.total;
+      const calculatedTotalPages = Math.ceil(totalRooms / room_per_page);
+
+      setRoomData(fetchedRooms);
+      setTotalPages(calculatedTotalPages);
       setIsLoading(false);
       setIsError(false);
     } catch (error) {
@@ -34,24 +38,24 @@ export default function RoomList() {
     }
   };
 
-  const handlePageCLick = (page) => {
+  const handlePageClick = (page) => {
     setCurrentPage(page);
     if (page >= startPage + 4) {
-      setStartPage(startPage + 1);
-    } else if (page < startPage && startPage > 1) {
-      setStartPage(startPage - 1);
+      setStartPage(startPage + 5);
+    } else if (page < startPage) {
+      setStartPage(startPage - 5);
     }
   };
 
   const handleNextPage = () => {
-    if (startPage + 5 <= totalPages) {
+    if (currentPage <= totalPages) {
       setStartPage(startPage + 1);
       setCurrentPage(currentPage + 1);
     }
   };
 
   const handlePrevPage = () => {
-    if (startPage > 1) {
+    if (currentPage > 1) {
       setStartPage(startPage - 1);
       setCurrentPage(currentPage - 1);
     }
