@@ -1,63 +1,41 @@
 import connectionPool from "@/utils/connectionPool/db";
-
 export default async function GET(req, res) {
-  const {
-    page = 1,
-    limit = 10,
-    room_id,
-    bed_type,
-    type_name,
-    status,
-    search = "",
-  } = req.query;
+  const { page = 1, limit = 10, search = "" } = req.query;
 
   const current = (page - 1) * limit;
 
   try {
     const query = `
-      SELECT *
+       SELECT *
       FROM room_types
       INNER JOIN rooms ON room_types.room_type_id = rooms.room_type_id
       WHERE
-        ($1::text IS NULL OR rooms.room_id::text = $1) AND
-        ($2::text IS NULL OR rooms.bed_type ILIKE $2) AND
-        ($3::text IS NULL OR room_types.type_name ILIKE $3) AND
-        ($4::text IS NULL OR rooms.status ILIKE $4) AND
-        (rooms.room_id::text ILIKE $5 OR rooms.bed_type ILIKE $5 OR room_types.type_name ILIKE $5 OR rooms.room_size ILIKE $5)
+        rooms.room_id::text ILIKE $1 OR
+        rooms.bed_type ILIKE $1 OR
+        room_types.type_name ILIKE $1 OR
+        rooms.room_size ILIKE $1 OR
+        rooms.status ILIKE $1
       ORDER BY rooms.room_id ASC
-      LIMIT $6 OFFSET $7
+      LIMIT $2 OFFSET $3
     `;
 
-    const params = [
-      room_id || null,
-      bed_type ? `%${bed_type}%` : null,
-      type_name ? `%${type_name}%` : null,
-      status ? `%${status}%` : null,
-      `%${search}%`,
-      limit,
-      current,
-    ];
+    const params = [`%${search}%`, limit, current];
 
     const result = await connectionPool.query(query, params);
-    const totalCountQuery = `
-    SELECT COUNT(*) AS total
-    FROM room_types
-    INNER JOIN rooms ON room_types.room_type_id = rooms.room_type_id
-    WHERE
-      ($1::text IS NULL OR rooms.room_id::text = $1) AND
-      ($2::text IS NULL OR rooms.bed_type ILIKE $2) AND
-      ($3::text IS NULL OR room_types.type_name ILIKE $3) AND
-      ($4::text IS NULL OR rooms.status ILIKE $4) AND
-      (rooms.room_id::text ILIKE $5 OR rooms.bed_type ILIKE $5 OR room_types.type_name ILIKE $5 OR rooms.room_size ILIKE $5)
-  `;
 
-    const totalCountParams = [
-      room_id || null,
-      bed_type ? `%${bed_type}%` : null,
-      type_name ? `%${type_name}%` : null,
-      status ? `%${status}%` : null,
-      `%${search}%`,
-    ];
+    const totalCountQuery = `
+      SELECT COUNT(*) AS total
+      FROM room_types
+      INNER JOIN rooms ON room_types.room_type_id = rooms.room_type_id
+      WHERE
+        rooms.room_id::text ILIKE $1 OR
+        rooms.bed_type ILIKE $1 OR
+        room_types.type_name ILIKE $1 OR
+        rooms.room_size ILIKE $1 OR
+        rooms.status ILIKE $1
+    `;
+
+    const totalCountParams = [`%${search}%`];
 
     const totalResult = await connectionPool.query(
       totalCountQuery,
