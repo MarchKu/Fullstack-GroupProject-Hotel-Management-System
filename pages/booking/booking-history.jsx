@@ -12,6 +12,16 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+  DialogFooter,
+  DialogClose,
+} from "@/components/ui/dialog";
 
 const BookingHistory = () => {
   const router = useRouter();
@@ -141,7 +151,7 @@ const BookingHistory = () => {
                             </div>
                           </AccordionContent>
                           {history.special_request.map((request, index) => {
-                            const data = JSON.parse(request)
+                            const data = JSON.parse(request);
                             return (
                               <AccordionContent
                                 key={index}
@@ -170,7 +180,9 @@ const BookingHistory = () => {
                           </AccordionContent>
                           <AccordionContent className="bg-gray-300 px-[5%] pt-[1rem]">
                             <div className="flex flex-col justify-between gap-[1rem]">
-                              <h3 className="font-semibold">Additional Request</h3>
+                              <h3 className="font-semibold">
+                                Additional Request
+                              </h3>
                               <h3>{history.additional_request}</h3>
                             </div>
                           </AccordionContent>
@@ -180,16 +192,37 @@ const BookingHistory = () => {
                   </div>
                 </div>
                 <div className="h-[10%] w-full flex flex-row  justify-between items-center pl-[5%]">
-                  <button
-                    onClick={() => {
-                      const bookingdate = history.created_at;
-                      const bookingID = history.booking_id;
-                      cancleClick(bookingdate, bookingID);
-                    }}
-                    className="text-orange-500 hover:underline"
-                  >
-                    Cancel Booking
-                  </button>
+                  <Dialog className="flex flex-col">
+                    <DialogTrigger className="text-orange-500 hover:underline">
+                      Cancel Booking
+                    </DialogTrigger>
+                    <DialogContent>
+                      <DialogHeader>
+                        <DialogTitle>Cancel Bokking</DialogTitle>
+                        <DialogDescription>
+                          Cancellation of the booking now will not be able to
+                          request a refund. Are you sure you would like to
+                          cancel this booking?
+                        </DialogDescription>
+                        <DialogFooter>
+                          <button
+                            onClick={() => {
+                              const bookingdate = history.created_at;
+                              const bookingID = history.booking_id;
+                              cancleClick(bookingdate, bookingID);
+                            }}
+                          >
+                            <Button>Yes, I want to cancel</Button>
+                          </button>
+                          <DialogClose asChild>
+                            <Button type="button" variant="secondary">
+                              No, Don’t Cancel
+                            </Button>
+                          </DialogClose>
+                        </DialogFooter>
+                      </DialogHeader>
+                    </DialogContent>
+                  </Dialog>
                   <div className="h-full flex items-center gap-[1.5rem]">
                     <button
                       onClick={() => {
@@ -208,9 +241,7 @@ const BookingHistory = () => {
                       }}
                       className="w-40 xl:w-[180px] rounded  md:h-full"
                     >
-                      <Button className="size-full">
-                        Change date
-                      </Button>
+                      <Button className="size-full">Change date</Button>
                     </button>
                   </div>
                 </div>

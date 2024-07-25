@@ -30,7 +30,7 @@ export default async function handler(req, res) {
       rooms.promotion_price,
       rooms.main_image,
       bills.payment_method,
-      bills.promotion,
+      bills.promotion_discount,
       bills.special_request,
       bills.additional_request,
       bills.total_price
