@@ -21,13 +21,19 @@ export default async function handler(req, res) {
       booking.check_in,
       booking.check_out,
       booking.created_at,
+      booking.booking_id,
       rooms.room_size,
-      rooms.bed_type,	
+      rooms.bed_type,
+      rooms.room_id,	
       rooms.room_capacity,
       rooms.current_price,
       rooms.promotion_price,
       rooms.main_image,
-      bills.payment_method
+      bills.payment_method,
+      bills.promotion,
+      bills.special_request,
+      bills.additional_request,
+      bills.total_price
       from bills 
       inner join booking
       on bills.booking_id = booking.booking_id

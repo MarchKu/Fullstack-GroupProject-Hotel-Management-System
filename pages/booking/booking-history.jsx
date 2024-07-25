@@ -3,6 +3,7 @@ import NavbarComponent from "@/components/navigation-component/NavbarComponent";
 import FooterComponent from "@/components/footer-component/FooterComponent";
 import useBookingHistory from "@/hooks/use-booking-history";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { Button } from "@/components/ui/button";
 import { format } from "date-fns";
 import {
@@ -13,6 +14,7 @@ import {
 } from "@/components/ui/accordion";
 
 const BookingHistory = () => {
+  const router = useRouter();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [user, setUser] = useState({});
   const { bookingHistory, getBookingHistoryByUsername, isLoading, isError } =
@@ -39,6 +41,24 @@ const BookingHistory = () => {
       getBookingHistoryByUsername(user.username);
     }
   }, [user.username]);
+
+  const changeDateClick = (created_at) => {
+    let bookingDate = new Date(created_at);
+    let currentDate = new Date();
+    const timeleft = Math.floor((currentDate - bookingDate) / (1000 * 60 * 60));
+    timeleft <= 24
+      ? router.push("/change-date")
+      : alert("Booking date over 24 hour booking date cannot be change");
+  };
+
+  const cancleClick = (created_at, id) => {
+    let bookingDate = new Date(created_at);
+    let currentDate = new Date();
+    const timeleft = Math.floor((currentDate - bookingDate) / (1000 * 60 * 60));
+    timeleft <= 24
+      ? router.push("/refund")
+      : router.push(`/booking/cancel-booking/${id}`);
+  };
   return (
     <>
       <NavbarComponent isAuthenticated={isAuthenticated} />
@@ -51,6 +71,7 @@ const BookingHistory = () => {
             return (
               <div
                 key={index}
+                id="index"
                 className="border-b min-h-[700px] md:min-h-[500px] xl:min-h-[650px] py-[5%] border-gray-300 flex flex-col justify-center items-center w-full h-[90vh] md:h-[450px] md:flex-col md:justify-between md:items-center md:py-[2rem]"
               >
                 <div className="w-full h-[90%] flex">
@@ -98,7 +119,11 @@ const BookingHistory = () => {
                           </p>
                         </div>
                       </div>
-                      <Accordion type="single" collapsible className="w-full text-gray-700" >
+                      <Accordion
+                        type="single"
+                        collapsible
+                        className="w-full text-gray-700"
+                      >
                         <AccordionItem value="item-1">
                           <AccordionTrigger className="bg-gray-200 px-[5%]">
                             Booking Detail
@@ -115,34 +140,38 @@ const BookingHistory = () => {
                               <h3>{history.promotion_price}</h3>
                             </div>
                           </AccordionContent>
-                          <AccordionContent className="bg-gray-200 px-[5%]">
-                            <div className="flex justify-between">
-                              <h3>Special request 1</h3>
-                              <h3>.....</h3>
-                            </div>
-                          </AccordionContent>
-                          <AccordionContent className="bg-gray-200 px-[5%]">
-                            <div className="flex justify-between">
-                              <h3>Special request 2</h3>
-                              <h3>.....</h3>
-                            </div>
-                          </AccordionContent>
+                          {history.special_request.map((request, index) => {
+                            const data = JSON.parse(request)
+                            return (
+                              <AccordionContent
+                                key={index}
+                                className="bg-gray-200 px-[5%]"
+                              >
+                                <div className="flex justify-between">
+                                  <h3>{data.name}</h3>
+                                  <h3>{data.price}</h3>
+                                </div>
+                              </AccordionContent>
+                            );
+                          })}
                           <AccordionContent className="bg-gray-200 px-[5%] border-b-[1px] border-gray-400">
                             <div className="flex justify-between">
                               <h3>Promotion Code</h3>
-                              <h3>.....</h3>
+                              <h3>{history.promotion}</h3>
                             </div>
                           </AccordionContent>
                           <AccordionContent className="bg-gray-200 px-[5%]">
-                            <div className="flex flex-col justify-between">
+                            <div className="flex justify-between pt-[1rem] items-center">
                               <h3>Total</h3>
-                              <h3>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Accusamus eum magni, numquam saepe fuga et autem deserunt dicta eaque cumque? Dolores at voluptas consectetur architecto, earum dolorum culpa fuga corporis!</h3>
+                              <h3 className="font font-semibold text-[1.5rem]">
+                                THB {history.total_price}
+                              </h3>
                             </div>
                           </AccordionContent>
-                          <AccordionContent className="bg-gray-200 px-[5%] border-b-[1px] border-gray-400">
-                            <div className="flex flex-col justify-between">
-                              <h3>Additional Request</h3>
-                              <h3>.....</h3>
+                          <AccordionContent className="bg-gray-300 px-[5%] pt-[1rem]">
+                            <div className="flex flex-col justify-between gap-[1rem]">
+                              <h3 className="font-semibold">Additional Request</h3>
+                              <h3>{history.additional_request}</h3>
                             </div>
                           </AccordionContent>
                         </AccordionItem>
@@ -150,23 +179,39 @@ const BookingHistory = () => {
                     </div>
                   </div>
                 </div>
-                <div className="w-full flex flex-row  justify-between items-center pl-[5%]">
-                  <Link
-                    href="/room-detail/1"
+                <div className="h-[10%] w-full flex flex-row  justify-between items-center pl-[5%]">
+                  <button
+                    onClick={() => {
+                      const bookingdate = history.created_at;
+                      const bookingID = history.booking_id;
+                      cancleClick(bookingdate, bookingID);
+                    }}
                     className="text-orange-500 hover:underline"
                   >
                     Cancel Booking
-                  </Link>
-                  <div className="flex items-center gap-[1.5rem]">
-                    <Link
-                      href="/change-date"
+                  </button>
+                  <div className="h-full flex items-center gap-[1.5rem]">
+                    <button
+                      onClick={() => {
+                        const roomID = history.room_id;
+                        router.push(`/rooms/${roomID}`);
+                      }}
                       className="text-orange-500 hover:underline"
                     >
                       Room Deatail
-                    </Link>
-                    <Button className="w-40 xl:w-[180px] rounded xl:text-[1.25rem]" onClick="">
-                      Change date
-                    </Button>
+                    </button>
+                    <button
+                      onClick={() => {
+                        const bookingdate = history.created_at;
+                        const bookingID = history.booking_id;
+                        changeDateClick(bookingdate, bookingID);
+                      }}
+                      className="w-40 xl:w-[180px] rounded  md:h-full"
+                    >
+                      <Button className="size-full">
+                        Change date
+                      </Button>
+                    </button>
                   </div>
                 </div>
               </div>

@@ -28,7 +28,7 @@ export default function useRoomData() {
   const getAllRoomsData = async () =>{
     try{
       setIsLoading(true);
-        const result = await axios.get(`http://localhost:3000/api/rooms`);
+        const result = await axios.get(`http://localhost:3000/api/room`);
         setRoomData(result.data);
         setIsLoading(false);
         setIsError(false)

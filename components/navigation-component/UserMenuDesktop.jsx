@@ -42,7 +42,7 @@ const UserMenuDesktop = (props) => {
             <Image src={cardIcon} className="w-4 h-4" />
             <p>Payment Method</p>
           </MenubarItem>
-          <MenubarItem className="gap-3 px-2" onClick={() => router.push("/booking-history")}>
+          <MenubarItem className="gap-3 px-2" onClick={() => router.push("/booking/booking-history")}>
             <Image src={bookingIcon} className="w-4 h-4" />
             <p>Booking History</p>
           </MenubarItem>

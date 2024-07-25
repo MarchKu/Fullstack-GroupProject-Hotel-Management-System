@@ -8,7 +8,6 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel-about";
 import { Card, CardContent } from "@/components/ui/card";
-import { carouselAbout } from "@/utils/carousel-info-array/carousel-about";
 import { Button } from "@/components/ui/button";
 import useRoomData from "@/hooks/use-room-data";
 import { useEffect, useState } from "react";
@@ -121,7 +120,7 @@ const RoomDetail = () => {
                   {/* render data */}
                   THB {roomData.current_price}
                 </s>
-              </p>  
+              </p>
               <p className="text-[1.25rem] md:text-[1.5rem] xl:text-[1.7rem]  font-bold">
                 {/* render data */}
                 THB {roomData.promotional_price}
