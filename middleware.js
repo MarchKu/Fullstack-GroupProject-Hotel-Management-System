@@ -14,6 +14,8 @@ export const config = {
   matcher: [
     "/admin/bookings",
     "/admin/hotel-information",
-    "/admin/booking_detail/:path*",
+    "/admin/booking-detail/:path*",
+    "/admin/room-management",
+    "/admin/room-property-all",
   ],
 };

@@ -116,7 +116,7 @@ export default function AllBooking() {
                     <TableBody className="bg-white">
                       <TableRow key={index}>
                         <TableCell>
-                          <a href={`/admin/booking_detail/${item.booking_id}`}>
+                          <a href={`/admin/booking-detail/${item.booking_id}`}>
                             <p className="text-center">{item.booking_id}</p>
                           </a>
                         </TableCell>

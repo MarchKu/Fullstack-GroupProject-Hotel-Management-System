@@ -23,7 +23,7 @@ const Sidebar = () => {
     {
       title: "Room Management",
       icon: manageIcon,
-      url: "/admin/login",
+      url: "/admin/room-management",
     },
     {
       title: "Hotel Information",
@@ -33,7 +33,7 @@ const Sidebar = () => {
     {
       title: "Room & Property",
       icon: roomIcon,
-      url: "/admin/login",
+      url: "/admin/room-property-all",
     },
   ];
   return (
