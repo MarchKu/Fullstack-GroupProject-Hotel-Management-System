@@ -48,8 +48,6 @@ export default async function handler(req, res) {
       [roomId, data.check_in, data.check_out]
     );
 
-    console.log(checkDate);
-
     if (checkDate.rows[0]) {
       return res
         .status(401)
