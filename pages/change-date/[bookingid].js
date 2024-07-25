@@ -63,7 +63,7 @@ export default function ChangeDatePage() {
       });
       toastr["success"]("Change check-in and check-out date successfully");
       setTimeout(function () {
-        window.location.reload();
+        window.location.replace("/booking-history");
       }, 2000);
     } catch (error) {
       console.log(error.message);
@@ -270,7 +270,12 @@ export default function ChangeDatePage() {
                     </div>
                   </div>
                   <div className="button flex flex-col md:flex-row md:justify-between mt-5">
-                    <button className="text-primary font-semibold max-md:order-last max-md:mt-5 ml-1">
+                    <button
+                      className="text-primary font-semibold max-md:order-last max-md:mt-5 ml-1"
+                      onClick={() =>
+                        window.location.replace("/booking-history")
+                      }
+                    >
                       Cancel
                     </button>
                     <Button onClick={toggleModal}>Confirm Change Date</Button>
