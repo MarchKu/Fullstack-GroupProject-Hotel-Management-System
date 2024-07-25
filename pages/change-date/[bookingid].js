@@ -13,6 +13,8 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { addDays, subDays } from "date-fns";
+import toastr from "toastr";
+import "toastr/build/toastr.min.css";
 
 export default function ChangeDatePage() {
   const [bookingData, setBookingData] = useState([]);
@@ -50,6 +52,25 @@ export default function ChangeDatePage() {
       setBookingData(res.data);
     } catch (error) {
       console.log(error.message);
+    }
+  };
+
+  const changeBookingDataById = async (bookingId) => {
+    try {
+      await axios.put(`http://localhost:3000/api/booking/${bookingId}`, {
+        check_in: dateFormatter(newCheckInDate),
+        check_out: dateFormatter(newCheckOutDate),
+      });
+      toastr["success"]("Change check-in and check-out date successfully");
+      setTimeout(function () {
+        window.location.reload();
+      }, 2000);
+    } catch (error) {
+      console.log(error.message);
+      toastr["error"]("Invalid check-in or check-out date");
+      setTimeout(function () {
+        window.location.reload();
+      }, 2000);
     }
   };
 
@@ -122,7 +143,9 @@ export default function ChangeDatePage() {
             >
               No, I don't
             </button>
-            <Button>Yes, I want to change</Button>
+            <Button onClick={() => changeBookingDataById(bookingId)}>
+              Yes, I want to change
+            </Button>
           </div>
         </div>
       </div>

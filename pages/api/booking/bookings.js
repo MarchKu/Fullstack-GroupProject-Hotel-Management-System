@@ -3,7 +3,6 @@ import connectionPool from "@/utils/connectionPool/db";
 export default async function POST(req, res) {
   const fullName = req.body.full_name;
   const fullNameFormatted = `%${fullName}%`;
-  console.log(fullNameFormatted);
   try {
     if (fullName) {
       const countDataSize = await connectionPool.query(
