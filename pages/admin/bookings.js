@@ -18,7 +18,6 @@ import Sidebar from "@/components/hotel-information/Sidebar";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Input } from "@/components/ui/input";
-import Link from "next/link";
 import { dateFormatter } from "@/hooks/useDateFormatter";
 
 export default function AllBooking() {
@@ -117,11 +116,9 @@ export default function AllBooking() {
                     <TableBody className="bg-white">
                       <TableRow key={index}>
                         <TableCell>
-                          <Link
-                            href={`/admin/booking_detail/${item.booking_id}`}
-                          >
+                          <a href={`/admin/booking_detail/${item.booking_id}`}>
                             <p className="text-center">{item.booking_id}</p>
-                          </Link>
+                          </a>
                         </TableCell>
                         <TableCell className="">{item.full_name}</TableCell>
                         <TableCell>{item.room_capacity}</TableCell>

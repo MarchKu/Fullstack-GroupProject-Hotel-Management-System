@@ -60,7 +60,7 @@ function AuthProvider(props) {
         "http://localhost:3000/api/auth/adminlogin",
         data
       );
-      localStorage.setItem("adminToken", result.data.token);
+      localStorage.setItem("admin", JSON.stringify(result.data.username));
       document.cookie = `adminToken=${result.data.token}`;
       toastr["success"]("Admin logged in successfully");
       setTimeout(function () {
@@ -78,7 +78,7 @@ function AuthProvider(props) {
   const adminLogout = async () => {
     try {
       auth.signOut();
-      localStorage.removeItem("adminToken");
+      localStorage.removeItem("admin");
       setTimeout(function () {
         window.location.replace("/admin/login");
       }, 1000);
