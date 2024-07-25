@@ -13,13 +13,15 @@ const HotelInformation = () => {
       const docSnap = await getDoc(docRef);
       if (docSnap.exists()) {
         const result = docSnap.data();
-        localStorage.setItem("admin", JSON.stringify(result));
+        localStorage.setItem("adminData", JSON.stringify(result));
       }
     });
   };
 
   useEffect(() => {
-    getAdminData();
+    if (localStorage.getItem("adminToken")) {
+      getAdminData();
+    }
   }, []);
 
   return (
