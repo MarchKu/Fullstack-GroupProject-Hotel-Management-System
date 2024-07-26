@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import FooterLogo from "../../assets/Footer/FooterLogo.png";
 import PhoneIcon from "../../assets/Footer/PhoneIcon.png";
@@ -7,23 +7,32 @@ import LocationIcon from "../../assets/Footer/LocationIcon.png";
 import FacebookIcon from "../../assets/Footer/FacebookIcon.png";
 import IgIcon from "../../assets/Footer/IgIcon.png";
 import TwitterIcon from "../../assets/Footer/TwitterIcon.png";
+import axios from "axios";
 
 const FooterComponent = () => {
+  const [hotelData, setHotelData] = useState({});
+
+  useEffect(() => {
+    const getHotelData = async () => {
+      const result = await axios.get("http://localhost:3000/api/getHotelData");
+      setHotelData(result.data.data);
+    };
+
+    getHotelData();
+  }, []);
   return (
     <footer className="w-full min-h-[600px] md:min-h-[485px] h-[70vh] md:h-[50vh] bg-primary-heading font-body text-white flex flex-col justify-between items-center px-[10%] md:pt-[5%] md:pb-[2.5%] py-[10%]">
       <div className="size-full">
         <div className="size-full flex flex-col md:flex-row justify-between items-center">
           <div className="size-full flex flex-col justify-start items-start pb-[1.5rem] text-[1.2rem] lg:text-[1.5rem] xl:text-[1.7rem]">
             <Image
-              src={FooterLogo}
-              alt="Neatly Logo" 
+              src={hotelData.hotel_logo}
+              alt="Neatly Logo"
               className="pb-[2rem] "
-              width="auto"
-              height="auto"
+              width={100}
+              height={100}
             />
-            <h1 className="font-semibold  pb-[1rem]">
-              Neatly Hotel
-            </h1>
+            <h1 className="font-semibold  pb-[1rem]">{hotelData.hotel_name}</h1>
             <p>The best hotel for rising your experience</p>
           </div>
           <div className="w-full md:w-[40%] h-full flex flex-col justify-start items-start pb-[1.5rem] text-[1.2rem] lg:text-[1.5rem] xl:text-[1.7rem]">

@@ -3,18 +3,17 @@ import Link from "next/link";
 import Image from "next/image";
 import { NavigationMenuLink } from "../ui/navigation-menu";
 
-
-import neatlyLogo from "../../assets/Navigation/neatlyLogo.png";
-
-
-const Logo = () => {
+const Logo = ({ hotelLogo }) => {
   return (
     <Link href="/" legacyBehavior passHref>
       <NavigationMenuLink>
         <Image
-          src={neatlyLogo}
+          src={hotelLogo}
           alt="Neatly Logo"
-          className="lg:min-w-[167px] lg:h-[45px] md:w-[94px] w-[94px] h-[25px]"
+          width={90}
+          height={90}
+          // className="lg:min-w-[167px] lg:h-[45px] md:w-[94px] w-[94px] h-[25px]"
+          className="lg:w-[90px] md:w-[90px] w-[40px] "
         />
       </NavigationMenuLink>
     </Link>
