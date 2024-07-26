@@ -13,7 +13,7 @@ export default function useBookingHistory() {
     try {
       if (username) {
         setIsLoading(true);
-        const result = await axios.get(`http://localhost:3000/api/booking/${username}`);
+        const result = await axios.get(`http://localhost:3000/api/booking/history/${username}`);
         setBookingHistory(result.data);
         setIsLoading(false);
         setIsError(false)
