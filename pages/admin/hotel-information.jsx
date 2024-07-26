@@ -5,20 +5,20 @@ import Sidebar from "@/components/hotel-information/Sidebar";
 import Main from "@/components/hotel-information/Main";
 
 const HotelInformation = () => {
-  const getAdminData = async () => {
-    auth.onAuthStateChanged(async (user) => {
-      const docRef = doc(firebaseDB, "admins", user.uid);
-      const docSnap = await getDoc(docRef);
-      if (docSnap.exists()) {
-        const result = docSnap.data();
-        localStorage.setItem("admin", JSON.stringify(result));
-      }
-    });
-  };
+  // const getAdminData = async () => {
+  //   auth.onAuthStateChanged(async (user) => {
+  //     const docRef = doc(firebaseDB, "admins", user.uid);
+  //     const docSnap = await getDoc(docRef);
+  //     if (docSnap.exists()) {
+  //       const result = docSnap.data();
+  //       localStorage.setItem("admin", JSON.stringify(result));
+  //     }
+  //   });
+  // };
 
-  useEffect(() => {
-    getAdminData();
-  }, []);
+  // useEffect(() => {
+  //   getAdminData();
+  // }, []);
 
   
 
