@@ -1,4 +1,5 @@
 import axios from "axios";
+import { revalidatePath } from "next/cache";
 import { useState } from "react";
 import toastr from "toastr";
 import "toastr/build/toastr.min.css";
@@ -23,6 +24,7 @@ export default function useUserProfile() {
         setUserData(result.data);
         setIsLoading(false);
         setIsError(false);
+        console.log(result.data);
       }
     } catch (error) {
       console.error(error);
@@ -44,6 +46,7 @@ export default function useUserProfile() {
       toastr["success"]("You are successfully update your profile");
       setTimeout(function () {
         window.location.replace("/profile");
+        revalidatePath("/profile");
       }, 1000);
       setIsLoading(false);
       setIsError(false);

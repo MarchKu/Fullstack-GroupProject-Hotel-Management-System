@@ -12,19 +12,17 @@ import NavLinkDesktop from "./NavLinkDesktop";
 import NonUserMenuMobile from "./NonUserMenuMobile";
 import { useAuth } from "@/contexts/authentication";
 import UserImage from "../../assets/Navigation/UserImage.png";
+import useUserProfile from "@/hooks/use-user-profile";
 
-const NavbarComponent = ({ isAuthenticated }) => {
-  const [user, setUser] = useState({});
-  useEffect(() => {
-    const fetchUserData = async () => {
-      const userData = localStorage.getItem("user");
-      if (userData) {
-        const parsedData = JSON.parse(userData);
-        setUser(parsedData);
-      }
-    };
-    fetchUserData();  
-  }, []);
+const NavbarComponent = ({ isAuthenticated, isLoading, userData }) => {
+  // const { userData, getUserProfile, putUserProfile, isLoading, isError } =
+  //   useUserProfile();
+  // const [user, setUser] = useState(null);
+
+  // useEffect(() => {
+  //   console.log(userData);
+  //   getUserProfile(userData?.username);
+  // }, []);
 
   const AuthenticatedUser = (
     <NavigationMenu className="flex items-center min-h-[48px] md:min-h-[100px] h-[5vh] border-[1px] border-[#E4E6ED] justify-center w-full">
@@ -37,11 +35,21 @@ const NavbarComponent = ({ isAuthenticated }) => {
         </div>
         <div className="flex items-center justify-end">
           <Notification />
-          <UserMenuMobile image={user.profilePicture} name={user.fullName} />
-          <UserMenuDesktop
-            image={user.profilePicture}
-            name={ user.fullName}
-          />
+          {isLoading ? (
+            <h1>Loading</h1>
+          ) : (
+            <>
+              <UserMenuMobile
+                image={userData?.profile_picture}
+                name={userData?.fullName}
+              />
+              <UserMenuDesktop
+                isLoading={isLoading}
+                image={userData?.profile_picture}
+                name={userData?.full_name}
+              />
+            </>
+          )}
         </div>
       </div>
     </NavigationMenu>
@@ -60,7 +68,7 @@ const NavbarComponent = ({ isAuthenticated }) => {
             <Link href="/login" legacyBehavior passHref>
               <NavigationMenuLink className="text-[1rem] ml-2 leading-4 font-semibold text-[#E76B39]">
                 <p className="whitespace-nowrap">Log in</p>
-              </NavigationMenuLink> 
+              </NavigationMenuLink>
             </Link>
           </div>
         </div>
