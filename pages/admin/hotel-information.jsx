@@ -3,8 +3,6 @@
 import React, { useEffect, useState } from "react";
 import Sidebar from "@/components/hotel-information/Sidebar";
 import Main from "@/components/hotel-information/Main";
-import { auth, firebaseDB } from "@/utils/firebase-config/firebase";
-import { doc, getDoc } from "@firebase/firestore";
 
 const HotelInformation = () => {
   const getAdminData = async () => {

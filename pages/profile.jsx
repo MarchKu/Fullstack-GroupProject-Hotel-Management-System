@@ -1,54 +1,28 @@
 "use client";
-
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/formComponent";
 import React from "react";
-import FormFieldComponent from "../components/ui/FormField";
-import DatePicker from "../components/ui/datePick";
-import CountryPicker from "../components/ui/countryPick";
-import InputFile from "@/components/ui/uploadFile";
-import { useAuth } from "@/contexts/authentication";
+import FormFieldComponent from "@/components/ui/FormField";
+import DatePicker from "@/components/ui/datePick";
+import CountryPicker from "@/components/ui/countryPick";
+import InputFile from "@/components/ui/uploadFile-profile";
 import NavbarComponent from "@/components/navigation-component/NavbarComponent";
-import { checkUniqueUser } from "../lib/checkUniqueUser";
-import { checkUniqueProfile } from "../lib/checkUniqueProfile";
-const minAge = 18;
-const registerSchema = z.object({
-  fullName: z.string().min(2),
-  username: z
+import { useState, useEffect } from "react";
+import useUserProfile from "@/hooks/use-user-profile";
+import { Skeleton } from "@/components/ui/skeleton";
+
+/* Set schema */
+const profileSchema = z.object({
+  full_name: z.string().min(2),
+  email: z.string().email("Invalid email"),
+  id_number: z
     .string()
-    .min(2, { message: "Username must be at least 2 characters." })
-    .refine(
-      async (username) => {
-        return await checkUniqueUser("username", username);
-      },
-      { message: "username already exists" }
-    ),
-  //refine checkUniqueUsername
-  password: z
-    .string()
-    .min(12, { message: "Password must be at least 12 characters." }),
-  email: z
-    .string()
-    .email({ message: "Please enter a valid email address." })
-    .refine(
-      async (email) => {
-        return await checkUniqueUser("email", email);
-      },
-      { message: "username already exists" }
-    ),
-  idNumber: z
-    .string()
-    .min(13, { message: "ID Number must be at least 13 digits." })
-    .refine(
-      async (idNumber) => {
-        return await checkUniqueProfile("id_number", idNumber);
-      },
-      { message: "ID Number already exists" }
-    ),
-  dateBirth: z
+    .min(13, { message: "ID Number must be 13 digits." })
+    .max(13, { message: "ID Number must be 13 digits." }),
+  date_of_birth: z
     .date({
       message: "A date of birth is required.",
     })
@@ -56,186 +30,162 @@ const registerSchema = z.object({
       (date) => {
         const ageCalculated = Date.now() - date.getTime();
         const ageDate = new Date(ageCalculated);
-        return Math.abs(ageDate.getUTCFullYear() - 1970) >= minAge;
+        return Math.abs(ageDate.getUTCFullYear() - 1970) >= 18;
       },
-      { message: `You must be at least ${minAge} years old.` }
+      { message: `You must be at least 18 years old.` }
     ),
-  country: z.string().nonempty({ message: "Please select a country." }),
-  profilepic: z.custom((file) => file instanceof File, {
-    message: "Profile Picture is required.",
-  }),
-  cardOwner: z.string().nonempty({ message: "Card Owner is required." }),
-  expiryDate: z.string().nonempty({ message: "Expiry Date is required." }),
-  cvv: z.string().nonempty({ message: "CVV is required." }),
-  cardnumber: z
-    .string()
-    .length(16, { message: "Credit Card must be 16 digits long." })
-    .regex(/^\d+$/, { message: "Credit Card must be numeric." }),
+  country: z.string(),
+  profile_picture: z.any(),
 });
 
-export default function Register() {
+/* fetch user profile */
+export default function Profile() {
+  const { userData, getUserProfile, putUserProfile, isLoading, isError } =
+    useUserProfile();
+  const [user, setUser] = useState(null);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  /* Set default value */
   const form = useForm({
-    resolver: zodResolver(registerSchema),
-    defaultValues: {
-      fullName: "",
-      username: "",
-      password: "",
-      email: "",
-      idNumber: "",
-      dateBirth: "",
-      country: "",
-      profilepic: {},
-      cardnumber: "",
-      cardOwner: "",
-      expiryDate: "",
-      cvv: "",
-    },
+    resolver: zodResolver(profileSchema),
   });
 
-  const { register } = useAuth();
+  /* Get user from localstorage */
+  useEffect(() => {
+    const fetchUserData = async () => {
+      const userData = localStorage.getItem("user");
+      if (userData) {
+        const parsedData = JSON.parse(userData);
+        setUser(parsedData);
+      }
+    };
+    fetchUserData();
+  }, []);
+
+  /* Data fetching */
+  useEffect(() => {
+    if (user) {
+      getUserProfile(user.username);
+    }
+    console.log(userData);
+  }, [user]);
+
+  /* Set form default data to featching data */
+  useEffect(() => {
+    if (userData) {
+      form.reset({
+        full_name: userData.full_name,
+        email: userData.email,
+        id_number: userData.id_number,
+        date_of_birth: new Date(userData.date_of_birth),
+        country: userData.country,
+        profile_picture: userData.profile_picture,
+      });
+    }
+  }, [userData, form]);
+  ``;
+
+  /* Handle submit */
 
   const onSubmit = async (data) => {
-    //register(data);
-
-    const formData = new FormData();
-
-    formData.append("username", data.username);
-    formData.append("password", data.password);
-    formData.append("email", data.email);
-    formData.append("full_name", data.fullName);
-    formData.append("id_number", data.idNumber);
-    formData.append("date_of_birth", data.dateBirth);
-    formData.append("country", data.country);
-    formData.append("profile_picture", data.profilepic);
-    formData.append("card_number", data.cardnumber);
-    formData.append("card_owner", data.cardOwner);
-
-    register(formData);
+    const formPayload = new FormData();
+    formPayload.append("full_name", data.full_name);
+    formPayload.append("email", data.email);
+    formPayload.append("id_number", data.id_number);
+    formPayload.append("date_of_birth", data.date_of_birth);
+    formPayload.append("country", data.country);
+    formPayload.append("profile_picture", data.profile_picture);
+    console.log(Object.fromEntries(formPayload));
+    putUserProfile(user.username, formPayload);
   };
 
+  /* Nav Bar Authen */
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    setIsAuthenticated(Boolean(token));
+  }, []);
   return (
     <>
-      <NavbarComponent />
-      <div className="w-full h-full inset-0 bg-cover bg-no-repeat bg-center bg-[url('../public/img/bg-register_page.jpg')]">
-        <div className="w-full h-full flex justify-center items-center  bg-gradient-to-b from-[#00000099] to-transparent ">
-          <div className="relative w-full md:mt-14 md:mb-20 p-2 md:p-14 m-0 md:w-[45%] bg-[#F7F7FB] pt-10 md:rounded-lg">
-            <div className="  flex flex-col gap-5  font-body ">
-              <h1 className="text-7xl font-serif text-[#2F3E35] font-medium tracking-tighter">
+      <NavbarComponent
+        isAuthenticated={isAuthenticated}
+        userData={userData}
+        isLoading={isLoading}
+      />
+      <section className="w-full h-[95vh] py-[10%] md:py-[5%] px-[5%] bg-gray-400 flex flex-col justify-center items-center">
+        <Form {...form}>
+          <form
+            onSubmit={form.handleSubmit(onSubmit)}
+            className="w-full max-w-[1440px] h-full flex flex-col justify-center items-center "
+          >
+            <div className="w-full h-[10%] flex justify-between items-center ">
+              <h1 className="text-[5rem] font-serif text-[#2F3E35] font-medium ">
                 Profile
               </h1>
-              <h2 className="text-xl pt-10 pb-5 font-semibold tracking-tighter text-[#9AA1B9]">
-                Basic Information
-              </h2>
+              <Button type="submit" className="w-[180px] h-[60%]">
+                Update Profile
+              </Button>
+            </div>
 
-              <Form {...form}>
-                <form
-                  onSubmit={form.handleSubmit(onSubmit)}
-                  className="text-base font-normal gap-3 md:grid md:grid-cols-2 "
-                >
-                  <div className="md:col-span-2">
-                    <FormFieldComponent
-                      control={form.control}
-                      name="fullName"
-                      label="Full Name"
-                      type="text"
-                      placeholder="Enter your name and last name"
-                    />
-                  </div>
+            <h2 className="w-full h-[5%] text-[1.7rem] font-semibold text-[#9AA1B9] content-center">
+              Basic Information
+            </h2>
+            <div className="w-full h-[95%] grid grid-cols-1 grid-rows-10 md:grid-cols-2 gap-[1rem] md:gap-[1.5rem] pt-[5%]">
+              <div className="md:col-span-2 h-full">
+                <FormFieldComponent
+                  control={form.control}
+                  name="full_name"
+                  label="Full Name"
+                  type="text"
+                  placeholder="Enter your name and last name"
+                />
+              </div>
 
-                  <FormFieldComponent
-                    control={form.control}
-                    name="username"
-                    label="Username"
-                    type="text"
-                    placeholder="Enter your username"
-                  />
-                  <FormFieldComponent
-                    control={form.control}
-                    name="email"
-                    label="Email"
-                    type="email"
-                    placeholder="Enter your email"
-                  />
-                  <FormFieldComponent
-                    control={form.control}
-                    name="password"
-                    label="Password"
-                    type="password"
-                    placeholder="Enter your password"
-                  />
-                  <FormFieldComponent
-                    control={form.control}
-                    name="idNumber"
-                    label="ID Number"
-                    type="text"
-                    placeholder="Enter your ID number"
-                  />
-                  <DatePicker
-                    control={form.control}
-                    name="dateBirth"
-                    label="Date of Birth"
-                    placeholder="Enter your date of birth"
-                  />
+              <FormFieldComponent
+                control={form.control}
+                name="email"
+                label="Email"
+                type="email"
+                placeholder="Enter your email"
+              />
+              <FormFieldComponent
+                control={form.control}
+                name="id_number"
+                label="ID Number"
+                type="text"
+                placeholder="Enter your ID number"
+              />
+              <DatePicker
+                control={form.control}
+                name="date_of_birth"
+                label="Date of Birth"
+                placeholder="Enter your date of birth"
+              />
 
-                  <CountryPicker
-                    control={form.control}
-                    name="country"
-                    label="Country"
-                    placeholder="Select your country"
-                  />
-                  <div className="col-span-2 border-b border-[#E4E6ED]"></div>
-
+              <CountryPicker
+                control={form.control}
+                name="country"
+                label="Country"
+                placeholder="Select your country"
+              />
+              <div></div>
+              <div className="hidden md:block"></div>
+              {userData !== null && (
+                <div>
                   <InputFile
                     control={form.control}
-                    name="profilepic"
-                    label="Upload  Picture"
-                    id="profilepic"
+                    name="profile_picture"
+                    label="Profile Picture"
+                    id="profile_picture"
                     type="file"
+                    currentPic={userData.profile_picture}
+                    isChange="default"
                   />
-
-                  <h1 className="border-t pt-5 border-[#E4E6ED] text-xl col-span-2 font-semibold  tracking-tighter text-[#9AA1B9]">
-                    Credit Card
-                  </h1>
-                  <FormFieldComponent
-                    control={form.control}
-                    name="cardnumber"
-                    label="Card Number"
-                    type="text"
-                    placeholder="Enter your card number"
-                  />
-                  <FormFieldComponent
-                    control={form.control}
-                    name="cardOwner"
-                    label="Card Owner"
-                    type="text"
-                    placeholder="Enter your card name"
-                  />
-                  <FormFieldComponent
-                    control={form.control}
-                    name="expiryDate"
-                    label=" Expiry Date"
-                    type="text"
-                    placeholder="MM/YY"
-                  />
-                  <FormFieldComponent
-                    control={form.control}
-                    name="cvv"
-                    label="cvv"
-                    type="text"
-                    placeholder="CVC/CVV"
-                  />
-                  <Button
-                    type="submit"
-                    className="mt-5 bg-[#C14817] w-full md:col-span-1"
-                  >
-                    Register
-                  </Button>
-                </form>
-              </Form>
+                </div>
+              )}
             </div>
-          </div>
-        </div>
-      </div>
+          </form>
+        </Form>
+      </section>
     </>
   );
 }

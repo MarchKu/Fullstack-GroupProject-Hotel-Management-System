@@ -84,7 +84,7 @@ export default async function POST(req, res) {
     const userId = userData.rows[0].user_id;
 
     let upLoadResult;
-
+ 
     if (userId) {
       const { buffer, mimetype } = req.file;
 

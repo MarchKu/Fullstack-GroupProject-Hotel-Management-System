@@ -13,30 +13,18 @@ import NonUserMenuMobile from "./NonUserMenuMobile";
 import axios from "axios";
 import { useAuth } from "@/contexts/authentication";
 import UserImage from "../../assets/Navigation/UserImage.png";
+import useUserProfile from "@/hooks/use-user-profile";
 
-const NavbarComponent = ({ isAuthenticated }) => {
-  const [user, setUser] = useState({});
-  const [hotelData, setHotelData] = useState({})
-  useEffect(() => {
-    const fetchUserData = async () => {
-      const userData = localStorage.getItem("user");
-      if (userData) {
-        const parsedData = JSON.parse(userData);
-        setUser(parsedData);
-      }
-    };
-    const getHotelData = async () => {
-      const result = await axios.get("http://localhost:3000/api/getHotelData");
-      setHotelData(result.data.data);
-    };
-    getHotelData()
-    fetchUserData();
-  }, []);
+const NavbarComponent = ({ isAuthenticated, isLoading, userData }) => {
+  // const { userData, getUserProfile, putUserProfile, isLoading, isError } =
+  //   useUserProfile();
+  // const [user, setUser] = useState(null);
 
-  useEffect(() => {
-    console.log("user:", user);
-    console.log("hotel:", hotelData);
-  }, [user, hotelData]);
+  // useEffect(() => {
+  //   console.log(userData);
+  //   getUserProfile(userData?.username);
+  // }, []);
+
   const AuthenticatedUser = (
     <NavigationMenu className="flex items-center min-h-[48px] md:min-h-[100px] h-[5vh] border-[1px] border-[#E4E6ED] justify-center w-full">
       <div className="flex justify-between w-full px-[5%] xl:px-[10%]">
@@ -48,8 +36,21 @@ const NavbarComponent = ({ isAuthenticated }) => {
         </div>
         <div className="flex items-center justify-end">
           <Notification />
-          <UserMenuMobile image={user.profilePicture} name={user.fullName} />
-          <UserMenuDesktop image={user.profilePicture} name={user.fullName} />
+          {isLoading ? (
+            <h1>Loading</h1>
+          ) : (
+            <>
+              <UserMenuMobile
+                image={userData?.profile_picture}
+                name={userData?.fullName}
+              />
+              <UserMenuDesktop
+                isLoading={isLoading}
+                image={userData?.profile_picture}
+                name={userData?.full_name}
+              />
+            </>
+          )}
         </div>
       </div>
     </NavigationMenu>

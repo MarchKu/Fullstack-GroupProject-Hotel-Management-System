@@ -12,7 +12,7 @@ on rooms.room_type_id = room_types.room_type_id where room_id = $1`,
       ? res.status(200).json(result.rows)
       : res.status(404).json({ message: "Invalid request data not found" });
   } catch {
-    return res
+    return res   
       .status(500)
       .json({ message: "Cannot get room data due to server connection" });
   }

@@ -4,6 +4,12 @@ import NavbarComponent from "@/components/navigation-component/NavbarComponent";
 import loginBgDesktop from "../../assets/login/loginBg-desktop.png";
 import loginBgMobile from "../../assets/login/loginBg-mobile.png";
 import { useAuth } from "@/contexts/authentication";
+import {
+  NavigationMenu,
+  NavigationMenuLink,
+} from "../../components/ui/navigation-menu";
+import Logo from "../../components/navigation-component/Logo";
+import Link from "next/link";
 
 const login = () => {
   const [username, setUsername] = useState("");
@@ -11,13 +17,29 @@ const login = () => {
 
   const { adminLogin } = useAuth();
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    adminLogin(username, password);
+    adminLogin({ username, password });
   };
+
   return (
     <>
-      <NavbarComponent />
+      <NavigationMenu className="flex items-center min-h-[48px] md:min-h-[100px] h-[5vh] border-[1px] border-[#E4E6ED] justify-center w-full">
+        <div className="flex justify-between w-full px-[5%] xl:px-[10%]">
+          <div className="flex justify-between text-[14px]  w-full">
+            <div className="w-full flex items-center justify-between">
+              <Logo />
+            </div>
+            <div className="flex items-center justify-end">
+              <Link href="/admin/login" legacyBehavior passHref>
+                <NavigationMenuLink className="text-[1rem] ml-2 leading-4 font-semibold text-[#E76B39]">
+                  <p className="whitespace-nowrap">Log in</p>
+                </NavigationMenuLink>
+              </Link>
+            </div>
+          </div>
+        </div>
+      </NavigationMenu>
       <main className="w-full md:max-w-[1440px] md:h-full flex md:flex-row flex-col items-center md:justify-center mx-auto gap-10 bg-[#F7F7FB]">
         <div className="w-full md:w-1/2 relative h-full max-w-[430px] md:max-w-[720px]">
           <Image
@@ -67,12 +89,12 @@ const login = () => {
                 >
                   Log In
                 </button>
-                <p>
+                {/* <p>
                   Don’t have an account yet?{" "}
                   <a href="/register" className="font-semibold text-[#E76B39]">
                     Register
                   </a>
-                </p>
+                </p> */}
               </div>
             </div>
           </form>

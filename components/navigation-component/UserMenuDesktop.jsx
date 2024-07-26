@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import {
@@ -20,14 +20,24 @@ import { useRouter } from "next/router";
 const UserMenuDesktop = (props) => {
   const { logout } = useAuth();
   const router = useRouter();
-  const {image, name} = props
+  const { image, name, isLoading } = props;
+  const [profileImage, setProfileImage] = useState(image);
+  useEffect(() => {
+    setProfileImage(image);
+  }, [image]);
   return (
     <Menubar className="hidden md:flex rounded-full border-0">
       <MenubarMenu>
         <MenubarTrigger className="rounded-full p-2 ">
           <div className="flex gap-3 items-center">
-            <Image src={image} alt="User" width={40} height={40} className="w-10 h-10 rounded-full object-contain" />
-            <h6 className="text-start">{ name}</h6>
+            <Image
+              src={profileImage}
+              alt="User"
+              width={40}
+              height={40}
+              className="w-10 h-10 rounded-full object-contain"
+            />
+            <h6 className="text-start">{name}</h6>
           </div>
         </MenubarTrigger>
         <MenubarContent className="w-[198px] px-[14px] py-2 md:mx-4">
@@ -42,7 +52,7 @@ const UserMenuDesktop = (props) => {
             <Image src={cardIcon} className="w-4 h-4" />
             <p>Payment Method</p>
           </MenubarItem>
-          <MenubarItem className="gap-3 px-2">
+          <MenubarItem className="gap-3 px-2" onClick={() => router.push("/booking/booking-history")}>
             <Image src={bookingIcon} className="w-4 h-4" />
             <p>Booking History</p>
           </MenubarItem>

@@ -8,7 +8,6 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel-about";
 import { Card, CardContent } from "@/components/ui/card";
-import { carouselAbout } from "@/utils/carousel-info-array/carousel-about";
 import { Button } from "@/components/ui/button";
 import useRoomData from "@/hooks/use-room-data";
 import { useEffect, useState } from "react";
@@ -121,10 +120,10 @@ const RoomDetail = () => {
                   {/* render data */}
                   THB {roomData.current_price}
                 </s>
-              </p>  
+              </p>
               <p className="text-[1.25rem] md:text-[1.5rem] xl:text-[1.7rem]  font-bold">
                 {/* render data */}
-                THB {roomData.promotional_price}
+                THB {roomData.promotion_price}
               </p>
             </div>
 
@@ -150,13 +149,17 @@ const RoomDetail = () => {
           <h3 className="font-body font-bold text-[1.5rem]">Room Amenities</h3>
           <div className="w-full flex flex-col md:flex-row md:flex-wrap text-[1rem] lg:text-[1.25rem] xl:text-[1.5rem] font-body pt-8 text-secondary-body">
             {/* render data */}
-            {roomData.amenities.map((info, index) => {
-              return (
-                <li className="w-full md:w-[50%]" key={index}>
-                  {info}
-                </li>
-              );
-            })}
+            {roomData.amenities === null ? (
+              <div></div>
+            ) : (
+              roomData.amenities.map((info, index) => {
+                return (
+                  <li className="w-full md:w-[50%]" key={index}>
+                    {info}
+                  </li>
+                );
+              })
+            )}
           </div>
         </div>
       </div>
