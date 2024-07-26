@@ -5,8 +5,7 @@ import axios from "axios";
 import { jwtDecode } from "jwt-decode";
 import toastr from "toastr";
 import "toastr/build/toastr.min.css";
-import { signInWithEmailAndPassword } from "@firebase/auth";
-import { auth } from "../utils/firebase-config/firebase.js";
+import { auth } from "@/utils/firebase-config/firebase.js";
 
 const AuthContext = React.createContext();
 
@@ -55,26 +54,34 @@ function AuthProvider(props) {
     }, 1000);
   };
 
-  const adminLogin = async (email, password) => {
+  const adminLogin = async (data) => {
     try {
-      await signInWithEmailAndPassword(auth, email, password);
-      const admin = auth.currentUser;
-      localStorage.setItem("auth", true);
+      const result = await axios.post(
+        "http://localhost:3000/api/auth/adminlogin",
+        data
+      );
+      localStorage.setItem("admin", JSON.stringify(result.data.username));
+      document.cookie = `adminToken=${result.data.token}`;
       toastr["success"]("Admin logged in successfully");
-      window.location.replace("/admin/hotel-information");
+      setTimeout(function () {
+        window.location.replace("/admin/bookings");
+      }, 1000);
     } catch (error) {
       console.log(error.message);
       toastr["error"]("Invalid username, email or password");
-      window.location.replace("/admin/login");
+      setTimeout(function () {
+        window.location.replace("/admin/login");
+      }, 1000);
     }
   };
 
   const adminLogout = async () => {
     try {
       auth.signOut();
-      localStorage.removeItem("auth");
       localStorage.removeItem("admin");
-      window.location.replace("/admin/login");
+      setTimeout(function () {
+        window.location.replace("/admin/login");
+      }, 1000);
       toastr["success"]("Admin logged out successfully");
     } catch (error) {
       console.log(error.message);
