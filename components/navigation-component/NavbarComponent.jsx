@@ -26,10 +26,6 @@ const NavbarComponent = ({ isAuthenticated }) => {
     fetchUserData();  
   }, []);
 
-  useEffect(() => {
-    console.log("user:", user);
-    console.log("user:", user.fullName);
-  }, [user]);
   const AuthenticatedUser = (
     <NavigationMenu className="flex items-center min-h-[48px] md:min-h-[100px] h-[5vh] border-[1px] border-[#E4E6ED] justify-center w-full">
       <div className="flex justify-between w-full px-[5%] xl:px-[10%]">
