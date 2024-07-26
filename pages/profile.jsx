@@ -67,10 +67,8 @@ export default function Profile() {
     if (user) {
       getUserProfile(user.username);
     }
-    console.log(userData)
+    console.log(userData);
   }, [user]);
-
-
 
   /* Set form default data to featching data */
   useEffect(() => {
@@ -97,7 +95,7 @@ export default function Profile() {
     formPayload.append("date_of_birth", data.date_of_birth);
     formPayload.append("country", data.country);
     formPayload.append("profile_picture", data.profile_picture);
-    console.log(Object.fromEntries(formPayload))
+    console.log(Object.fromEntries(formPayload));
     putUserProfile(user.username, formPayload);
   };
 
@@ -108,7 +106,11 @@ export default function Profile() {
   }, []);
   return (
     <>
-      <NavbarComponent isAuthenticated={isAuthenticated} />
+      <NavbarComponent
+        isAuthenticated={isAuthenticated}
+        userData={userData}
+        isLoading={isLoading}
+      />
       <section className="w-full h-[95vh] py-[10%] md:py-[5%] px-[5%] bg-gray-400 flex flex-col justify-center items-center">
         <Form {...form}>
           <form
