@@ -1,4 +1,5 @@
 import { createClient } from "@supabase/supabase-js";
+import nextConnect from 'next-connect';
 
 const supabase = createClient(
   "https://mxhmryetxradarukkhgs.supabase.co",
