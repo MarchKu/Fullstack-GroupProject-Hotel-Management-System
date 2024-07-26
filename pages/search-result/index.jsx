@@ -2,7 +2,6 @@
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import vector from "../../assets/search_result/vector.png";
-import { arrRoomImage } from "@/utils/carousel-info-array/carousel-search-result";
 import { cn } from "@/lib/utils";
 import { X } from "lucide-react";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -33,8 +32,9 @@ export default function Search_result() {
   const [isRoomdetailOpen, setIsRoomDetailOpen] = useState(false);
   const [isRoomImgOpen, setIsRoomImgOpen] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [bookingData, setBookingData] = useState();
 
-  const router = useRouter()
+  const router = useRouter();
 
   const [user, setUser] = useState({});
   useEffect(() => {
@@ -49,15 +49,11 @@ export default function Search_result() {
   }, []);
 
   useEffect(() => {
-    console.log("user:", user);
-    console.log("user:", user.fullName);
-  }, [user]);
-
-  useEffect(() => {
     const token = localStorage.getItem("token");
     setIsAuthenticated(Boolean(token));
   }, []);
 
+  //pop-up
   const handlePopUpRoomDetail = () => {
     setIsRoomDetailOpen(true);
   };
@@ -67,15 +63,22 @@ export default function Search_result() {
   };
 
   // get room data
-
   const { roomData, getAllRoomsData, isLoading, isError } = useRoomData();
   const fetchData = async () => {
     await getAllRoomsData();
-    console.log(roomData);
+  };
+
+  // get bookingData from localStorage
+  const getBookingData = () => {
+    const getData = localStorage.getItem("bookingData");
+    if (getData) {
+      setBookingData(JSON.parse(getData));
+    }
   };
 
   useEffect(() => {
     fetchData();
+    getBookingData();
   }, []);
 
   if (isLoading) {
@@ -85,11 +88,34 @@ export default function Search_result() {
     return <h1>Error fetching data</h1>;
   }
 
+  const handleBookNow = (index) => {
+    let roomPrice;
+    if (roomData[index].promotion_price) {
+      roomPrice = roomData[index].promotion_price;
+    } else {
+      roomPrice = roomData[index].current_price;
+    }
+    const newBookingData = {
+      ...bookingData,
+      room_id: roomData[index].room_id,
+      room_type: roomData[index].type_name,
+      room_price: roomPrice,
+      user_id: user.userId,
+    };
+    const query = { username: `${user.username}` };
+    if (isAuthenticated) {
+      localStorage.setItem("bookingData", JSON.stringify(newBookingData));
+      router.push({ pathname: "/booking", query: query });
+    } else {
+      router.push("/login");
+    }
+  };
+
   return roomData ? (
     <section className="w-full overflow-hidden">
       <NavbarComponent isAuthenticated={isAuthenticated} />
       <div className=" w-full h-[400px] flex border-1 border-gray-200 px-[2.5%] py-[10%] md:py-0 xl:px-[10%] md:pb-[2rem]  rounded shadow-xl shadow-gray-200 bg-white justify-center items-center md:h-[150px] md:sticky md:top-0 md:z-10">
-        <SearchBox />
+        <SearchBox onDateChage={getBookingData} />
       </div>
       <div className="w-full px-[5%] xl:px-[10%] flex flex-col justify-center items-center font-body">
         {/* room search result */}
@@ -103,7 +129,9 @@ export default function Search_result() {
                 <div
                   className="relative w-screen h-[45%] md:w-[45%] xl:w-[40%] md:size-full bg-center bg-cover md:rounded-lg "
                   style={{
-                    backgroundImage: `url(${room.gallery_images[index]})`,
+                    backgroundImage: `url( ${
+                      room.gallery_images ? room.gallery_images[0] : { vector }
+                    })`,
                   }}
                 >
                   <Image
@@ -134,12 +162,20 @@ export default function Search_result() {
                       </div>
                       <div className="w-full md:w-[50%] text-right my-0">
                         <div>
-                          <p className="line-through text-gray-700 xl:text-[1.25rem] ">
-                            THB {room.current_price}
-                          </p>
-                          <p className="text-xl font-semibold xl:text-[1.5rem]">
-                            THB {room.promotional_price}
-                          </p>
+                          {room.promotion_price ? (
+                            <div>
+                              <p className="line-through text-gray-700 xl:text-[1.25rem] ">
+                                THB {room.current_price}
+                              </p>
+                              <p className="text-xl font-semibold xl:text-[1.5rem]">
+                                THB {room.promotion_price}
+                              </p>
+                            </div>
+                          ) : (
+                            <p className="text-xl font-semibold xl:text-[1.5rem]">
+                              THB {room.current_price}
+                            </p>
+                          )}
                         </div>
                         <div className="my-4">
                           <p className="text-gray-700 xl:text-[1.25rem]">
@@ -159,15 +195,13 @@ export default function Search_result() {
                       >
                         Room Detail
                       </Button>
-                      {isAuthenticated ? (
-                        <Button className="w-40 xl:w-[180px] rounded xl:text-[1.25rem]" onClick={()=>router.push("/booking")}>
-                          Book Now
-                        </Button>
-                      ) : (
-                        <Button className="w-40 xl:w-[180px] rounded xl:text-[1.25rem]" onClick={()=>router.push("/login")}>
-                          Book Now
-                        </Button>
-                      )}
+
+                      <Button
+                        className="w-40 xl:w-[180px] rounded xl:text-[1.25rem]"
+                        onClick={() => handleBookNow(index)}
+                      >
+                        Book Now
+                      </Button>
                     </div>
                   </div>
 
@@ -194,14 +228,19 @@ export default function Search_result() {
                             className="self-center"
                           >
                             <CarouselContent>
-                              {room.gallery_images.map((img, index) => (
-                                <CarouselItem key={index} className="">
-                                  <img
-                                    className=" object-cover w-full h-[60vw] md:object-cover md:w-full md:h-[460px] lg:h-[400px]"
-                                    src={img}
-                                  />
-                                </CarouselItem>
-                              ))}
+                              {room.gallery_images ? (
+                                room.gallery_images.map((img, index) => (
+                                  <CarouselItem key={index} className="">
+                                    <img
+                                      className=" object-cover w-full h-[60vw] md:object-cover md:w-full md:h-[460px] lg:h-[400px]"
+                                      src={img}
+                                      alt={room.type_name}
+                                    />
+                                  </CarouselItem>
+                                ))
+                              ) : (
+                                <p>Loading...</p>
+                              )}
                             </CarouselContent>
                             <CarouselPrevious
                               className={cn(
@@ -227,9 +266,13 @@ export default function Search_result() {
                           <div>
                             <h3>Room Amenities</h3>
                             <ul className="relative left-8 top-2 list-disc list-outside text-gray-700 md:columns-2">
-                              {room.amenities.map((amenity, index) => {
-                                return <li>{amenity}</li>;
-                              })}
+                              {room.amenities ? (
+                                room.amenities.map((amenity, index) => {
+                                  return <li key={index}>{amenity}</li>;
+                                })
+                              ) : (
+                                <h>Loading...</h>
+                              )}
                             </ul>
                           </div>
                         </div>
@@ -251,13 +294,17 @@ export default function Search_result() {
                           className=""
                         >
                           <CarouselContent className="w-screen h-[60vh] flex items-center lg:justify-between ">
-                            {room.gallery_images.map((img, index) => (
-                              <CarouselItem
-                                key={index}
-                                className="size-full bg-center bg-cover bg-slate-300 bg-blend-multiply mx-[0.5rem]"
-                                style={{ backgroundImage: `url(${img})` }}
-                              ></CarouselItem>
-                            ))}
+                            {room.gallery_images ? (
+                              room.gallery_images.map((img, index) => (
+                                <CarouselItem
+                                  key={index}
+                                  className="size-full bg-center bg-cover bg-slate-300 bg-blend-multiply mx-[0.5rem]"
+                                  style={{ backgroundImage: `url(${img})` }}
+                                ></CarouselItem>
+                              ))
+                            ) : (
+                              <p>Loading</p>
+                            )}
                           </CarouselContent>
 
                           <CarouselPrevious
