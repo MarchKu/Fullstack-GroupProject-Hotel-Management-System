@@ -12,12 +12,15 @@ const booking = () => {
 
   const [step, setStep] = React.useState(1);
   const nextStep = () => {
-    // setBookingData({ ...bookingData, ...data });
     setStep(step + 1);
   };
 
   const prevStep = () => {
-    setStep(step - 1);
+    if (step > 1) {
+      setStep(step - 1);
+    } else {
+      router.push("/search-result");
+    }
   };
 
   React.useEffect(() => {

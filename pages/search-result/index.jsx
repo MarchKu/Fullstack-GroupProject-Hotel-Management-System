@@ -27,8 +27,6 @@ import NavbarComponent from "@/components/navigation-component/NavbarComponent";
 import useRoomData from "@/hooks/use-room-data";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
-import { set } from "date-fns";
-import { get } from "react-hook-form";
 
 export default function Search_result() {
   const [isRoomdetailOpen, setIsRoomDetailOpen] = useState(false);
@@ -91,11 +89,17 @@ export default function Search_result() {
   }
 
   const handleBookNow = (index) => {
+    let roomPrice;
+    if (roomData[index].promotion_price) {
+      roomPrice = roomData[index].promotion_price;
+    } else {
+      roomPrice = roomData[index].current_price;
+    }
     const newBookingData = {
       ...bookingData,
       room_id: roomData[index].room_id,
       room_type: roomData[index].type_name,
-      room_price: roomData[index].promotion_price,
+      room_price: roomPrice,
       user_id: user.userId,
     };
     const query = { username: `${user.username}` };
@@ -158,12 +162,20 @@ export default function Search_result() {
                       </div>
                       <div className="w-full md:w-[50%] text-right my-0">
                         <div>
-                          <p className="line-through text-gray-700 xl:text-[1.25rem] ">
-                            THB {room.current_price}
-                          </p>
-                          <p className="text-xl font-semibold xl:text-[1.5rem]">
-                            THB {room.promotion_price}
-                          </p>
+                          {room.promotion_price ? (
+                            <div>
+                              <p className="line-through text-gray-700 xl:text-[1.25rem] ">
+                                THB {room.current_price}
+                              </p>
+                              <p className="text-xl font-semibold xl:text-[1.5rem]">
+                                THB {room.promotion_price}
+                              </p>
+                            </div>
+                          ) : (
+                            <p className="text-xl font-semibold xl:text-[1.5rem]">
+                              THB {room.current_price}
+                            </p>
+                          )}
                         </div>
                         <div className="my-4">
                           <p className="text-gray-700 xl:text-[1.25rem]">
@@ -222,6 +234,7 @@ export default function Search_result() {
                                     <img
                                       className=" object-cover w-full h-[60vw] md:object-cover md:w-full md:h-[460px] lg:h-[400px]"
                                       src={img}
+                                      alt={room.type_name}
                                     />
                                   </CarouselItem>
                                 ))

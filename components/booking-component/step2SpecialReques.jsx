@@ -33,8 +33,16 @@ const Step2SpecialRequest = ({ nextStep, prevStep }) => {
   useEffect(
     () => {
       if (bookingData) {
-        const roomPrice = Number(bookingData.room_price);
-        let newTotalPrice = roomPrice;
+        let tatalRoomPrice;
+        if (bookingData.number_of_night > 1) {
+          tatalRoomPrice = Number(
+            bookingData.room_price * bookingData.number_of_night
+          );
+        } else {
+          tatalRoomPrice = Number(bookingData.room_price);
+        }
+
+        let newTotalPrice = tatalRoomPrice;
 
         specialRequest.forEach((request) => {
           if (request.price) {
@@ -321,6 +329,7 @@ const Step2SpecialRequest = ({ nextStep, prevStep }) => {
                 <div className="flex justify-between border-t border-gray-600 h-[75px] items-center">
                   <p className="text-gray-300">Total</p>
                   <p className="text-xl font-semibold">
+                    THB{" "}
                     {Number(totalPrice).toLocaleString("en-US", {
                       minimumFractionDigits: 2,
                       maximumFractionDigits: 2,

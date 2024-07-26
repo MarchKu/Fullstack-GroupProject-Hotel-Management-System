@@ -229,6 +229,7 @@ const Step1BasicInfo = ({ nextStep, prevStep }) => {
                 <div className="flex justify-between border-t border-gray-600 h-[75px] items-center">
                   <p>Total</p>
                   <p className="text-xl font-semibold">
+                    THB{" "}
                     {Number(totalPrice).toLocaleString("en-US", {
                       minimumFractionDigits: 2,
                       maximumFractionDigits: 2,

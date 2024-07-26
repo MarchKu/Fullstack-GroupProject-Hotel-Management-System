@@ -162,7 +162,7 @@ const Step3PaymentMethod = ({ nextStep, prevStep }) => {
             <div className="mb-8">
               <button
                 onClick={() => handleSelectPayment("Cash")}
-                className={`w-[322px] h-[80px] text-xl  px-4 py-2 rounded flex justify-center items-center ${
+                className={`w-[322px] h-[80px] text-xl font-semibold  px-4 py-2 rounded flex justify-center items-center shadow-lg ${
                   payment === "Cash"
                     ? "border border-orange-500 text-orange-500"
                     : "border border-gray-300 text-gray-600"
@@ -283,6 +283,7 @@ const Step3PaymentMethod = ({ nextStep, prevStep }) => {
                 <div className="flex justify-between border-t border-gray-600 h-[75px] items-center">
                   <p className="text-gray-300">Total</p>
                   <p className="text-xl font-semibold">
+                    THB{" "}
                     {Number(bookingData.total_price).toLocaleString("en-US", {
                       minimumFractionDigits: 2,
                       maximumFractionDigits: 2,
