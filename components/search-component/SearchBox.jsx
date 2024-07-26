@@ -16,10 +16,9 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { CardContent } from "../ui/card";
 import { useRouter } from "next/router";
 
-export function SearchBox({ className }) {
+export function SearchBox({ onDateChage }) {
   const router = useRouter();
   const [date, setDate] = React.useState({
     from: addDays(new Date(), 1),
@@ -71,15 +70,39 @@ export function SearchBox({ className }) {
     setGuests(newNumberOfGuest);
   };
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
+  const dateRange = (from, to) => {
+    const diffInMilliseconds = to - from;
+    const millisecondsInADay = 24 * 60 * 60 * 1000; // จำนวนมิลลิวินาทีในหนึ่งวัน
+    return Math.ceil(diffInMilliseconds / millisecondsInADay); // หารและปัดเศษขึ้นเป็นจำนวนวัน
   };
 
+  // set checkIn and CheckOut date data to local storage ;
+  const setDateData = () => {
+    if (date.from & date.to) {
+      const newDateData = {
+        check_in: format(date.from, "EEE, dd MMMM yyyy"),
+        check_out: format(date.to, "EEE, dd MMMM yyyy"),
+        number_of_night: dateRange(date.from, date.to),
+      };
+      localStorage.setItem("bookingData", JSON.stringify(newDateData));
+    }
+  };
+
+  const handleSubmit = () => {
+    router.push("/search-result");
+  };
+
+  React.useEffect(() => {
+    setDateData();
+  }, []);
+
+  React.useEffect(() => {
+    setDateData();
+    onDateChage();
+  }, [date]);
+
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="w-full h-full md:max-h-[222px] bg-white flex justify-between items-center rounded-lg "
-    >   
+    <div className="w-full h-full md:max-h-[222px] bg-white flex justify-between items-center rounded-lg ">
       <div className="w-full h-full flex flex-col md:flex-row justify-between items-center md:items-end md:w-full   md:h-full">
         {/* Check in */}
 
@@ -243,11 +266,11 @@ export function SearchBox({ className }) {
         <Button
           className="w-[180px] h-[3rem] md:text-[1.25rem]"
           type="submit"
-          onClick={() => router.push("/search-result")}
+          onClick={handleSubmit}
         >
           Search
         </Button>
       </div>
-    </form>
+    </div>
   );
 }
