@@ -56,7 +56,7 @@ const UserMenuMobile = (props) => {
               <h6>Payment Method</h6>
             </div>
           </Link>
-          <Link href="/">
+          <Link href="/booking/booking-history">
             <div className="flex items-center w-[343px] gap-3 mx-4 my-4">
               <Image src={bookingIcon} alt="booking icon"></Image>
               <h6>Booking History</h6>
