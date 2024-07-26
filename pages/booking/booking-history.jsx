@@ -53,12 +53,12 @@ const BookingHistory = () => {
     }
   }, [user.username]);
 
-  const changeDateClick = (created_at) => {
+  const changeDateClick = (created_at, bookingId) => {
     let bookingDate = new Date(created_at);
     let currentDate = new Date();
     const timeleft = Math.floor((currentDate - bookingDate) / (1000 * 60 * 60));
     timeleft <= 24
-      ? router.push("/change-date")
+      ? router.push(`/booking/change-date/${bookingId}`)
       : alert("Booking date over 24 hour booking date cannot be change");
   };
 
@@ -150,20 +150,21 @@ const BookingHistory = () => {
                               <h3>{history.promotion_price}</h3>
                             </div>
                           </AccordionContent>
-                          {history.special_request.map((request, index) => {
-                            const data = JSON.parse(request);
-                            return (
-                              <AccordionContent
-                                key={index}
-                                className="bg-gray-200 px-[5%]"
-                              >
-                                <div className="flex justify-between">
-                                  <h3>{data.name}</h3>
-                                  <h3>{data.price}</h3>
-                                </div>
-                              </AccordionContent>
-                            );
-                          })}
+                          {history.special_request !== null &&
+                            history.special_request.map((request, index) => {
+                              const data = JSON.parse(request);
+                              return (
+                                <AccordionContent
+                                  key={index}
+                                  className="bg-gray-200 px-[5%]"
+                                >
+                                  <div className="flex justify-between">
+                                    <h3>{data.name}</h3>
+                                    <h3>{data.price}</h3>
+                                  </div>
+                                </AccordionContent>
+                              );
+                            })}
                           <AccordionContent className="bg-gray-200 px-[5%] border-b-[1px] border-gray-400">
                             <div className="flex justify-between">
                               <h3>Promotion Code</h3>
@@ -222,7 +223,7 @@ const BookingHistory = () => {
                                     );
                                   }}
                                 >
-                                  <Button variant="outline">
+                                  <Button variant="outline" className="border-orange-500 text-orange-500">
                                     Yes, I want to cancel
                                   </Button>
                                 </button>
@@ -266,12 +267,12 @@ const BookingHistory = () => {
                                     );
                                   }}
                                 >
-                                  <Button variant="outline">
+                                  <Button variant="outline" className="border-orange-500 text-orange-500">
                                     Yes, I want to cancel and request refund
                                   </Button>
                                 </button>
                                 <DialogClose asChild>
-                                  <Button type="button">
+                                  <Button type="button" >
                                     No, Don’t Cancel
                                   </Button>
                                 </DialogClose>

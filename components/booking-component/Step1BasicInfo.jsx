@@ -14,7 +14,7 @@ const Step1BasicInfo = ({ nextStep, prevStep }) => {
   const { username } = router.query;
 
   /*Get user profile */
-  const { userProfile, getUserProfileByUsername, isLoading, isError } =
+  const { userData, getUserProfile, putUserProfile, isLoading, isError } =
     useUserProfile();
 
   useEffect(() => {
@@ -28,7 +28,7 @@ const Step1BasicInfo = ({ nextStep, prevStep }) => {
     if (username) {
       const fetchData = async () => {
         if (username) {
-          await getUserProfileByUsername(username);
+          await getUserProfile(username);
         }
       };
       fetchData();
@@ -71,7 +71,7 @@ const Step1BasicInfo = ({ nextStep, prevStep }) => {
     prevStep();
   };
 
-  return userProfile ? (
+  return userData ? (
     <>
       <div class="w-full pb-8 md:px-[5%] lg:px-[10%] md:pb-32">
         <header className="py-8 px-4 md:p-0 md:pt-24 border-b border-gray-300">
@@ -123,7 +123,7 @@ const Step1BasicInfo = ({ nextStep, prevStep }) => {
             <input
               type="text"
               id="full-name"
-              value={userProfile.full_name}
+              value={userData.full_name}
               readOnly
               className="w-full p-2 border border-border rounded outline-none"
             />
@@ -135,7 +135,7 @@ const Step1BasicInfo = ({ nextStep, prevStep }) => {
             <input
               type="text"
               id="email"
-              value={userProfile.email}
+              value={userData.email}
               readOnly
               className="w-full p-2 border border-border rounded outline-none"
             />
@@ -150,7 +150,7 @@ const Step1BasicInfo = ({ nextStep, prevStep }) => {
             <input
               type="text"
               id="id-number"
-              value={userProfile.id_number}
+              value={userData.id_number}
               readOnly
               className="w-full p-2 border border-border rounded outline-none"
             />
@@ -165,7 +165,7 @@ const Step1BasicInfo = ({ nextStep, prevStep }) => {
             <input
               type="text"
               id="date-of-birth"
-              value={format(userProfile.date_of_birth, "EEE, dd MMMM yyyy")}
+              value={format(userData.date_of_birth, "EEE, dd MMMM yyyy")}
               readOnly
               className="w-full p-2 border border-border rounded outline-none"
             />
@@ -180,7 +180,7 @@ const Step1BasicInfo = ({ nextStep, prevStep }) => {
             <input
               type="text"
               id="country"
-              value={userProfile.country}
+              value={userData.country}
               readOnly
               className="w-full p-2 border border-border rounded outline-none"
             />

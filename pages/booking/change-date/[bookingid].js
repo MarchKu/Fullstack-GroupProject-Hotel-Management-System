@@ -17,10 +17,28 @@ import toastr from "toastr";
 import "toastr/build/toastr.min.css";
 
 export default function ChangeDatePage() {
+    const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [bookingData, setBookingData] = useState([]);
   const [newCheckInDate, setNewCheckInDate] = useState(null);
   const [newCheckOutDate, setNewCheckOutDate] = useState(null);
   const [showModal, setShowModal] = useState(false);
+  const [user, setUser] = useState({});
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      const userData = localStorage.getItem("user");
+      if (userData) {
+        const parsedData = JSON.parse(userData);
+        setUser(parsedData);
+      }
+    };
+    fetchUserData();
+  }, []);
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    setIsAuthenticated(Boolean(token));
+  }, []);
 
   const toggleModal = () => {
     setShowModal(!showModal);
@@ -63,7 +81,7 @@ export default function ChangeDatePage() {
       });
       toastr["success"]("Change check-in and check-out date successfully");
       setTimeout(function () {
-        window.location.replace("/booking-history");
+        window.location.replace("/booking/booking-history");
       }, 2000);
     } catch (error) {
       console.log(error.message);
@@ -154,7 +172,7 @@ export default function ChangeDatePage() {
 
   return (
     <>
-      <NavbarComponent />
+      <NavbarComponent isAuthenticated={isAuthenticated} />
       <div className="bg-[#F7F7FB]">
         {" "}
         <div className="flex flex-col mx-[7%] xl:mx-[10%] pt-10 md:pt-16 pb-5 md:pb-10 lg:pb-20 justify-center">
@@ -273,7 +291,7 @@ export default function ChangeDatePage() {
                     <button
                       className="text-primary font-semibold max-md:order-last max-md:mt-5 ml-1"
                       onClick={() =>
-                        window.location.replace("/booking-history")
+                        window.location.replace("/booking/booking-history")
                       }
                     >
                       Cancel
