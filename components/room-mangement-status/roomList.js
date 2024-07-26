@@ -70,7 +70,7 @@ export default function RoomList({ search }) {
       pageNumber.push(
         <button
           key={i}
-          onClick={() => handlePageCLick(i)}
+          onClick={() => handlePageClick(i)}
           className={`${
             i === currentPage ? buttonClassCurrent : buttonClassNone
           } ${i === currentPage ? "text-[#5D7B6A]" : "text-[#C8CCDB]"}`}

@@ -1,6 +1,5 @@
 import Sidebar from "@/components/hotel-information/Sidebar";
 import axios from "axios";
-import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { dateFormatter } from "@/hooks/useDateFormatter";
@@ -47,7 +46,7 @@ export default function BookingDetail() {
         <Sidebar />
         <div className="w-full bg-gray-100">
           <header className="flex flex-row justify-start items-center gap-5 px-16 py-5 bg-white">
-            <Link href="/admin/bookings">
+            <a href="/admin/bookings">
               <svg
                 width="16"
                 height="16"
@@ -60,7 +59,7 @@ export default function BookingDetail() {
                   fill="#9AA1B9"
                 />
               </svg>
-            </Link>
+            </a>
             {bookingData.map((item) => (
               <>
                 <span className="text-[#2A2E3F] text-xl font-semibold">
@@ -158,16 +157,51 @@ export default function BookingDetail() {
                         {item.type_name}
                       </span>
                       <span className="text-base text-gray-900 font-semibold">
-                        {Number(item.promotion_price).toLocaleString("en-US")}
+                        {item.promotion_price
+                          ? (
+                              Number(item.promotion_price) *
+                              dateDifference(item.check_in, item.check_out)
+                            ).toLocaleString("en-US")
+                          : (
+                              Number(item.current_price) *
+                              dateDifference(item.check_in, item.check_out)
+                            ).toLocaleString("en-US")}
                       </span>
                     </div>
+                    <div>
+                      {item.special_request ? (
+                        item.special_request.map((item) => {
+                          const data = JSON.parse(item);
+                          return (
+                            <div className="mb-5 flex flex-row justify-between">
+                              <span className="text-base text-gray-900 font-normal">
+                                {data.name}
+                              </span>
+                              <span className="text-base text-gray-900 font-semibold">
+                                {data.price.toLocaleString("en-US")}
+                              </span>
+                            </div>
+                          );
+                        })
+                      ) : (
+                        <></>
+                      )}
+                    </div>
+                    <div className="flex flex-row justify-between">
+                      <span className="text-base text-gray-900 font-normal">
+                        {item.promotion_discount ? "Discount" : ""}
+                      </span>
+                      <span className="text-base text-gray-900 font-semibold">
+                        {item.promotion_discount ? item.promotion_discount : ""}
+                      </span>
+                    </div>
+                    <hr />
                     <div className="flex flex-row justify-between mt-10">
                       <span className="text-base text-gray-900 font-normal">
                         Total
                       </span>
                       <span className="text-xl text-gray-900 font-semibold">
-                        THB{" "}
-                        {Number(item.promotion_price).toLocaleString("en-US")}
+                        THB {Number(item.total_price).toLocaleString("en-US")}
                       </span>
                     </div>
                   </div>
@@ -176,7 +210,7 @@ export default function BookingDetail() {
                       Additional Request
                     </p>
                     <p className="text-gray-700 text-base font-normal p-1">
-                      Can i have some chocolate?
+                      {item.additional_request}
                     </p>
                   </div>
                 </>

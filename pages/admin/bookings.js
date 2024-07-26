@@ -49,9 +49,16 @@ export default function AllBooking() {
 
     return (
       <>
-        {pageArr.map((page) => (
-          <PaginationLink href="#" key={page} onClick={() => setPage(page)}>
-            {page}
+        {pageArr.map((pageNum) => (
+          <PaginationLink
+            className={`${
+              pageNum == page ? "border-gray-400 border-[1px] text-black" : ""
+            }`}
+            href="#"
+            key={pageNum}
+            onClick={() => setPage(pageNum)}
+          >
+            {pageNum}
           </PaginationLink>
         ))}
       </>
@@ -139,6 +146,7 @@ export default function AllBooking() {
             <PaginationContent>
               <PaginationItem>
                 <PaginationPrevious
+                  className={`${page == 1 ? "hidden" : ""}`}
                   href="#"
                   onClick={() => {
                     if (page !== 1) {
