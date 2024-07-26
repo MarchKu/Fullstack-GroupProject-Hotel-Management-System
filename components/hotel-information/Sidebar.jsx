@@ -1,4 +1,5 @@
 "use client";
+
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
@@ -8,24 +9,31 @@ import hotelIcon from "../../assets/admin-sidebar/hotel.png";
 import manageIcon from "../../assets/admin-sidebar/manage.png";
 import roomIcon from "../../assets/admin-sidebar/room.png";
 import logoutIcon from "../../assets/admin-sidebar/logout.png";
+import { useAuth } from "@/contexts/authentication";
 
 const Sidebar = () => {
+  const { adminLogout } = useAuth();
+
   const menuLink = [
     {
       title: "Customer Booking",
       icon: bookingIcon,
+      url: "/admin/bookings",
     },
     {
       title: "Room Management",
       icon: manageIcon,
+      url: "/admin/room-management",
     },
     {
       title: "Hotel Information",
       icon: hotelIcon,
+      url: "/admin/hotel-information",
     },
     {
       title: "Room & Property",
       icon: roomIcon,
+      url: "/admin/room-property-all",
     },
   ];
   return (
@@ -37,24 +45,33 @@ const Sidebar = () => {
       <section id="menu link wrapper" className="min-h-[540px]">
         {menuLink.map((item) => {
           return (
-            <Link
-              href={item.title}
+            <a
+              href={item.url}
               className="flex w-full hover:bg-[#5D7B6A] text-white gap-4 pl-[10%] py-6 items-center"
               key={item.title}
             >
               <Image src={item.icon} width={24} height={24} alt={item.title} />
               <p className="font-medium">{item.title}</p>
-            </Link>
+            </a>
           );
         })}
       </section>
 
       <Link
-        href="/logout"
+        href=""
         className="flex w-full hover:bg-[#5D7B6A] text-white gap-4 pl-6 py-6 items-center"
       >
         <Image src={logoutIcon} width={24} height={24} alt="logout icon" />
-        <p className="font-medium">Log out</p>
+        <p
+          className="font-medium"
+          onClick={() => {
+            document.cookie =
+              "adminToken=;expires=Thu, 01 Jan 1970 00:00:00 UTC;";
+            adminLogout();
+          }}
+        >
+          Log out
+        </p>
       </Link>
     </aside>
   );

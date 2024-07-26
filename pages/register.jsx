@@ -109,7 +109,7 @@ export default function Register() {
     formData.append("profile_picture", data.profilepic);
     formData.append("card_number", data.cardnumber);
     formData.append("card_owner", data.cardOwner);
-
+    
     register(formData);
   };
 

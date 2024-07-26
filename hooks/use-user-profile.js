@@ -1,19 +1,26 @@
 import axios from "axios";
 import { useState } from "react";
+import toastr from "toastr";
+import "toastr/build/toastr.min.css";
 
 export default function useUserProfile() {
-  const [userProfile, setUserProfile] = useState(null);
+  const [userData, setUserData] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
 
-  const getUserProfileByUsername = async (username) => {
+  const getUserProfile = async (username) => {
     try {
       if (username) {
         setIsLoading(true);
         const result = await axios.get(
-          `http://localhost:3000/api/user-profile/${username}`
+          `http://localhost:3000/api/user-profile/${username}`,
+          {
+            headers: {
+              "Cache-Control": "no-store",
+            },
+          }
         );
-        setUserProfile(result.data);
+        setUserData(result.data);
         setIsLoading(false);
         setIsError(false);
       }
@@ -23,5 +30,29 @@ export default function useUserProfile() {
       setIsError(true);
     }
   };
-  return { userProfile, getUserProfileByUsername, isLoading, isError };
+
+  const putUserProfile = async (username, data) => {
+    try {
+      setIsLoading(true);
+      const response = await axios.put(
+        `http://localhost:3000/api/user-profile/${username}`,
+        data,
+        {
+          headers: { "Content-Type": "multipart/form-data" },
+        }
+      );
+      toastr["success"]("You are successfully update your profile");
+      setTimeout(function () {
+        window.location.replace("/profile");
+      }, 1000);
+      setIsLoading(false);
+      setIsError(false);
+    } catch (error) {
+      console.log(error.message);
+      toastr["error"](error.message);
+      setIsLoading(false);
+      setIsError(true);
+    }
+  };
+  return { userData, getUserProfile, putUserProfile, isLoading, isError };
 }

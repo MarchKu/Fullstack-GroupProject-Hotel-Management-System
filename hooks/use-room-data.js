@@ -4,17 +4,17 @@ import { useState} from "react";
 
 
 export default function useRoomData() {
-  const [roomData, setRoomData] = useState(null);
+  const [userProfile, setUserProfile] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
 
 
-  const getRoomDetailByID = async (id) => {
+  const getUserProfile = async (username) => {
     try {
       if (id) {
         setIsLoading(true);
-        const result = await axios.get(`http://localhost:3000/api/room/${id}`);
-        setRoomData(result.data[0]);
+        const result = await axios.get(`http://localhost:3000/api/user-profile/${username}`);
+        setUserProfile(result.data[0]);
         setIsLoading(false);
         setIsError(false)
       }
@@ -29,7 +29,7 @@ export default function useRoomData() {
     try{
       setIsLoading(true);
         const result = await axios.get(`http://localhost:3000/api/rooms`);
-        setRoomData(result.data);
+        setUserProfile(result.data);
         setIsLoading(false);
         setIsError(false)
     }catch (error) {
@@ -38,5 +38,5 @@ export default function useRoomData() {
       setIsError(true)
     }
   }
-  return {roomData,getRoomDetailByID,getAllRoomsData,isLoading,isError}
+  return {userProfile,getUserProfile,getAllRoomsData,isLoading,isError}
 }
