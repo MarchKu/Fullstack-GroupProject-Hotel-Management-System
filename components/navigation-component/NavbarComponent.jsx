@@ -30,8 +30,8 @@ const NavbarComponent = ({ isAuthenticated, isLoading, userData }) => {
       <div className="flex justify-between w-full px-[5%] xl:px-[10%]">
         <div className="flex justify-between text-[14px]  md:w-full">
           <div className="w-full flex items-center justify-between">
-            <Logo hotelLogo={ hotelData.hotel_logo} />
-            <NavLinkDesktop hotelName={ hotelData.hotel_name} />
+            {/*  <Logo hotelLogo={hotelData.hotel_logo} />
+            <NavLinkDesktop hotelName={hotelData.hotel_name} /> */}
           </div>
         </div>
         <div className="flex items-center justify-end">
@@ -61,9 +61,9 @@ const NavbarComponent = ({ isAuthenticated, isLoading, userData }) => {
       <div className="flex justify-between w-full px-[5%] xl:px-[10%]">
         <div className="flex justify-between text-[14px]  w-full">
           <div className="w-full flex items-center justify-between">
-            <Logo hotelLogo={ hotelData.hotel_logo} />
-            <NavLinkDesktop hotelName={ hotelData.hotel_name}/>
-            <NonUserMenuMobile hotelName={ hotelData.hotel_name}/>
+            {/* <Logo hotelLogo={hotelData.hotel_logo} />
+            <NavLinkDesktop hotelName={hotelData.hotel_name} />
+            <NonUserMenuMobile hotelName={hotelData.hotel_name} /> */}
           </div>
           <div className="hidden md:flex items-center justify-end">
             <Link href="/login" legacyBehavior passHref>

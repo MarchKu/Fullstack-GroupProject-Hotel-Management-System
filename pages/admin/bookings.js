@@ -148,6 +148,13 @@ export default function AllBooking() {
                 <PaginationPrevious
                   className={`${page == 1 ? "hidden" : ""}`}
                   href="#"
+                  onClick={() => {
+                    if (page !== 1) {
+                      setPage(page - 1);
+                    } else {
+                      setPage(page);
+                    }
+                  }}
                 />
               </PaginationItem>
               <PaginationItem>{paginationPage()}</PaginationItem>
