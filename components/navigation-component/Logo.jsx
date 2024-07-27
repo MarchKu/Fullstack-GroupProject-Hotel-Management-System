@@ -12,8 +12,7 @@ const Logo = ({ hotelLogo }) => {
           alt="Neatly Logo"
           width={90}
           height={90}
-          // className="lg:min-w-[167px] lg:h-[45px] md:w-[94px] w-[94px] h-[25px]"
-          className="lg:w-[90px] md:w-[90px] w-[40px] "
+          className="lg:w-[90px] md:w-[90px] w-[40px]"
         />
       </NavigationMenuLink>
     </Link>

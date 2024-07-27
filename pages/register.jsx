@@ -5,7 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/formComponent";
-import React from "react";
+import React, {useState, useEffect} from "react";
 import FormFieldComponent from "../components/ui/FormField";
 import DatePicker from "../components/ui/datePick";
 import CountryPicker from "../components/ui/countryPick";
@@ -14,6 +14,9 @@ import { useAuth } from "@/contexts/authentication";
 import NavbarComponent from "@/components/navigation-component/NavbarComponent";
 import { checkUniqueUser } from "../lib/checkUniqueUser";
 import { checkUniqueProfile } from "../lib/checkUniqueProfile";
+import useUserProfile from "@/hooks/use-user-profile";
+import useHotelData from "@/hooks/use-hotel-data";
+
 const minAge = 18;
 const registerSchema = z.object({
   fullName: z.string().min(2),
@@ -74,6 +77,36 @@ const registerSchema = z.object({
 });
 
 export default function Register() {
+  const { userData, getUserProfile, putUserProfile, isLoading, isError } =
+    useUserProfile();
+  const { hotelData, getHotelData } = useHotelData();
+  const [user, setUser] = useState(null);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  useEffect(() => {
+    const fetchUserData = async () => {
+      const userData = localStorage.getItem("user");
+      if (userData) {
+        const parsedData = JSON.parse(userData);
+        setUser(parsedData);
+      }
+    };
+    fetchUserData();
+    getHotelData();
+  }, []);
+
+  /* Data fetching */
+  useEffect(() => {
+    if (user) {
+      getUserProfile(user.username);
+    }
+    console.log(userData);
+  }, [user]);
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    setIsAuthenticated(Boolean(token));
+  }, []);
+
   const form = useForm({
     resolver: zodResolver(registerSchema),
     defaultValues: {
@@ -109,13 +142,17 @@ export default function Register() {
     formData.append("profile_picture", data.profilepic);
     formData.append("card_number", data.cardnumber);
     formData.append("card_owner", data.cardOwner);
-    
+
     register(formData);
   };
 
   return (
     <>
-      <NavbarComponent />
+      <NavbarComponent
+        isAuthenticated={isAuthenticated}
+        userData={userData}
+        hotelData={hotelData}
+      />
       <div className="w-full h-full inset-0 bg-cover bg-no-repeat bg-center bg-[url('../public/img/bg-register_page.jpg')]">
         <div className="w-full h-full flex justify-center items-center  bg-gradient-to-b from-[#00000099] to-transparent ">
           <div className="relative w-full md:mt-14 md:mb-20 p-2 md:p-14 m-0 md:w-[45%] bg-[#F7F7FB] pt-10 md:rounded-lg">

@@ -16,6 +16,7 @@ export default async function handler(req, res) {
       const { username } = req.query;
       const userInput = { ...req.body };
       const updatedData = { ...userInput, updated_at: new Date() };
+      const now = new Date();
 
       const userInfo = await connectionPool.query(
         `
@@ -48,7 +49,7 @@ export default async function handler(req, res) {
         upLoadResult = await uploadFile(
           buffer,
           "user_uploads",
-          `profile_pictures/${username}`,
+          `profile_pictures/${username}${now}`,
           mimetype
         );
 
