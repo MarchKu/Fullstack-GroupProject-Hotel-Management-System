@@ -12,6 +12,7 @@ import InputFile from "@/components/ui/uploadFile-profile";
 import NavbarComponent from "@/components/navigation-component/NavbarComponent";
 import { useState, useEffect } from "react";
 import useUserProfile from "@/hooks/use-user-profile";
+import useHotelData from "@/hooks/use-hotel-data";
 import { Skeleton } from "@/components/ui/skeleton";
 
 /* Set schema */
@@ -42,6 +43,7 @@ const profileSchema = z.object({
 export default function Profile() {
   const { userData, getUserProfile, putUserProfile, isLoading, isError } =
     useUserProfile();
+  const { hotelData, getHotelData } = useHotelData();
   const [user, setUser] = useState(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
@@ -60,6 +62,7 @@ export default function Profile() {
       }
     };
     fetchUserData();
+    getHotelData();
   }, []);
 
   /* Data fetching */
@@ -106,11 +109,7 @@ export default function Profile() {
   }, []);
   return (
     <>
-      <NavbarComponent
-        isAuthenticated={isAuthenticated}
-        userData={userData}
-        isLoading={isLoading}
-      />
+      <NavbarComponent />
       <section className="w-full h-[95vh] py-[10%] md:py-[5%] px-[5%] bg-gray-400 flex flex-col justify-center items-center">
         <Form {...form}>
           <form

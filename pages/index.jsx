@@ -9,31 +9,53 @@ import FooterComponent from "@/components/footer-component/FooterComponent";
 import NavbarComponent from "@/components/navigation-component/NavbarComponent";
 import { useState, useEffect } from "react";
 import axios from "axios";
+import useUserProfile from "@/hooks/use-user-profile";
+import useHotelData from "@/hooks/use-hotel-data";
 
 export default function Home() {
+  const { userData, getUserProfile, putUserProfile, isLoading, isError } =
+    useUserProfile();
+  const { hotelData, getHotelData } = useHotelData();
+  const [user, setUser] = useState(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [hotelData, setHotelData] = useState({});
+  useEffect(() => {
+    const fetchUserData = async () => {
+      const userData = localStorage.getItem("user");
+      if (userData) {
+        const parsedData = JSON.parse(userData);
+        setUser(parsedData);
+      }
+    };
+    fetchUserData();
+    getHotelData();
+  }, []);
+
+  /* Data fetching */
+  useEffect(() => {
+    if (user) {
+      getUserProfile(user.username);
+    }
+    console.log(userData);
+  }, [user]);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
     setIsAuthenticated(Boolean(token));
-
-    const getHotelData = async () => {
-      const result = await axios.get("http://localhost:3000/api/getHotelData");
-      setHotelData(result.data.data);
-    };
-
-    getHotelData();
   }, []);
 
   return (
     <>
-      <NavbarComponent isAuthenticated={isAuthenticated} />
+      <NavbarComponent />
       <Hero />
-      <About
-        hotelName={hotelData.hotel_name}
-        hotelDescription={hotelData.hotel_description}
-      />
+      {hotelData ? (
+        <About
+          hotelName={hotelData.data.hotel_name}
+          hotelDescription={hotelData.data.hotel_description}
+        />
+      ) : (
+        <About hotelName="Hotel Name" hotelDescription="Hotel Description" />
+      )}
+
       <Service />
       <RoomSuite />
       <Testimonial />

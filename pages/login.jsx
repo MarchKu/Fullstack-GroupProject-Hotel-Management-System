@@ -1,11 +1,43 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import NavbarComponent from "@/components/navigation-component/NavbarComponent";
 import loginBgDesktop from "../assets/login/loginBg-desktop.png";
 import loginBgMobile from "../assets/login/loginBg-mobile.png";
 import { useAuth } from "@/contexts/authentication";
+import useUserProfile from "@/hooks/use-user-profile";
+import useHotelData from "@/hooks/use-hotel-data";
 
 const login = () => {
+  const { userData, getUserProfile, putUserProfile, isLoading, isError } =
+    useUserProfile();
+  const { hotelData, getHotelData } = useHotelData();
+  const [user, setUser] = useState(null);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  useEffect(() => {
+    const fetchUserData = async () => {
+      const userData = localStorage.getItem("user");
+      if (userData) {
+        const parsedData = JSON.parse(userData);
+        setUser(parsedData);
+      }
+    };
+    fetchUserData();
+    getHotelData();
+  }, []);
+
+  /* Data fetching */
+  useEffect(() => {
+    if (user) {
+      getUserProfile(user.username);
+    }
+    console.log(userData);
+  }, [user]);
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    setIsAuthenticated(Boolean(token));
+  }, []);
+
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
