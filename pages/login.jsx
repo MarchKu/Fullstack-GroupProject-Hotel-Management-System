@@ -53,11 +53,7 @@ const login = () => {
   };
   return (
     <>
-      <NavbarComponent
-        isAuthenticated={isAuthenticated}
-        userData={userData}
-        hotelData={hotelData}
-      />
+      <NavbarComponent />
       <main className="w-full md:max-w-[1440px] md:h-full flex md:flex-row flex-col items-center md:justify-center mx-auto gap-10 bg-[#F7F7FB]">
         <div className="w-full md:w-1/2 relative h-full max-w-[430px] md:max-w-[720px]">
           <Image

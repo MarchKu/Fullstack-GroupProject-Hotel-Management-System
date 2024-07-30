@@ -109,11 +109,7 @@ export default function Profile() {
   }, []);
   return (
     <>
-      <NavbarComponent
-        isAuthenticated={isAuthenticated}
-        userData={userData}
-        hotelData={hotelData}
-      />
+      <NavbarComponent />
       <section className="w-full h-[95vh] py-[10%] md:py-[5%] px-[5%] bg-gray-400 flex flex-col justify-center items-center">
         <Form {...form}>
           <form

@@ -14,7 +14,47 @@ import axios from "axios";
 import { useAuth } from "@/contexts/authentication";
 import UserImage from "../../assets/Navigation/UserImage.png";
 
-const NavbarComponent = ({ isAuthenticated, userData, hotelData }) => {
+const NavbarComponent = () => {
+  const [hotelData, setHotelData] = useState({});
+  const [userData, setUserData] = useState(null);
+  const [user, setUser] = useState(null);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      const userToken = localStorage.getItem("user");
+      if (userToken) {
+        const parsedData = JSON.parse(userToken);
+        setUser(parsedData);
+        console.log("user:", user);
+      }
+    };
+
+    const getHotelData = async () => {
+      const result = await axios.get("http://localhost:3000/api/getHotelData");
+      setHotelData(result.data.data);
+    };
+
+    const token = localStorage.getItem("token");
+    setIsAuthenticated(Boolean(token));
+    fetchUser();
+    getHotelData();
+  }, []);
+
+  useEffect(() => {
+    const getUserData = async (username) => {
+      if (user) {
+        const result = await axios.get(
+          `http://localhost:3000/api/user-profile/${username}`
+        );
+        setUserData(result.data);
+        console.log("userData:", result.data);
+      }
+    };
+    if (user) {
+      getUserData(user.username);
+    }
+  }, [user]);
 
   console.log(hotelData);
 
@@ -25,8 +65,8 @@ const NavbarComponent = ({ isAuthenticated, userData, hotelData }) => {
           <div className="w-full flex items-center justify-between">
             {hotelData ? (
               <>
-                <Logo hotelLogo={hotelData.data.hotel_logo} />
-                <NavLinkDesktop hotelName={hotelData.data.hotel_name} />
+                <Logo hotelLogo={hotelData.hotel_logo} />
+                <NavLinkDesktop hotelName={hotelData.hotel_name} />
               </>
             ) : (
               <p>Loading...</p>
@@ -56,9 +96,9 @@ const NavbarComponent = ({ isAuthenticated, userData, hotelData }) => {
           <div className="w-full flex items-center justify-between">
             {hotelData ? (
               <>
-                <Logo hotelLogo={hotelData.data.hotel_logo} />
-                <NavLinkDesktop hotelName={hotelData.data.hotel_name} />
-                <NonUserMenuMobile hotelName={hotelData.data.hotel_name} />
+                <Logo hotelLogo={hotelData.hotel_logo} />
+                <NavLinkDesktop hotelName={hotelData.hotel_name} />
+                <NonUserMenuMobile hotelName={hotelData.hotel_name} />
               </>
             ) : (
               <p>Loading...</p>

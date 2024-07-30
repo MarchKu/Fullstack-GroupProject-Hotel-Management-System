@@ -45,11 +45,7 @@ export default function Home() {
 
   return (
     <>
-      <NavbarComponent
-        isAuthenticated={isAuthenticated}
-        userData={userData}
-        hotelData={hotelData}
-      />
+      <NavbarComponent />
       <Hero />
       {hotelData ? (
         <About

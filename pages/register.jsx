@@ -5,7 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/formComponent";
-import React, {useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import FormFieldComponent from "../components/ui/FormField";
 import DatePicker from "../components/ui/datePick";
 import CountryPicker from "../components/ui/countryPick";
@@ -148,11 +148,7 @@ export default function Register() {
 
   return (
     <>
-      <NavbarComponent
-        isAuthenticated={isAuthenticated}
-        userData={userData}
-        hotelData={hotelData}
-      />
+      <NavbarComponent />
       <div className="w-full h-full inset-0 bg-cover bg-no-repeat bg-center bg-[url('../public/img/bg-register_page.jpg')]">
         <div className="w-full h-full flex justify-center items-center  bg-gradient-to-b from-[#00000099] to-transparent ">
           <div className="relative w-full md:mt-14 md:mb-20 p-2 md:p-14 m-0 md:w-[45%] bg-[#F7F7FB] pt-10 md:rounded-lg">
