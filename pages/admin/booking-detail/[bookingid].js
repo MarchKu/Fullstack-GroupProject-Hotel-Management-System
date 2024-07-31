@@ -6,6 +6,8 @@ import { dateFormatter } from "@/hooks/useDateFormatter";
 
 export default function BookingDetail() {
   const [bookingData, setBookingData] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isError, setIsError] = useState(false);
 
   const dateDifference = (check_in, check_out) => {
     const d1 = new Date(check_out);
@@ -24,13 +26,17 @@ export default function BookingDetail() {
 
   const getBookingDataById = async (bookingId) => {
     try {
+      setIsLoading(true);
       const res = await axios.get(
         `http://localhost:3000/api/booking/${bookingId}`,
         { method: "GET" }
       );
       setBookingData(res.data);
+      setIsLoading(false);
+      setIsError(false);
     } catch (error) {
       console.log(error.message);
+      setIsError(true);
     }
   };
 
@@ -40,7 +46,11 @@ export default function BookingDetail() {
     }
   }, [bookingId]);
 
-  return (
+  return isLoading ? (
+    <p>Loading...</p>
+  ) : isError ? (
+    <p>Error</p>
+  ) : (
     <>
       <div className="flex flex-row">
         <Sidebar />

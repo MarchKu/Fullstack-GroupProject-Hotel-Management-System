@@ -25,9 +25,12 @@ export default function AllBooking() {
   const [page, setPage] = useState(1);
   const [size, setSize] = useState(null);
   const [input, setInput] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isError, setIsError] = useState(false);
 
   const getBookingData = async () => {
     try {
+      setIsLoading(true);
       const res = await axios.post(
         "http://localhost:3000/api/booking/bookings",
         {
@@ -36,8 +39,11 @@ export default function AllBooking() {
       );
       setBookingData(res.data.data);
       setSize(res.data.size);
+      setIsLoading(false);
+      setIsError(false);
     } catch (error) {
       console.log(error.message);
+      setIsError(true);
     }
   };
 
@@ -69,7 +75,11 @@ export default function AllBooking() {
     getBookingData();
   }, [input]);
 
-  return (
+  return isLoading ? (
+    <p>Loading...</p>
+  ) : isError ? (
+    <p>Error</p>
+  ) : (
     <div className="flex flex-row">
       <Sidebar />
       <div className="w-full bg-gray-100">

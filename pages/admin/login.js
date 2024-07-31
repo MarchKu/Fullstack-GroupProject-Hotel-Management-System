@@ -1,6 +1,5 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
-import NavbarComponent from "@/components/navigation-component/NavbarComponent";
 import loginBgDesktop from "../../assets/login/loginBg-desktop.png";
 import loginBgMobile from "../../assets/login/loginBg-mobile.png";
 import { useAuth } from "@/contexts/authentication";
@@ -10,10 +9,14 @@ import {
 } from "../../components/ui/navigation-menu";
 import Logo from "../../components/navigation-component/Logo";
 import Link from "next/link";
+import axios from "axios";
 
 const login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [hotelData, setHotelData] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
+  const [isError, setIsError] = useState(false);
 
   const { adminLogin } = useAuth();
 
@@ -22,13 +25,34 @@ const login = () => {
     adminLogin({ username, password });
   };
 
-  return (
+  const getHotelData = async () => {
+    try {
+      setIsLoading(true);
+      const result = await axios.get("http://localhost:3000/api/getHotelData");
+      setHotelData(result.data.data);
+      setIsLoading(false);
+      setIsError(false);
+    } catch (error) {
+      console.log(error.message);
+      setIsError(true);
+    }
+  };
+
+  useEffect(() => {
+    getHotelData();
+  }, []);
+
+  return isLoading ? (
+    <p>Loading...</p>
+  ) : isError ? (
+    <p>Error</p>
+  ) : (
     <>
       <NavigationMenu className="flex items-center min-h-[48px] md:min-h-[100px] h-[5vh] border-[1px] border-[#E4E6ED] justify-center w-full">
         <div className="flex justify-between w-full px-[5%] xl:px-[10%]">
           <div className="flex justify-between text-[14px]  w-full">
             <div className="w-full flex items-center justify-between">
-              <Logo />
+              <Logo hotelLogo={hotelData.hotel_logo} />
             </div>
             <div className="flex items-center justify-end">
               <Link href="/admin/login" legacyBehavior passHref>

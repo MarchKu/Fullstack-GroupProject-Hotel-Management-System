@@ -17,12 +17,14 @@ import toastr from "toastr";
 import "toastr/build/toastr.min.css";
 
 export default function ChangeDatePage() {
-    const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [bookingData, setBookingData] = useState([]);
   const [newCheckInDate, setNewCheckInDate] = useState(null);
   const [newCheckOutDate, setNewCheckOutDate] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [user, setUser] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
+  const [isError, setIsError] = useState(false);
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -64,12 +66,16 @@ export default function ChangeDatePage() {
 
   const getBookingDataById = async (bookingId) => {
     try {
+      setIsLoading(true);
       const res = await axios.get(
         `http://localhost:3000/api/booking/${bookingId}`
       );
       setBookingData(res.data);
+      setIsLoading(false);
+      setIsError(false);
     } catch (error) {
       console.log(error.message);
+      setIsError(true);
     }
   };
 
@@ -170,7 +176,11 @@ export default function ChangeDatePage() {
     );
   };
 
-  return (
+  return isLoading ? (
+    <p>Loading...</p>
+  ) : isError ? (
+    <p>Error</p>
+  ) : (
     <>
       <NavbarComponent isAuthenticated={isAuthenticated} />
       <div className="bg-[#F7F7FB]">
