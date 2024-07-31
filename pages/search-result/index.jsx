@@ -24,7 +24,7 @@ import { SearchBox } from "@/components/search-component/SearchBox";
 import FooterComponent from "@/components/footer-component/FooterComponent";
 import NavbarComponent from "@/components/navigation-component/NavbarComponent";
 
-import useRoomData from "@/hooks/use-room-data";
+import useVacantRoom from "@/hooks/use-vacant-room";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 
@@ -63,9 +63,10 @@ export default function Search_result() {
   };
 
   // get room data
-  const { roomData, getAllRoomsData, isLoading, isError } = useRoomData();
-  const fetchData = async () => {
-    await getAllRoomsData();
+  const date = { ...router.query };
+  const { roomData, getRoomDeta, isLoading, isError } = useVacantRoom();
+  const getVacantRoom = (date) => {
+    getRoomDeta(date);
   };
 
   // get bookingData from localStorage
@@ -77,8 +78,8 @@ export default function Search_result() {
   };
 
   useEffect(() => {
-    fetchData();
     getBookingData();
+    getVacantRoom(date);
   }, []);
 
   if (isLoading) {
@@ -101,6 +102,7 @@ export default function Search_result() {
       room_type: roomData[index].type_name,
       room_price: roomPrice,
       user_id: user.userId,
+      user_name: user.username,
     };
     const query = { username: `${user.username}` };
     if (isAuthenticated) {
@@ -111,15 +113,25 @@ export default function Search_result() {
     }
   };
 
+  const handleOnDateChange = () => {
+    getVacantRoom(date);
+    getBookingData();
+  };
+
+  const handleClick = () => {
+    getVacantRoom(date);
+  };
+
   return roomData ? (
     <section className="w-full overflow-hidden">
       <NavbarComponent isAuthenticated={isAuthenticated} />
       <div className=" w-full h-[400px] flex border-1 border-gray-200 px-[2.5%] py-[10%] md:py-0 xl:px-[10%] md:pb-[2rem]  rounded shadow-xl shadow-gray-200 bg-white justify-center items-center md:h-[150px] md:sticky md:top-0 md:z-10">
-        <SearchBox onDateChage={getBookingData} />
+        <SearchBox onDateChage={handleOnDateChange} />
       </div>
       <div className="w-full px-[5%] xl:px-[10%] flex flex-col justify-center items-center font-body">
         {/* room search result */}
         <div className="w-full flex flex-col items-center py-[5%] md:z-0">
+          <button onClick={handleClick}>Test</button>
           {roomData.map((room, index) => {
             return (
               <div

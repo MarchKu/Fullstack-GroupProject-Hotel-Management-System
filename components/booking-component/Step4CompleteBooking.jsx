@@ -15,10 +15,6 @@ const Step4CompleteBooking = () => {
     }
   }, []);
 
-  const handleBookingDetail = () => {
-    localStorage.setItem("bookingData", JSON.stringify({}));
-  };
-
   return bookingData ? (
     <>
       <div class="w-full pb-8 md:px-[5%] lg:px-[10%] md:pb-32">
@@ -130,7 +126,7 @@ const Step4CompleteBooking = () => {
           <div className="flex flex-col gap-4 md:flex-row">
             <button
               className="w-[320px] md:w-[200px] text-orange-500 order-2 md:order-1"
-              onClick={handleBookingDetail}
+              onClick={() => router.push("/booking/booking-history")}
             >
               Check Booking Detail
             </button>
