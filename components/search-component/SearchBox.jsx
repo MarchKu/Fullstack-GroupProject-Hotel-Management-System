@@ -17,6 +17,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { useRouter } from "next/router";
+import { useState, useEffect } from "react";
 
 export function SearchBox({ onDateChage }) {
   const router = useRouter();
@@ -88,18 +89,32 @@ export function SearchBox({ onDateChage }) {
     }
   };
 
-  const handleSubmit = () => {
-    router.push("/search-result");
-  };
+  const handleSearch = () => {
+    const newDateData = {
+      check_in: format(date.from, "EEE, dd MMMM yyyy"),
+      check_out: format(date.to, "EEE, dd MMMM yyyy"),
+      number_of_night: dateRange(date.from, date.to),
+    };
+    router.push({ pathname: "/search-result", query: newDateData });
 
-  React.useEffect(() => {
-    setDateData();
-  }, []);
-
-  React.useEffect(() => {
     setDateData();
     onDateChage();
-  }, [date]);
+  };
+
+  const setDateFromParam = () => {
+    const dateFromParam = { ...router.query };
+    if (dateFromParam.check_in) {
+      const newDate = {
+        from: new Date(dateFromParam.check_in),
+        to: new Date(dateFromParam.check_out),
+      };
+      setDate(newDate);
+    }
+  };
+
+  useEffect(() => {
+    setDateFromParam();
+  }, []);
 
   return (
     <div className="w-full h-full md:max-h-[222px] bg-white flex justify-between items-center rounded-lg ">
@@ -266,7 +281,7 @@ export function SearchBox({ onDateChage }) {
         <Button
           className="w-[180px] h-[3rem] md:text-[1.25rem]"
           type="submit"
-          onClick={handleSubmit}
+          onClick={handleSearch}
         >
           Search
         </Button>

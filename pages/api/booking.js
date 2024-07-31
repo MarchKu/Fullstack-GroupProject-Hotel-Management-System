@@ -21,7 +21,8 @@ export default async function POST(req, res) {
 
     if (bookingId) {
       await connectionPool.query(
-        `INSERT INTO bills (user_id, booking_id, payment_method, standard_request, special_request, additional_request, promotion_discount, total_price) values ($1, $2, $3, $4, $5, $6, $7, $8)`,
+        `INSERT INTO bills (user_id, booking_id, payment_method, standard_request, special_request, additional_request, promotion_discount, total_price) 
+        values ($1, $2, $3, $4, $5, $6, $7, $8)`,
         [
           bookingData.user_id,
           bookingId,
