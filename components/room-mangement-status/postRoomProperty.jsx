@@ -8,6 +8,7 @@ export default function PostRoomProperty({
   guest,
   typeBed,
   sizeRoom,
+  handleRoomClick,
 }) {
   const formatPriceNumber = (price) => {
     if (price === 0) {
@@ -24,14 +25,16 @@ export default function PostRoomProperty({
       ).padStart(3, "0")}.${decimalPart}`;
     }
   };
+
   return (
     <div
-      className="bg-[#FFFFFF] w-full h-32 grid grid-cols-8 font-body text-sm font-normal tracking-tighter text-[#000000]
-    border-b-[1px] border-[#E4E6ED] "
+      className="bg-[#FFFFFF] w-full  sm:h-[5.5rem] grid grid-cols-8 font-body text-sm font-normal tracking-tighter text-[#000000]
+    border-b-[1px] border-[#E4E6ED] cursor-pointer hover:bg-[#F0F2F8] hover:transition hover:duration-300 "
+      onClick={handleRoomClick}
     >
       <div className="pl-5 flex justify-between items-center">
         <img
-          className=" bg-center bg-cover w-28 h-20 rounded-sm object-cover object-center "
+          className=" bg-center bg-cover w-28 h-16 rounded-sm object-cover object-center "
           src={image}
         />
       </div>

@@ -5,9 +5,9 @@ import RoomList from "@/components/room-mangement-status/roomList-property";
 export default function roomManagement() {
   const [search, setSearch] = useState("");
   return (
-    <div className=" w-screen h-screen flex">
+    <div className=" flex">
       <Sidebar />
-      <div className=" bg-[#F6F7FC] w-full h-full flex flex-col">
+      <div className=" bg-[#F6F7FC] w-full flex flex-col">
         <NavbarRoom title={"Room & Property"} setSearch={setSearch} />
         <div className=" p-14">
           <div className=" h-10 grid grid-cols-8 font-body text-sm font-medium tracking-tighter text-[#424C6B]">
