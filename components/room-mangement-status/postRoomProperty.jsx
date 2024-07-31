@@ -26,12 +26,12 @@ export default function PostRoomProperty({
   };
   return (
     <div
-      className="bg-[#FFFFFF]   grid grid-cols-8 font-body text-sm font-normal tracking-tighter text-[#000000]
+      className="bg-[#FFFFFF] w-full h-32 grid grid-cols-8 font-body text-sm font-normal tracking-tighter text-[#000000]
     border-b-[1px] border-[#E4E6ED] "
     >
-      <div className="pl-2 flex justify-between items-center">
+      <div className="pl-5 flex justify-between items-center">
         <img
-          className=" bg-center bg-cover w-36 h-20   mt-2 mb-2 rounded-md object-cover object-center "
+          className=" bg-center bg-cover w-28 h-20 rounded-sm object-cover object-center "
           src={image}
         />
       </div>
