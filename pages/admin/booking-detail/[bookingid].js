@@ -46,11 +46,7 @@ export default function BookingDetail() {
     }
   }, [bookingId]);
 
-  return isLoading ? (
-    <p>Loading...</p>
-  ) : isError ? (
-    <p>Error</p>
-  ) : (
+  return (
     <>
       <div className="flex flex-row">
         <Sidebar />
@@ -83,148 +79,158 @@ export default function BookingDetail() {
           </header>
           <div className="bg-white mt-12 mx-16 pb-10">
             <div className="h-screen flex flex-col gap-10 px-20 pt-10 overflow-scroll overflow-x-hidden">
-              {bookingData.map((item) => (
-                <>
-                  <div>
-                    <h1 className="text-gray-600 text-xl font-semibold p-1">
-                      Customer name
-                    </h1>
-                    <p className="text-base font-normal p-1">
-                      {item.full_name}
-                    </p>
-                  </div>
-                  <div>
-                    <h1 className="text-gray-600 text-xl font-semibold p-1">
-                      Guest(s)
-                    </h1>
-                    <p className="text-base font-normal p-1">
-                      {item.room_capacity}
-                    </p>
-                  </div>
-                  <div>
-                    <h1 className="text-gray-600 text-xl font-semibold p-1">
-                      Room type
-                    </h1>
-                    <p className="text-base font-normal p-1">
-                      {item.type_name}
-                    </p>
-                  </div>
-                  <div>
-                    <h1 className="text-gray-600 text-xl font-semibold p-1">
-                      Amount
-                    </h1>
-                    <p className="text-base font-normal p-1">
-                      {item.amount_booking} room
-                    </p>
-                  </div>
-                  <div>
-                    <h1 className="text-gray-600 text-xl font-semibold p-1">
-                      Bed type
-                    </h1>
-                    <p className="text-base font-normal p-1">{item.bed_type}</p>
-                  </div>
-                  <div>
-                    <h1 className="text-gray-600 text-xl font-semibold p-1">
-                      Check-in
-                    </h1>
-                    <p className="text-base font-normal p-1">
-                      {dateFormatter(item.check_in)}
-                    </p>
-                  </div>
-                  <div>
-                    <h1 className="text-gray-600 text-xl font-semibold p-1">
-                      Check-out
-                    </h1>
-                    <p className="text-base font-normal p-1">
-                      {dateFormatter(item.check_out)}
-                    </p>
-                  </div>
-                  <div>
-                    <h1 className="text-gray-600 text-xl font-semibold p-1">
-                      Stay (total)
-                    </h1>
-                    <p className="text-base font-normal p-1">
-                      {dateDifference(item.check_in, item.check_out)} night(s)
-                    </p>
-                  </div>
-                  <div>
-                    <h1 className="text-gray-600 text-xl font-semibold p-1">
-                      Booking date
-                    </h1>
-                    <p className="text-base font-normal p-1">
-                      {dateFormatter(item.created_at)}
-                    </p>
-                  </div>
-                  <div className="flex flex-col gap-4 bg-gray-100 px-6 py-4">
-                    <p className="text-right text-base text-gray-600 font-normal">
-                      Payment success via{" "}
-                      <span className="font-semibold">
-                        {item.payment_method}
-                      </span>
-                    </p>
-                    <div className="flex flex-row justify-between">
-                      <span className="text-base text-gray-900 font-normal">
-                        {item.type_name}
-                      </span>
-                      <span className="text-base text-gray-900 font-semibold">
-                        {item.promotion_price
-                          ? (
-                              Number(item.promotion_price) *
-                              dateDifference(item.check_in, item.check_out)
-                            ).toLocaleString("en-US")
-                          : (
-                              Number(item.current_price) *
-                              dateDifference(item.check_in, item.check_out)
-                            ).toLocaleString("en-US")}
-                      </span>
+              {isLoading ? (
+                <p>Loading...</p>
+              ) : isError ? (
+                <p>Error</p>
+              ) : (
+                bookingData.map((item) => (
+                  <>
+                    <div>
+                      <h1 className="text-gray-600 text-xl font-semibold p-1">
+                        Customer name
+                      </h1>
+                      <p className="text-base font-normal p-1">
+                        {item.full_name}
+                      </p>
                     </div>
                     <div>
-                      {item.special_request ? (
-                        item.special_request.map((item) => {
-                          const data = JSON.parse(item);
-                          return (
-                            <div className="mb-5 flex flex-row justify-between">
-                              <span className="text-base text-gray-900 font-normal">
-                                {data.name}
-                              </span>
-                              <span className="text-base text-gray-900 font-semibold">
-                                {data.price.toLocaleString("en-US")}
-                              </span>
-                            </div>
-                          );
-                        })
-                      ) : (
-                        <></>
-                      )}
+                      <h1 className="text-gray-600 text-xl font-semibold p-1">
+                        Guest(s)
+                      </h1>
+                      <p className="text-base font-normal p-1">
+                        {item.room_capacity}
+                      </p>
                     </div>
-                    <div className="flex flex-row justify-between">
-                      <span className="text-base text-gray-900 font-normal">
-                        {item.promotion_discount ? "Discount" : ""}
-                      </span>
-                      <span className="text-base text-gray-900 font-semibold">
-                        {item.promotion_discount ? item.promotion_discount : ""}
-                      </span>
+                    <div>
+                      <h1 className="text-gray-600 text-xl font-semibold p-1">
+                        Room type
+                      </h1>
+                      <p className="text-base font-normal p-1">
+                        {item.type_name}
+                      </p>
                     </div>
-                    <hr />
-                    <div className="flex flex-row justify-between mt-10">
-                      <span className="text-base text-gray-900 font-normal">
-                        Total
-                      </span>
-                      <span className="text-xl text-gray-900 font-semibold">
-                        THB {Number(item.total_price).toLocaleString("en-US")}
-                      </span>
+                    <div>
+                      <h1 className="text-gray-600 text-xl font-semibold p-1">
+                        Amount
+                      </h1>
+                      <p className="text-base font-normal p-1">
+                        {item.amount_booking} room
+                      </p>
                     </div>
-                  </div>
-                  <div className="flex flex-col gap-4 bg-gray-100 px-6 py-4">
-                    <p className="text-gray-700 text-base font-semibold p-1">
-                      Additional Request
-                    </p>
-                    <p className="text-gray-700 text-base font-normal p-1">
-                      {item.additional_request}
-                    </p>
-                  </div>
-                </>
-              ))}
+                    <div>
+                      <h1 className="text-gray-600 text-xl font-semibold p-1">
+                        Bed type
+                      </h1>
+                      <p className="text-base font-normal p-1">
+                        {item.bed_type}
+                      </p>
+                    </div>
+                    <div>
+                      <h1 className="text-gray-600 text-xl font-semibold p-1">
+                        Check-in
+                      </h1>
+                      <p className="text-base font-normal p-1">
+                        {dateFormatter(item.check_in)}
+                      </p>
+                    </div>
+                    <div>
+                      <h1 className="text-gray-600 text-xl font-semibold p-1">
+                        Check-out
+                      </h1>
+                      <p className="text-base font-normal p-1">
+                        {dateFormatter(item.check_out)}
+                      </p>
+                    </div>
+                    <div>
+                      <h1 className="text-gray-600 text-xl font-semibold p-1">
+                        Stay (total)
+                      </h1>
+                      <p className="text-base font-normal p-1">
+                        {dateDifference(item.check_in, item.check_out)} night(s)
+                      </p>
+                    </div>
+                    <div>
+                      <h1 className="text-gray-600 text-xl font-semibold p-1">
+                        Booking date
+                      </h1>
+                      <p className="text-base font-normal p-1">
+                        {dateFormatter(item.created_at)}
+                      </p>
+                    </div>
+                    <div className="flex flex-col gap-4 bg-gray-100 px-6 py-4">
+                      <p className="text-right text-base text-gray-600 font-normal">
+                        Payment success via{" "}
+                        <span className="font-semibold">
+                          {item.payment_method}
+                        </span>
+                      </p>
+                      <div className="flex flex-row justify-between">
+                        <span className="text-base text-gray-900 font-normal">
+                          {item.type_name}
+                        </span>
+                        <span className="text-base text-gray-900 font-semibold">
+                          {item.promotion_price
+                            ? (
+                                Number(item.promotion_price) *
+                                dateDifference(item.check_in, item.check_out)
+                              ).toLocaleString("en-US")
+                            : (
+                                Number(item.current_price) *
+                                dateDifference(item.check_in, item.check_out)
+                              ).toLocaleString("en-US")}
+                        </span>
+                      </div>
+                      <div>
+                        {item.special_request ? (
+                          item.special_request.map((item) => {
+                            const data = JSON.parse(item);
+                            return (
+                              <div className="mb-5 flex flex-row justify-between">
+                                <span className="text-base text-gray-900 font-normal">
+                                  {data.name}
+                                </span>
+                                <span className="text-base text-gray-900 font-semibold">
+                                  {data.price.toLocaleString("en-US")}
+                                </span>
+                              </div>
+                            );
+                          })
+                        ) : (
+                          <></>
+                        )}
+                      </div>
+                      <div className="flex flex-row justify-between">
+                        <span className="text-base text-gray-900 font-normal">
+                          {item.promotion_discount ? "Discount" : ""}
+                        </span>
+                        <span className="text-base text-gray-900 font-semibold">
+                          {item.promotion_discount
+                            ? item.promotion_discount
+                            : ""}
+                        </span>
+                      </div>
+                      <hr />
+                      <div className="flex flex-row justify-between mt-10">
+                        <span className="text-base text-gray-900 font-normal">
+                          Total
+                        </span>
+                        <span className="text-xl text-gray-900 font-semibold">
+                          THB {Number(item.total_price).toLocaleString("en-US")}
+                        </span>
+                      </div>
+                    </div>
+                    <div className="flex flex-col gap-4 bg-gray-100 px-6 py-4">
+                      <p className="text-gray-700 text-base font-semibold p-1">
+                        Additional Request
+                      </p>
+                      <p className="text-gray-700 text-base font-normal p-1">
+                        {item.additional_request}
+                      </p>
+                    </div>
+                  </>
+                ))
+              )}
             </div>
           </div>
         </div>
