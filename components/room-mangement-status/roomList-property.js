@@ -1,16 +1,20 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
 import PostRoomProperty from "./postRoomProperty";
-
-const room_per_page = 6;
+import { useRouter } from "next/router";
 
 export default function RoomList({ search }) {
+  const room_per_page = 6;
+  const router = useRouter();
   const [roomData, setRoomData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
   const [startPage, setStartPage] = useState(1);
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [search]);
 
   useEffect(() => {
     fetchRoomData(currentPage);
@@ -62,6 +66,10 @@ export default function RoomList({ search }) {
     }
   };
 
+  const handleRoomClick = (roomID) => {
+    router.push(`/admin/room-property/${roomID}`);
+  };
+
   const renderPageNumberButton = () => {
     const pageNumber = [];
     const endPage = Math.min(startPage + 4, totalPages);
@@ -103,6 +111,7 @@ export default function RoomList({ search }) {
               promotion_price={room.promotion_price}
               guest={room.room_capacity}
               sizeRoom={room.room_size}
+              handleRoomClick={() => handleRoomClick(room.room_id)}
             />
           ))}
         </div>

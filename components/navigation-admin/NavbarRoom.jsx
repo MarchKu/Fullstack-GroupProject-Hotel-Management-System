@@ -1,4 +1,10 @@
+import Router from "next/router";
+
 export default function NavbarRoom({ title, setSearch }) {
+  const router = Router;
+  const handleCreateRoom = () => {
+    router.push("/admin/create-new-room");
+  };
   return (
     <div className="bg-[#FFFFFF] p-5 pl-16 pr-16 border-b-[1px] border-[#E4E6ED]  flex justify-between">
       <h1 className="font-body text-xl font-semibold flex flex-col justify-center ">
@@ -13,7 +19,10 @@ export default function NavbarRoom({ title, setSearch }) {
           placeholder="Search..."
           onChange={(e) => setSearch(e.target.value)}
         ></input>
-        <button className="bg-[#C14817] text-white h-12 w-48 rounded font-semibold hover:bg-[#dc6536] hover:transition duration-150">
+        <button
+          className="bg-[#C14817] text-white h-12 w-48 rounded font-semibold hover:bg-[#dc6536] hover:transition duration-150"
+          onClick={handleCreateRoom}
+        >
           + Create Room
         </button>
       </div>
