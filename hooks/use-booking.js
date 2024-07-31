@@ -1,4 +1,3 @@
-import { data } from "autoprefixer";
 import axios from "axios";
 import { useState } from "react";
 import toastr from "toastr";
