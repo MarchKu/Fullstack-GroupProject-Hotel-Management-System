@@ -121,6 +121,10 @@ const CreateNewRoom = () => {
   const imageGall = form.watch("imageGallery");
   console.log("imageGallWatch: ", imageGall);
 
+  const handleBackRooms = () => {
+    window.location.replace("/admin/room-management");
+  };
+
   return (
     <div className="flex w-full bg-[#2F3E35]">
       <Sidebar />
@@ -132,7 +136,10 @@ const CreateNewRoom = () => {
           >
             <article className="w-full flex items-center gap-4 bg-white px-[60px] py-[25px] ">
               <h1 className="w-full font-semibold text-xl">Create New Room</h1>
-              <button className="bg-white text-[#E76B39] font-semibold rounded border-[1px] border-[#E76B39] px-8 py-4">
+              <button
+                className="bg-white text-[#E76B39] font-semibold rounded border-[1px] border-[#E76B39] px-8 py-4"
+                onClick={handleBackRooms}
+              >
                 Cancel
               </button>
               <button
