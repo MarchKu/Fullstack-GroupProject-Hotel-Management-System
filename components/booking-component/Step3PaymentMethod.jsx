@@ -4,17 +4,20 @@ import { useState, useEffect } from "react";
 import useBooking from "@/hooks/use-booking";
 import { Check } from "lucide-react";
 import { useRouter } from "next/router";
+import { useBookingContext } from "@/contexts/booking";
 
 const Step3PaymentMethod = ({ nextStep, prevStep }) => {
   const router = useRouter();
-  const [bookingData, setBookingData] = useState();
+  // const [bookingData, setBookingData] = useState();
+  const { bookingData, setBookingData } = useBookingContext();
+
   const [payment, setPayment] = useState();
   const [code, setCode] = useState();
 
-  const handleClick = () => { 
-    setData();
+  const handleClick = () => {
+    // setData();
     router.push("/payment");
-  }
+  };
 
   const {
     createBooking,
@@ -26,11 +29,11 @@ const Step3PaymentMethod = ({ nextStep, prevStep }) => {
   } = useBooking();
 
   useEffect(() => {
-    const getBookingData = localStorage.getItem("bookingData");
-    if (getBookingData) {
-      const parsedData = JSON.parse(getBookingData);
-      setBookingData(parsedData);
-    }
+    // const getBookingData = localStorage.getItem("bookingData");
+    // if (getBookingData) {
+    //   const parsedData = JSON.parse(getBookingData);
+    //   setBookingData(parsedData);
+    // }
   }, []);
 
   const handleSelectPayment = (method) => {
@@ -108,17 +111,17 @@ const Step3PaymentMethod = ({ nextStep, prevStep }) => {
     return <h1>Bookig Error</h1>;
   }
 
-  const setData = () => {
-    const newBookingData = {
-      ...bookingData,
-      discount: discount,
-    };
-    localStorage.setItem("bookingData", JSON.stringify(newBookingData));
-  };
+  // const setData = () => {
+  //   const newBookingData = {
+  //     ...bookingData,
+  //     discount: discount,
+  //   };
+  //   localStorage.setItem("bookingData", JSON.stringify(newBookingData));
+  // };
 
   const handleConfirm = () => {
     if (payment) {
-      setData();
+      // setData();
       booking();
     }
   };
@@ -241,11 +244,11 @@ const Step3PaymentMethod = ({ nextStep, prevStep }) => {
                 </div>
                 <div className="mb-8">
                   <ul className="flex flex-col gap-4 mb-4">
-                    {bookingData.standard_request.map((request) => (
+                    {/* {bookingData.standard_request.map((request) => (
                       <li key={request.name} className="flex justify-between">
                         <p className="text-gray-300"> {request} </p>
                       </li>
-                    ))}
+                    ))} */}
                   </ul>
                   <ul className="flex flex-col gap-4">
                     {bookingData.special_request.map((request) => (
@@ -324,7 +327,13 @@ const Step3PaymentMethod = ({ nextStep, prevStep }) => {
             {/* <Button className="w-[200px]" onClick={handleConfirm}>
               Confirm Booking
             </Button> */}
-            <button type="button" onClick={handleClick} className="w-[200px] bg-orange-400">Pay</button>
+            <button
+              type="button"
+              onClick={handleClick}
+              className="w-[200px] bg-orange-400"
+            >
+              Pay
+            </button>
           </div>
         </div>
       </div>

@@ -18,6 +18,7 @@ import {
 } from "@/components/ui/popover";
 import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
+import { useBookingContext } from "@/contexts/booking";
 
 export function SearchBox({ onDateChage }) {
   const router = useRouter();
@@ -25,6 +26,8 @@ export function SearchBox({ onDateChage }) {
     from: addDays(new Date(), 1),
     to: addDays(new Date(), 2),
   });
+
+  const { bookingData, setBookingData } = useBookingContext();
 
   const [room, setRoom] = React.useState(1);
   const [guests, setGuests] = React.useState(2);
@@ -85,7 +88,7 @@ export function SearchBox({ onDateChage }) {
         check_out: format(date.to, "EEE, dd MMMM yyyy"),
         number_of_night: dateRange(date.from, date.to),
       };
-      localStorage.setItem("bookingData", JSON.stringify(newDateData));
+      setBookingData(newDateData);
     }
   };
 
