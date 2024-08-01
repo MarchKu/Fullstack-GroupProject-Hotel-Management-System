@@ -3,11 +3,18 @@ import { BriefcaseBusiness, Banknote } from "lucide-react";
 import { useState, useEffect } from "react";
 import useBooking from "@/hooks/use-booking";
 import { Check } from "lucide-react";
+import { useRouter } from "next/router";
 
 const Step3PaymentMethod = ({ nextStep, prevStep }) => {
+  const router = useRouter();
   const [bookingData, setBookingData] = useState();
   const [payment, setPayment] = useState();
   const [code, setCode] = useState();
+
+  const handleClick = () => { 
+    setData();
+    router.push("/payment");
+  }
 
   const {
     createBooking,
@@ -312,9 +319,12 @@ const Step3PaymentMethod = ({ nextStep, prevStep }) => {
             >
               Back
             </button>
-            <Button className="w-[200px]" onClick={handleConfirm}>
+
+            {/* former button */}
+            {/* <Button className="w-[200px]" onClick={handleConfirm}>
               Confirm Booking
-            </Button>
+            </Button> */}
+            <button type="button" onClick={handleClick} className="w-[200px] bg-orange-400">Pay</button>
           </div>
         </div>
       </div>
