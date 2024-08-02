@@ -37,11 +37,13 @@ export default async function handler(req, res) {
     case "charge.updated":
       const chargeUpdated = event.data.object;
       console.log("Charge updated:", chargeUpdated);
-    // Handle the charge.updated event
+      // Handle the charge.updated event
+      break;
     case "payment_intent.created":
       const paymentIntentCreated = event.data.object;
       console.log("PaymentIntent created:", paymentIntentCreated);
-    // Handle the payment_intent.created event
+      // Handle the payment_intent.created event
+      break;
     case "checkout.session.completed":
       const checkoutSession = event.data.object;
       const session_id = checkoutSession.id;

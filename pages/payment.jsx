@@ -34,7 +34,7 @@ export default function Home() {
           currency: "thb",
         }}
       >
-        <CheckoutPage amount={amount} />
+        <CheckoutPage amount={amount} bookingData={bookingData} />
       </Elements>
     </main>
   );
