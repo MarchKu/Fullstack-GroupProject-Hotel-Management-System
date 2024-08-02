@@ -16,6 +16,6 @@ export const config = {
     "/admin/hotel-information",
     "/admin/booking-detail/:path*",
     "/admin/room-management",
-    "/admin/room-property-all",
+    "/admin/room-property-all/:path*",
   ],
 };
