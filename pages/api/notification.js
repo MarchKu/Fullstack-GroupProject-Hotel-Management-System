@@ -13,7 +13,7 @@ export default async function POST(req, res) {
 
   try {
     const checkBooking = await connectionPool.query(
-      `SELECT * FROM booking WHERE user_id = $1 AND check_in = $2 ORDER BY check_in DESC`,
+      `SELECT * FROM booking WHERE user_id = $1 AND check_in = $2 ORDER BY created_at DESC`,
       [req.body.user_id, tomorrow]
     );
 
