@@ -18,11 +18,13 @@ export default async function handler(req, res) {
       const result = await connectionPool.query(
         `
       select * from booking
+inner join bills
+on bills.booking_id = booking.booking_id
 inner join rooms
 on booking.room_id = rooms.room_id
 inner join room_types
 on rooms.room_type_id = room_types.room_type_id
-where booking_id = $1
+where booking.booking_id = $1
       `,
         [bookingID]
       );

@@ -17,7 +17,7 @@ import toastr from "toastr";
 import "toastr/build/toastr.min.css";
 
 export default function ChangeDatePage() {
-    const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [bookingData, setBookingData] = useState([]);
   const [newCheckInDate, setNewCheckInDate] = useState(null);
   const [newCheckOutDate, setNewCheckOutDate] = useState(null);
@@ -173,31 +173,29 @@ export default function ChangeDatePage() {
   return (
     <>
       <NavbarComponent isAuthenticated={isAuthenticated} />
-      <div className="bg-[#F7F7FB]">
-        {" "}
-        <div className="flex flex-col mx-[7%] xl:mx-[10%] pt-10 md:pt-16 pb-5 md:pb-10 lg:pb-20 justify-center">
-          {" "}
-          <header className="w-[75%] md:w-[60%] lg:w-[68%] xl:w-[60%] text-primary-heading font-medium font-serif text-3xl leading-snug md:text-6xl md:leading-snug">
-            <span>Change </span>
-            <span>Check-in and </span>
-            <span className="whitespace-nowrap">Check-out Date</span>
-          </header>
-          <div>
+        <section className="w-full h-screen px-[5%] md:px-[10%] flex flex-col justify-start items-center font-body bg-gray-300">
+          <div className="w-full h-[20%] font-heading md:text-[3rem] lg:text-[4rem] xl:text-[5rem] text-primary-heading">
+            <p>Change Check-in</p>
+            <p>and Check-out Date</p>
+          </div>
+          <div className="border-b min-h-[700px] py-[5%] border-gray-300 flex flex-col justify-center items-center w-full h-[80%] md:h-[450px] md:flex-col md:justify-center md:items-center md:py-[2rem]">
             {bookingData.map((item) => {
               return (
                 <>
-                  <div className="mt-16 flex flex-col lg:flex-row gap-12">
-                    <img
-                      src={item.main_image}
-                      alt="room image"
-                      className="lg:w-[50%] lg:h-[210px] rounded-sm"
-                    />
-                    <div className="w-full flex flex-col gap-5">
-                      <div className="flex flex-col items-start md:flex-row md:justify-between md:items-center">
-                        <h2 className="text-3xl font-semibold">
+                  <div className="w-full h-[90%] flex">
+                    <div className="w-[50%] h-full">
+                      <img
+                        src={item.main_image}
+                        alt="room image"
+                        className="w-screen h-[45%] md:w-[90%] md:h-[90%] bg-center bg-cover md:rounded-lg bg-gray-300 object-cover object-center"
+                      />
+                    </div>
+                    <div className="h-[55%] md:h-full md:w-[45%] xl:w-[50%] py-[5%] size-full flex flex-col  md:justify-start gap-[2rem]">
+                      <div className="w-full flex justify-between text-gray-800 items-center">
+                        <h2  className="text-[2rem] font-semibold">
                           {item.type_name}
                         </h2>
-                        <p className="text-gray-600 font-normal">
+                        <p className="text-gray-600">
                           Booking date: {dateFormatter(item.created_at)}
                         </p>
                       </div>
@@ -287,7 +285,7 @@ export default function ChangeDatePage() {
                       </div>
                     </div>
                   </div>
-                  <div className="button flex flex-col md:flex-row md:justify-between mt-5">
+                  <div className="w-full flex flex-col md:flex-row md:justify-between mt-5">
                     <button
                       className="text-primary font-semibold max-md:order-last max-md:mt-5 ml-1"
                       onClick={() =>
@@ -303,8 +301,7 @@ export default function ChangeDatePage() {
               );
             })}
           </div>
-        </div>
-      </div>
+        </section>
     </>
   );
 }

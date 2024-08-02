@@ -17,6 +17,7 @@ export default async function handler(req, res) {
                 INNER JOIN user_profiles
                 ON user_profiles.user_id = booking.user_id
                 WHERE booking.booking_id = $1
+                
               `,
         [bookingId]
       );

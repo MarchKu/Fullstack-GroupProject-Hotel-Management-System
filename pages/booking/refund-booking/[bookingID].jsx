@@ -7,11 +7,15 @@ import { useRouter } from "next/router";
 import { Button } from "@/components/ui/button";
 import { format } from "date-fns";
 import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+  DialogFooter,
+  DialogClose,
+} from "@/components/ui/dialog";
 
 const BookingHistory = () => {
   const router = useRouter();
@@ -53,10 +57,10 @@ const BookingHistory = () => {
   }, [bookingID]);
 
   const cancleTime = new Date();
-  
+
   const cancleClick = () => {
     if (bookingID) {
-      deleteBooking(bookingID);
+      /* deleteBooking(bookingID); */
       setIsCancel(true);
     }
   };
@@ -66,56 +70,50 @@ const BookingHistory = () => {
       {!isCancel && bookingHistory ? (
         <section className="w-full h-[95vh] px-[5%] md:px-[10%] flex flex-col justify-start items-center font-body">
           <h1 className="h-[20%] font-heading text-primary-heading text-[6rem] w-full text-left pb-14">
-            Cancel Booking
+            Request a Refund
           </h1>
           <div className="border-b min-h-[700px] py-[5%] border-gray-300 flex flex-col justify-center items-center w-full h-[80%] md:h-[450px] md:flex-col md:justify-center md:items-center md:py-[2rem]">
             <div className="w-full h-[90%] flex">
               <div className="w-[50%] h-full">
-                <div
-                  className="relative w-screen h-[45%] md:w-[90%] md:h-[90%] bg-center bg-cover md:rounded-lg bg-gray-300 "
-                  style={{
-                    backgroundImage: `url(${bookingHistory.main_image})`,
-                  }}
-                ></div>
+                <img
+                  src={bookingHistory.main_image}
+                  alt="room image"
+                  className="w-screen h-[45%] md:w-[90%] md:h-[90%] bg-center bg-cover md:rounded-lg bg-gray-300 object-cover object-center"
+                />
               </div>
 
-              <div className="h-[55%] md:h-full md:w-[45%] xl:w-[50%]">
-                <div className="py-[5%] size-full flex flex-col md:w-full md:h-full md:justify-start gap-[2rem]">
-                  <div className="w-full flex justify-between text-gray-800 items-center">
-                    <h1 className="text-[2rem] font-semibold">
-                      {bookingHistory.type_name}
-                    </h1>
+              <div className="h-[55%] md:h-full md:w-[45%] xl:w-[50%] py-[5%] size-full flex flex-col  md:justify-start gap-[2rem]">
+                <div className="w-full flex justify-between text-gray-800 items-center">
+                  <h1 className="text-[2rem] font-semibold">
+                    {bookingHistory.type_name}
+                  </h1>
+                  <p className="text-gray-600">
+                    Booking date:{" "}
+                    {format(bookingHistory.created_at, "EEE, dd MMMM yyyy")}
+                  </p>
+                </div>
+                <div className="w-full flex gap-[1.5rem] text-gray-800">
+                  <div className="flex flex-col">
+                    <h3>check-in</h3>
                     <p>
-                      Booking date:{" "}
-                      {format(bookingHistory.created_at, "EEE, dd MMMM yyyy")}
+                      <span className="pr-[0.5rem]">
+                        {format(bookingHistory.check_in, "EEE, dd MMMM yyyy")}
+                      </span>
+                      <span className="pl-[0.5rem] border-l-[1px] border-gray-800">
+                        After 2:00 PM
+                      </span>
                     </p>
                   </div>
-                  <div className="w-full flex gap-[1.5rem] text-gray-800">
-                    <div className="flex flex-col">
-                      <h3>check-in</h3>
-                      <p>
-                        <span className="pr-[0.5rem]">
-                          {format(bookingHistory.check_in, "EEE, dd MMMM yyyy")}
-                        </span>
-                        <span className="pl-[0.5rem] border-l-[1px] border-gray-800">
-                          After 2:00 PM
-                        </span>
-                      </p>
-                    </div>
-                    <div className="flex flex-col">
-                      <h3>check-out</h3>
-                      <p>
-                        <span className="pr-[0.5rem]">
-                          {format(
-                            bookingHistory.check_out,
-                            "EEE, dd MMMM yyyy"
-                          )}
-                        </span>
-                        <span className="pl-[0.5rem] border-l-[1px] border-gray-800">
-                          Before 12:00PM
-                        </span>
-                      </p>
-                    </div>
+                  <div className="flex flex-col">
+                    <h3>check-out</h3>
+                    <p>
+                      <span className="pr-[0.5rem]">
+                        {format(bookingHistory.check_out, "EEE, dd MMMM yyyy")}
+                      </span>
+                      <span className="pl-[0.5rem] border-l-[1px] border-gray-800">
+                        Before 12:00PM
+                      </span>
+                    </p>
                   </div>
                 </div>
               </div>
@@ -127,15 +125,42 @@ const BookingHistory = () => {
               >
                 Cancel
               </Link>
-              <button
-                onClick={() => {
-                  cancleClick();
-                }}
-              >
-                <Button className="w-40 xl:w-[180px] rounded xl:text-[1.25rem]">
-                  Cancel this booking
-                </Button>
-              </button>
+              <Dialog className="flex flex-col">
+                <DialogTrigger className="text-orange-500 hover:underline">
+                  <Button>Cancel Booking</Button>
+                </DialogTrigger>
+                <DialogContent>
+                  <DialogHeader>
+                    <DialogTitle className="pb-[1rem]">
+                      Cancel Bokking
+                    </DialogTitle>
+                    <DialogDescription className="pb-[1rem]">
+                      Cancellation of the booking now will not be able to
+                      request a refund. Are you sure you would like to cancel
+                      this booking?
+                    </DialogDescription>
+                    <DialogFooter>
+                      <button
+                        onClick={() => {
+                          const bookingdate = history.created_at;
+                          const bookingID = history.booking_id;
+                          cancleClick(bookingdate, bookingID);
+                        }}
+                      >
+                        <Button
+                          variant="outline"
+                          className="border-orange-500 text-orange-500"
+                        >
+                          Yes, I want to cancel
+                        </Button>
+                      </button>
+                      <DialogClose asChild>
+                        <Button type="button">No, Don’t Cancel</Button>
+                      </DialogClose>
+                    </DialogFooter>
+                  </DialogHeader>
+                </DialogContent>
+              </Dialog>
             </div>
           </div>
         </section>
@@ -147,7 +172,7 @@ const BookingHistory = () => {
             <div className="w-[60%] h-[70%] flex flex-col ">
               <div className="w-full h-[30%] bg-green-800 flex flex-col justify-center items-center gap-[1.5rem]">
                 <h1 className="font-heading text-[3rem] text-white">
-                  The Cancellation is Complete
+                  Your Request has been Submitted
                 </h1>
                 <p className="text-green-400">The cancellation is complete.</p>
                 <p className="text-green-400">
@@ -156,7 +181,7 @@ const BookingHistory = () => {
                 </p>
               </div>
               <div className="w-full h-[70%] bg-green-700 py-[5%] px-[10%]">
-                <div className="size-full bg-green-600 p-[5%] text-body flex flex-col justify-between">
+                <div className="w-full h-[80%] mb-[2.5%] bg-green-600 p-[5%] text-body flex flex-col justify-between">
                   <div className="flex flex-col items-start">
                     <h3 className="text-white text-[1.5rem] font-semibold pb-[2rem]">
                       {bookingHistory.type_name}
@@ -180,6 +205,13 @@ const BookingHistory = () => {
                       "EEE, dd MMMM yyyy"
                     )}`}</p>
                   </div>
+                </div>
+                <hr className=" border-green-600" />
+                <div className="w-full h-[15%] mt-[2.5%] flex justify-between text-white font-body">
+                  <p className="text-[1.25rem]">Total Refund</p>
+                  <p className="text-[1.5rem]">
+                    THB {bookingHistory.total_price}
+                  </p>
                 </div>
               </div>
             </div>

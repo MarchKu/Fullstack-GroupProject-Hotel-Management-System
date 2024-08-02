@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import NavbarComponent from "@/components/navigation-component/NavbarComponent";
 import FooterComponent from "@/components/footer-component/FooterComponent";
 import useBookingHistory from "@/hooks/use-booking-history";
-import Link from "next/link";
+import CheckDateBeforeModifie from "@/components/booking-history-component/Card-Footer";
 import { useRouter } from "next/router";
 import { Button } from "@/components/ui/button";
 import { format } from "date-fns";
@@ -27,6 +27,7 @@ const BookingHistory = () => {
   const router = useRouter();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isOverAday, setIsoverAday] = useState(true);
+  const [isHidden, setHidden] = useState("");
   const [user, setUser] = useState({});
   const { bookingHistory, getBookingHistoryByUsername, isLoading, isError } =
     useBookingHistory();
@@ -62,17 +63,18 @@ const BookingHistory = () => {
       : alert("Booking date over 24 hour booking date cannot be change");
   };
 
-  const cancleClick = (created_at, id) => {
-    let bookingDate = new Date(created_at);
+  const cancleClick = (booking_at, id) => {
+    let bookingDate = new Date(booking_at);
     let currentDate = new Date();
     const timeleft = Math.floor((currentDate - bookingDate) / (1000 * 60 * 60));
     timeleft <= 24 ? setIsoverAday(false) : setIsoverAday(true);
   };
+
   return (
     <>
       <NavbarComponent isAuthenticated={isAuthenticated} />
-      <section className="w-full px-[5%] md:px-[10%] flex flex-col justify-start items-center font-body">
-        <h1 className="font-heading text-primary-heading text-[6rem] w-full text-left pb-14">
+      <section className="w-full px-[5%]  md:px-[10%] flex flex-col justify-start items-center font-body py-[5%] xl:py-[1%]">
+        <h1 className="font-heading text-primary-heading text-[3rem] md:text-[5rem] w-full text-left">
           Booking History
         </h1>
         {bookingHistory &&
@@ -86,30 +88,29 @@ const BookingHistory = () => {
                 <div
                   key={index}
                   id="index"
-                  className="border-b min-h-[700px] md:min-h-[500px] xl:min-h-[650px] py-[5%] border-gray-300 flex flex-col justify-center items-center w-full md:flex-col md:justify-between md:items-center md:py-[2rem]"
+                  className="border-b border-gray-300 md:min-h-[500px] xl:min-h-[650px] py-[10%] flex flex-col justify-center items-center w-full md:py-[2rem]"
                 >
-                  <div className="w-full h-[90%] flex">
-                    <div className="w-[50%] h-full">
-                      <div
-                        className="relative w-screen h-[45%] md:w-[90%] md:h-[90%] bg-center bg-cover md:rounded-lg bg-gray-300 "
-                        style={{
-                          backgroundImage: `url(${history.main_image})`,
-                        }}
-                      ></div>
+                  <div className="w-full h-[90%] flex flex-col md:flex-row pb-[1.5rem]">
+                    <div className="w-full md:w-[50%] h-full">
+                      <img
+                        src={history.main_image}
+                        alt="room image"
+                        className="relative w-full h-[45%] md:w-[90%] md:h-[90%] bg-center bg-cover md:rounded-lg bg-gray-300 object-cover object-center"
+                      />
                     </div>
 
                     <div className="h-[55%] md:h-full md:w-[45%] xl:w-[50%]">
-                      <div className="py-[5%] size-full flex flex-col md:w-full md:h-full md:justify-start gap-[2rem]">
-                        <div className="w-full flex justify-between text-gray-800 items-center">
+                      <div className="pt-[5%] size-full flex flex-col md:w-full md:h-full md:justify-start gap-[2rem]">
+                        <div className="w-full flex flex-col md:flex-row justify-between text-gray-800 items-start md:items-center">
                           <h1 className="text-[2rem] font-semibold">
                             {history.type_name}
                           </h1>
-                          <p>
+                          <p className="text-right">
                             Booking date:{" "}
                             {format(history.created_at, "EEE, dd MMMM yyyy")}
                           </p>
                         </div>
-                        <div className="w-full flex gap-[1.5rem] text-gray-800">
+                        <div className="w-full flex flex-col md:flex-row gap-[1.5rem] text-gray-800">
                           <div className="flex flex-col">
                             <h3>check-in</h3>
                             <p>
@@ -191,120 +192,13 @@ const BookingHistory = () => {
                       </div>
                     </div>
                   </div>
-                  <div className="h-[10%] w-full flex flex-row  justify-between items-center pl-[5%]">
-                    {isOverAday ? (
-                      <button
-                        onClick={() => {
-                          const bookingdate = history.created_at;
-                          const bookingID = history.booking_id;
-                          cancleClick(bookingdate, bookingID);
-                        }}
-                      >
-                        <Dialog className="flex flex-col">
-                          <DialogTrigger className="text-orange-500 hover:underline">
-                            Cancel Booking
-                          </DialogTrigger>
-                          <DialogContent>
-                            <DialogHeader>
-                              <DialogTitle className="pb-[1rem]">
-                                Cancel Bokking
-                              </DialogTitle>
-                              <DialogDescription className="pb-[1rem]">
-                                Cancellation of the booking now will not be able
-                                to request a refund. Are you sure you would like
-                                to cancel this booking?
-                              </DialogDescription>
-                              <DialogFooter>
-                                <button
-                                  onClick={() => {
-                                    const bookingID = history.booking_id;
-                                    router.push(
-                                      `/booking/cancel-booking/${bookingID}`
-                                    );
-                                  }}
-                                >
-                                  <Button variant="outline" className="border-orange-500 text-orange-500">
-                                    Yes, I want to cancel
-                                  </Button>
-                                </button>
-                                <DialogClose asChild>
-                                  <Button type="button">
-                                    No, Don’t Cancel
-                                  </Button>
-                                </DialogClose>
-                              </DialogFooter>
-                            </DialogHeader>
-                          </DialogContent>
-                        </Dialog>
-                      </button>
-                    ) : (
-                      <button
-                        onClick={() => {
-                          const bookingdate = history.created_at;
-                          const bookingID = history.booking_id;
-                          cancleClick(bookingdate, bookingID);
-                        }}
-                      >
-                        <Dialog className="flex flex-col">
-                          <DialogTrigger className="text-orange-500 hover:underline">
-                            Cancel Booking
-                          </DialogTrigger>
-                          <DialogContent>
-                            <DialogHeader>
-                              <DialogTitle className="pb-[1rem]">
-                                Cancel Bokking
-                              </DialogTitle>
-                              <DialogDescription className="pb-[1rem]">
-                                Are you sure you would like to cancel this
-                                booking?
-                              </DialogDescription>
-                              <DialogFooter>
-                                <button
-                                  onClick={() => {
-                                    const bookingID = history.booking_id;
-                                    router.push(
-                                      `/booking/refund-booking/${bookingID}`
-                                    );
-                                  }}
-                                >
-                                  <Button variant="outline" className="border-orange-500 text-orange-500">
-                                    Yes, I want to cancel and request refund
-                                  </Button>
-                                </button>
-                                <DialogClose asChild>
-                                  <Button type="button" >
-                                    No, Don’t Cancel
-                                  </Button>
-                                </DialogClose>
-                              </DialogFooter>
-                            </DialogHeader>
-                          </DialogContent>
-                        </Dialog>
-                      </button>
-                    )}
 
-                    <div className="h-full flex items-center gap-[1.5rem]">
-                      <button
-                        onClick={() => {
-                          const roomID = history.room_id;
-                          router.push(`/rooms/${roomID}`);
-                        }}
-                        className="text-orange-500 hover:underline"
-                      >
-                        Room Deatail
-                      </button>
-                      <button
-                        onClick={() => {
-                          const bookingdate = history.created_at;
-                          const bookingID = history.booking_id;
-                          changeDateClick(bookingdate, bookingID);
-                        }}
-                        className="w-40 xl:w-[180px] rounded  md:h-full"
-                      >
-                        <Button className="size-full">Change date</Button>
-                      </button>
-                    </div>
-                  </div>
+                  {/* Button */}
+                  <CheckDateBeforeModifie
+                    bookingDate={history.created_at}
+                    checkInDate={history.check_in}
+                    bookingID={history.booking_id}
+                  />
                 </div>
               </Accordion>
             );
