@@ -26,45 +26,48 @@ export default async function handler(req, res) {
     return;
   }
 
+  console.log("event data:", event);
+
   // Handle the event
   switch (event.type) {
     case "payment_intent.succeeded":
       const paymentIntentSucceeded = event.data.object;
-      console.log("PaymentIntent succeeded:", paymentIntentSucceeded);
+      // console.log("PaymentIntent succeeded:", paymentIntentSucceeded);
       // Handle the payment_intent.succeeded event
       break;
     // ... handle other event types
     case "charge.updated":
       const chargeUpdated = event.data.object;
       console.log("Charge updated:", chargeUpdated);
+      const updatePayment = await connectionPool.query(
+        `
+        UPDATE bills
+        SET is_paid = TRUE
+        WHERE payment_intent_id = $1
+        `,
+        [chargeUpdated.payment_intent]
+      );
+      console.log("updated payment:", updatePayment);
       // Handle the charge.updated event
       break;
     case "payment_intent.created":
       const paymentIntentCreated = event.data.object;
-      console.log("PaymentIntent created:", paymentIntentCreated);
+      // console.log("PaymentIntent created:", paymentIntentCreated);
       // Handle the payment_intent.created event
       break;
     case "checkout.session.completed":
       const checkoutSession = event.data.object;
       const session_id = checkoutSession.id;
       const status = checkoutSession.status;
-      //   const result = await connectionPool.query(
-      //     `
-      //     UPDATE orders
-      //     SET status = 'paid'
-      //     WHERE session_id = $1
-      //     `,
-      //     [session_id]
-      //   );
       console.log("checkout session completed:", checkoutSession);
       if (checkoutSession.status === "succeeded") {
-        const result = await connectionPool.query(
-          `
-            INSERT into booking (session_id, status)
-            values ($1, $2)
-            `,
-          [session_id, status]
-        );
+        // const result = await connectionPool.query(
+        //   `
+        //     INSERT into booking (session_id, status)
+        //     values ($1, $2)
+        //     `,
+        //   [session_id, status]
+        // );
         console.log("checkout session succeeded: ", result);
       }
       // Fulfill the purchase...

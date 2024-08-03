@@ -7,7 +7,7 @@ import {
   PaymentElement,
 } from "@stripe/react-stripe-js";
 
-const CheckoutPage = ({ amount }) => {
+const CheckoutPage = ({ amount, billId }) => {
   const stripe = useStripe();
   const elements = useElements();
   const [errorMessage, setErrorMessage] = useState();
@@ -22,7 +22,7 @@ const CheckoutPage = ({ amount }) => {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ amount }),
+      body: JSON.stringify({ amount, billId }),
     })
       .then((res) => res.json())
       .then((data) => {
