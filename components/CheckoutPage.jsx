@@ -14,8 +14,6 @@ const CheckoutPage = ({ amount, billId }) => {
   const [clientSecret, setClientSecret] = useState("");
   const [loading, setLoading] = useState(false);
 
-  
-
   useEffect(() => {
     fetch("/api/create-payment-intent", {
       method: "POST",
@@ -51,9 +49,8 @@ const CheckoutPage = ({ amount, billId }) => {
       elements,
       clientSecret,
       confirmParams: {
-
         // To step 4
-        return_url: `http://www.localhost:3000/payment-success?amount=${amount}`,
+        return_url: `http://www.localhost:3000/payment-success?amount=${amount}&billId=${billId}`,
       },
     });
 

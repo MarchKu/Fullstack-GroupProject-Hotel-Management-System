@@ -1,6 +1,7 @@
 import connectionPool from "@/utils/connectionPool/db";
+import cors from "@/lib/cors";
 
-export default async function GET(req, res) {
+async function GET(req, res) {
   try {
     const result = await connectionPool.query(`
             SELECT *
@@ -12,3 +13,4 @@ export default async function GET(req, res) {
     console.log(error.message);
   }
 }
+export default cors(GET);
