@@ -6,7 +6,6 @@ import { loadStripe } from "@stripe/stripe-js";
 import { useEffect, useState } from "react";
 import { useBookingContext } from "@/contexts/booking";
 import axios from "axios";
-import { set } from "date-fns";
 
 if (process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY === undefined) {
   throw new Error("NEXT_PUBLIC_STRIPE_PUBLIC_KEY is not defined");
@@ -14,11 +13,7 @@ if (process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY === undefined) {
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY);
 
 export default function Home() {
-  const { bookingData, setBookingData } = useBookingContext();
   const [billData, setBillData] = useState(null);
-  // const amount = bookingData.total_price;
-  // localStorage.setItem("bill_id", 52);
-  // const bill_id = localStorage.getItem("bill_id");
 
   useEffect(() => {
     const fetchBillData = async () => {
@@ -33,7 +28,6 @@ export default function Home() {
   }, [billData]);
 
   if (billData === null) {
-    // Display a loading state while billData is being fetched
     return <h1>Loading...</h1>;
   }
 
