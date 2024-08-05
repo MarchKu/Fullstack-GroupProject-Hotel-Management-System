@@ -50,7 +50,7 @@ const CheckoutPage = ({ amount, billId }) => {
       clientSecret,
       confirmParams: {
         // To step 4
-        return_url: `http://www.localhost:3000/payment-success?amount=${amount}&billId=${billId}`,
+        return_url: `http://localhost:3000/payment-success?amount=${amount}&billId=${billId}`,
       },
     });
 
