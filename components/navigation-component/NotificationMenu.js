@@ -14,7 +14,7 @@ export default function NotificationMenu({ userId }) {
   const [isVisible, setIsVisible] = useState(false);
   const notifButtonRef = useRef(null);
 
-  return (
+  return userId ? (
     <KnockProvider
       apiKey="pk_test_8y5Kv2yWEnzo3oHKg29G3Q7NgwfRoB6Dmkye1G7JUxE"
       userId={userId}
@@ -23,15 +23,17 @@ export default function NotificationMenu({ userId }) {
         <>
           <NotificationIconButton
             ref={notifButtonRef}
-            onClick={() => setIsVisible(!isVisible)}
+            onClick={(event) => setIsVisible(!isVisible)}
           />
           <NotificationFeedPopover
             buttonRef={notifButtonRef}
             isVisible={isVisible}
-            onClose={() => setIsVisible(false)}
+            onClose={(event) => setIsVisible(false)}
           />
         </>
       </KnockFeedProvider>
     </KnockProvider>
+  ) : (
+    <span>Loading...</span>
   );
 }
