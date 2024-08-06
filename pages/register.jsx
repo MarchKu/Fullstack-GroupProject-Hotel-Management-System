@@ -26,7 +26,6 @@ const registerSchema = z.object({
       },
       { message: "username already exists" }
     ),
-  //refine checkUniqueUsername
   password: z
     .string()
     .min(12, { message: "Password must be at least 12 characters." }),
@@ -64,13 +63,6 @@ const registerSchema = z.object({
   profilepic: z.custom((file) => file instanceof File, {
     message: "Profile Picture is required.",
   }),
-  cardOwner: z.string().nonempty({ message: "Card Owner is required." }),
-  expiryDate: z.string().nonempty({ message: "Expiry Date is required." }),
-  cvv: z.string().nonempty({ message: "CVV is required." }),
-  cardnumber: z
-    .string()
-    .length(16, { message: "Credit Card must be 16 digits long." })
-    .regex(/^\d+$/, { message: "Credit Card must be numeric." }),
 });
 
 export default function Register() {
@@ -85,18 +77,13 @@ export default function Register() {
       dateBirth: "",
       country: "",
       profilepic: {},
-      cardnumber: "",
-      cardOwner: "",
-      expiryDate: "",
-      cvv: "",
     },
+    mode: "all",
   });
 
   const { register } = useAuth();
 
   const onSubmit = async (data) => {
-    //register(data);
-
     const formData = new FormData();
 
     formData.append("username", data.username);
@@ -107,8 +94,6 @@ export default function Register() {
     formData.append("date_of_birth", data.dateBirth);
     formData.append("country", data.country);
     formData.append("profile_picture", data.profilepic);
-    formData.append("card_number", data.cardnumber);
-    formData.append("card_owner", data.cardOwner);
 
     register(formData);
   };
@@ -176,7 +161,6 @@ export default function Register() {
                     label="Date of Birth"
                     placeholder="Enter your date of birth"
                   />
-
                   <CountryPicker
                     control={form.control}
                     name="country"
@@ -184,49 +168,18 @@ export default function Register() {
                     placeholder="Select your country"
                   />
                   <div className="col-span-2 border-b border-[#E4E6ED]"></div>
-
-                  <InputFile
-                    control={form.control}
-                    name="profilepic"
-                    label="Upload  Picture"
-                    id="profilepic"
-                    type="file"
-                  />
-
-                  <h1 className="border-t pt-5 border-[#E4E6ED] text-xl col-span-2 font-semibold  tracking-tighter text-[#9AA1B9]">
-                    Credit Card
-                  </h1>
-                  <FormFieldComponent
-                    control={form.control}
-                    name="cardnumber"
-                    label="Card Number"
-                    type="text"
-                    placeholder="Enter your card number"
-                  />
-                  <FormFieldComponent
-                    control={form.control}
-                    name="cardOwner"
-                    label="Card Owner"
-                    type="text"
-                    placeholder="Enter your card name"
-                  />
-                  <FormFieldComponent
-                    control={form.control}
-                    name="expiryDate"
-                    label=" Expiry Date"
-                    type="text"
-                    placeholder="MM/YY"
-                  />
-                  <FormFieldComponent
-                    control={form.control}
-                    name="cvv"
-                    label="cvv"
-                    type="text"
-                    placeholder="CVC/CVV"
-                  />
+                  <div className="col-span-2">
+                    <InputFile
+                      control={form.control}
+                      name="profilepic"
+                      label="Upload  Picture"
+                      id="profilepic"
+                      type="file"
+                    />
+                  </div>
                   <Button
                     type="submit"
-                    className="mt-5 bg-[#C14817] w-full md:col-span-1"
+                    className="mt-5 bg-[#C14817] w-full col-span-full md:col-span-1"
                   >
                     Register
                   </Button>
