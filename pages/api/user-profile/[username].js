@@ -1,6 +1,7 @@
 import connectionPool from "@/utils/connectionPool/db";
 import multerMiddleware, { runMiddleware } from "@/middleware/multerMiddleware";
 import { uploadFile } from "../upload";
+import cors from "@/lib/cors";
 
 export const config = {
   api: {
@@ -8,7 +9,7 @@ export const config = {
   },
 };
 
-export default async function handler(req, res) {
+async function handler(req, res) {
   if (req.method === "PUT") {
     try {
       await runMiddleware(req, res, multerMiddleware);
@@ -123,3 +124,5 @@ export default async function handler(req, res) {
     }
   }
 }
+
+export default cors(handler);

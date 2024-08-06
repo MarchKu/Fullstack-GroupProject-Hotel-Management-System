@@ -4,10 +4,12 @@ import { useState, useEffect } from "react";
 import { format, parse } from "date-fns";
 import { useRouter } from "next/router";
 import useUserProfile from "@/hooks/use-user-profile";
+import { useBookingContext } from "@/contexts/booking";
 
 const Step1BasicInfo = ({ nextStep, prevStep }) => {
-  const [bookingData, setBookingData] = useState();
+  // const [bookingData, setBookingData] = useState();
   const [totalPrice, setTotalPrice] = useState();
+  const { bookingData, setBookingData } = useBookingContext();
 
   //Get username from query parameter*/
   const router = useRouter();
@@ -18,10 +20,10 @@ const Step1BasicInfo = ({ nextStep, prevStep }) => {
     useUserProfile();
 
   useEffect(() => {
-    const getBookingData = localStorage.getItem("bookingData");
-    if (getBookingData) {
-      setBookingData(JSON.parse(getBookingData));
-    }
+    // const getBookingData = localStorage.getItem("bookingData");
+    // if (getBookingData) {
+    //   setBookingData(JSON.parse(getBookingData));
+    // }
   }, []);
 
   useEffect(() => {

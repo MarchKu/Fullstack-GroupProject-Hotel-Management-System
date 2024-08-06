@@ -3,9 +3,11 @@ import { Checkbox } from "@/components/ui/checkbox";
 
 import { BriefcaseBusiness } from "lucide-react";
 import { useState, useEffect } from "react";
+import { useBookingContext } from "@/contexts/booking";
 
 const Step2SpecialRequest = ({ nextStep, prevStep }) => {
-  const [bookingData, setBookingData] = useState();
+  // const [bookingData, setBookingData] = useState();
+  const { bookingData, setBookingData } = useBookingContext();
 
   const [standardRequest, setStandardRequest] = useState([]);
   const [specialRequest, setSpecialRequest] = useState([]);
@@ -15,18 +17,17 @@ const Step2SpecialRequest = ({ nextStep, prevStep }) => {
   useEffect(() => {
     const getBookingData = localStorage.getItem("bookingData");
     if (getBookingData) {
-      const parsedData = JSON.parse(getBookingData);
-      setBookingData(parsedData);
-
-      if (parsedData.standard_request) {
-        setStandardRequest(parsedData.standard_request);
-      }
-      if (parsedData.special_request) {
-        setSpecialRequest(parsedData.special_request);
-      }
-      if (parsedData.additional_request) {
-        setAdditionalRequest(parsedData.additional_request);
-      }
+      // const parsedData = JSON.parse(getBookingData);
+      // setBookingData(parsedData);
+    }
+    if (bookingData.standard_request) {
+      setStandardRequest(bookingData.standard_request);
+    }
+    if (bookingData.special_request) {
+      setSpecialRequest(bookingData.special_request);
+    }
+    if (bookingData.additional_request) {
+      setAdditionalRequest(bookingData.additional_request);
     }
   }, []);
 
@@ -138,7 +139,7 @@ const Step2SpecialRequest = ({ nextStep, prevStep }) => {
       additional_request: additionalRequests,
       total_price: totalPrice,
     };
-    localStorage.setItem("bookingData", JSON.stringify(newBookingData));
+    setBookingData(newBookingData);
   };
 
   const handleNext = () => {

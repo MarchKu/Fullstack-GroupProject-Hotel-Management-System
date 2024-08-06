@@ -27,14 +27,16 @@ import NavbarComponent from "@/components/navigation-component/NavbarComponent";
 import useVacantRoom from "@/hooks/use-vacant-room";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
+import { useBookingContext } from "@/contexts/booking";
 
 export default function Search_result() {
   const [isRoomdetailOpen, setIsRoomDetailOpen] = useState(false);
   const [isRoomImgOpen, setIsRoomImgOpen] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [bookingData, setBookingData] = useState();
+  // const [bookingData, setBookingData] = useState();
 
   const router = useRouter();
+  const { bookingData, setBookingData } = useBookingContext();
 
   const [user, setUser] = useState({});
   useEffect(() => {
@@ -70,15 +72,15 @@ export default function Search_result() {
   };
 
   // get bookingData from localStorage
-  const getBookingData = () => {
-    const getData = localStorage.getItem("bookingData");
-    if (getData) {
-      setBookingData(JSON.parse(getData));
-    }
-  };
+  // const getBookingData = () => {
+  //   const getData = localStorage.getItem("bookingData");
+  //   if (getData) {
+  //     setBookingData(JSON.parse(getData));
+  //   }
+  // };
 
   useEffect(() => {
-    getBookingData();
+    // getBookingData();
     getVacantRoom(date);
   }, []);
 
@@ -106,7 +108,8 @@ export default function Search_result() {
     };
     const query = { username: `${user.username}` };
     if (isAuthenticated) {
-      localStorage.setItem("bookingData", JSON.stringify(newBookingData));
+      setBookingData(newBookingData);
+      // localStorage.setItem("bookingData", JSON.stringify(newBookingData));
       router.push({ pathname: "/booking", query: query });
     } else {
       router.push("/login");
@@ -115,11 +118,12 @@ export default function Search_result() {
 
   const handleOnDateChange = () => {
     getVacantRoom(date);
-    getBookingData();
+    // getBookingData();
   };
 
   const handleClick = () => {
-    getVacantRoom(date);
+    console.log(bookingData);
+    // getVacantRoom(date);
   };
 
   return roomData ? (
