@@ -64,6 +64,8 @@ const Sidebar = () => {
         <p
           className="font-medium"
           onClick={() => {
+            document.cookie =
+              "adminToken=;expires=Thu, 01 Jan 1970 00:00:00 UTC;";
             adminLogout();
           }}
         >
