@@ -47,8 +47,14 @@ function CountryPicker({ control, name, label, description, placeholder }) {
           <FormLabel>{label}</FormLabel>
           <Select onValueChange={field.onChange} value={field.value}>
             <FormControl>
-              <SelectTrigger>
-                <SelectValue placeholder={placeholder}></SelectValue>
+              <SelectTrigger
+                className={`text-start hover:bg-slate-100 hover:duration-75 ${
+                  !field.value ? "text-[#9AA1B9]" : "text-black"
+                }`}
+              >
+                <SelectValue placeholder={placeholder}>
+                  {!field.value ? placeholder : field.value}
+                </SelectValue>
               </SelectTrigger>
             </FormControl>
             <SelectContent>
