@@ -3,10 +3,19 @@ import { cookies } from "next/headers";
 
 export async function middleware(req) {
   const token = cookies().get("adminToken");
-  if (token) {
-    return NextResponse.next();
+  const userToken = cookies().get("token");
+  if (req.nextUrl.pathname.startsWith("/admin")) {
+    if (token) {
+      return NextResponse.next();
+    } else {
+      return NextResponse.redirect(new URL("/admin/login", req.url));
+    }
   } else {
-    return NextResponse.redirect(new URL("/admin/login", req.url));
+    if (userToken) {
+      return NextResponse.next();
+    } else {
+      return NextResponse.redirect(new URL("/login", req.url));
+    }
   }
 }
 
@@ -17,5 +26,8 @@ export const config = {
     "/admin/booking-detail/:path*",
     "/admin/room-management",
     "/admin/room-property-all/:path*",
+    "/booking/:path*",
+    "/payment-success/:path*",
+    "/profile/:path*",
   ],
 };

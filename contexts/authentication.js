@@ -18,6 +18,7 @@ function AuthProvider(props) {
       );
       const token = result.data.token;
       localStorage.setItem("token", token);
+      document.cookie = `token=${token}`;
       const userDataFromToken = jwtDecode(token);
       localStorage.setItem("user", JSON.stringify(userDataFromToken));
       toastr["success"]("You are successfully logged in");
@@ -48,6 +49,7 @@ function AuthProvider(props) {
   const logout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
+    document.cookie = "token=;expires=Thu, 01 Jan 1970 00:00:00 UTC;";
     toastr["success"]("Logged out successfully");
     setTimeout(function () {
       window.location.replace("/");
