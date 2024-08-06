@@ -13,7 +13,7 @@ export default async function GET(req, res) {
         rooms.room_id::text ILIKE $1 OR
         rooms.bed_type ILIKE $1 OR
         room_types.type_name ILIKE $1 OR
-        rooms.room_size ILIKE $1 OR
+        CAST(rooms.room_size AS TEXT) ILIKE $1 OR
         rooms.status ILIKE $1
       ORDER BY rooms.room_id ASC
       LIMIT $2 OFFSET $3
@@ -31,7 +31,7 @@ export default async function GET(req, res) {
         rooms.room_id::text ILIKE $1 OR
         rooms.bed_type ILIKE $1 OR
         room_types.type_name ILIKE $1 OR
-        rooms.room_size ILIKE $1 OR
+        CAST(rooms.room_size AS TEXT) ILIKE $1 OR
         rooms.status ILIKE $1
     `;
 
