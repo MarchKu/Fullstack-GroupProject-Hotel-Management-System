@@ -27,7 +27,7 @@ export function SearchBox({ onDateChage }) {
     to: addDays(new Date(), 2),
   });
 
-  const { bookingData, setBookingData } = useBookingContext();
+  const { dateData, setDateData } = useBookingContext();
 
   const [room, setRoom] = React.useState(1);
   const [guests, setGuests] = React.useState(2);
@@ -80,27 +80,27 @@ export function SearchBox({ onDateChage }) {
     return Math.ceil(diffInMilliseconds / millisecondsInADay); // หารและปัดเศษขึ้นเป็นจำนวนวัน
   };
 
-  // set checkIn and CheckOut date data to local storage ;
-  const setDateData = () => {
+  // set checkIn and CheckOut date data to bookingContext ;
+  const setDateContext = () => {
     if (date.from & date.to) {
       const newDateData = {
-        check_in: format(date.from, "EEE, dd MMMM yyyy"),
-        check_out: format(date.to, "EEE, dd MMMM yyyy"),
+        check_in: format(date.from, "EEE, dd MMM yyyy"),
+        check_out: format(date.to, "EEE, dd MMM yyyy"),
         number_of_night: dateRange(date.from, date.to),
       };
-      setBookingData(newDateData);
+      setDateData(newDateData);
     }
   };
 
   const handleSearch = () => {
     const newDateData = {
-      check_in: format(date.from, "EEE, dd MMMM yyyy"),
-      check_out: format(date.to, "EEE, dd MMMM yyyy"),
+      check_in: format(date.from, "EEE, dd MMM yyyy"),
+      check_out: format(date.to, "EEE, dd MMM yyyy"),
       number_of_night: dateRange(date.from, date.to),
     };
     router.push({ pathname: "/search-result", query: newDateData });
 
-    setDateData();
+    setDateContext();
     onDateChage();
   };
 
@@ -118,6 +118,10 @@ export function SearchBox({ onDateChage }) {
   useEffect(() => {
     setDateFromParam();
   }, []);
+
+  useEffect(() => {
+    setDateContext();
+  }, [date]);
 
   return (
     <div className="w-full h-full md:max-h-[222px] bg-white flex justify-between items-center rounded-lg ">

@@ -28,15 +28,17 @@ import useVacantRoom from "@/hooks/use-vacant-room";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { useBookingContext } from "@/contexts/booking";
+import useBooking from "@/hooks/use-booking";
 
 export default function Search_result() {
   const [isRoomdetailOpen, setIsRoomDetailOpen] = useState(false);
   const [isRoomImgOpen, setIsRoomImgOpen] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  // const [bookingData, setBookingData] = useState();
 
   const router = useRouter();
-  const { bookingData, setBookingData } = useBookingContext();
+  const { dateData, setDateData } = useBookingContext();
+
+  const { createBooking } = useBooking();
 
   const [user, setUser] = useState({});
   useEffect(() => {
@@ -65,23 +67,15 @@ export default function Search_result() {
   };
 
   // get room data
-  const date = { ...router.query };
   const { roomData, getRoomDeta, isLoading, isError } = useVacantRoom();
+  const date = { ...router.query };
   const getVacantRoom = (date) => {
     getRoomDeta(date);
   };
 
-  // get bookingData from localStorage
-  // const getBookingData = () => {
-  //   const getData = localStorage.getItem("bookingData");
-  //   if (getData) {
-  //     setBookingData(JSON.parse(getData));
-  //   }
-  // };
-
   useEffect(() => {
-    // getBookingData();
     getVacantRoom(date);
+    localStorage.removeItem("bookingId");
   }, []);
 
   if (isLoading) {
@@ -91,26 +85,49 @@ export default function Search_result() {
     return <h1>Error fetching data</h1>;
   }
 
+  // const booking = async (index) => {
+  //   let roomPrice;
+  //   if (roomData[index].promotion_price) {
+  //     roomPrice = roomData[index].promotion_price;
+  //   } else {
+  //     roomPrice = roomData[index].current_price;
+  //   }
+  //   const totalPrice = roomPrice * dateData.number_of_night;
+  //   const data = {
+  //     ...dateData,
+  //     room_id: roomData[index].room_id,
+  //     room_type: roomData[index].type_name,
+  //     room_price: roomPrice,
+  //     user_id: user.userId,
+  //     user_name: user.username,
+  //     amount_booking: 1,
+  //     total_price: totalPrice,
+  //   };
+
+  //   await createBooking(data);
+  // };
+
   const handleBookNow = (index) => {
-    let roomPrice;
-    if (roomData[index].promotion_price) {
-      roomPrice = roomData[index].promotion_price;
-    } else {
-      roomPrice = roomData[index].current_price;
-    }
-    const newBookingData = {
-      ...bookingData,
-      room_id: roomData[index].room_id,
-      room_type: roomData[index].type_name,
-      room_price: roomPrice,
-      user_id: user.userId,
-      user_name: user.username,
-    };
-    const query = { username: `${user.username}` };
     if (isAuthenticated) {
-      setBookingData(newBookingData);
-      // localStorage.setItem("bookingData", JSON.stringify(newBookingData));
-      router.push({ pathname: "/booking", query: query });
+      let roomPrice;
+      if (roomData[index].promotion_price) {
+        roomPrice = roomData[index].promotion_price;
+      } else {
+        roomPrice = roomData[index].current_price;
+      }
+      const totalPrice = roomPrice * dateData.number_of_night;
+      const data = {
+        ...dateData,
+        room_id: roomData[index].room_id,
+        room_type: roomData[index].type_name,
+        room_price: roomPrice,
+        user_id: user.userId,
+        user_name: user.username,
+        amount_booking: 1,
+        total_price: totalPrice,
+        status: "Booking Initiated",
+      };
+      createBooking(data);
     } else {
       router.push("/login");
     }
@@ -119,11 +136,6 @@ export default function Search_result() {
   const handleOnDateChange = () => {
     getVacantRoom(date);
     // getBookingData();
-  };
-
-  const handleClick = () => {
-    console.log(bookingData);
-    // getVacantRoom(date);
   };
 
   return roomData ? (
@@ -135,7 +147,6 @@ export default function Search_result() {
       <div className="w-full px-[5%] xl:px-[10%] flex flex-col justify-center items-center font-body">
         {/* room search result */}
         <div className="w-full flex flex-col items-center py-[5%] md:z-0">
-          <button onClick={handleClick}>Test</button>
           {roomData.map((room, index) => {
             return (
               <div
