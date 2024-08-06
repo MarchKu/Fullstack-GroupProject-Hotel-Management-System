@@ -56,7 +56,7 @@ const NavbarComponent = () => {
     }
   }, [user]);
 
-  console.log(hotelData);
+  // console.log(hotelData);
 
   const AuthenticatedUser = (
     <NavigationMenu className="flex items-center min-h-[48px] md:min-h-[100px] h-[5vh] border-[1px] border-[#E4E6ED] justify-center w-full">

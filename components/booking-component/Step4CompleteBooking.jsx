@@ -1,19 +1,12 @@
 import { Button } from "../ui/button";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
+import { useBookingContext } from "@/contexts/booking";
+import { format } from "date-fns";
 
 const Step4CompleteBooking = () => {
   const router = useRouter();
-
-  const [bookingData, setBookingData] = useState();
-
-  useEffect(() => {
-    const getBookingData = localStorage.getItem("bookingData");
-    if (getBookingData) {
-      const parsedData = JSON.parse(getBookingData);
-      setBookingData(parsedData);
-    }
-  }, []);
+  const { bookingData } = useBookingContext();
 
   return bookingData ? (
     <>
@@ -34,7 +27,8 @@ const Step4CompleteBooking = () => {
               <div className="flex flex-col gap-4 md:flex-row md:justify-between  mb-8 rounded-sm bg-green-600 p-6">
                 <div className="">
                   <p className="font-semibold">
-                    {bookingData.check_in} - {bookingData.check_out}
+                    {format(bookingData.check_in, "EEE, dd MMM yyyy")} -
+                    {format(bookingData.check_out, "EEE, dd MMM yyyy")}
                   </p>
                   <p>2 Guests</p>
                 </div>
@@ -51,32 +45,47 @@ const Step4CompleteBooking = () => {
               </div>
 
               <div className="flex justify-between mb-4">
-                <p className="text-gray-300">{bookingData.room_type}</p>
+                <p className="text-gray-300">{bookingData.type_name}</p>
                 <p className="font-semibold">
-                  {bookingData.number_of_night > 1
-                    ? `${bookingData.number_of_night} Night x `
+                  {bookingData.night > 1
+                    ? `${bookingData.night} Nights x `
                     : ""}
-                  {Number(bookingData.room_price).toLocaleString("en-US", {
-                    minimumFractionDigits: 2,
-                    maximumFractionDigits: 2,
-                  })}
+
+                  {bookingData.promotion_price
+                    ? Number(bookingData.promotion_price).toLocaleString(
+                        "en-US",
+                        {
+                          minimumFractionDigits: 2,
+                          maximumFractionDigits: 2,
+                        }
+                      )
+                    : Number(bookingData.current_price).toLocaleString(
+                        "en-US",
+                        {
+                          minimumFractionDigits: 2,
+                          maximumFractionDigits: 2,
+                        }
+                      )}
                 </p>
               </div>
               <div className="mb-8">
                 <ul className="flex flex-col gap-4 mb-4">
-                  {bookingData.standard_request.map((request) => (
-                    <li key={request.name} className="flex justify-between">
+                  {bookingData.standard_request.map((request, index) => (
+                    <li key={index} className="flex justify-between">
                       <p className="text-gray-300"> {request} </p>
                     </li>
                   ))}
                 </ul>
                 <ul className="flex flex-col gap-4">
-                  {bookingData.special_request.map((request) => (
-                    <li key={request.name} className="flex justify-between">
-                      <p className="text-gray-300"> {request.name} </p>
+                  {bookingData.special_request.map((request, index) => (
+                    <li key={index} className="flex justify-between">
+                      <p className="text-gray-300">
+                        {" "}
+                        {JSON.parse(request).name}{" "}
+                      </p>
                       <p className="font-semibold">
-                        {request.price
-                          ? Number(request.price).toLocaleString("en-US", {
+                        {request
+                          ? JSON.parse(request).price.toLocaleString("en-US", {
                               minimumFractionDigits: 2,
                               maximumFractionDigits: 2,
                             })

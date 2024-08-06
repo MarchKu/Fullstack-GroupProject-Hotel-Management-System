@@ -1,7 +1,7 @@
 import connectionPool from "@/utils/connectionPool/db";
 
 export default async function POST(req, res) {
-  const codeData = req.body;
+  const codeData = req.query;
 
   try {
     const result = await connectionPool.query(
@@ -15,7 +15,7 @@ export default async function POST(req, res) {
         .status(200)
         .json({ valid: true, discount: promotion.discount_value });
     } else {
-      return res.status(400).json({
+      return res.json({
         valid: false,
         message: "Invalid or expired promotion code.",
       });

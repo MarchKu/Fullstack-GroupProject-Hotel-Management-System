@@ -1,40 +1,42 @@
 import { Button } from "../ui/button";
-import { BriefcaseBusiness, Banknote } from "lucide-react";
+import { BriefcaseBusiness, Banknote, Check, CreditCard } from "lucide-react";
+import { format } from "date-fns";
 import { useState, useEffect } from "react";
 import useBooking from "@/hooks/use-booking";
-import { Check } from "lucide-react";
 import { useRouter } from "next/router";
 import { useBookingContext } from "@/contexts/booking";
+import { Payment } from "../payment";
 
 const Step3PaymentMethod = ({ nextStep, prevStep }) => {
-  const router = useRouter();
-  // const [bookingData, setBookingData] = useState();
-  const { bookingData, setBookingData } = useBookingContext();
+  const {
+    getBookingData,
+    bookingData,
+    updateBookingData,
+    deleteBookingData,
+    promotionCode,
+    discount,
+    codeError,
+    isLoading,
+    isError,
+    totalPrice,
+    setTotalPrice,
+    timeLeft,
+  } = useBookingContext();
 
   const [payment, setPayment] = useState();
   const [code, setCode] = useState();
+  const [isConfirmDisabled, setIsConfirmDisabled] = useState(true);
 
-  const handleClick = () => {
-    // setData();
-    router.push("/payment");
-  };
-
-  const {
-    createBooking,
-    promotionCode,
-    codeError,
-    discount,
-    isLoading,
-    isError,
-  } = useBooking();
+  const router = useRouter();
+  const { username, bookingID } = router.query;
 
   useEffect(() => {
-    // const getBookingData = localStorage.getItem("bookingData");
-    // if (getBookingData) {
-    //   const parsedData = JSON.parse(getBookingData);
-    //   setBookingData(parsedData);
-    // }
-  }, []);
+    if (bookingData) {
+      if (bookingData.total_price) {
+        setTotalPrice(Number(bookingData.total_price));
+      }
+    }
+  }, [bookingData]);
 
   const handleSelectPayment = (method) => {
     setPayment(() => {
@@ -46,25 +48,16 @@ const Step3PaymentMethod = ({ nextStep, prevStep }) => {
     });
   };
 
-  const booking = async () => {
+  const updatePayment = () => {
     const data = {
-      check_in: bookingData.check_in,
-      check_out: bookingData.check_out,
-      amount_booking: 1,
-      user_id: bookingData.user_id,
-      room_id: bookingData.room_id,
-      night: bookingData.number_of_night,
-      payment_method: payment,
-      standard_request: bookingData.standard_request,
-      special_request: bookingData.special_request,
-      additional_request: bookingData.additional_request,
-      total_price: bookingData.total_price,
-      promotion: -discount,
+      booking_id: bookingData.booking_id,
+      status: "Payment In Progress",
+      standard_request: [...standardRequest],
+      special_request: [...specialRequest],
+      additional_request: additionalRequests,
+      total_price: totalPrice,
     };
-
-    await createBooking(data);
-
-    nextStep();
+    updateBookingData(data);
   };
 
   // Debounce function
@@ -79,20 +72,19 @@ const Step3PaymentMethod = ({ nextStep, prevStep }) => {
     };
   };
 
-  const getPromotionDiscount = async (code) => {
-    const inputCode = { code: code };
-    await promotionCode(inputCode);
+  const getPromotionDiscount = (code) => {
+    promotionCode(code);
   };
 
   const [tempDiscount, setTempDiscount] = useState(0);
   const discountPrice = () => {
     if (discount && discount > 0) {
       setTempDiscount(discount);
-      const newTatalPrice = bookingData.total_price - discount;
-      setBookingData({ ...bookingData, total_price: newTatalPrice });
+      const newTatalPrice = totalPrice - discount;
+      setTotalPrice(newTatalPrice);
     } else if (!discount && tempDiscount) {
-      const newTatalPrice = bookingData.total_price + tempDiscount;
-      setBookingData({ ...bookingData, total_price: newTatalPrice });
+      const newTatalPrice = totalPrice + tempDiscount;
+      setTotalPrice(newTatalPrice);
     }
   };
 
@@ -101,7 +93,7 @@ const Step3PaymentMethod = ({ nextStep, prevStep }) => {
   }, [discount]);
 
   useEffect(() => {
-    debounce(getPromotionDiscount(code), 500, 4);
+    debounce(getPromotionDiscount(code), 1000, 4);
   }, [code]);
 
   if (isLoading) {
@@ -111,18 +103,32 @@ const Step3PaymentMethod = ({ nextStep, prevStep }) => {
     return <h1>Bookig Error</h1>;
   }
 
-  // const setData = () => {
-  //   const newBookingData = {
-  //     ...bookingData,
-  //     discount: discount,
-  //   };
-  //   localStorage.setItem("bookingData", JSON.stringify(newBookingData));
-  // };
+  const formatTime = (seconds) => {
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = seconds % 60;
+    return `${minutes}:${remainingSeconds < 10 ? "0" : ""}${remainingSeconds}`;
+  };
+
+  useEffect(() => {
+    if (payment === "Cash") {
+      setIsConfirmDisabled(false);
+    } else {
+      setIsConfirmDisabled(true);
+    }
+  }, [payment]);
 
   const handleConfirm = () => {
-    if (payment) {
-      // setData();
-      booking();
+    if (payment == "Cash") {
+      const data = {
+        booking_id: bookingData.booking_id,
+        status: "Booking Completed",
+        total_price: totalPrice,
+        payment_method: "Cash",
+      };
+      const updete = updateBookingData(data);
+      if (updete) {
+        nextStep();
+      }
     }
   };
 
@@ -169,7 +175,17 @@ const Step3PaymentMethod = ({ nextStep, prevStep }) => {
 
         <div className="w-full p-4 flex flex-col gap-8 md:mt-8 md:w-[45%] lg:w-[50%] xl:w-[60%] md:p-8 md:border bg-white">
           <div className="flex flex-col">
-            <div className="mb-8">
+            <div className="mb-8 flex gap-12">
+              <button
+                onClick={() => handleSelectPayment("Credit Card")}
+                className={`w-[322px] h-[80px] text-xl font-semibold  px-4 py-2 rounded flex justify-center items-center shadow-lg ${
+                  payment === "Credit Card"
+                    ? "border border-orange-500 text-orange-500"
+                    : "border border-gray-300 text-gray-600"
+                }`}
+              >
+                <CreditCard className="w-8 h-8 mr-4" /> Credit Card
+              </button>
               <button
                 onClick={() => handleSelectPayment("Cash")}
                 className={`w-[322px] h-[80px] text-xl font-semibold  px-4 py-2 rounded flex justify-center items-center shadow-lg ${
@@ -181,6 +197,14 @@ const Step3PaymentMethod = ({ nextStep, prevStep }) => {
                 <Banknote className="w-8 h-8 mr-4" /> Cash
               </button>
             </div>
+            {payment === "Credit Card" ? (
+              <div>
+                <Payment />
+              </div>
+            ) : (
+              ""
+            )}
+
             <div className="">
               <label htmlFor="promotion" className="text-gray-900">
                 Promotion Code
@@ -210,7 +234,7 @@ const Step3PaymentMethod = ({ nextStep, prevStep }) => {
                   <BriefcaseBusiness className="text-gray-500" /> Booking Detail
                 </h3>
                 <p className="w-[56px] h-[25px] rounded text-orange-700 bg-orange-200 text-center ">
-                  04:55
+                  {formatTime(timeLeft)}
                 </p>
               </div>
               <div className="w-full min-h-[366px] px-5 pt-5 flex flex-col">
@@ -226,40 +250,59 @@ const Step3PaymentMethod = ({ nextStep, prevStep }) => {
                 </div>
                 <div className="mb-8">
                   <p>
-                    {bookingData.check_in} - {bookingData.check_out}
+                    {format(bookingData.check_in, "EEE, dd MMM yyyy")} -
+                    {format(bookingData.check_out, "EEE, dd MMM yyyy")}
                   </p>
                   <p>2 Guests</p>
                 </div>
                 <div className="flex justify-between mb-4">
-                  <p className="text-gray-300">{bookingData.room_type}</p>
+                  <p>{bookingData.type_name}</p>
                   <p className="font-semibold">
-                    {bookingData.number_of_night > 1
-                      ? `${bookingData.number_of_night} Night x `
+                    {bookingData.night > 1
+                      ? `${bookingData.night} Nights x `
                       : ""}
-                    {Number(bookingData.room_price).toLocaleString("en-US", {
-                      minimumFractionDigits: 2,
-                      maximumFractionDigits: 2,
-                    })}
+
+                    {bookingData.promotion_price
+                      ? Number(bookingData.promotion_price).toLocaleString(
+                          "en-US",
+                          {
+                            minimumFractionDigits: 2,
+                            maximumFractionDigits: 2,
+                          }
+                        )
+                      : Number(bookingData.current_price).toLocaleString(
+                          "en-US",
+                          {
+                            minimumFractionDigits: 2,
+                            maximumFractionDigits: 2,
+                          }
+                        )}
                   </p>
                 </div>
                 <div className="mb-8">
                   <ul className="flex flex-col gap-4 mb-4">
-                    {/* {bookingData.standard_request.map((request) => (
-                      <li key={request.name} className="flex justify-between">
+                    {bookingData.standard_request.map((request, index) => (
+                      <li key={index} className="flex justify-between">
                         <p className="text-gray-300"> {request} </p>
                       </li>
-                    ))} */}
+                    ))}
                   </ul>
                   <ul className="flex flex-col gap-4">
-                    {bookingData.special_request.map((request) => (
-                      <li key={request.name} className="flex justify-between">
-                        <p className="text-gray-300"> {request.name} </p>
+                    {bookingData.special_request.map((request, index) => (
+                      <li key={index} className="flex justify-between">
+                        <p className="text-gray-300">
+                          {" "}
+                          {JSON.parse(request).name}{" "}
+                        </p>
                         <p className="font-semibold">
-                          {request.price
-                            ? Number(request.price).toLocaleString("en-US", {
-                                minimumFractionDigits: 2,
-                                maximumFractionDigits: 2,
-                              })
+                          {request
+                            ? JSON.parse(request).price.toLocaleString(
+                                "en-US",
+                                {
+                                  minimumFractionDigits: 2,
+                                  maximumFractionDigits: 2,
+                                }
+                              )
                             : ""}
                         </p>
                       </li>
@@ -294,7 +337,7 @@ const Step3PaymentMethod = ({ nextStep, prevStep }) => {
                   <p className="text-gray-300">Total</p>
                   <p className="text-xl font-semibold">
                     THB{" "}
-                    {Number(bookingData.total_price).toLocaleString("en-US", {
+                    {Number(totalPrice).toLocaleString("en-US", {
                       minimumFractionDigits: 2,
                       maximumFractionDigits: 2,
                     })}
@@ -324,16 +367,13 @@ const Step3PaymentMethod = ({ nextStep, prevStep }) => {
             </button>
 
             {/* former button */}
-            {/* <Button className="w-[200px]" onClick={handleConfirm}>
-              Confirm Booking
-            </Button> */}
-            <button
-              type="button"
-              onClick={handleClick}
-              className="w-[200px] bg-orange-400"
+            <Button
+              disabled={isConfirmDisabled}
+              className="w-[200px]"
+              onClick={handleConfirm}
             >
-              Pay
-            </button>
+              Confirm Booking
+            </Button>
           </div>
         </div>
       </div>

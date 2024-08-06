@@ -3,60 +3,19 @@ import { Checkbox } from "@/components/ui/checkbox";
 
 import { BriefcaseBusiness } from "lucide-react";
 import { useState, useEffect } from "react";
+import { format, set } from "date-fns";
 import { useBookingContext } from "@/contexts/booking";
+import { useRouter } from "next/router";
+import useBooking from "@/hooks/use-booking";
 
 const Step2SpecialRequest = ({ nextStep, prevStep }) => {
   // const [bookingData, setBookingData] = useState();
-  const { bookingData, setBookingData } = useBookingContext();
+  const { bookingData, updateBookingData, timeLeft } = useBookingContext();
 
   const [standardRequest, setStandardRequest] = useState([]);
   const [specialRequest, setSpecialRequest] = useState([]);
   const [additionalRequests, setAdditionalRequest] = useState("");
   const [totalPrice, setTotalPrice] = useState();
-
-  useEffect(() => {
-    const getBookingData = localStorage.getItem("bookingData");
-    if (getBookingData) {
-      // const parsedData = JSON.parse(getBookingData);
-      // setBookingData(parsedData);
-    }
-    if (bookingData.standard_request) {
-      setStandardRequest(bookingData.standard_request);
-    }
-    if (bookingData.special_request) {
-      setSpecialRequest(bookingData.special_request);
-    }
-    if (bookingData.additional_request) {
-      setAdditionalRequest(bookingData.additional_request);
-    }
-  }, []);
-
-  useEffect(
-    () => {
-      if (bookingData) {
-        let tatalRoomPrice;
-        if (bookingData.number_of_night > 1) {
-          tatalRoomPrice = Number(
-            bookingData.room_price * bookingData.number_of_night
-          );
-        } else {
-          tatalRoomPrice = Number(bookingData.room_price);
-        }
-
-        let newTotalPrice = tatalRoomPrice;
-
-        specialRequest.forEach((request) => {
-          if (request.price) {
-            newTotalPrice += request.price;
-          }
-        });
-
-        setTotalPrice(newTotalPrice);
-      }
-    },
-    [bookingData],
-    [specialRequest]
-  );
 
   const standardRequestsList = [
     { name: "earlyCheckIn", label: "Early check-in" },
@@ -82,6 +41,26 @@ const Step2SpecialRequest = ({ nextStep, prevStep }) => {
     },
     { name: "breakfast", label: "Breakfast", price: 150 },
   ];
+
+  useEffect(() => {
+    if (bookingData) {
+      if (bookingData.standard_request) {
+        setStandardRequest(bookingData.standard_request);
+      }
+      if (bookingData.special_request) {
+        const parsedSpecialRequestArray = bookingData.special_request.map(
+          (request) => JSON.parse(request)
+        );
+        setSpecialRequest(parsedSpecialRequestArray);
+      }
+      if (bookingData.additional_request) {
+        setAdditionalRequest(bookingData.additional_request);
+      }
+      if (bookingData.total_price) {
+        setTotalPrice(Number(bookingData.total_price));
+      }
+    }
+  }, [bookingData]);
 
   const handleCheckedChange = (isChecked, request, requestType) => {
     if (requestType === "standard") {
@@ -131,25 +110,37 @@ const Step2SpecialRequest = ({ nextStep, prevStep }) => {
     setAdditionalRequest(additional);
   };
 
-  const setData = () => {
-    const newBookingData = {
-      ...bookingData,
+  const formatTime = (seconds) => {
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = seconds % 60;
+    return `${minutes}:${remainingSeconds < 10 ? "0" : ""}${remainingSeconds}`;
+  };
+
+  const updateRequest = async (step) => {
+    const data = {
+      booking_id: bookingData.booking_id,
+      status: "Request Completed",
       standard_request: [...standardRequest],
       special_request: [...specialRequest],
       additional_request: additionalRequests,
       total_price: totalPrice,
     };
-    setBookingData(newBookingData);
+    const update = await updateBookingData(data);
+    if (update) {
+      if (step === "next") {
+        nextStep();
+      } else if (step === "prev") {
+        prevStep();
+      }
+    }
   };
 
   const handleNext = () => {
-    setData();
-    nextStep();
+    updateRequest("next");
   };
 
   const handlePrev = () => {
-    setData();
-    prevStep();
+    updateRequest("prev");
   };
 
   return bookingData ? (
@@ -264,7 +255,7 @@ const Step2SpecialRequest = ({ nextStep, prevStep }) => {
                   <BriefcaseBusiness className="text-gray-500" /> Booking Detail
                 </h3>
                 <p className="w-[56px] h-[25px] rounded text-orange-700 bg-orange-200 text-center ">
-                  04:55
+                  {formatTime(timeLeft)}
                 </p>
               </div>
               <div className="w-full min-h-[366px] px-5 pt-5 flex flex-col">
@@ -280,33 +271,46 @@ const Step2SpecialRequest = ({ nextStep, prevStep }) => {
                 </div>
                 <div className="mb-8">
                   <p>
-                    {bookingData.check_in} - {bookingData.check_out}
+                    {format(bookingData.check_in, "EEE, dd MMM yyyy")} -
+                    {format(bookingData.check_out, "EEE, dd MMM yyyy")}
                   </p>
                   <p>2 Guests</p>
                 </div>
                 <div className="flex justify-between mb-4">
-                  <p className="text-gray-300">{bookingData.room_type}</p>
+                  <p>{bookingData.type_name}</p>
                   <p className="font-semibold">
-                    {bookingData.number_of_night > 1
-                      ? `${bookingData.number_of_night} Night x `
+                    {bookingData.night > 1
+                      ? `${bookingData.night} Nights x `
                       : ""}
-                    {Number(bookingData.room_price).toLocaleString("en-US", {
-                      minimumFractionDigits: 2,
-                      maximumFractionDigits: 2,
-                    })}
+
+                    {bookingData.promotion_price
+                      ? Number(bookingData.promotion_price).toLocaleString(
+                          "en-US",
+                          {
+                            minimumFractionDigits: 2,
+                            maximumFractionDigits: 2,
+                          }
+                        )
+                      : Number(bookingData.current_price).toLocaleString(
+                          "en-US",
+                          {
+                            minimumFractionDigits: 2,
+                            maximumFractionDigits: 2,
+                          }
+                        )}
                   </p>
                 </div>
                 <div className="mb-8">
                   <ul className="flex flex-col gap-4 mb-4">
-                    {standardRequest.map((request) => (
-                      <li key={request.name} className="flex justify-between">
+                    {standardRequest.map((request, index) => (
+                      <li key={index} className="flex justify-between">
                         <p className="text-gray-300"> {request} </p>
                       </li>
                     ))}
                   </ul>
                   <ul className="flex flex-col gap-4">
-                    {specialRequest.map((request) => (
-                      <li key={request.name} className="flex justify-between">
+                    {specialRequest.map((request, index) => (
+                      <li key={index} className="flex justify-between">
                         <p className="text-gray-300"> {request.name} </p>
                         <p className="font-semibold">
                           {request.price
