@@ -17,7 +17,7 @@ export default async function POST(req, res) {
               ON user_profiles.user_id = booking.user_id
               INNER JOIN bills
               ON booking.booking_id = bills.booking_id
-              WHERE full_name ILIKE $1 AND is_paid = true
+              WHERE full_name ILIKE $1 AND booking.status = 'success'
               `,
         [fullNameFormatted]
       );
@@ -34,7 +34,7 @@ export default async function POST(req, res) {
                 ON user_profiles.user_id = booking.user_id
                 INNER JOIN bills
                 ON booking.booking_id = bills.booking_id
-                WHERE full_name ILIKE $1 AND is_paid = true
+                WHERE full_name ILIKE $1 AND booking.status = 'success'
               `,
         [fullNameFormatted]
       );
@@ -52,7 +52,7 @@ export default async function POST(req, res) {
               ON user_profiles.user_id = booking.user_id
               INNER JOIN bills
               ON booking.booking_id = bills.booking_id
-              WHERE is_paid = true
+              WHERE booking.status = 'success'
               `
       );
       const dataSize = countDataSize.rows[0].count;
@@ -68,7 +68,7 @@ export default async function POST(req, res) {
                 ON user_profiles.user_id = booking.user_id
                 INNER JOIN bills
                 ON booking.booking_id = bills.booking_id
-                WHERE is_paid = true
+                WHERE booking.status = 'success'
                 ORDER BY check_in DESC
               `
       );
