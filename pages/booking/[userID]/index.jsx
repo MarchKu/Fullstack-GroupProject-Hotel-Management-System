@@ -1,4 +1,6 @@
+"use client";
 import React, { useState, useEffect } from "react";
+import { useSearchParams, useParams } from "next/navigation";
 import NavbarComponent from "@/components/navigation-component/NavbarComponent";
 import FooterComponent from "@/components/footer-component/FooterComponent";
 import useBookingHistory from "@/hooks/use-booking-history";
@@ -13,24 +15,32 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-  DialogFooter,
-  DialogClose,
-} from "@/components/ui/dialog";
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
 
-const BookingHistory = () => {
+const Index = () => {
+  const searchParams = useSearchParams();
+  const params = useParams();
+  const page = searchParams.get("page");
+
   const router = useRouter();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isOverAday, setIsoverAday] = useState(true);
   const [isHidden, setHidden] = useState("");
   const [user, setUser] = useState({});
-  const { bookingHistory, getBookingHistoryByUsername, isLoading, isError } =
-    useBookingHistory();
+  const {
+    bookingHistory,
+    totalPage,
+    getBookingHistoryByUsername,
+    isLoading,
+    isError,
+  } = useBookingHistory();
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -50,26 +60,9 @@ const BookingHistory = () => {
 
   useEffect(() => {
     if (user.username) {
-      getBookingHistoryByUsername(user.username);
+      getBookingHistoryByUsername(user.username, page);
     }
-  }, [user.username]);
-
-  const changeDateClick = (created_at, bookingId) => {
-    let bookingDate = new Date(created_at);
-    let currentDate = new Date();
-    const timeleft = Math.floor((currentDate - bookingDate) / (1000 * 60 * 60));
-    timeleft <= 24
-      ? router.push(`/booking/change-date/${bookingId}`)
-      : alert("Booking date over 24 hour booking date cannot be change");
-  };
-
-  const cancleClick = (booking_at, id) => {
-    let bookingDate = new Date(booking_at);
-    let currentDate = new Date();
-    const timeleft = Math.floor((currentDate - bookingDate) / (1000 * 60 * 60));
-    timeleft <= 24 ? setIsoverAday(false) : setIsoverAday(true);
-  };
-
+  }, [user.username, page]);
   return (
     <>
       <NavbarComponent isAuthenticated={isAuthenticated} />
@@ -84,18 +77,19 @@ const BookingHistory = () => {
                 type="single"
                 collapsible
                 className="w-full text-gray-700"
+                key={index}
               >
                 <div
                   key={index}
                   id="index"
-                  className="border-b border-gray-300 md:min-h-[500px] xl:min-h-[650px] py-[10%] flex flex-col justify-center items-center w-full md:py-[2rem]"
+                  className="py-[5%] flex flex-col justify-center items-center w-full h-full md:h-[60%] md:justify-center md:items-center md:py-[2rem]"
                 >
-                  <div className="w-full h-[90%] flex flex-col md:flex-row pb-[1.5rem]">
-                    <div className="w-full md:w-[50%] h-full">
+                  <div className="w-full h-auto flex flex-col md:flex-row border-b border-gray-300 mb-[1.5rem]">
+                    <div className="w-full md:w-[50%] h-full md:h-[550px]">
                       <img
                         src={history.main_image}
                         alt="room image"
-                        className="relative w-full h-[45%] md:w-[90%] md:h-[90%] bg-center bg-cover md:rounded-lg bg-gray-300 object-cover object-center"
+                        className="relative w-full h-full md:w-[90%] md:h-[90%] bg-center bg-cover md:rounded-lg bg-gray-300 object-cover object-center"
                       />
                     </div>
 
@@ -105,10 +99,29 @@ const BookingHistory = () => {
                           <h1 className="text-[2rem] font-semibold">
                             {history.type_name}
                           </h1>
-                          <p className="text-right">
-                            Booking date:{" "}
-                            {format(history.created_at, "EEE, dd MMMM yyyy")}
-                          </p>
+                          {history.status === "cancelled" ? (
+                            <div className="text-left md:text-right">
+                              <p>
+                                Booking date:{" "}
+                                {format(
+                                  history.created_at,
+                                  "EEE, dd MMMM yyyy"
+                                )}
+                              </p>
+                              <p>
+                                Cancellation date:{" "}
+                                {format(
+                                  history.updated_at,
+                                  "EEE, dd MMMM yyyy"
+                                )}
+                              </p>
+                            </div>
+                          ) : (
+                            <p>
+                              Booking date:{" "}
+                              {format(history.created_at, "EEE, dd MMMM yyyy")}
+                            </p>
+                          )}
                         </div>
                         <div className="w-full flex flex-col md:flex-row gap-[1.5rem] text-gray-800">
                           <div className="flex flex-col">
@@ -134,7 +147,6 @@ const BookingHistory = () => {
                             </p>
                           </div>
                         </div>
-
                         <AccordionItem value="item-1">
                           <AccordionTrigger className="bg-gray-200 px-[5%]">
                             Booking Detail
@@ -180,7 +192,7 @@ const BookingHistory = () => {
                               </h3>
                             </div>
                           </AccordionContent>
-                          <AccordionContent className="bg-gray-300 px-[5%] pt-[1rem]">
+                          <AccordionContent className="bg-gray-300 px-[5%] pt-[1rem] mb-[1.5rem]">
                             <div className="flex flex-col justify-between gap-[1rem]">
                               <h3 className="font-semibold">
                                 Additional Request
@@ -198,15 +210,44 @@ const BookingHistory = () => {
                     bookingDate={history.created_at}
                     checkInDate={history.check_in}
                     bookingID={history.booking_id}
+                    bookingStatus={history.status}
+                    roomID = {history.room_id}
                   />
                 </div>
               </Accordion>
             );
           })}
+        <Pagination>
+          <PaginationContent>
+            <PaginationItem
+              className={page <= 1 && "pointer-events-none opacity-50"}
+            >
+              <PaginationPrevious
+                href={`/booking/${user.username}?page=${Number(page) - 1}`}
+              />
+            </PaginationItem>
+            {Array.from({ length: totalPage }).map((page, index) => (
+              <PaginationItem key={index}>
+                <PaginationLink
+                  href={`/booking/${user.username}?page=${index + 1}`}
+                >
+                  {index + 1}
+                </PaginationLink>
+              </PaginationItem>
+            ))}
+            <PaginationItem
+              className={page >= totalPage && "pointer-events-none opacity-50"}
+            >
+              <PaginationNext
+                href={`/booking/${user.username}?page=${Number(page) + 1}`}
+              />
+            </PaginationItem>
+          </PaginationContent>
+        </Pagination>
       </section>
       <FooterComponent />
     </>
   );
 };
 
-export default BookingHistory;
+export default Index;

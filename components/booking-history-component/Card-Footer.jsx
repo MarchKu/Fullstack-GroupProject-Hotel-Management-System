@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useRouter } from "next/router";
 import { Button } from "../ui/button";
 import {
   Dialog,
@@ -12,7 +13,9 @@ import {
 } from "@/components/ui/dialog";
 import Link from "next/link";
 
+
 const CheckDateBeforeModifie = (props) => {
+  const router = useRouter();
   const [isOverAday, setIsoverAday] = useState(true);
   const [isAlreadyCheckIn, setIsAlreadyCheckIn] = useState(false);
   let bookingDate = new Date(props.bookingDate);
@@ -58,8 +61,7 @@ const CheckDateBeforeModifie = (props) => {
               <DialogFooter className="flex flex-col md:flex-row w-full gap-[1rem]">
                 <button
                   onClick={() => {
-                    const bookingID = history.booking_id;
-                    router.push(`/booking/refund-booking/${bookingID}`);
+                    router.push(`/booking/refund-booking/${props.bookingID}`);
                   }}
                 >
                   <Button
@@ -82,7 +84,7 @@ const CheckDateBeforeModifie = (props) => {
         <button
           onClick={() => {
             const roomID = history.room_id;
-            router.push(`/rooms/${roomID}`);
+            router.push(`/rooms/${props.roomID}`);
           }}
           className="text-orange-500 hover:underline w-[50%] md:w-auto"
         >
@@ -96,14 +98,14 @@ const CheckDateBeforeModifie = (props) => {
       </div>
     </div>
   ) : (
-    !isAlreadyCheckIn && isOverAday && (
+    !isAlreadyCheckIn && isOverAday && props.bookingStatus !== "cancelled" && (
       <div className="h-[10%] w-full flex flex-col md:flex-row justify-between items-center md:pl-[5%]">
         <button
           className="order-last w-full text-right md:w-[40%] md:text-left md:order-first pt-[1rem] md:pt-0 "
           onClick={() => cancleClick()}
         >
           <Dialog>
-            <DialogTrigger className="text-orange-500 hover:underline">
+            <DialogTrigger className="text-orange-500 hover:underline"> 
               Cancel Booking
             </DialogTrigger>
             <DialogContent className="w-screen">
@@ -116,8 +118,7 @@ const CheckDateBeforeModifie = (props) => {
                 <DialogFooter className="flex flex-col md:flex-row w-full gap-[1rem]">
                   <button
                     onClick={() => {
-                      const bookingID = history.booking_id;
-                      router.push(`/booking/cancel-booking/${bookingID}`);
+                      router.push(`/booking/cancel-booking/${props.bookingID}`);
                     }}
                   >
                     <Button
@@ -139,8 +140,7 @@ const CheckDateBeforeModifie = (props) => {
         <div className="h-full flex justify-center md:justify-end items-center w-full md:w-[50%] gap-[1.5rem]">
           <button
             onClick={() => {
-              const roomID = history.room_id;
-              router.push(`/rooms/${roomID}`);
+              router.push(`/rooms/${props.bookingID}`);
             }}
             className="text-orange-500 hover:underline w-[50%] md:w-auto"
           >

@@ -1,58 +1,71 @@
 import axios from "axios";
-import { useState} from "react";
-
-
+import { useState } from "react";
 
 export default function useBookingHistory() {
   const [bookingHistory, setBookingHistory] = useState(null);
+  const [totalPage, setTotalPage] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
 
-
-  const getBookingHistoryByUsername = async (username) => {
+  const getBookingHistoryByUsername = async (username, page) => {
     try {
       if (username) {
         setIsLoading(true);
-        const result = await axios.get(`http://localhost:3000/api/booking/history/${username}`);
-        setBookingHistory(result.data);
+        const result = await axios.get(
+          `http://localhost:3000/api/booking/history/${username}?page=${page}`
+        );
+        setBookingHistory(result.data[0]);
+        setTotalPage(result.data[1]);
         setIsLoading(false);
-        setIsError(false)
+        setIsError(false);
       }
     } catch (error) {
       console.error(error);
-      setIsLoading(false)
-      setIsError(true)
+      setIsLoading(false);
+      setIsError(true);
     }
   };
-  const deleteBooking = async (bookingID) => {
+  const cancelBooking = async (bookingID) => {
     try {
       if (bookingID) {
         setIsLoading(true);
-        const result = await axios.delete(`http://localhost:3000/api/booking/cancel/${bookingID}`);
+        const result = await axios.put(
+          `http://localhost:3000/api/booking/cancel/${bookingID}`
+        );
         setIsLoading(false);
-        setIsError(false)
+        setIsError(false);
       }
     } catch (error) {
       console.error(error);
-      setIsLoading(false)
-      setIsError(true)
+      setIsLoading(false);
+      setIsError(true);
     }
   };
-  const getBookingByID = async(bookingID)=>{
+  const getBookingByID = async (bookingID) => {
     try {
       if (bookingID) {
-        setIsLoading(true); 
-        const result = await axios.get(`http://localhost:3000/api/booking/cancel/${bookingID}`);
+        setIsLoading(true);
+        const result = await axios.get(
+          `http://localhost:3000/api/booking/cancel/${bookingID}`
+        );
         setBookingHistory(result.data);
         setIsLoading(false);
-        setIsError(false)
+        setIsError(false);
       }
     } catch (error) {
       console.error(error);
-      setIsLoading(false)
-      setIsError(true)
+      setIsLoading(false);
+      setIsError(true);
     }
-  }
+  };
 
-  return {bookingHistory,getBookingHistoryByUsername,deleteBooking,getBookingByID,isLoading,isError}
+  return {
+    bookingHistory,
+    totalPage,
+    getBookingHistoryByUsername,
+    cancelBooking,
+    getBookingByID,
+    isLoading,
+    isError,
+  };
 }

@@ -1,13 +1,20 @@
 import connectionPool from "@/utils/connectionPool/db";
 
 export default async function handler(req, res) {
-  if (req.method === "DELETE") {
+  if (req.method === "PUT") {
     try {
       const { bookingID } = req.query;
-      await connectionPool.query(`delete from booking where booking_id = $1`, [
-        bookingID,
-      ]);
-      return res.status(200).json({ message: "Delete successfully" });
+      const updateTime = new Date();
+      await connectionPool.query(
+        `
+      update booking
+      set status = 'cancelled',
+      updated_at = $1
+      where booking_id = $2
+      `,
+        [updateTime, bookingID]
+      );
+      return res.status(200).json({ message: "Cancel successfully" });
     } catch (error) {
       return res.status(500).json(error.message);
     }

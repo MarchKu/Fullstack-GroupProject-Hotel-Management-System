@@ -26,7 +26,6 @@ const NavbarComponent = () => {
       if (userToken) {
         const parsedData = JSON.parse(userToken);
         setUser(parsedData);
-        console.log("user:", user);
       }
     };
 
@@ -48,7 +47,6 @@ const NavbarComponent = () => {
           `http://localhost:3000/api/user-profile/${username}`
         );
         setUserData(result.data);
-        console.log("userData:", result.data);
       }
     };
     if (user) {
@@ -56,7 +54,6 @@ const NavbarComponent = () => {
     }
   }, [user]);
 
-  console.log(hotelData);
 
   const AuthenticatedUser = (
     <NavigationMenu className="flex items-center min-h-[48px] md:min-h-[100px] h-[5vh] border-[1px] border-[#E4E6ED] justify-center w-full">
@@ -79,10 +76,12 @@ const NavbarComponent = () => {
           <UserMenuMobile
             image={userData?.profile_picture}
             name={userData?.fullName}
+            username={userData?.username}
           />
           <UserMenuDesktop
             image={userData?.profile_picture}
             name={userData?.full_name}
+            username={userData?.username}
           />
         </div>
       </div>
