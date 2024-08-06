@@ -4,6 +4,11 @@ import multerMiddleware, {
   runMiddleware,
 } from "../../../middleware/multerMiddleware";
 import { uploadFile } from "../upload";
+import { Knock } from "@knocklabs/node";
+
+const knockClient = new Knock(
+  "sk_test_kseOJ5ZEM06R-g9oRoRQQMf-UBylVWu5wvyFigek1vU"
+);
 
 export default async function POST(req, res) {
   await runMiddleware(req, res, multerMiddleware);
@@ -84,7 +89,7 @@ export default async function POST(req, res) {
     const userId = userData.rows[0].user_id;
 
     let upLoadResult;
- 
+
     if (userId) {
       const { buffer, mimetype } = req.file;
 
@@ -121,7 +126,14 @@ export default async function POST(req, res) {
         [userId, user.card_number, user.card_owner]
       );
     }
-
+    const knockId = `user-${userId}`;
+    await knockClient.users.identify(knockId, {
+      name: user.username,
+      avatar: imageUrl,
+    });
+    await knockClient.workflows.trigger("greeting-message", {
+      recipients: [knockId],
+    });
     return res.status(201).json({ message: "Regisgered Successfully" });
   } catch (error) {
     console.log(error.message);

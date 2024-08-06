@@ -15,7 +15,9 @@ export default async function POST(req, res) {
               ON booking.room_id = rooms.room_id
               INNER JOIN user_profiles
               ON user_profiles.user_id = booking.user_id
-              WHERE full_name ILIKE $1
+              INNER JOIN bills
+              ON booking.booking_id = bills.booking_id
+              WHERE full_name ILIKE $1 AND is_paid = true
               `,
         [fullNameFormatted]
       );
@@ -30,7 +32,9 @@ export default async function POST(req, res) {
                 ON booking.room_id = rooms.room_id
                 INNER JOIN user_profiles
                 ON user_profiles.user_id = booking.user_id
-                WHERE full_name ILIKE $1
+                INNER JOIN bills
+                ON booking.booking_id = bills.booking_id
+                WHERE full_name ILIKE $1 AND is_paid = true
               `,
         [fullNameFormatted]
       );
@@ -46,6 +50,9 @@ export default async function POST(req, res) {
               ON booking.room_id = rooms.room_id
               INNER JOIN user_profiles
               ON user_profiles.user_id = booking.user_id
+              INNER JOIN bills
+              ON booking.booking_id = bills.booking_id
+              WHERE is_paid = true
               `
       );
       const dataSize = countDataSize.rows[0].count;
@@ -59,6 +66,9 @@ export default async function POST(req, res) {
                 ON booking.room_id = rooms.room_id
                 INNER JOIN user_profiles
                 ON user_profiles.user_id = booking.user_id
+                INNER JOIN bills
+                ON booking.booking_id = bills.booking_id
+                WHERE is_paid = true
                 ORDER BY check_in DESC
               `
       );
