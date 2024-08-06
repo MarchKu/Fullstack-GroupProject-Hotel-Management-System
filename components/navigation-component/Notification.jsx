@@ -8,9 +8,7 @@ import {
   MenubarTrigger,
 } from "../ui/menubar";
 import bellIcon from "../../assets/Navigation/bellIcon.png";
-
 import notiImage from "../../assets/Navigation/NotiImage.png";
-
 
 const Notification = () => {
   return (
