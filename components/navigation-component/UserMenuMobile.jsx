@@ -20,7 +20,7 @@ import { useAuth } from "@/contexts/authentication";
 
 const UserMenuMobile = (props) => {
   const { logout } = useAuth();
-  const { image, name } = props;
+  const { image, name, username } = props;
   return (
     <Drawer direction="right" className="md:hidden flex">
       <DrawerTrigger>
@@ -37,7 +37,13 @@ const UserMenuMobile = (props) => {
         <div className="mt-6 mx-4">
           <Link href="/">
             <div className="flex items-center w-[107px] gap-2 mb-4">
-              <Image src={image} width={40} height={40} alt="user image" className="rounded-full"></Image>
+              <Image
+                src={image}
+                width={40}
+                height={40}
+                alt="user image"
+                className="rounded-full"
+              ></Image>
               <h6>{name}</h6>
             </div>
           </Link>
@@ -56,7 +62,7 @@ const UserMenuMobile = (props) => {
               <h6>Payment Method</h6>
             </div>
           </Link>
-          <Link href="/booking/booking-history">
+          <Link href={`/booking/${username}?page=1`}>
             <div className="flex items-center w-[343px] gap-3 mx-4 my-4">
               <Image src={bookingIcon} alt="booking icon"></Image>
               <h6>Booking History</h6>
