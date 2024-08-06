@@ -23,6 +23,8 @@ export default function ChangeDatePage() {
   const [newCheckOutDate, setNewCheckOutDate] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [user, setUser] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
+  const [isError, setIsError] = useState(false);
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -64,12 +66,16 @@ export default function ChangeDatePage() {
 
   const getBookingDataById = async (bookingId) => {
     try {
+      setIsLoading(true);
       const res = await axios.get(
         `http://localhost:3000/api/booking/${bookingId}`
       );
       setBookingData(res.data);
+      setIsLoading(false);
+      setIsError(false);
     } catch (error) {
       console.log(error.message);
+      setIsError(true);
     }
   };
 

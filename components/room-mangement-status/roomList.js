@@ -13,6 +13,10 @@ export default function RoomList({ search }) {
   const [startPage, setStartPage] = useState(1);
 
   useEffect(() => {
+    setCurrentPage(1);
+  }, [search]);
+
+  useEffect(() => {
     fetchRoomData(currentPage);
     setStartPage(Math.floor((currentPage - 1) / 5) * 5 + 1);
   }, [currentPage, search]);

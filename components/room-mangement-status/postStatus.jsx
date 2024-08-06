@@ -200,7 +200,7 @@ export default function PostStatus({ roomNumber, typeBed, typeRoom, status }) {
 
   return (
     <div
-      className="bg-[#FFFFFF] w-full h-16 grid grid-cols-7 font-body text-sm font-normal tracking-tighter text-[#000000]
+      className="bg-[#FFFFFF] w-full h-14 grid grid-cols-7 font-body text-sm font-normal tracking-tighter text-[#000000]
     border-b-[1px] border-[#E4E6ED] "
     >
       <div className=" pl-5 flex justify-between items-center ">

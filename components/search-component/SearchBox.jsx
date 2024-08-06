@@ -17,6 +17,8 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { useRouter } from "next/router";
+import { useState, useEffect } from "react";
+import { useBookingContext } from "@/contexts/booking";
 
 export function SearchBox({ onDateChage }) {
   const router = useRouter();
@@ -24,6 +26,8 @@ export function SearchBox({ onDateChage }) {
     from: addDays(new Date(), 1),
     to: addDays(new Date(), 2),
   });
+
+  const { dateData, setDateData } = useBookingContext();
 
   const [room, setRoom] = React.useState(1);
   const [guests, setGuests] = React.useState(2);
@@ -76,29 +80,47 @@ export function SearchBox({ onDateChage }) {
     return Math.ceil(diffInMilliseconds / millisecondsInADay); // หารและปัดเศษขึ้นเป็นจำนวนวัน
   };
 
-  // set checkIn and CheckOut date data to local storage ;
-  const setDateData = () => {
+  // set checkIn and CheckOut date data to bookingContext ;
+  const setDateContext = () => {
     if (date.from & date.to) {
       const newDateData = {
-        check_in: format(date.from, "EEE, dd MMMM yyyy"),
-        check_out: format(date.to, "EEE, dd MMMM yyyy"),
+        check_in: format(date.from, "EEE, dd MMM yyyy"),
+        check_out: format(date.to, "EEE, dd MMM yyyy"),
         number_of_night: dateRange(date.from, date.to),
       };
-      localStorage.setItem("bookingData", JSON.stringify(newDateData));
+      setDateData(newDateData);
     }
   };
 
-  const handleSubmit = () => {
-    router.push("/search-result");
+  const handleSearch = () => {
+    const newDateData = {
+      check_in: format(date.from, "EEE, dd MMM yyyy"),
+      check_out: format(date.to, "EEE, dd MMM yyyy"),
+      number_of_night: dateRange(date.from, date.to),
+    };
+    router.push({ pathname: "/search-result", query: newDateData });
+
+    setDateContext();
+    onDateChage();
   };
 
-  React.useEffect(() => {
-    setDateData();
+  const setDateFromParam = () => {
+    const dateFromParam = { ...router.query };
+    if (dateFromParam.check_in) {
+      const newDate = {
+        from: new Date(dateFromParam.check_in),
+        to: new Date(dateFromParam.check_out),
+      };
+      setDate(newDate);
+    }
+  };
+
+  useEffect(() => {
+    setDateFromParam();
   }, []);
 
-  React.useEffect(() => {
-    setDateData();
-    onDateChage();
+  useEffect(() => {
+    setDateContext();
   }, [date]);
 
   return (
@@ -266,7 +288,7 @@ export function SearchBox({ onDateChage }) {
         <Button
           className="w-[180px] h-[3rem] md:text-[1.25rem]"
           type="submit"
-          onClick={handleSubmit}
+          onClick={handleSearch}
         >
           Search
         </Button>

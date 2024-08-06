@@ -13,12 +13,14 @@ import NonUserMenuMobile from "./NonUserMenuMobile";
 import axios from "axios";
 import { useAuth } from "@/contexts/authentication";
 import UserImage from "../../assets/Navigation/UserImage.png";
+import NotificationMenu from "./NotificationMenu";
 
 const NavbarComponent = () => {
   const [hotelData, setHotelData] = useState({});
   const [userData, setUserData] = useState(null);
   const [user, setUser] = useState(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [userId, setUserId] = useState(null);
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -54,6 +56,24 @@ const NavbarComponent = () => {
     }
   }, [user]);
 
+  const setNotification = async (data) => {
+    try {
+      await axios.post("http://localhost:3000/api/notification", data);
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+  useEffect(() => {
+    if (user) {
+      const users = {
+        id: `user-${user.userId}`,
+        user_id: user.userId,
+      };
+      setUserId(users.id);
+      setNotification(users);
+    }
+  }, [user]);
 
   const AuthenticatedUser = (
     <NavigationMenu className="flex items-center min-h-[48px] md:min-h-[100px] h-[5vh] border-[1px] border-[#E4E6ED] justify-center w-full">
@@ -71,7 +91,8 @@ const NavbarComponent = () => {
           </div>
         </div>
         <div className="flex items-center justify-end">
-          <Notification />
+          {/* <Notification /> */}
+          <NotificationMenu userId={userId} />
 
           <UserMenuMobile
             image={userData?.profile_picture}

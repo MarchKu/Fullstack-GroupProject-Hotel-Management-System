@@ -25,9 +25,12 @@ export default function AllBooking() {
   const [page, setPage] = useState(1);
   const [size, setSize] = useState(null);
   const [input, setInput] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isError, setIsError] = useState(false);
 
   const getBookingData = async () => {
     try {
+      setIsLoading(true);
       const res = await axios.post(
         "http://localhost:3000/api/booking/bookings",
         {
@@ -36,8 +39,11 @@ export default function AllBooking() {
       );
       setBookingData(res.data.data);
       setSize(res.data.size);
+      setIsLoading(false);
+      setIsError(false);
     } catch (error) {
       console.log(error.message);
+      setIsError(true);
     }
   };
 
@@ -113,32 +119,40 @@ export default function AllBooking() {
                 <TableHead>Check-out</TableHead>
               </TableRow>
             </TableHeader>
-            {bookingData
-              .filter(
-                (item, index) => index >= page * 10 - 10 && index < page * 10
-              )
-              .map((item, index) => {
-                return (
-                  <>
-                    <TableBody className="bg-white">
-                      <TableRow key={index}>
-                        <TableCell>
-                          <a href={`/admin/booking-detail/${item.booking_id}`}>
-                            <p className="text-center">{item.booking_id}</p>
-                          </a>
-                        </TableCell>
-                        <TableCell className="">{item.full_name}</TableCell>
-                        <TableCell>{item.room_capacity}</TableCell>
-                        <TableCell>{item.type_name}</TableCell>
-                        <TableCell>{item.amount_booking}</TableCell>
-                        <TableCell>{item.bed_type}</TableCell>
-                        <TableCell>{dateFormatter(item.check_in)}</TableCell>
-                        <TableCell>{dateFormatter(item.check_out)}</TableCell>
-                      </TableRow>
-                    </TableBody>
-                  </>
-                );
-              })}
+            {isLoading ? (
+              <p>Loading...</p>
+            ) : isError ? (
+              <p>Error</p>
+            ) : (
+              bookingData
+                .filter(
+                  (item, index) => index >= page * 10 - 10 && index < page * 10
+                )
+                .map((item, index) => {
+                  return (
+                    <>
+                      <TableBody className="bg-white">
+                        <TableRow key={index}>
+                          <TableCell>
+                            <a
+                              href={`/admin/booking-detail/${item.booking_id}`}
+                            >
+                              <p className="text-center">{item.booking_id}</p>
+                            </a>
+                          </TableCell>
+                          <TableCell className="">{item.full_name}</TableCell>
+                          <TableCell>{item.room_capacity}</TableCell>
+                          <TableCell>{item.type_name}</TableCell>
+                          <TableCell>{item.amount_booking}</TableCell>
+                          <TableCell>{item.bed_type}</TableCell>
+                          <TableCell>{dateFormatter(item.check_in)}</TableCell>
+                          <TableCell>{dateFormatter(item.check_out)}</TableCell>
+                        </TableRow>
+                      </TableBody>
+                    </>
+                  );
+                })
+            )}
           </Table>
         </div>
         <div className="bookings-pagination text-gray-500">

@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import neatlyLogo from "../../assets/admin-sidebar/adminNeatlyLogo.png";
@@ -10,9 +10,12 @@ import manageIcon from "../../assets/admin-sidebar/manage.png";
 import roomIcon from "../../assets/admin-sidebar/room.png";
 import logoutIcon from "../../assets/admin-sidebar/logout.png";
 import { useAuth } from "@/contexts/authentication";
+import { usePathname } from "next/navigation";
 
 const Sidebar = () => {
   const { adminLogout } = useAuth();
+
+  const pathName = usePathname();
 
   const menuLink = [
     {
@@ -36,6 +39,7 @@ const Sidebar = () => {
       url: "/admin/room-property-all",
     },
   ];
+
   return (
     <aside className="w-[17%] min-w-[240px] h-full min-h-screen bg-[#2F3E35] flex flex-col gap-10">
       <section id="top-header" className="py-10">
@@ -47,7 +51,9 @@ const Sidebar = () => {
           return (
             <a
               href={item.url}
-              className="flex w-full hover:bg-[#5D7B6A] text-white gap-4 pl-[10%] py-6 items-center"
+              className={`${
+                item.url === pathName ? "bg-[#5D7B6A]" : ""
+              } flex w-full hover:bg-[#5D7B6A] text-white gap-4 pl-[10%] py-6 items-center`}
               key={item.title}
             >
               <Image src={item.icon} width={24} height={24} alt={item.title} />

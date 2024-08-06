@@ -191,6 +191,10 @@ const EditRoomProperties = () => {
     }
   };
 
+  const handleBackRooms = () => {
+    window.location.replace("/admin/room-property-all");
+  };
+
   const onSubmit = async (data) => {
     const formData = new FormData();
     formData.append("roomId", id);
@@ -247,7 +251,7 @@ const EditRoomProperties = () => {
           >
             <article className="w-full flex items-center justify-between bg-white px-[60px] py-[25px] ">
               <div className="flex items-center gap-4">
-                <button className="" type="button">
+                <button className="" type="button" onClick={handleBackRooms}>
                   <Image src={backIcon} alt="" className="w-6 h-6" />
                 </button>
                 <h1 className="w-full font-semibold text-xl">

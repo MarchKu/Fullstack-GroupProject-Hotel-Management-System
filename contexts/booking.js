@@ -1,10 +1,16 @@
-import axios from "axios";
-import { useState } from "react";
-import toastr from "toastr";
-import "toastr/build/toastr.min.css";
-import { useRouter } from "next/router";
+"use client";
 
-export default function useBooking() {
+import React, { useState } from "react";
+import { useRouter } from "next/router";
+import axios from "axios";
+
+const BookingContext = React.createContext();
+
+function BookingContextProvider(props) {
+  const [dateData, setDateData] = useState();
+  const [totalPrice, setTotalPrice] = useState();
+  const [timeLeft, setTimeLeft] = useState(300);
+
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
   const [discount, setDiscount] = useState(null);
@@ -24,7 +30,7 @@ export default function useBooking() {
         username: `${data.user_name}`,
         bookingID: result.data.bookingId,
       };
-      // router.push({ pathname: "/booking" });
+      await getBookingData(result.data.bookingId);
       router.push({ pathname: "/booking", query: query });
       toastr["success"]("You are successfully booking");
       setIsLoading(false);
@@ -56,16 +62,29 @@ export default function useBooking() {
   const updateBookingData = async (data) => {
     try {
       await axios.patch(`http://localhost:3000/api/booking`, data);
+      await getBookingData(data.booking_id);
+      return true;
     } catch (error) {
       console.log(error.message);
     }
   };
 
-  const deleteBookingData = async () => {
+  const deleteUncompleteBooking = async (bookingId) => {
     try {
-      await axios.delete(
+      const response = await axios.get(
         `http://localhost:3000/api/booking?bookingID=${bookingId}`
       );
+      const booking = response.data;
+
+      if (
+        booking.status === "Booking Initiated" ||
+        booking.status === "Request Completed"
+      ) {
+        await axios.delete(
+          `http://localhost:3000/api/booking?bookingID=${bookingId}`
+        );
+        console.log("Booking deleted successfully");
+      }
     } catch (error) {
       console.log(error.message);
     }
@@ -73,9 +92,8 @@ export default function useBooking() {
 
   const promotionCode = async (code) => {
     try {
-      const response = await axios.post(
-        `http://localhost:3000/api/promotion`,
-        code
+      const response = await axios.get(
+        `http://localhost:3000/api/promotion?code=${code}`
       );
 
       const data = response.data;
@@ -88,22 +106,36 @@ export default function useBooking() {
         setDiscount(null);
         setCodeError("Invalid or expired promotion code.");
       }
-    } catch {
-      setDiscount(null);
-      setCodeError("Invalid or expired promotion code.");
+    } catch (error) {
+      console.log(error.message);
     }
   };
 
-  return {
-    createBooking,
-    getBookingData,
-    bookingData,
-    updateBookingData,
-    deleteBookingData,
-    promotionCode,
-    discount,
-    codeError,
-    isLoading,
-    isError,
-  };
+  return (
+    <BookingContext.Provider
+      value={{
+        dateData,
+        setDateData,
+        createBooking,
+        getBookingData,
+        bookingData,
+        updateBookingData,
+        deleteUncompleteBooking,
+        promotionCode,
+        discount,
+        codeError,
+        isLoading,
+        isError,
+        totalPrice,
+        setTotalPrice,
+        timeLeft,
+        setTimeLeft,
+      }}
+    >
+      {props.children}
+    </BookingContext.Provider>
+  );
 }
+const useBookingContext = () => React.useContext(BookingContext);
+
+export { BookingContextProvider, useBookingContext };

@@ -1,15 +1,48 @@
-import { Button } from "../ui/button";
-import { useState, useEffect } from "react";
+"use client";
 import { useRouter } from "next/router";
-import { useBookingContext } from "@/contexts/booking";
-import { format } from "date-fns";
+import axios from "axios";
+import { useEffect, useState } from "react";
+import { Button } from "@/components/ui/button";
+import NavbarComponent from "@/components/navigation-component/NavbarComponent";
 
-const Step4CompleteBooking = () => {
+export default function PaymentSuccess() {
+  const [bookingData, setBookingData] = useState();
   const router = useRouter();
-  const { bookingData } = useBookingContext();
+  const { amount, billId } = router.query;
+  useEffect(() => {
+    const fetchBillData = async () => {
+      if (!billId) {
+        console.error("billId is undefined or null");
+        return;
+      }
 
+      try {
+        const res = await axios.get(`/api/bills?bill_id=${billId}`);
+        const data = res.data;
+
+        // Handle special_request if it's a JSON string or already parsed
+        const specialRequest = Array.isArray(data.special_request)
+          ? data.special_request.map((request) =>
+              typeof request === "string" ? JSON.parse(request) : request
+            )
+          : [];
+
+        setBookingData({ ...data, special_request: specialRequest });
+        console.log("data:", data);
+      } catch (error) {
+        console.error("Error fetching bill data:", error);
+      }
+    };
+
+    fetchBillData();
+  }, [billId]);
+
+  if (!bookingData) {
+    return <p>Loading...</p>;
+  }
   return bookingData ? (
     <>
+      <NavbarComponent />
       <div class="w-full pb-8 md:px-[5%] lg:px-[10%] md:pb-32">
         <div className="w-full  flex flex-col items-center gap-8 md:mt-8  md:w-[100%] md:p-8 bg-white">
           <div className="max-w-[738px] h-full min-h-[428px] rounded bg-green-700 text-white">
@@ -27,8 +60,7 @@ const Step4CompleteBooking = () => {
               <div className="flex flex-col gap-4 md:flex-row md:justify-between  mb-8 rounded-sm bg-green-600 p-6">
                 <div className="">
                   <p className="font-semibold">
-                    {format(bookingData.check_in, "EEE, dd MMM yyyy")} -
-                    {format(bookingData.check_out, "EEE, dd MMM yyyy")}
+                    {bookingData.check_in} - {bookingData.check_out}
                   </p>
                   <p>2 Guests</p>
                 </div>
@@ -47,52 +79,39 @@ const Step4CompleteBooking = () => {
               <div className="flex justify-between mb-4">
                 <p className="text-gray-300">{bookingData.type_name}</p>
                 <p className="font-semibold">
-                  {bookingData.night > 1
-                    ? `${bookingData.night} Nights x `
-                    : ""}
-
-                  {bookingData.promotion_price
-                    ? Number(bookingData.promotion_price).toLocaleString(
-                        "en-US",
-                        {
-                          minimumFractionDigits: 2,
-                          maximumFractionDigits: 2,
-                        }
-                      )
-                    : Number(bookingData.current_price).toLocaleString(
-                        "en-US",
-                        {
-                          minimumFractionDigits: 2,
-                          maximumFractionDigits: 2,
-                        }
-                      )}
+                  {bookingData.night > 1 ? `${bookingData.night} Night x ` : ""}
+                  {Number(bookingData.current_price).toLocaleString("en-US", {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2,
+                  })}
                 </p>
               </div>
               <div className="mb-8">
                 <ul className="flex flex-col gap-4 mb-4">
-                  {bookingData.standard_request.map((request, index) => (
-                    <li key={index} className="flex justify-between">
+                  {bookingData.standard_request.map((request) => (
+                    <li key={request.name} className="flex justify-between">
                       <p className="text-gray-300"> {request} </p>
                     </li>
                   ))}
                 </ul>
                 <ul className="flex flex-col gap-4">
-                  {bookingData.special_request.map((request, index) => (
-                    <li key={index} className="flex justify-between">
-                      <p className="text-gray-300">
-                        {" "}
-                        {JSON.parse(request).name}{" "}
-                      </p>
-                      <p className="font-semibold">
-                        {request
-                          ? JSON.parse(request).price.toLocaleString("en-US", {
-                              minimumFractionDigits: 2,
-                              maximumFractionDigits: 2,
-                            })
-                          : ""}
-                      </p>
-                    </li>
-                  ))}
+                  {bookingData.special_request ? (
+                    bookingData.special_request.map((request) => (
+                      <li key={request.name} className="flex justify-between">
+                        <p className="text-gray-300"> {request.name} </p>
+                        <p className="font-semibold">
+                          {request.price
+                            ? Number(request.price).toLocaleString("en-US", {
+                                minimumFractionDigits: 2,
+                                maximumFractionDigits: 2,
+                              })
+                            : ""}
+                        </p>
+                      </li>
+                    ))
+                  ) : (
+                    <h1>Loading</h1>
+                  )}
                 </ul>
               </div>
               {bookingData.additional_request ? (
@@ -104,13 +123,12 @@ const Step4CompleteBooking = () => {
               ) : (
                 ""
               )}
-              {bookingData.discount ? (
+              {bookingData.promotion_discount ? (
                 <div className="flex justify-between mb-8">
                   <p className="text-gray-300">Promotion Code</p>
                   <p className="font-semibold">
                     {" "}
-                    -
-                    {bookingData.discount.toLocaleString("en-US", {
+                    {bookingData.promotion_discount.toLocaleString("en-US", {
                       minimumFractionDigits: 2,
                       maximumFractionDigits: 2,
                     })}{" "}
@@ -152,6 +170,4 @@ const Step4CompleteBooking = () => {
   ) : (
     <p>Loading...</p>
   );
-};
-
-export default Step4CompleteBooking;
+}
