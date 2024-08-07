@@ -3,11 +3,12 @@
 import React, { useState } from "react";
 import { useRouter } from "next/router";
 import axios from "axios";
+import toastr from "toastr";
 
 const BookingContext = React.createContext();
 
 function BookingContextProvider(props) {
-  const [dateData, setDateData] = useState();
+  const [searchData, setSearchData] = useState();
   const [totalPrice, setTotalPrice] = useState();
   const [timeLeft, setTimeLeft] = useState(300);
 
@@ -60,10 +61,12 @@ function BookingContextProvider(props) {
   };
 
   const updateBookingData = async (data) => {
+    console.log(data);
+
     try {
       await axios.patch(`http://localhost:3000/api/booking`, data);
       await getBookingData(data.booking_id);
-      return true;
+      return "succuss";
     } catch (error) {
       console.log(error.message);
     }
@@ -95,10 +98,7 @@ function BookingContextProvider(props) {
       const response = await axios.get(
         `http://localhost:3000/api/promotion?code=${code}`
       );
-
       const data = response.data;
-      console.log(data);
-
       if (data.valid) {
         setDiscount(data.discount);
         setCodeError("");
@@ -114,8 +114,8 @@ function BookingContextProvider(props) {
   return (
     <BookingContext.Provider
       value={{
-        dateData,
-        setDateData,
+        searchData,
+        setSearchData,
         createBooking,
         getBookingData,
         bookingData,

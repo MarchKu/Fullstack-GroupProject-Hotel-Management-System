@@ -43,7 +43,7 @@ export default async function handler(req, res) {
         `
         select  b.booking_id, b.check_in, b.check_out, b.amount_booking, b.night, b.status, 
         r.room_size, r.bed_type, r.room_capacity, r.current_price, r.promotion_price, rt.type_name,
-        bl.standard_request, bl.special_request, bl.additional_request, bl.total_price, bl.promotion_discount 
+        bl.bill_id, bl.standard_request, bl.special_request, bl.additional_request, bl.total_price, bl.promotion_discount 
         from booking b
         inner join rooms r
         on b.room_id = r.room_id
@@ -96,7 +96,7 @@ export default async function handler(req, res) {
         );
       } else if (
         updateBooking.payment_method === "Cash" &&
-        updateBooking.status === "Booking Completed"
+        updateBooking.status === "success"
       ) {
         await connectionPool.query(
           `
@@ -104,8 +104,8 @@ export default async function handler(req, res) {
           SET
             total_price = $2,
             promotion_discount = $3,
-            payment_method = $4,
-            updated_at = $5
+            payment_method = $4
+           
            
           WHERE
             booking_id = $1;
@@ -115,9 +115,54 @@ export default async function handler(req, res) {
             updateBooking.total_price,
             updateBooking.promotion_discount,
             updateBooking.payment_method,
-            updateBooking.updated_at,
           ]
         );
+        await connectionPool.query(
+          `
+          UPDATE booking
+          SET
+            status = $2
+          WHERE
+            booking_id = $1;
+          `,
+          [updateBooking.booking_id, updateBooking.status]
+        );
+      } else if (
+        updateBooking.payment_method === "Credit Card" &&
+        updateBooking.status === "pending"
+      ) {
+        await connectionPool.query(
+          `
+          UPDATE bills
+          SET
+            total_price = $2,
+            promotion_discount = $3,
+            payment_method = $4
+
+          WHERE
+            booking_id = $1;
+          `,
+          [
+            updateBooking.booking_id,
+            updateBooking.total_price,
+            updateBooking.promotion_discount,
+            updateBooking.payment_method,
+          ]
+        );
+        await connectionPool.query(
+          `
+          UPDATE booking
+          SET
+            status = $2
+          WHERE
+            booking_id = $1;
+          `,
+          [updateBooking.booking_id, updateBooking.status]
+        );
+      } else if (
+        updateBooking.payment_method === "Credit Card" &&
+        updateBooking.status === "success"
+      ) {
         await connectionPool.query(
           `
           UPDATE booking

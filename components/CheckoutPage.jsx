@@ -7,7 +7,7 @@ import {
   PaymentElement,
 } from "@stripe/react-stripe-js";
 
-const CheckoutPage = ({ amount, billId }) => {
+const CheckoutPage = ({ amount, billId, bookingId, paymentUpdate }) => {
   const stripe = useStripe();
   const elements = useElements();
   const [errorMessage, setErrorMessage] = useState();
@@ -50,7 +50,7 @@ const CheckoutPage = ({ amount, billId }) => {
       clientSecret,
       confirmParams: {
         // To step 4
-        return_url: `http://localhost:3000/payment-success?amount=${amount}&billId=${billId}`,
+        return_url: `http://localhost:3000/payment-success?amount=${amount}&billId=${billId}&bookingId=${bookingId}`,
       },
     });
 
@@ -89,6 +89,7 @@ const CheckoutPage = ({ amount, billId }) => {
 
       <button
         disabled={!stripe || loading}
+        onClick={paymentUpdate}
         className="text-white w-full p-5 bg-black mt-2 rounded-md font-bold disabled:opacity-50 disabled:animate-pulse"
       >
         {!loading ? `Pay ${amount} THB` : "Processing..."}
