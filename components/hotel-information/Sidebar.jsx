@@ -12,7 +12,7 @@ import logoutIcon from "../../assets/admin-sidebar/logout.png";
 import { useAuth } from "@/contexts/authentication";
 import { usePathname } from "next/navigation";
 
-const Sidebar = () => {
+const Sidebar = ({ isAtBookingDetail }) => {
   const { adminLogout } = useAuth();
 
   const pathName = usePathname();
@@ -52,7 +52,10 @@ const Sidebar = () => {
             <a
               href={item.url}
               className={`${
-                item.url === pathName ? "bg-[#5D7B6A]" : ""
+                item.url === pathName ||
+                (isAtBookingDetail === true && item.url === "/admin/bookings")
+                  ? "bg-[#5D7B6A]"
+                  : ""
               } flex w-full hover:bg-[#5D7B6A] text-white gap-4 pl-[10%] py-6 items-center`}
               key={item.title}
             >

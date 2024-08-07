@@ -111,7 +111,7 @@ const BookingHistory = () => {
                 onClick={() => window.history.back()}
                 className="text-orange-500 hover:underline"
               >
-                Cancel
+                Back
               </button>
               <Dialog className="flex flex-col ">
                 <DialogTrigger className="text-orange-500 hover:underline order-first md:order-none w-full md:w-auto">
@@ -161,7 +161,9 @@ const BookingHistory = () => {
                 <h1 className="h-auto font-heading text-[2.5rem] md:text-[4rem] text-white text-center pb-[1rem]">
                   Your Request has been Submitted
                 </h1>
-                <p className="text-green-400 text-center text-[0.8rem] md:text-[1.25rem]">The cancellation is complete.</p>
+                <p className="text-green-400 text-center text-[0.8rem] md:text-[1.25rem]">
+                  The cancellation is complete.
+                </p>
                 <p className="text-green-400 text-center text-[0.8rem] md:text-[1.25rem]">
                   You will recieve an email with a detail of cancellation within
                   24 hours.
@@ -180,7 +182,9 @@ const BookingHistory = () => {
                       bookingHistory.check_out,
                       "EEE, dd MMMM yyyy"
                     )}`}</h3>
-                    <p className="text-white text-[0.8rem] md:text-[1.25rem]">2 Guests</p>
+                    <p className="text-white text-[0.8rem] md:text-[1.25rem]">
+                      2 Guests
+                    </p>
                   </div>
                   <div className="text-green-300 text-[0.8rem] md:text-[1.25rem] flex flex-col gap-[1rem]">
                     <p>{`Booking date: ${format(
@@ -196,9 +200,7 @@ const BookingHistory = () => {
                 <hr className=" border-green-600" />
                 <div className="w-full h-[15%] mt-[1rem] flex justify-between text-white font-body text-[1rem] md:text-[1.25rem]">
                   <p>Total Refund</p>
-                  <p>
-                    THB {bookingHistory.total_price}
-                  </p>
+                  <p>THB {bookingHistory.total_price}</p>
                 </div>
               </div>
             </div>

@@ -108,7 +108,7 @@ const BookingHistory = () => {
                 onClick={() => window.history.back()}
                 className="text-orange-500 hover:underline"
               >
-                Cancel
+                Back
               </button>
               <Dialog className="flex flex-col ">
                 <DialogTrigger className="text-orange-500 hover:underline order-first md:order-none w-full md:w-auto">

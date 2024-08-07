@@ -63,14 +63,29 @@ const Index = () => {
       getBookingHistoryByUsername(user.username, page);
     }
   }, [user.username, page]);
+
+  console.log(bookingHistory);
   return (
     <>
       <NavbarComponent isAuthenticated={isAuthenticated} />
-      <section className="w-full px-[5%]  md:px-[10%] flex flex-col justify-start items-center font-body py-[5%] xl:py-[1%]">
+      <section className="w-full h-[95vh] px-[5%]  md:px-[10%] flex flex-col justify-start items-center font-body py-[5%] xl:py-[1%]">
         <h1 className="font-heading text-primary-heading text-[3rem] md:text-[5rem] w-full text-left">
           Booking History
         </h1>
-        {bookingHistory &&
+        {bookingHistory === null || bookingHistory[0] === undefined ? (
+          <div className="w-full h-full flex flex-col justify-center items-center gap-5">
+            <p className="text-2xl font-extrabold text-center">
+              You have no booking history.
+            </p>
+            <p className="text-center">
+              Go back to our{" "}
+              <a className="underline hover:text-primary-heading" href="/">
+                homepage
+              </a>{" "}
+              and start planning your next trip!
+            </p>
+          </div>
+        ) : (
           bookingHistory.map((history, index) => {
             return (
               <Accordion
@@ -211,12 +226,13 @@ const Index = () => {
                     checkInDate={history.check_in}
                     bookingID={history.booking_id}
                     bookingStatus={history.status}
-                    roomID = {history.room_id}
+                    roomID={history.room_id}
                   />
                 </div>
               </Accordion>
             );
-          })}
+          })
+        )}
         <Pagination>
           <PaginationContent>
             <PaginationItem
