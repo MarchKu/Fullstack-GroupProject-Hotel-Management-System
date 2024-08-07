@@ -95,12 +95,12 @@ const Index = () => {
 
                     <div className="h-[55%] md:h-full md:w-[45%] xl:w-[50%]">
                       <div className="pt-[5%] size-full flex flex-col md:w-full md:h-full md:justify-start gap-[2rem]">
-                        <div className="w-full flex flex-col md:flex-row justify-between text-gray-800 items-start md:items-center">
-                          <h1 className="text-[2rem] font-semibold">
+                        <div className="w-full flex flex-col lg:flex-row justify-between text-gray-800 items-start lg:items-center">
+                          <h1 className="text-[1.5rem] md:text-[2rem] font-semibold">
                             {history.type_name}
                           </h1>
                           {history.status === "cancelled" ? (
-                            <div className="text-left md:text-right">
+                            <div className="text-left lg:text-right mt-[1.5rem] lg:mt-0">
                               <p>
                                 Booking date:{" "}
                                 {format(
@@ -123,7 +123,7 @@ const Index = () => {
                             </p>
                           )}
                         </div>
-                        <div className="w-full flex flex-col md:flex-row gap-[1.5rem] text-gray-800">
+                        <div className="w-full flex flex-col lg:flex-row gap-[1.5rem] text-gray-800">
                           <div className="flex flex-col">
                             <h3>check-in</h3>
                             <p>
