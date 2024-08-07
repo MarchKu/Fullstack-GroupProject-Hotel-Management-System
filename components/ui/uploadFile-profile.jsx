@@ -1,10 +1,5 @@
 import React, { useState } from "react";
-import {
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/formComponent";
+import { FormField, FormItem, FormLabel } from "@/components/ui/formComponent";
 import { Input } from "@/components/ui/inputRegisterForm";
 import { useFormContext } from "react-hook-form";
 
@@ -96,7 +91,6 @@ function InputFile({ control, name, type, label, id, currentPic, isChange }) {
               </button>
             )
           )}
-
         </FormItem>
       )}
     />
