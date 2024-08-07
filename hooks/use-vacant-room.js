@@ -6,18 +6,12 @@ export default function useVacantRoom() {
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
 
-  const getRoomDeta = async (date) => {
+  const getRoomDeta = async (searchData) => {
     try {
-      if (date) {
-        console.log(date);
+      if (searchData) {
         setIsLoading(true);
         const result = await axios.get(
-          `http://localhost:3000/api/searchVacantRoom`,
-          {
-            params: {
-              date,
-            },
-          }
+          `http://localhost:3000/api/searchVacantRoom?check_in=${searchData.check_in}&check_out=${searchData.check_out}&guests=${searchData.guests}`
         );
         setRoomData(result.data);
         setIsLoading(false);

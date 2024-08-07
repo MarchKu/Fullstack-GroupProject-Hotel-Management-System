@@ -4,11 +4,33 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import NavbarComponent from "@/components/navigation-component/NavbarComponent";
+import { useBookingContext } from "@/contexts/booking";
+import format from "date-fns/format";
 
 export default function PaymentSuccess() {
   const [bookingData, setBookingData] = useState();
   const router = useRouter();
-  const { amount, billId } = router.query;
+  const { amount, billId, bookingId } = router.query;
+
+  useEffect(() => {
+    const data = {
+      booking_id: bookingId,
+      payment_method: "Credit Card",
+      status: "success",
+    };
+
+    const updateBookingData = async () => {
+      console.log(data);
+
+      try {
+        await axios.patch(`http://localhost:3000/api/booking`, data);
+      } catch (error) {
+        console.log(error.message);
+      }
+    };
+    updateBookingData();
+  }, [bookingId]);
+
   useEffect(() => {
     const fetchBillData = async () => {
       if (!billId) {
@@ -60,7 +82,8 @@ export default function PaymentSuccess() {
               <div className="flex flex-col gap-4 md:flex-row md:justify-between  mb-8 rounded-sm bg-green-600 p-6">
                 <div className="">
                   <p className="font-semibold">
-                    {bookingData.check_in} - {bookingData.check_out}
+                    {format(bookingData.check_in, "EEE, dd MMM yyyy")} -
+                    {format(bookingData.check_out, "EEE, dd MMM yyyy")}
                   </p>
                   <p>2 Guests</p>
                 </div>
