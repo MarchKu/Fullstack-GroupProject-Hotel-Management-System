@@ -16,8 +16,8 @@ import Link from "next/link";
 const OtherRoom = () => {
   const carouselImg = carouselOther;
   return (
-    <section className="w-full min-h-[500px] md:min-h-[750px] h-[60vh] md:h-[70vh] py-[5%] md:py-[2%] bg-green-200">
-      <p className="w-full h-[20%] text-[4rem] md:text-[5rem] text-center content-center font-heading text-primary-heading">
+    <section className="w-full h-[60vh] md:h-[70vh] md:min-h-[700px] py-[5%] md:py-[2%] bg-green-200 flex flex-col justify-start items-center">
+      <p className="w-full h-auto text-[2.5rem] md:text-[4rem] xl:text-[5rem] text-center content-center font-heading text-primary-heading">
         Other Rooms
       </p>
       <Carousel
@@ -25,21 +25,21 @@ const OtherRoom = () => {
           align: "center",
           loop: true, 
         }}
-        className="w-full h-[50%] mt-[3rem]"
+        className="w-full h-[60%] mt-[1.5rem] max-w-[1440px]"
       >
-        <CarouselContent className="w-full h-full ">
+        <CarouselContent className="w-full h-full relative">
           {carouselImg.map((img, index) => (
             <CarouselItem key={index}>
               <Card className="w-full h-full">
-                <CardContent className="h-full flex items-center justify-center p-0">
+                <CardContent className="h-full w-full flex items-center justify-center p-0">
                   <div
-                    className="size-full bg-center bg-cover bg-slate-300 bg-blend-multiply flex flex-col justify-end p-[5%]"
+                    className="size-full min-h-[200px] bg-center bg-cover bg-slate-300 bg-blend-multiply flex flex-col justify-end p-[5%]"
                     style={{ backgroundImage: `url(${img.image})` }}
                   >
-                    <h3 className="font-heading text-white text-[1.5rem] md:text-[3rem]">
+                    <h3 className="font-heading text-white text-[1.5rem]">
                       {img.category}
                     </h3>
-                    <div className="flex gap-2 justify-start items-center">
+                    <div className="flex gap-2 justify-start items-center text-[0.8rem] md:text-[1rem]">
                       <Link href={`/rooms/${index+1}`} className="font-body text-white hover:underline">
                         Explore Room
                       </Link>
