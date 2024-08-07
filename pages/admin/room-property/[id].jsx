@@ -242,7 +242,7 @@ const EditRoomProperties = () => {
 
   return (
     <div className="flex w-full bg-[#2F3E35]">
-      <Sidebar />
+      <Sidebar isAtRoomAndProperty={true} />
       <FormProvider {...form}>
         <Form {...form}>
           <form
