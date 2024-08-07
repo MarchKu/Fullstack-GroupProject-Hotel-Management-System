@@ -170,7 +170,7 @@ const CarouselPrevious = React.forwardRef(
       variant={variant}
       size={size}
       className={cn("absolute size-16 md:size-20 rounded-full border-orenge-500 bg-transparent", orientation === "horizontal"
-        ? "left-[30%] -bottom-[50%] md:left-[5%] xl:left-[10%] md:top-1/2 -translate-y-1/2"
+        ? "left-[25%] -bottom-[136px] md:left-0 md:bottom-0 -translate-y-1/2"
         : "-top-12 left-1/2 -translate-x-1/2 rotate-90", className)}
       disabled={!canScrollPrev}
       onClick={scrollPrev}
@@ -192,7 +192,7 @@ const CarouselNext = React.forwardRef(
       variant={variant}
       size={size}
       className={cn("absolute size-16 md:size-20 rounded-full border-orenge-500 bg-transparent", orientation === "horizontal"
-        ? "right-[30%] -bottom-[50%] md:right-[5%] xl:right-[10%] md:top-1/2 -translate-y-1/2"
+        ? "right-[25%] -bottom-[136px]  md:right-0 md:bottom-0 -translate-y-1/2"
         : "-bottom-12 left-1/2 -translate-x-1/2 rotate-90", className)}
       disabled={!canScrollNext}
       onClick={scrollNext}
