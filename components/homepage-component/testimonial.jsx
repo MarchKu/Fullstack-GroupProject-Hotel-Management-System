@@ -33,12 +33,12 @@ const Testimonial = () => {
             }),
           ]}
         >
-          <CarouselContent className="h-full select-none ">
+          <CarouselContent className="h-full select-none border-0">
             {carouselInfo.map((info, index) => (
-              <CarouselItem key={index}>
+              <CarouselItem key={index} className="border-0">
                 <Card className="size-full rounded-none bg-green-200 border-0">
-                  <CardContent className="h-full flex items-center justify-between p-0">
-                    <div className="size-full flex flex-col justify-start items-center gap-8">
+                  <CardContent className="h-full flex items-center justify-between p-0 border-0">
+                    <div className="size-full flex flex-col justify-start items-center gap-8 border-0 shadow-none">
                       <p className="w-full text-center text-xl font-body px-0 md:px-[10%] text-primary-heading">
                         {info.review}
                       </p>
