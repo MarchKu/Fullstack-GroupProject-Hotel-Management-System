@@ -6,6 +6,7 @@ import { format } from "date-fns";
 
 const Step4CompleteBooking = () => {
   const router = useRouter();
+  const { username } = router.query;
   const { bookingData } = useBookingContext();
 
   return bookingData ? (
@@ -104,13 +105,13 @@ const Step4CompleteBooking = () => {
               ) : (
                 ""
               )}
-              {bookingData.discount ? (
+              {bookingData.promotion_discount ? (
                 <div className="flex justify-between mb-8">
                   <p className="text-gray-300">Promotion Code</p>
                   <p className="font-semibold">
                     {" "}
                     -
-                    {bookingData.discount.toLocaleString("en-US", {
+                    {bookingData.promotion_discount.toLocaleString("en-US", {
                       minimumFractionDigits: 2,
                       maximumFractionDigits: 2,
                     })}{" "}
@@ -135,7 +136,7 @@ const Step4CompleteBooking = () => {
           <div className="flex flex-col gap-4 md:flex-row">
             <button
               className="w-[320px] md:w-[200px] text-orange-500 order-2 md:order-1"
-              onClick={() => router.push("/booking/booking-history")}
+              onClick={() => router.push(`/booking/${username}?page=1`)}
             >
               Check Booking Detail
             </button>

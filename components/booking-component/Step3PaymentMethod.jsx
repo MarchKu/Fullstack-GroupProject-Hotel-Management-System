@@ -2,11 +2,10 @@ import { Button } from "../ui/button";
 import { BriefcaseBusiness, Banknote, Check, CreditCard } from "lucide-react";
 import { format } from "date-fns";
 import { useState, useEffect } from "react";
-import useBooking from "@/hooks/use-booking";
 import { useRouter } from "next/router";
 import { useBookingContext } from "@/contexts/booking";
 import { Payment } from "../payment/payment";
-import { el } from "date-fns/locale";
+import axios from "axios";
 
 const Step3PaymentMethod = ({ nextStep, prevStep }) => {
   const {

@@ -67,12 +67,7 @@ export default function Search_result() {
   // get room data
   const { roomData, getRoomDeta, isLoading, isError } = useVacantRoom();
 
-  // const getVacantRoom = (data) => {
-  //   const data = router.query;
-  //   if (data) {
-  //     getRoomDeta(data);
-  //   }
-  // };
+  // create booking
   const data = router.query;
   useEffect(() => {
     if (data) {
