@@ -34,7 +34,10 @@ const About = ({ hotelName, hotelDescription }) => {
         >
           <CarouselContent className="w-full h-full ">
             {carouselImg.map((img, index) => (
-              <CarouselItem key={index} className="basis-1/3">
+              <CarouselItem
+                key={index}
+                className="basis-[180px] md:basis-[400px]"
+              >
                 <Card className="">
                   <CardContent className="h-full flex items-center justify-center p-0">
                     <div

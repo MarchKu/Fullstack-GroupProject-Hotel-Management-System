@@ -19,34 +19,34 @@ const Service = () => {
         Service & Facilities{" "}
       </h2>
 
-      <div className="w-full font-body flex flex-wrap gap-4 justify-center items-center md:flex-nowrap md:flex-row md:justify-between text-[1.25rem]">
-        <div className="w-[144px] md:h-full flex flex-col justify-center items-center">
-          <Image src={spa} className="size-20" />
-          <p className="w-[144px] md:h-[30%] md:w-full">Spa</p>
+      <div className="w-full font-body flex flex-wrap gap-4 justify-center items-center text-[1.25rem]">
+        <div className="w-[144px] flex flex-col items-center gap-[19px]">
+          <Image src={spa} className="w-[60px]" />
+          <p className="w-[144px]  md:w-full">Spa</p>
         </div>
-        <div className="w-[144px] md:h-full flex flex-col justify-center items-center">
-          <Image src={sauna} className="size-20" />
-          <p className="w-[144px] md:h-[30%] md:w-full">Sauna</p>
+        <div className="w-[144px] flex flex-col items-center gap-[19px]">
+          <Image src={sauna} className="w-[60px]" />
+          <p className="w-full">Sauna</p>
         </div>
-        <div className="w-[144px]  md:h-full flex flex-col justify-center items-center">
-          <Image src={fitness} className="size-20" />
-          <p className="md:h-[30%] md:w-full">Fitness</p>
+        <div className="w-[144px]  flex flex-col items-center gap-[19px]">
+          <Image src={fitness} className="w-[60px]" />
+          <p className=" md:w-full">Fitness</p>
         </div>
-        <div className="w-[144px]  md:h-full flex flex-col justify-center items-center">
-          <Image src={lounge} className="size-20" />
-          <p className="md:h-[30%] md:w-full">Arrival Lougn</p>
+        <div className="w-[144px]  flex flex-col items-center gap-[19px]">
+          <Image src={lounge} className="w-[60px]" />
+          <p className=" md:w-full">Arrival Lounge</p>
         </div>
-        <div className="w-[144px]  md:h-full flex flex-col justify-center items-center">
-          <Image src={wifi} className="size-20" />
-          <p className="w-[144px]  md:h-[30%] md:w-full">Free Wifi</p>
+        <div className="w-[144px]  flex flex-col items-center gap-[19px]">
+          <Image src={wifi} className="w-[60px]" />
+          <p className="w-[144px]   md:w-full">Free Wifi</p>
         </div>
-        <div className="w-[144px]  md:h-full flex flex-col justify-center items-center">
-          <Image src={parking} className="size-20" />
-          <p className="md:h-[30%] md:w-full">Parking</p>
+        <div className="w-[144px]  flex flex-col items-center gap-[19px]">
+          <Image src={parking} className="w-[60px]" />
+          <p className=" md:w-full">Parking</p>
         </div>
-        <div className="w-[144px] md:h-full flex flex-col justify-center items-center">
-          <Image src={operation} className="size-20" />
-          <p className="md:h-[30%] md:w-full">24 hours operation</p>
+        <div className="w-[144px] flex flex-col items-center gap-[19px]">
+          <Image src={operation} className="w-[60px]" />
+          <p className=" md:w-full">24 hours operation</p>
         </div>
       </div>
     </section>
