@@ -16,8 +16,6 @@ const Step3PaymentMethod = ({ nextStep, prevStep }) => {
     promotionCode,
     discount,
     codeError,
-    isLoading,
-    isError,
     totalPrice,
     setTotalPrice,
     timeLeft,
@@ -47,6 +45,14 @@ const Step3PaymentMethod = ({ nextStep, prevStep }) => {
       }
     });
   };
+
+  useEffect(() => {
+    if (payment === "Cash") {
+      setIsConfirmDisabled(false);
+    } else {
+      setIsConfirmDisabled(true);
+    }
+  }, [payment]);
 
   // Debounce function
   const debounce = (func, delay, minChars = 0) => {
@@ -84,26 +90,11 @@ const Step3PaymentMethod = ({ nextStep, prevStep }) => {
     debounce(getPromotionDiscount(code), 1000, 4);
   }, [code]);
 
-  if (isLoading) {
-    return <h1>Booking in Progress...</h1>;
-  }
-  if (isError) {
-    return <h1>Bookig Error</h1>;
-  }
-
   const formatTime = (seconds) => {
     const minutes = Math.floor(seconds / 60);
     const remainingSeconds = seconds % 60;
     return `${minutes}:${remainingSeconds < 10 ? "0" : ""}${remainingSeconds}`;
   };
-
-  useEffect(() => {
-    if (payment === "Cash") {
-      setIsConfirmDisabled(false);
-    } else {
-      setIsConfirmDisabled(true);
-    }
-  }, [payment]);
 
   const handleConfirm = () => {
     if (payment === "Cash") {
@@ -117,6 +108,12 @@ const Step3PaymentMethod = ({ nextStep, prevStep }) => {
       const updete = updateBookingData(data);
       if (updete) {
         nextStep();
+        const query = {
+          username: username,
+          bookingID: bookingID,
+          bookingStep: 4,
+        };
+        router.push({ pathname: "/booking", query: query });
       }
     } else if (payment === "Credit Card") {
       const data = {
@@ -141,6 +138,12 @@ const Step3PaymentMethod = ({ nextStep, prevStep }) => {
 
   const handlePrev = () => {
     prevStep();
+    const query = {
+      username: username,
+      bookingID: bookingID,
+      bookingStep: 2,
+    };
+    router.push({ pathname: "/booking", query: query });
   };
 
   return bookingData ? (
@@ -206,7 +209,7 @@ const Step3PaymentMethod = ({ nextStep, prevStep }) => {
             </div>
             {payment === "Credit Card" ? (
               <div>
-                <Payment paymentUpdate={handleConfirm} />
+                <Payment paymentUpdate={handleConfirm} username={username} />
               </div>
             ) : (
               ""

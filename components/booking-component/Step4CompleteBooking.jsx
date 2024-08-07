@@ -6,10 +6,25 @@ import { format } from "date-fns";
 
 const Step4CompleteBooking = () => {
   const router = useRouter();
-  const { username } = router.query;
-  const { bookingData } = useBookingContext();
+  const { username, bookingID } = router.query;
+  const { bookingData, updateBookingData } = useBookingContext();
+  const [loading, setLoading] = useState(false);
 
-  return bookingData ? (
+  useEffect(() => {
+    const data = {
+      booking_id: bookingID,
+      payment_method: "Credit Card",
+      status: "success",
+    };
+    console.log(data);
+
+    const update = updateBookingData(data);
+    if (update) {
+      setLoading(true);
+    }
+  }, [bookingID]);
+
+  return loading ? (
     <>
       <div class="w-full pb-8 md:px-[5%] lg:px-[10%] md:pb-32">
         <div className="w-full  flex flex-col items-center gap-8 md:mt-8  md:w-[100%] md:p-8 bg-white">
@@ -111,10 +126,13 @@ const Step4CompleteBooking = () => {
                   <p className="font-semibold">
                     {" "}
                     -
-                    {bookingData.promotion_discount.toLocaleString("en-US", {
-                      minimumFractionDigits: 2,
-                      maximumFractionDigits: 2,
-                    })}{" "}
+                    {Number(bookingData.promotion_discount).toLocaleString(
+                      "en-US",
+                      {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2,
+                      }
+                    )}{" "}
                   </p>
                 </div>
               ) : (

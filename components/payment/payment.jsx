@@ -10,7 +10,7 @@ if (process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY === undefined) {
 }
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY);
 
-export function Payment({ paymentUpdate }) {
+export function Payment({ paymentUpdate, username }) {
   const { totalPrice, bookingData } = useBookingContext();
 
   if (bookingData === null) {
@@ -40,6 +40,7 @@ export function Payment({ paymentUpdate }) {
           amount={parseInt(totalPrice, 10)}
           billId={bookingData.bill_id}
           bookingId={bookingData.booking_id}
+          username={username}
         />
       </Elements>
     </main>

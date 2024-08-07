@@ -81,8 +81,8 @@ export function SearchBox({ onDateChage }) {
     return Math.ceil(diffInMilliseconds / millisecondsInADay);
   };
 
-  // set checkIn and CheckOut date data to bookingContext ;
-  const setDateContext = () => {
+  // store search data ;
+  const storeSearchData = () => {
     if (date.from & date.to) {
       const newDateData = {
         check_in: format(date.from, "EEE, dd MMM yyyy"),
@@ -91,6 +91,7 @@ export function SearchBox({ onDateChage }) {
         guests: guests,
       };
       setSearchData(newDateData);
+      localStorage.setItem("searchData", JSON.stringify(newDateData));
     }
   };
 
@@ -104,7 +105,7 @@ export function SearchBox({ onDateChage }) {
 
     router.push({ pathname: "/search-result", query: newDateData });
 
-    setDateContext();
+    storeSearchData();
     onDateChage(newDateData);
   };
 
@@ -122,7 +123,7 @@ export function SearchBox({ onDateChage }) {
   }, []);
 
   useEffect(() => {
-    setDateContext();
+    storeSearchData();
   }, [date]);
 
   return (

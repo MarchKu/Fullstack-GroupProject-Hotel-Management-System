@@ -33,12 +33,10 @@ export default function Search_result() {
   const [isRoomdetailOpen, setIsRoomDetailOpen] = useState(false);
   const [isRoomImgOpen, setIsRoomImgOpen] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-
   const router = useRouter();
-
   const { searchData, createBooking } = useBookingContext();
-
   const [user, setUser] = useState({});
+
   useEffect(() => {
     const fetchUserData = async () => {
       const userData = localStorage.getItem("user");
@@ -73,7 +71,6 @@ export default function Search_result() {
     if (data) {
       getRoomDeta(data);
     }
-    localStorage.removeItem("bookingId");
   }, [data]);
 
   if (isLoading) {
