@@ -9,10 +9,10 @@ import { SearchBox } from "../search-component/SearchBox";
 const Hero = () => {
   return (
     <section
-      className="w-full max-w-[1440px] md:h-[900px] flex flex-col items-center gap-[57px] md:gap-[124px] px-4 pb-[46px] pt-[100px] md:pt-[215px] bg-center bg-cover bg-slate-300 bg-blend-multiply "
+      className="w-full md:h-[900px] flex flex-col items-center gap-[57px] md:gap-[124px] px-4 pb-[46px] pt-[100px] md:pt-[215px] bg-center bg-cover bg-slate-300 bg-blend-multiply "
       style={{ backgroundImage: `url(${background.src})` }}
     >
-      <div className="font-heading  text-center text-white flex flex-col justify-center items-center text-[4rem] xl:text-[7rem] ">
+      <div className="font-heading  text-center text-white flex flex-col justify-center items-center ">
         <h1 className="w-full text-[44px] md:text-[88px]">
           A Best Place for Your Neatly Experience
         </h1>
