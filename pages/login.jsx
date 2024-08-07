@@ -54,15 +54,15 @@ const login = () => {
   return (
     <>
       <NavbarComponent />
-      <main className="w-full md:max-w-[1440px] md:h-full flex md:flex-row flex-col items-center md:justify-center mx-auto gap-10 bg-[#F7F7FB]">
-        <div className="w-full md:w-1/2 relative h-full max-w-[430px] md:max-w-[720px]">
+      <main className="w-full flex md:flex-row flex-col items-center md:justify-center mx-auto gap-10 bg-[#F7F7FB]">
+        <div className="w-full md:w-1/2 relative">
           <Image
             src={loginBgDesktop}
-            className="object-cover w-full h-full hidden md:block"
+            className="object-cover w-full hidden md:block"
           />
           <Image
             src={loginBgMobile}
-            className="object-cover w-full h-full md:hidden"
+            className="object-cover w-full md:hidden"
           />
         </div>
         <div className="w-full md:w-1/2 flex flex-col items-center justify-center ">
