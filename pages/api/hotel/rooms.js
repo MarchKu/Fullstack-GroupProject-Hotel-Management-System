@@ -46,8 +46,8 @@ export default async function handler(req, res) {
     console.log("formatRoomAmentity: ", room.amenity);
 
     try {
-      const query = `INSERT INTO rooms (room_type_id, room_size, bed_type, room_capacity, current_price, promotion_price, room_description, amenities)
-                   VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
+      const query = `INSERT INTO rooms (room_type_id, room_size, bed_type, room_capacity, current_price, promotion_price, room_description, amenities, status)
+                   VALUES ($1, $2, $3, $4, $5, $6, $7, $8, 'Vacant')
                    RETURNING room_id`;
 
       const values = [
@@ -141,7 +141,7 @@ export default async function handler(req, res) {
       req.body.amenity = null;
     }
     console.log("req.body.promotionPrice: ", req.body.promotionPrice);
-    if (req.body.promotionPrice === '0') {
+    if (req.body.promotionPrice === "0") {
       req.body.promotionPrice = null;
     }
     try {
