@@ -15,7 +15,7 @@ export default function NotificationMenu({ userId }) {
   const [isVisible, setIsVisible] = useState(false);
   const notifButtonRef = useRef(null);
 
-  console.log(isVisible);
+  // console.log(isVisible);
 
   return userId ? (
     <>

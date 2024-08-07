@@ -5,7 +5,8 @@ import { useState, useEffect } from "react";
 import useBooking from "@/hooks/use-booking";
 import { useRouter } from "next/router";
 import { useBookingContext } from "@/contexts/booking";
-import { Payment } from "../payment";
+import { Payment } from "../payment/payment";
+import { el } from "date-fns/locale";
 
 const Step3PaymentMethod = ({ nextStep, prevStep }) => {
   const {
@@ -46,18 +47,6 @@ const Step3PaymentMethod = ({ nextStep, prevStep }) => {
         return "";
       }
     });
-  };
-
-  const updatePayment = () => {
-    const data = {
-      booking_id: bookingData.booking_id,
-      status: "Payment In Progress",
-      standard_request: [...standardRequest],
-      special_request: [...specialRequest],
-      additional_request: additionalRequests,
-      total_price: totalPrice,
-    };
-    updateBookingData(data);
   };
 
   // Debounce function
@@ -118,17 +107,36 @@ const Step3PaymentMethod = ({ nextStep, prevStep }) => {
   }, [payment]);
 
   const handleConfirm = () => {
-    if (payment == "Cash") {
+    if (payment === "Cash") {
       const data = {
         booking_id: bookingData.booking_id,
-        status: "Booking Completed",
+        status: "success",
         total_price: totalPrice,
         payment_method: "Cash",
+        promotion_discount: discount,
       };
       const updete = updateBookingData(data);
       if (updete) {
         nextStep();
       }
+    } else if (payment === "Credit Card") {
+      const data = {
+        booking_id: bookingData.booking_id,
+        status: "pending",
+        total_price: totalPrice,
+        payment_method: "Credit Card",
+        promotion_discount: discount,
+      };
+      const updateBookingData = async () => {
+        console.log(data);
+
+        try {
+          await axios.patch(`http://localhost:3000/api/booking`, data);
+        } catch (error) {
+          console.log(error.message);
+        }
+      };
+      updateBookingData();
     }
   };
 
@@ -199,7 +207,7 @@ const Step3PaymentMethod = ({ nextStep, prevStep }) => {
             </div>
             {payment === "Credit Card" ? (
               <div>
-                <Payment />
+                <Payment paymentUpdate={handleConfirm} />
               </div>
             ) : (
               ""
