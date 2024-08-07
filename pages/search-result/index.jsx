@@ -121,7 +121,7 @@ export default function Search_result() {
   return roomData ? (
     <section className="w-full overflow-hidden">
       <NavbarComponent isAuthenticated={isAuthenticated} />
-      <div className=" w-full h-[400px] flex border-1 border-gray-200 px-[2.5%] py-[10%] md:py-0 xl:px-[10%] md:pb-[2rem]  rounded shadow-xl shadow-gray-200 bg-white justify-center items-center md:h-[150px] md:sticky md:top-0 md:z-10">
+      <div className=" w-full h-[400px] flex border-1 border-gray-200 px-[2.5%] py-[10%] md:py-0 xl:px-[10%] md:pb-[2rem]  rounded shadow-xl shadow-gray-200 bg-white justify-center items-center md:h-[150px] md:sticky md:top-0 md:z-0">
         <SearchBox onDateChage={handleOnDateChange} />
       </div>
       <div className="w-full px-[5%] xl:px-[10%] flex flex-col justify-center items-center font-body">

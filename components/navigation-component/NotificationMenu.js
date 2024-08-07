@@ -6,7 +6,6 @@ import {
   KnockFeedProvider,
   NotificationIconButton,
   NotificationFeedPopover,
-  NotificationFeedContainer,
 } from "@knocklabs/react";
 
 import "@knocklabs/react/dist/index.css";
@@ -14,6 +13,7 @@ import "@knocklabs/react/dist/index.css";
 export default function NotificationMenu({ userId }) {
   const [isVisible, setIsVisible] = useState(false);
   const notifButtonRef = useRef(null);
+  const [isOnClose, setIsOnClose] = useState(false);
 
   return userId ? (
     <>
@@ -22,15 +22,19 @@ export default function NotificationMenu({ userId }) {
         userId={userId}
       >
         <KnockFeedProvider feedId="5a838c50-e18f-40cb-aca8-a87479793059">
-          <NotificationFeedContainer></NotificationFeedContainer>
           <NotificationIconButton
             ref={notifButtonRef}
-            onClick={(e) => setIsVisible(!isVisible)}
+            onClick={() => {
+              isOnClose ? setIsOnClose(false) : setIsVisible(!isVisible);
+            }}
           />
           <NotificationFeedPopover
             buttonRef={notifButtonRef}
             isVisible={isVisible}
-            onClose={() => setIsVisible(true)}
+            onClose={() => {
+              setIsOnClose(true);
+              setIsVisible(false);
+            }}
           />
         </KnockFeedProvider>
       </KnockProvider>
