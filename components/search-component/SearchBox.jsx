@@ -126,7 +126,7 @@ export function SearchBox({ onDateChage }) {
   }, [date]);
 
   return (
-    <div className="w-full h-full md:max-h-[222px] bg-white flex justify-between items-center rounded-lg ">
+    <div className="w-full h-full md:max-h-[222px] bg-white flex justify-between items-center rounded-lg">
       <div className="w-full h-full flex flex-col md:flex-row justify-between items-center md:items-end md:w-full   md:h-full">
         {/* Check in */}
 

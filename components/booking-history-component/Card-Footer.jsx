@@ -13,7 +13,6 @@ import {
 } from "@/components/ui/dialog";
 import Link from "next/link";
 
-
 const CheckDateBeforeModifie = (props) => {
   const router = useRouter();
   const [isOverAday, setIsoverAday] = useState(true);
@@ -42,7 +41,9 @@ const CheckDateBeforeModifie = (props) => {
   const cancleClick = () => {
     timeleft <= 24 ? setIsoverAday(false) : setIsoverAday(true);
   };
-  return !isAlreadyCheckIn && !isOverAday ? (
+  return !isAlreadyCheckIn &&
+    !isOverAday &&
+    props.bookingStatus !== "cancelled" ? (
     <div className="h-[10%] w-full flex flex-col md:flex-row justify-between items-center md:pl-[5%]">
       <button
         className="order-last w-full text-right md:w-[40%] md:text-left md:order-first pt-[1rem] md:pt-0 "
@@ -105,7 +106,7 @@ const CheckDateBeforeModifie = (props) => {
           onClick={() => cancleClick()}
         >
           <Dialog>
-            <DialogTrigger className="text-orange-500 hover:underline"> 
+            <DialogTrigger className="text-orange-500 hover:underline">
               Cancel Booking
             </DialogTrigger>
             <DialogContent className="w-screen">
