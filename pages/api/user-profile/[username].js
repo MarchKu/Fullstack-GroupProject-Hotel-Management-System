@@ -18,7 +18,6 @@ async function handler(req, res) {
       const userInput = { ...req.body };
       const updatedData = { ...userInput, updated_at: new Date() };
       const now = new Date();
-
       /* Just for data check */
       const userInfo = await connectionPool.query(
         `
@@ -45,7 +44,7 @@ async function handler(req, res) {
       }
       const userId = userInfo.rows[0].user_id;
 
-      if (updatedData.profile_picture instanceof File) {
+      if (req.file) {
         /* If new profile picture added */
         let upLoadResult;
         const { buffer, mimetype } = req.file;
@@ -91,7 +90,7 @@ async function handler(req, res) {
           [updatedData.email, updatedData.updated_at, username]
         );
         return res.status(200).json({ message: "Update sucessfuly" });
-      } else if (typeof updatedData.profile_picture === "string") {
+      } else {
         /* If no profile picture added */
         await connectionPool.query(
           `
@@ -122,7 +121,7 @@ async function handler(req, res) {
     `,
           [updatedData.email, updatedData.updated_at, username]
         );
-        return res.status(200).json({ message: "Update sucessfuly" });
+        return res.status(200).json(updatedData);
       }
     } catch (error) {
       return res.status(500).json(error);
