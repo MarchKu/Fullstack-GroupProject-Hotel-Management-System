@@ -19,6 +19,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { Input } from "@/components/ui/input";
 import { dateFormatter } from "@/hooks/useDateFormatter";
+import Loading from "@/components/room-mangement-status/Loading";
 
 export default function AllBooking() {
   const [bookingData, setBookingData] = useState([]);
@@ -120,7 +121,26 @@ export default function AllBooking() {
               </TableRow>
             </TableHeader>
             {isLoading ? (
-              <p>Loading...</p>
+              <tbody>
+                <tr>
+                  <td colSpan={8}>
+                    <Loading
+                      columns={8}
+                      colWidths={[
+                        "w-16 h-6",
+                        "w-16 h-6",
+                        "w-16 h-6",
+                        "w-16 h-6",
+                        "w-16 h-6",
+                        "w-16 h-6",
+                        "w-16 h-6",
+                        "w-16 h-6",
+                      ]}
+                      height="h-20"
+                    />
+                  </td>
+                </tr>
+              </tbody>
             ) : isError ? (
               <p>Error</p>
             ) : (
