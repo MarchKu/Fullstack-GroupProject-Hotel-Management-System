@@ -24,9 +24,9 @@ const UserMenuMobile = (props) => {
   return (
     <Drawer direction="right" className="md:hidden flex">
       <DrawerTrigger>
-        <MenuIcon className="md:hidden w-6 h-6 mr-3" />
+        <MenuIcon className="md:hidden w-6 h-6" />
       </DrawerTrigger>
-      <DrawerContent className="w-full mt-[48px] text-sm leading-4">
+      <DrawerContent className="w-full mt-[48px] text-sm leading-4 px-4 py-6">
         <DrawerHeader>
           <DrawerTitle className="hidden">Navigation list</DrawerTitle>
           <DrawerDescription className="hidden">
@@ -34,7 +34,7 @@ const UserMenuMobile = (props) => {
             out
           </DrawerDescription>
         </DrawerHeader>
-        <div className="mt-6 mx-4">
+        <div>
           <Link href="/">
             <div className="flex items-center w-[107px] gap-2 mb-4">
               <Image
@@ -51,19 +51,19 @@ const UserMenuMobile = (props) => {
           <MenubarSeparator />
 
           <Link href="/profile">
-            <div className="flex items-center w-[343px] gap-3 mx-4 my-4">
+            <div className="flex items-center w-[343px] gap-3 my-4">
               <Image src={profileIcon} alt="profile icon"></Image>
               <h6>Profile</h6>
             </div>
           </Link>
           <Link href="/">
-            <div className="flex items-center w-[343px] gap-3 mx-4 my-4">
+            <div className="flex items-center w-[343px] gap-3 my-4">
               <Image src={cardIcon} alt="card icon"></Image>
               <h6>Payment Method</h6>
             </div>
           </Link>
           <Link href={`/booking/${username}?page=1`}>
-            <div className="flex items-center w-[343px] gap-3 mx-4 my-4">
+            <div className="flex items-center w-[343px] gap-3 my-4">
               <Image src={bookingIcon} alt="booking icon"></Image>
               <h6>Booking History</h6>
             </div>
@@ -72,7 +72,7 @@ const UserMenuMobile = (props) => {
           <MenubarSeparator />
 
           <Link href="/" onClick={() => logout()}>
-            <div className="flex items-center w-[343px] gap-3 mx-4 my-4">
+            <div className="flex items-center w-[343px] gap-3 my-4">
               <Image src={logoutIcon} alt="logout icon"></Image>
               <h6>Log out</h6>
             </div>

@@ -20,7 +20,7 @@ import { useRouter } from "next/router";
 const UserMenuDesktop = (props) => {
   const { logout } = useAuth();
   const router = useRouter();
-  const { image, name,username, isLoading } = props;
+  const { image, name, username, isLoading } = props;
   const [profileImage, setProfileImage] = useState(image);
   useEffect(() => {
     setProfileImage(image);
@@ -28,8 +28,8 @@ const UserMenuDesktop = (props) => {
   return (
     <Menubar className="hidden md:flex rounded-full border-0">
       <MenubarMenu>
-        <MenubarTrigger className="rounded-full p-2 ">
-          <div className="flex gap-3 items-center">
+        <MenubarTrigger className="rounded-full p-2 w-full cursor-pointer hover:bg-slate-50">
+          <div className="flex gap-3 items-center ">
             <Image
               src={profileImage}
               alt="User"
@@ -37,27 +37,33 @@ const UserMenuDesktop = (props) => {
               height={40}
               className="w-10 h-10 rounded-full object-contain"
             />
-            <h6 className="text-start">{name}</h6>
+            <h6 className="text-start text-wrap">{name}</h6>
           </div>
         </MenubarTrigger>
         <MenubarContent className="w-[198px] px-[14px] py-2 md:mx-4">
           <MenubarItem
-            className="gap-3 px-0 py-2"
+            className="gap-3 px-2 cursor-pointer"
             onClick={() => router.push("/profile")}
           >
             <Image src={profileIcon} className="w-4 h-4" />
             <p>Profile</p>
           </MenubarItem>
-          <MenubarItem className="gap-3 px-2">
+          <MenubarItem className="gap-3 px-2 cursor-pointer">
             <Image src={cardIcon} className="w-4 h-4" />
             <p>Payment Method</p>
           </MenubarItem>
-          <MenubarItem className="gap-3 px-2" onClick={() => router.push(`/booking/${username}?page=1`)}>
+          <MenubarItem
+            className="gap-3 px-2 cursor-pointer"
+            onClick={() => router.push(`/booking/${username}?page=1`)}
+          >
             <Image src={bookingIcon} className="w-4 h-4" />
             <p>Booking History</p>
           </MenubarItem>
           <MenubarSeparator />
-          <MenubarItem className="gap-3 px-2" onClick={() => logout()}>
+          <MenubarItem
+            className="gap-3 px-2 cursor-pointer"
+            onClick={() => logout()}
+          >
             <Image src={logoutIcon} />
             <p>Log out</p>
           </MenubarItem>
