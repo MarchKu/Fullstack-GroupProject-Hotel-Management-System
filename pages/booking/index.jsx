@@ -25,7 +25,7 @@ const booking = () => {
 
   // set timeout booking
   useEffect(() => {
-    setTimeLeft(300);
+    setTimeLeft(3000);
     const interval = setInterval(() => {
       setTimeLeft((prevTime) => {
         if (prevTime <= 1) {

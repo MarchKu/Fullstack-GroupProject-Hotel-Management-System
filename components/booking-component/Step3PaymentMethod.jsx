@@ -183,12 +183,12 @@ const Step3PaymentMethod = ({ nextStep, prevStep }) => {
           </div>
         </header>
 
-        <div className="w-full p-4 flex flex-col gap-8 md:mt-8 md:w-[45%] lg:w-[50%] xl:w-[60%] md:p-8 md:border bg-white">
+        <div className="w-full p-4 flex flex-col gap-8 md:mt-8 md:w-full lg:w-[55%] xl:w-[60%] md:p-8 md:border bg-white">
           <div className="flex flex-col">
-            <div className="mb-8 flex gap-12">
+            <div className="gap-4 mb-8 flex lg:gap-12">
               <button
                 onClick={() => handleSelectPayment("Credit Card")}
-                className={`w-[322px] h-[80px] text-xl font-semibold  px-4 py-2 rounded flex justify-center items-center shadow-lg ${
+                className={`w-[322px] lg:h-[80px] text-xl font-semibold  lg:px-4 py-2 rounded flex justify-center items-center shadow-lg ${
                   payment === "Credit Card"
                     ? "border border-orange-500 text-orange-500"
                     : "border border-gray-300 text-gray-600"
@@ -198,7 +198,7 @@ const Step3PaymentMethod = ({ nextStep, prevStep }) => {
               </button>
               <button
                 onClick={() => handleSelectPayment("Cash")}
-                className={`w-[322px] h-[80px] text-xl font-semibold  px-4 py-2 rounded flex justify-center items-center shadow-lg ${
+                className={`w-[322px] lg:h-[80px] text-xl font-semibold  px-4 py-2 rounded flex justify-center items-center shadow-lg ${
                   payment === "Cash"
                     ? "border border-orange-500 text-orange-500"
                     : "border border-gray-300 text-gray-600"
@@ -237,7 +237,7 @@ const Step3PaymentMethod = ({ nextStep, prevStep }) => {
             </div>
           </div>
 
-          <div className="md:pl-8 flex flex-col items-center md:absolute md:right-[5%] lg:right-[10%] xl:right-[15%] md:top-[445px]">
+          <div className="md:pl-8 flex flex-col items-center lg:absolute lg:right-[10%] xl:right-[15%] md:top-[445px]">
             <div className="w-[358px] h-full min-h-[428px] rounded bg-green-700 text-white">
               <div className="w-full h-[62px] p-4  rounded bg-green-800 flex justify-between">
                 <h3 className="font-semibold text-xl flex gap-4">
