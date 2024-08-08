@@ -1,5 +1,5 @@
 "use client";
-
+import { useState } from "react";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -14,6 +14,8 @@ import { useAuth } from "@/contexts/authentication";
 import NavbarComponent from "@/components/navigation-component/NavbarComponent";
 import { checkUniqueUser } from "../lib/checkUniqueUser";
 import { checkUniqueProfile } from "../lib/checkUniqueProfile";
+import LoadingForm from "../components/ui/LoadingForm";
+
 const minAge = 18;
 const registerSchema = z.object({
   fullName: z.string().min(2),
@@ -66,6 +68,7 @@ const registerSchema = z.object({
 });
 
 export default function Register() {
+  const [isLoading, setIsLoading] = useState(false);
   const form = useForm({
     resolver: zodResolver(registerSchema),
     defaultValues: {
@@ -84,18 +87,23 @@ export default function Register() {
   const { register } = useAuth();
 
   const onSubmit = async (data) => {
-    const formData = new FormData();
+    try {
+      const formData = new FormData();
+      formData.append("username", data.username);
+      formData.append("password", data.password);
+      formData.append("email", data.email);
+      formData.append("full_name", data.fullName);
+      formData.append("id_number", data.idNumber);
+      formData.append("date_of_birth", data.dateBirth);
+      formData.append("country", data.country);
+      formData.append("profile_picture", data.profilepic);
 
-    formData.append("username", data.username);
-    formData.append("password", data.password);
-    formData.append("email", data.email);
-    formData.append("full_name", data.fullName);
-    formData.append("id_number", data.idNumber);
-    formData.append("date_of_birth", data.dateBirth);
-    formData.append("country", data.country);
-    formData.append("profile_picture", data.profilepic);
-
-    register(formData);
+      setIsLoading(true);
+      await register(formData);
+      setIsLoading(false);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (
@@ -112,79 +120,83 @@ export default function Register() {
                 Basic Information
               </h2>
 
-              <Form {...form}>
-                <form
-                  onSubmit={form.handleSubmit(onSubmit)}
-                  className="text-base font-normal gap-3 md:grid md:grid-cols-2 "
-                >
-                  <div className="md:col-span-2">
+              {isLoading ? (
+                <LoadingForm numberOfFields={5} />
+              ) : (
+                <Form {...form}>
+                  <form
+                    onSubmit={form.handleSubmit(onSubmit)}
+                    className="text-base font-normal gap-3 md:grid md:grid-cols-2 "
+                  >
+                    <div className="md:col-span-2">
+                      <FormFieldComponent
+                        control={form.control}
+                        name="fullName"
+                        label="Full Name"
+                        type="text"
+                        placeholder="Enter your name and last name"
+                      />
+                    </div>
+
                     <FormFieldComponent
                       control={form.control}
-                      name="fullName"
-                      label="Full Name"
+                      name="username"
+                      label="Username"
                       type="text"
-                      placeholder="Enter your name and last name"
+                      placeholder="Enter your username"
                     />
-                  </div>
-
-                  <FormFieldComponent
-                    control={form.control}
-                    name="username"
-                    label="Username"
-                    type="text"
-                    placeholder="Enter your username"
-                  />
-                  <FormFieldComponent
-                    control={form.control}
-                    name="email"
-                    label="Email"
-                    type="email"
-                    placeholder="Enter your email"
-                  />
-                  <FormFieldComponent
-                    control={form.control}
-                    name="password"
-                    label="Password"
-                    type="password"
-                    placeholder="Enter your password"
-                  />
-                  <FormFieldComponent
-                    control={form.control}
-                    name="idNumber"
-                    label="ID Number"
-                    type="text"
-                    placeholder="Enter your ID number"
-                  />
-                  <DatePicker
-                    control={form.control}
-                    name="dateBirth"
-                    label="Date of Birth"
-                    placeholder="Enter your date of birth"
-                  />
-                  <CountryPicker
-                    control={form.control}
-                    name="country"
-                    label="Country"
-                    placeholder="Select your country"
-                  />
-                  <div className="col-span-2 border-b border-[#E4E6ED]"></div>
-                  <div className="col-span-2">
-                    <InputFile
+                    <FormFieldComponent
                       control={form.control}
-                      name="profilepic"
-                      label="Upload  Picture"
-                      id="profilepic"
-                      type="file"
+                      name="email"
+                      label="Email"
+                      type="email"
+                      placeholder="Enter your email"
                     />
-                  </div>
-                  <Button
-                    type="submit"
-                    className="mt-5 bg-[#C14817] w-full col-span-full md:col-span-1"
-                  >
-                    Register
-                  </Button>
-                </form>
-              </Form>
+                    <FormFieldComponent
+                      control={form.control}
+                      name="password"
+                      label="Password"
+                      type="password"
+                      placeholder="Enter your password"
+                    />
+                    <FormFieldComponent
+                      control={form.control}
+                      name="idNumber"
+                      label="ID Number"
+                      type="text"
+                      placeholder="Enter your ID number"
+                    />
+                    <DatePicker
+                      control={form.control}
+                      name="dateBirth"
+                      label="Date of Birth"
+                      placeholder="Enter your date of birth"
+                    />
+                    <CountryPicker
+                      control={form.control}
+                      name="country"
+                      label="Country"
+                      placeholder="Select your country"
+                    />
+                    <div className="col-span-2 border-b border-[#E4E6ED]"></div>
+                    <div className="col-span-2">
+                      <InputFile
+                        control={form.control}
+                        name="profilepic"
+                        label="Upload  Picture"
+                        id="profilepic"
+                        type="file"
+                      />
+                    </div>
+                    <Button
+                      type="submit"
+                      className="mt-5 bg-[#C14817] w-full col-span-full md:col-span-1"
+                    >
+                      Register
+                    </Button>
+                  </form>
+                </Form>
+              )}
             </div>
           </div>
         </div>
