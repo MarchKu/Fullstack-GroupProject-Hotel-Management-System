@@ -25,7 +25,7 @@ const booking = () => {
 
   // set timeout booking
   useEffect(() => {
-    setTimeLeft(300);
+    setTimeLeft(3000);
     const interval = setInterval(() => {
       setTimeLeft((prevTime) => {
         if (prevTime <= 1) {
@@ -100,19 +100,21 @@ const booking = () => {
 
   switch (step) {
     case 1:
-      return bookingData ? (
+      return (
         <>
           <NavbarComponent isAuthenticated={isAuthenticated} />
-          <Step1BasicInfo nextStep={nextStep} prevStep={prevStep} />
+          <div className="w-screen flex justify-center">
+            <Step1BasicInfo nextStep={nextStep} prevStep={prevStep} />
+          </div>
         </>
-      ) : (
-        ""
       );
     case 2:
       return bookingData ? (
         <>
           <NavbarComponent isAuthenticated={isAuthenticated} />
-          <Step2SpecialRequest nextStep={nextStep} prevStep={prevStep} />
+          <div className="w-screen flex justify-center">
+            <Step2SpecialRequest nextStep={nextStep} prevStep={prevStep} />
+          </div>
         </>
       ) : (
         ""
@@ -121,7 +123,9 @@ const booking = () => {
       return (
         <>
           <NavbarComponent isAuthenticated={isAuthenticated} />
-          <Step3PaymentMethod nextStep={nextStep} prevStep={prevStep} />
+          <div className="w-screen flex justify-center">
+            <Step3PaymentMethod nextStep={nextStep} prevStep={prevStep} />
+          </div>
         </>
       );
     case 4:
