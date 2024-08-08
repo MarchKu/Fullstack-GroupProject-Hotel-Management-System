@@ -23,6 +23,7 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const Index = () => {
   const searchParams = useSearchParams();
@@ -64,28 +65,40 @@ const Index = () => {
     }
   }, [user.username, page]);
 
-  console.log(bookingHistory);
+  const NoBookingHistory = () => {
+    return (
+      <div className="w-full h-[50vh] flex flex-col justify-center items-center gap-5">
+        <p className="text-2xl font-extrabold text-center">
+          You have no booking history.
+        </p>
+        <p className="text-center">
+          Go back to our{" "}
+          <a className="underline hover:text-primary-heading" href="/">
+            homepage
+          </a>{" "}
+          and start planning your next trip!
+        </p>
+      </div>
+    );
+  };
+
   return (
     <>
       <NavbarComponent isAuthenticated={isAuthenticated} />
-      <section className="w-full h-[95vh] px-[5%]  md:px-[10%] flex flex-col justify-start items-center font-body py-[5%] xl:py-[1%]">
+      <section className="w-full px-[5%]  md:px-[10%] flex flex-col justify-start items-center font-body py-[5%] xl:py-[1%]">
         <h1 className="font-heading text-primary-heading text-[3rem] md:text-[5rem] w-full text-left">
           Booking History
         </h1>
-        {bookingHistory === null || bookingHistory[0] === undefined ? (
-          <div className="w-full h-full flex flex-col justify-center items-center gap-5">
-            <p className="text-2xl font-extrabold text-center">
-              You have no booking history.
-            </p>
-            <p className="text-center">
-              Go back to our{" "}
-              <a className="underline hover:text-primary-heading" href="/">
-                homepage
-              </a>{" "}
-              and start planning your next trip!
-            </p>
+        {isLoading ? (
+          <div className="w-full h-[50vh] flex flex-col justify-center items-center">
+            <Skeleton className="w-[100px] h-[20px] rounded-full bg-slate-300" />
           </div>
+        ) : isError || bookingHistory === null ? (
+          true
+        ) : !bookingHistory[0] ? (
+          <NoBookingHistory />
         ) : (
+          bookingHistory &&
           bookingHistory.map((history, index) => {
             return (
               <Accordion
@@ -110,12 +123,12 @@ const Index = () => {
 
                     <div className="h-[55%] md:h-full md:w-[45%] xl:w-[50%]">
                       <div className="pt-[5%] size-full flex flex-col md:w-full md:h-full md:justify-start gap-[2rem]">
-                        <div className="w-full flex flex-col md:flex-row justify-between text-gray-800 items-start md:items-center">
-                          <h1 className="text-[2rem] font-semibold">
+                        <div className="w-full flex flex-col lg:flex-row justify-between text-gray-800 items-start lg:items-center">
+                          <h1 className="text-[1.5rem] md:text-[2rem] font-semibold">
                             {history.type_name}
                           </h1>
                           {history.status === "cancelled" ? (
-                            <div className="text-left md:text-right">
+                            <div className="text-left lg:text-right mt-[1.5rem] lg:mt-0">
                               <p>
                                 Booking date:{" "}
                                 {format(
@@ -138,7 +151,7 @@ const Index = () => {
                             </p>
                           )}
                         </div>
-                        <div className="w-full flex flex-col md:flex-row gap-[1.5rem] text-gray-800">
+                        <div className="w-full flex flex-col lg:flex-row gap-[1.5rem] text-gray-800">
                           <div className="flex flex-col">
                             <h3>check-in</h3>
                             <p>

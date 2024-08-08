@@ -44,7 +44,7 @@ export default function Home() {
   }, []);
 
   return (
-    <>
+    <section className="flex flex-col items-center">
       <NavbarComponent />
       <Hero />
       {hotelData ? (
@@ -60,6 +60,6 @@ export default function Home() {
       <RoomSuite />
       <Testimonial />
       <FooterComponent />
-    </>
+    </section>
   );
 }

@@ -76,13 +76,19 @@ const NavbarComponent = () => {
   }, [user]);
 
   const AuthenticatedUser = (
-    <NavigationMenu className="flex items-center min-h-[48px] md:min-h-[100px] h-[5vh] border-[1px] border-[#E4E6ED] justify-center w-full">
-      <div className="flex justify-between w-full px-[5%] xl:px-[10%]">
-        <div className="flex justify-between text-[14px]  md:w-full">
-          <div className="w-full flex items-center justify-between">
+    <NavigationMenu className="flex items-center min-h-[48px] md:min-h-[100px] h-[5vh] border-[1px] border-[#E4E6ED] justify-center w-full px-4">
+      <div className="flex justify-between w-full">
+        <div className="flex justify-between text-[14px]">
+          <div className="flex items-center gap-6">
             {hotelData ? (
               <>
-                <Logo hotelLogo={hotelData.hotel_logo} />
+                {/* <Logo hotelLogo={hotelData.hotel_logo} /> */}
+                <a href="/">
+                  <div
+                    className="w-[94px] h-[25px] md:w-[167px] md:h-[45px] bg-cover bg-center"
+                    style={{ backgroundImage: `url(${hotelData.hotel_logo})` }}
+                  ></div>
+                </a>
                 <NavLinkDesktop hotelName={hotelData.hotel_name} />
               </>
             ) : (
@@ -90,13 +96,13 @@ const NavbarComponent = () => {
             )}
           </div>
         </div>
-        <div className="flex items-center justify-end">
+        <div className="flex items-center">
           {/* <Notification /> */}
           <NotificationMenu userId={userId} />
 
           <UserMenuMobile
             image={userData?.profile_picture}
-            name={userData?.fullName}
+            name={userData?.full_name}
             username={userData?.username}
           />
           <UserMenuDesktop
@@ -111,12 +117,17 @@ const NavbarComponent = () => {
 
   const UnauthenticatedUser = (
     <NavigationMenu className="flex items-center min-h-[48px] md:min-h-[100px] h-[5vh] border-[1px] border-[#E4E6ED] justify-center w-full">
-      <div className="flex justify-between w-full px-[5%] xl:px-[10%]">
+      <div className="flex justify-between w-full px-4 lg:px-[5%] xl:px-[10%]">
         <div className="flex justify-between text-[14px]  w-full">
-          <div className="w-full flex items-center justify-between">
+          <div className="w-full flex items-center justify-between gap-12">
             {hotelData ? (
               <>
-                <Logo hotelLogo={hotelData.hotel_logo} />
+                <a href="/">
+                  <div
+                    className="w-[94px] h-[25px] md:w-[167px] md:h-[45px] bg-cover bg-center"
+                    style={{ backgroundImage: `url(${hotelData.hotel_logo})` }}
+                  ></div>
+                </a>
                 <NavLinkDesktop hotelName={hotelData.hotel_name} />
                 <NonUserMenuMobile hotelName={hotelData.hotel_name} />
               </>

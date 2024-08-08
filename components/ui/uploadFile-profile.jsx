@@ -1,10 +1,5 @@
 import React, { useState } from "react";
-import {
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/formComponent";
+import { FormField, FormItem, FormLabel } from "@/components/ui/formComponent";
 import { Input } from "@/components/ui/inputRegisterForm";
 import { useFormContext } from "react-hook-form";
 
@@ -40,10 +35,10 @@ function InputFile({ control, name, type, label, id, currentPic, isChange }) {
       control={control}
       name={name}
       render={(field) => (
-        <FormItem className="flex flex-col gap-5">
+        <FormItem className="size-full flex flex-col gap-[1rem] md:gap-[1.5rem]">
           <FormLabel
             htmlFor={id}
-            className="block text-xl tracking-tight font-semibold text-[#9AA1B9]"
+            className="w-full h-auto text-[1.25rem] md:text-[1.7rem] font-semibold text-[#9AA1B9] content-end"
           >
             {label}
           </FormLabel>
@@ -51,21 +46,21 @@ function InputFile({ control, name, type, label, id, currentPic, isChange }) {
             id={id}
             type={type}
             onChange={handleFileChange}
-            className="sr-only"
+            className="hidden"
             {...field}
           />
 
           {/* Show current image */}
           {isChangePic === "default" ? (
-            <div>
+            <div className="size-52 relative">
               <img
                 src={previewUrl}
                 alt="Preview"
-                className="w-40 h-40 md:w-52 md:h-52 object-cover rounded-md border border-gray-200 absolute"
+                className="object-cover object-center rounded-md border border-gray-200 "
               />
               <button
                 onClick={removeFile}
-                className="relative w-20 left-[8.5rem] bottom-5  md:left-[11.5rem] md:bottom-5"
+                className="absolute -top-5 -right-6"
               >
                 <img src="/img/delete.svg" alt="Error Trigger" />
               </button>
@@ -96,7 +91,6 @@ function InputFile({ control, name, type, label, id, currentPic, isChange }) {
               </button>
             )
           )}
-
         </FormItem>
       )}
     />
