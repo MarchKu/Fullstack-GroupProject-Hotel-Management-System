@@ -98,8 +98,8 @@ export default function Profile() {
     formPayload.append("date_of_birth", data.date_of_birth);
     formPayload.append("country", data.country);
     formPayload.append("profile_picture", data.profile_picture);
-    console.log(Object.fromEntries(formPayload));
-    putUserProfile(user.username, formPayload);
+    console.log(Object.fromEntries(formPayload).profile_picture instanceof File);
+    /* putUserProfile(user.username, formPayload); */
   };
 
   /* Nav Bar Authen */

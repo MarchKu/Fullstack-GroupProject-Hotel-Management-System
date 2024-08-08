@@ -13,11 +13,11 @@ const About = ({ hotelName, hotelDescription }) => {
   const carouselImg = carouselAbout;
   return (
     <section
-      className="flex flex-col w-full justify-start items-center  py-10 md:pt-[115px] px-4 overflow-hidden"
+      className="flex flex-col w-full justify-start items-center py-[10%] overflow-hidden"
       id="about"
     >
-      <div className="size-full flex flex-col max-w-[1440px] gap-[52px]">
-        <div className="w-full h-auto flex flex-col gap-10 md:gap-[52px] md:px-[10%]">
+      <div className="size-full flex flex-col gap-[10vh]">
+        <div className="w-full h-auto flex flex-col gap-10 md:gap-[52px] px-[5%] md:px-[10%]">
           <h1 className="w-full h-auto font-heading text-primary-heading text-[4rem] md:text-[6rem]">
             {hotelName}
           </h1>
@@ -25,7 +25,7 @@ const About = ({ hotelName, hotelDescription }) => {
             <p>{hotelDescription}</p>
           </div>
         </div>
-        <div className="w-full h-[225px] md:h-[500px] flex justify-center">
+        <div className="w-full h-[50vh] md:h-[60vh] xl:h-[50vh] flex justify-center items-center">
           <Carousel
             opts={{
               align: "center",
@@ -33,16 +33,16 @@ const About = ({ hotelName, hotelDescription }) => {
             }}
             className="w-full h-full"
           >
-            <CarouselContent className="w-full h-full ">
+            <CarouselContent className="w-full h-full">
               {carouselImg.map((img, index) => (
                 <CarouselItem
                   key={index}
-                  className="basis-[180px] md:basis-[400px]"
+                  
                 >
-                  <Card className="">
-                    <CardContent className="h-full flex items-center justify-center p-0">
+                  <Card className="size-full">
+                    <CardContent className="h-full justify-center p-0">
                       <div
-                        className="w-full h-[225px] md:h-[500px] bg-center bg-cover bg-slate-300 bg-blend-multiply"
+                        className="size-full bg-center bg-cover bg-slate-300 bg-blend-multiply"
                         style={{ backgroundImage: `url(${img})` }}
                       ></div>
                     </CardContent>

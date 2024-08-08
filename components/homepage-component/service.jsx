@@ -12,7 +12,7 @@ const Service = () => {
   console.log(spa.displayImage);
   return (
     <section
-      className="w-full px-4 py-10 bg-green-700 flex flex-col gap-10 justify-start items-center text-center text-white"
+      className="w-full md:h-[50vh] px-4 py-10 bg-green-700 flex flex-col gap-10 justify-start items-center text-center text-white"
       id="service"
     >
       <h2 className="w-full h-[30%] text-center content-center md:h-[50%] font-heading lg:text-[6rem] leading-[55px] text-[44px] md:text-[68px] md:leading-[85px]">
