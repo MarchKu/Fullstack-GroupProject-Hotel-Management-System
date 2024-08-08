@@ -79,7 +79,7 @@ const NavbarComponent = () => {
     <NavigationMenu className="flex items-center min-h-[48px] md:min-h-[100px] h-[5vh] border-[1px] border-[#E4E6ED] justify-center w-full px-4">
       <div className="flex justify-between w-full">
         <div className="flex justify-between text-[14px]">
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-6">
             {hotelData ? (
               <>
                 {/* <Logo hotelLogo={hotelData.hotel_logo} /> */}
@@ -119,7 +119,7 @@ const NavbarComponent = () => {
     <NavigationMenu className="flex items-center min-h-[48px] md:min-h-[100px] h-[5vh] border-[1px] border-[#E4E6ED] justify-center w-full">
       <div className="flex justify-between w-full px-4 lg:px-[5%] xl:px-[10%]">
         <div className="flex justify-between text-[14px]  w-full">
-          <div className="w-full flex items-center justify-between">
+          <div className="w-full flex items-center justify-between gap-12">
             {hotelData ? (
               <>
                 <a href="/">
