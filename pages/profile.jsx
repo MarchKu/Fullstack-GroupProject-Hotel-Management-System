@@ -110,66 +110,84 @@ export default function Profile() {
   return (
     <>
       <NavbarComponent />
-      <section className="w-full h-[95vh] py-[10%] md:py-[5%] px-[5%] bg-gray-400 flex flex-col justify-center items-center">
+      <div className="flex flex-col">
+        <div className="inline-block"></div>
+        <div className="inline-block"></div>
+      </div>
+      <section className="w-screen min-h-screen py-[10%] md:py-[5%] px-[5%] bg-gray-400 flex flex-col justify-start items-center overflow-hidden">
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
-            className="w-full max-w-[1440px] h-full flex flex-col justify-center items-center "
+            className="w-full h-full max-w-[1440px] flex flex-col justify-center items-center font-body"
           >
-            <div className="w-full h-[10%] flex justify-between items-center ">
-              <h1 className="text-[5rem] font-serif text-[#2F3E35] font-medium ">
-                Profile
-              </h1>
-              <Button type="submit" className="w-[180px] h-[60%]">
-                Update Profile
-              </Button>
-            </div>
-
-            <h2 className="w-full h-[5%] text-[1.7rem] font-semibold text-[#9AA1B9] content-center">
-              Basic Information
-            </h2>
-            <div className="w-full h-[95%] grid grid-cols-1 grid-rows-10 md:grid-cols-2 gap-[1rem] md:gap-[1.5rem] pt-[5%]">
-              <div className="md:col-span-2 h-full">
-                <FormFieldComponent
-                  control={form.control}
-                  name="full_name"
-                  label="Full Name"
-                  type="text"
-                  placeholder="Enter your name and last name"
-                />
+            <div className="size-full flex flex-col">
+              <div className="w-full h-auto flex justify-between items-center">
+                <h1 className="text-[4rem] md:[5rem] font-heading text-primary-heading">
+                  Profile
+                </h1>
+                <Button
+                  type="submit"
+                  className="text-[1.25rem] font-normal hidden md:block"
+                >
+                  Update Profile
+                </Button>
               </div>
 
-              <FormFieldComponent
-                control={form.control}
-                name="email"
-                label="Email"
-                type="email"
-                placeholder="Enter your email"
-              />
-              <FormFieldComponent
-                control={form.control}
-                name="id_number"
-                label="ID Number"
-                type="text"
-                placeholder="Enter your ID number"
-              />
-              <DatePicker
-                control={form.control}
-                name="date_of_birth"
-                label="Date of Birth"
-                placeholder="Enter your date of birth"
-              />
-
-              <CountryPicker
-                control={form.control}
-                name="country"
-                label="Country"
-                placeholder="Select your country"
-              />
-              <div></div>
-              <div className="hidden md:block"></div>
-              {userData !== null && (
-                <div>
+              <div className="flex flex-col gap-[1rem] md:gap-[1.5rem] w-full h-auto mt-[1.5rem] md:mt-[2rem]">
+                <h2 className="w-full h-auto text-[1.25rem] md:text-[1.7rem] font-semibold text-[#9AA1B9]">
+                  Basic Information
+                </h2>
+                <div className=" h-full content-center">
+                  <FormFieldComponent
+                    control={form.control}
+                    name="full_name"
+                    label="Full Name"
+                    type="text"
+                    placeholder="Enter your name and last name"
+                  />
+                </div>
+                <div className="flex flex-col md:flex-row gap-[1rem] md:gap-[1.5rem] justify-between">
+                  <div className="content-center w-full">
+                    <FormFieldComponent
+                      control={form.control}
+                      name="email"
+                      label="Email"
+                      type="email"
+                      placeholder="Enter your email"
+                    />
+                  </div>
+                  <div className="content-center w-full">
+                    <FormFieldComponent
+                      control={form.control}
+                      name="id_number"
+                      label="ID Number"
+                      type="text"
+                      placeholder="Enter your ID number"
+                    />
+                  </div>
+                </div>
+                <div className="flex flex-col md:flex-row gap-[1rem] md:gap-[1.5rem] justify-between">
+                  <div className="content-center w-full">
+                    <DatePicker
+                      control={form.control}
+                      name="date_of_birth"
+                      label="Date of Birth"
+                      placeholder="Enter your date of birth"
+                    />
+                  </div>
+                  <div className="content-center w-full">
+                    <CountryPicker
+                      control={form.control}
+                      name="country"
+                      label="Country"
+                      placeholder="Select your country"
+                    />
+                  </div>
+                </div>
+              </div>
+              <hr className="bg-gray-500 border-none h-[2px] my-[1.5rem]" />
+              <div className="w-full h-auto">
+                {userData !== null && (
                   <InputFile
                     control={form.control}
                     name="profile_picture"
@@ -179,8 +197,14 @@ export default function Profile() {
                     currentPic={userData.profile_picture}
                     isChange="default"
                   />
-                </div>
-              )}
+                )}
+              </div>
+              <Button
+                  type="submit"
+                  className="text-[1.25rem] font-normal black md:hidden"
+                >
+                  Update Profile
+                </Button>
             </div>
           </form>
         </Form>

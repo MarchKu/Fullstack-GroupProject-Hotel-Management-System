@@ -3,13 +3,13 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 const Loading = () => {
   return (
-    <section className="w-full min-h-[1000px] h-[200vh] md:h-[150vh] md:min-h-[1600px] py-[5%] flex flex-col justify-start items-center overflow-hidden">
-      <div className="w-screen md:w-full h-[30%] md:h-[40%] flex gap-[1.5rem]">
+    <section className="w-full h-auto md:min-h-screen pt-[2.5%] pb-[5%] px-[5%] flex flex-col justify-start items-center">
+      <div className="w-screen h-[300px] md:h-[50vh] max-w-[1440px] flex gap-[1.5rem]">
         <Skeleton className="w-full md:w-1/3 h-full"></Skeleton>
         <Skeleton className="hidden md:block md:w-1/3 h-full"></Skeleton>
         <Skeleton className="hidden md:block md:w-1/3 h-full"></Skeleton>
       </div>
-      <div className="w-full h-[70%] md:h-[60%] pt-[5%] px-[5%] md:px-[15%] flex flex-col gap-[2.5%] md:gap-[5%]">
+      <div className="w-full max-w-[1440px] h-auto md:h-[60%] pt-[5%] px-[5%] xl:px-0 flex flex-col gap-[2.5%] md:gap-[5%]">
         <Skeleton className="w-full h-[10%] md:h-[4rem] lg:[6rem] h-start"></Skeleton>
         <div className="w-full h-[30%] flex flex-col md:flex-row items-center justify-between">
           <div className="w-full md:w-[50%] h-full flex flex-col justify-between font-body  gap-[1.5rem] md:gap-[2rem]">

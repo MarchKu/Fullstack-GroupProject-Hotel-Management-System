@@ -41,9 +41,7 @@ const CheckDateBeforeModifie = (props) => {
   const cancleClick = () => {
     timeleft <= 24 ? setIsoverAday(false) : setIsoverAday(true);
   };
-  return !isAlreadyCheckIn &&
-    !isOverAday &&
-    props.bookingStatus !== "cancelled" ? (
+  return !isAlreadyCheckIn && !isOverAday && props.bookingStatus !== "cancelled" ? (
     <div className="h-[10%] w-full flex flex-col md:flex-row justify-between items-center md:pl-[5%]">
       <button
         className="order-last w-full text-right md:w-[40%] md:text-left md:order-first pt-[1rem] md:pt-0 "
@@ -98,59 +96,57 @@ const CheckDateBeforeModifie = (props) => {
         </Button>
       </div>
     </div>
-  ) : (
-    !isAlreadyCheckIn && isOverAday && props.bookingStatus !== "cancelled" && (
-      <div className="h-[10%] w-full flex flex-col md:flex-row justify-between items-center md:pl-[5%]">
-        <button
-          className="order-last w-full text-right md:w-[40%] md:text-left md:order-first pt-[1rem] md:pt-0 "
-          onClick={() => cancleClick()}
-        >
-          <Dialog>
-            <DialogTrigger className="text-orange-500 hover:underline">
-              Cancel Booking
-            </DialogTrigger>
-            <DialogContent className="w-screen">
-              <DialogHeader>
-                <DialogTitle className="pb-[1rem]">Cancel Booking</DialogTitle>
-                <DialogDescription className="pb-[1rem]">
-                  Cancellation of the booking now will not be able to request a
-                  refund. Are you sure you would like to cancel this booking?
-                </DialogDescription>
-                <DialogFooter className="flex flex-col md:flex-row w-full gap-[1rem]">
-                  <button
-                    onClick={() => {
-                      router.push(`/booking/cancel-booking/${props.bookingID}`);
-                    }}
+  ) : props.bookingStatus !== "cancelled" && !isAlreadyCheckIn && isOverAday && (
+    <div className="h-[10%] w-full flex flex-col md:flex-row justify-between items-center md:pl-[5%]">
+      <button
+        className="order-last w-full text-right md:w-[40%] md:text-left md:order-first pt-[1rem] md:pt-0 "
+        onClick={() => cancleClick()}
+      >
+        <Dialog>
+          <DialogTrigger className="text-orange-500 hover:underline">
+            Cancel Booking
+          </DialogTrigger>
+          <DialogContent className="w-screen">
+            <DialogHeader>
+              <DialogTitle className="pb-[1rem]">Cancel Booking</DialogTitle>
+              <DialogDescription className="pb-[1rem]">
+                Cancellation of the booking now will not be able to request a
+                refund. Are you sure you would like to cancel this booking?
+              </DialogDescription>
+              <DialogFooter className="flex flex-col md:flex-row w-full gap-[1rem]">
+                <button
+                  onClick={() => {
+                    router.push(`/booking/cancel-booking/${props.bookingID}`);
+                  }}
+                >
+                  <Button
+                    variant="outline"
+                    className="border-orange-500 text-orange-500 w-full"
                   >
-                    <Button
-                      variant="outline"
-                      className="border-orange-500 text-orange-500 w-full"
-                    >
-                      Yes, I want to cancel
-                    </Button>
-                  </button>
-                  <DialogClose asChild>
-                    <Button type="button">No, Don’t Cancel</Button>
-                  </DialogClose>
-                </DialogFooter>
-              </DialogHeader>
-            </DialogContent>
-          </Dialog>
-        </button>
+                    Yes, I want to cancel
+                  </Button>
+                </button>
+                <DialogClose asChild>
+                  <Button type="button">No, Don’t Cancel</Button>
+                </DialogClose>
+              </DialogFooter>
+            </DialogHeader>
+          </DialogContent>
+        </Dialog>
+      </button>
 
-        <div className="h-full flex justify-center md:justify-end items-center w-full md:w-[50%] gap-[1.5rem]">
-          <button
-            onClick={() => {
-              router.push(`/rooms/${props.bookingID}`);
-            }}
-            className="text-orange-500 hover:underline w-[50%] md:w-auto"
-          >
-            Room Deatail
-          </button>
-        </div>
+      <div className="h-full flex justify-center md:justify-end items-center w-full md:w-[50%] gap-[1.5rem]">
+        <button
+          onClick={() => {
+            router.push(`/rooms/${props.bookingID}`);
+          }}
+          className="text-orange-500 hover:underline w-[50%] md:w-auto"
+        >
+          Room Deatail
+        </button>
       </div>
-    )
-  );
+    </div>
+  )
 };
 
 export default CheckDateBeforeModifie;

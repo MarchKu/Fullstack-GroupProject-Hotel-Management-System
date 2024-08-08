@@ -87,7 +87,7 @@ export default function ChangeDatePage() {
       });
       toastr["success"]("Change check-in and check-out date successfully");
       setTimeout(function () {
-        window.location.replace("/booking/booking-history");
+        window.history.back();
       }, 2000);
     } catch (error) {
       console.log(error.message);

@@ -333,9 +333,11 @@ export default function Search_result() {
             );
           })}
         </div>
-        <FooterComponent />
+        
       </div>
+      <FooterComponent />
     </section>
+    
   ) : (
     <h1> Loading...</h1>
   );

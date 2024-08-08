@@ -19,6 +19,7 @@ async function handler(req, res) {
       const updatedData = { ...userInput, updated_at: new Date() };
       const now = new Date();
 
+      /* Just for data check */
       const userInfo = await connectionPool.query(
         `
       SELECT users.user_id,
@@ -43,8 +44,10 @@ async function handler(req, res) {
           .json({ message: "Invalid request cannot find user" });
       }
       const userId = userInfo.rows[0].user_id;
-      let upLoadResult;
-      if (username) {
+
+      if (updatedData.profile_picture instanceof File) {
+        /* If new profile picture added */
+        let upLoadResult;
         const { buffer, mimetype } = req.file;
 
         upLoadResult = await uploadFile(
@@ -73,6 +76,38 @@ async function handler(req, res) {
             updatedData.date_of_birth,
             updatedData.country,
             imageUrl,
+            updatedData.updated_at,
+            userId,
+          ]
+        );
+
+        await connectionPool.query(
+          `
+      UPDATE users
+    SET email = $1,
+    updated_at = $2
+    where username = $3
+    `,
+          [updatedData.email, updatedData.updated_at, username]
+        );
+        return res.status(200).json({ message: "Update sucessfuly" });
+      } else if (typeof updatedData.profile_picture === "string") {
+        /* If no profile picture added */
+        await connectionPool.query(
+          `
+      UPDATE user_profiles
+    SET full_name = $1,
+    id_number = $2,
+    date_of_birth = $3,
+    country = $4,
+    updated_at = $5
+    where user_id = $6
+    `,
+          [
+            updatedData.full_name,
+            updatedData.id_number,
+            updatedData.date_of_birth,
+            updatedData.country,
             updatedData.updated_at,
             userId,
           ]
