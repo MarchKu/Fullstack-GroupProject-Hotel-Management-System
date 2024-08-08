@@ -13,26 +13,32 @@ import "@knocklabs/react/dist/index.css";
 export default function NotificationMenu({ userId }) {
   const [isVisible, setIsVisible] = useState(false);
   const notifButtonRef = useRef(null);
+  const [isOnClose, setIsOnClose] = useState(false);
 
   return userId ? (
-    <KnockProvider
-      apiKey="pk_test_8y5Kv2yWEnzo3oHKg29G3Q7NgwfRoB6Dmkye1G7JUxE"
-      userId={userId}
-    >
-      <KnockFeedProvider feedId="5a838c50-e18f-40cb-aca8-a87479793059">
-        <>
+    <>
+      <KnockProvider
+        apiKey="pk_test_8y5Kv2yWEnzo3oHKg29G3Q7NgwfRoB6Dmkye1G7JUxE"
+        userId={userId}
+      >
+        <KnockFeedProvider feedId="5a838c50-e18f-40cb-aca8-a87479793059">
           <NotificationIconButton
             ref={notifButtonRef}
-            onClick={(event) => setIsVisible(!isVisible)}
+            onClick={() => {
+              isOnClose ? setIsOnClose(false) : setIsVisible(!isVisible);
+            }}
           />
           <NotificationFeedPopover
             buttonRef={notifButtonRef}
             isVisible={isVisible}
-            onClose={(event) => setIsVisible(false)}
+            onClose={() => {
+              setIsOnClose(true);
+              setIsVisible(false);
+            }}
           />
-        </>
-      </KnockFeedProvider>
-    </KnockProvider>
+        </KnockFeedProvider>
+      </KnockProvider>
+    </>
   ) : (
     <span>Loading...</span>
   );

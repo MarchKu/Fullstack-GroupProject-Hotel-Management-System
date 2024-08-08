@@ -9,9 +9,12 @@ import manageIcon from "@/assets/admin-sidebar/manage.png";
 import roomIcon from "@/assets/admin-sidebar/room.png";
 import logoutIcon from "@/assets/admin-sidebar/logout.png";
 import { useAuth } from "@/contexts/authentication";
+import { usePathname } from "next/navigation";
 
-const Sidebar = () => {
+const Sidebar = ({ isAtRoomAndProperty }) => {
   const { adminLogout } = useAuth();
+
+  const pathName = usePathname();
 
   const menuLink = [
     {
@@ -46,7 +49,13 @@ const Sidebar = () => {
           return (
             <a
               href={item.url}
-              className="flex w-full hover:bg-[#5D7B6A] text-white gap-4 pl-[10%] py-6 items-center"
+              className={`${
+                item.url === pathName ||
+                (isAtRoomAndProperty === true &&
+                  item.url === "/admin/room-property-all")
+                  ? "bg-[#5D7B6A]"
+                  : ""
+              } flex w-full hover:bg-[#5D7B6A] text-white gap-4 pl-[10%] py-6 items-center`}
               key={item.title}
             >
               <Image src={item.icon} width={24} height={24} alt={item.title} />

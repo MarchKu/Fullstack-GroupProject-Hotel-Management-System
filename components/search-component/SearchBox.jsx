@@ -27,7 +27,7 @@ export function SearchBox({ onDateChage }) {
     to: addDays(new Date(), 2),
   });
 
-  const { dateData, setDateData } = useBookingContext();
+  const { setSearchData } = useBookingContext();
 
   const [room, setRoom] = React.useState(1);
   const [guests, setGuests] = React.useState(2);
@@ -74,10 +74,11 @@ export function SearchBox({ onDateChage }) {
     setGuests(newNumberOfGuest);
   };
 
+  // date range calculate
   const dateRange = (from, to) => {
     const diffInMilliseconds = to - from;
-    const millisecondsInADay = 24 * 60 * 60 * 1000; // จำนวนมิลลิวินาทีในหนึ่งวัน
-    return Math.ceil(diffInMilliseconds / millisecondsInADay); // หารและปัดเศษขึ้นเป็นจำนวนวัน
+    const millisecondsInADay = 24 * 60 * 60 * 1000;
+    return Math.ceil(diffInMilliseconds / millisecondsInADay);
   };
 
   // set checkIn and CheckOut date data to bookingContext ;
@@ -87,8 +88,9 @@ export function SearchBox({ onDateChage }) {
         check_in: format(date.from, "EEE, dd MMM yyyy"),
         check_out: format(date.to, "EEE, dd MMM yyyy"),
         number_of_night: dateRange(date.from, date.to),
+        guests: guests,
       };
-      setDateData(newDateData);
+      setSearchData(newDateData);
     }
   };
 
@@ -97,26 +99,26 @@ export function SearchBox({ onDateChage }) {
       check_in: format(date.from, "EEE, dd MMM yyyy"),
       check_out: format(date.to, "EEE, dd MMM yyyy"),
       number_of_night: dateRange(date.from, date.to),
+      guests: guests,
     };
+
     router.push({ pathname: "/search-result", query: newDateData });
 
     setDateContext();
-    onDateChage();
+    onDateChage(newDateData);
   };
 
-  const setDateFromParam = () => {
-    const dateFromParam = { ...router.query };
-    if (dateFromParam.check_in) {
+  const dataFromParam = { ...router.query };
+  // set data from query
+  useEffect(() => {
+    if (dataFromParam.check_in) {
       const newDate = {
-        from: new Date(dateFromParam.check_in),
-        to: new Date(dateFromParam.check_out),
+        from: new Date(dataFromParam.check_in),
+        to: new Date(dataFromParam.check_out),
       };
       setDate(newDate);
+      setGuests(Number(dataFromParam.guests));
     }
-  };
-
-  useEffect(() => {
-    setDateFromParam();
   }, []);
 
   useEffect(() => {
@@ -124,7 +126,7 @@ export function SearchBox({ onDateChage }) {
   }, [date]);
 
   return (
-    <div className="w-full h-full md:max-h-[222px] bg-white flex justify-between items-center rounded-lg ">
+    <div className="w-full h-full md:max-h-[222px] bg-white flex justify-between items-center rounded-lg">
       <div className="w-full h-full flex flex-col md:flex-row justify-between items-center md:items-end md:w-full   md:h-full">
         {/* Check in */}
 

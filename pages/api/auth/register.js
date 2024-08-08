@@ -118,14 +118,6 @@ export default async function POST(req, res) {
       ]
     );
 
-    if (user.card_number && user.card_owner) {
-      await connectionPool.query(
-        ` 
-              INSERT INTO user_credit_cards (user_id, card_number, card_owner)
-              values ($1, $2, $3)`,
-        [userId, user.card_number, user.card_owner]
-      );
-    }
     const knockId = `user-${userId}`;
     await knockClient.users.identify(knockId, {
       name: user.username,

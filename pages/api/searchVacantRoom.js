@@ -1,7 +1,7 @@
 import connectionPool from "@/utils/connectionPool/db";
 
 export default async function GET(req, res) {
-  const date = { ...req.query };
+  const searchData = { ...req.query };
   try {
     const result = await connectionPool.query(
       `SELECT 
@@ -15,9 +15,9 @@ export default async function GET(req, res) {
                                WHERE (
                                b.check_in < $2 AND
                                b.check_out > $1) 
-                              )
+                              ) AND r.room_capacity >= $3
        ORDER BY r.room_id ASC`,
-      [date.check_in, date.check_out]
+      [searchData.check_in, searchData.check_out, searchData.guests]
     );
     return res.status(200).json(result.rows);
   } catch (error) {

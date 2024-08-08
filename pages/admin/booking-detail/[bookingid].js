@@ -49,7 +49,7 @@ export default function BookingDetail() {
   return (
     <>
       <div className="flex flex-row">
-        <Sidebar />
+        <Sidebar isAtBookingDetail={true} />
         <div className="w-full bg-gray-100">
           <header className="flex flex-row justify-start items-center gap-5 px-16 py-5 bg-white">
             <a href="/admin/bookings">

@@ -28,7 +28,6 @@ import useVacantRoom from "@/hooks/use-vacant-room";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { useBookingContext } from "@/contexts/booking";
-import useBooking from "@/hooks/use-booking";
 
 export default function Search_result() {
   const [isRoomdetailOpen, setIsRoomDetailOpen] = useState(false);
@@ -36,9 +35,8 @@ export default function Search_result() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   const router = useRouter();
-  const { dateData, setDateData } = useBookingContext();
 
-  const { createBooking } = useBooking();
+  const { searchData, createBooking } = useBookingContext();
 
   const [user, setUser] = useState({});
   useEffect(() => {
@@ -68,15 +66,20 @@ export default function Search_result() {
 
   // get room data
   const { roomData, getRoomDeta, isLoading, isError } = useVacantRoom();
-  const date = { ...router.query };
-  const getVacantRoom = (date) => {
-    getRoomDeta(date);
-  };
 
+  // const getVacantRoom = (data) => {
+  //   const data = router.query;
+  //   if (data) {
+  //     getRoomDeta(data);
+  //   }
+  // };
+  const data = router.query;
   useEffect(() => {
-    getVacantRoom(date);
+    if (data) {
+      getRoomDeta(data);
+    }
     localStorage.removeItem("bookingId");
-  }, []);
+  }, [data]);
 
   if (isLoading) {
     return <h1>Loading...</h1>;
@@ -84,28 +87,6 @@ export default function Search_result() {
   if (isError) {
     return <h1>Error fetching data</h1>;
   }
-
-  // const booking = async (index) => {
-  //   let roomPrice;
-  //   if (roomData[index].promotion_price) {
-  //     roomPrice = roomData[index].promotion_price;
-  //   } else {
-  //     roomPrice = roomData[index].current_price;
-  //   }
-  //   const totalPrice = roomPrice * dateData.number_of_night;
-  //   const data = {
-  //     ...dateData,
-  //     room_id: roomData[index].room_id,
-  //     room_type: roomData[index].type_name,
-  //     room_price: roomPrice,
-  //     user_id: user.userId,
-  //     user_name: user.username,
-  //     amount_booking: 1,
-  //     total_price: totalPrice,
-  //   };
-
-  //   await createBooking(data);
-  // };
 
   const handleBookNow = (index) => {
     if (isAuthenticated) {
@@ -115,9 +96,9 @@ export default function Search_result() {
       } else {
         roomPrice = roomData[index].current_price;
       }
-      const totalPrice = roomPrice * dateData.number_of_night;
+      const totalPrice = roomPrice * searchData.number_of_night;
       const data = {
-        ...dateData,
+        ...searchData,
         room_id: roomData[index].room_id,
         room_type: roomData[index].type_name,
         room_price: roomPrice,
@@ -133,15 +114,14 @@ export default function Search_result() {
     }
   };
 
-  const handleOnDateChange = () => {
-    getVacantRoom(date);
-    // getBookingData();
+  const handleOnDateChange = (Data) => {
+    getRoomDeta(Data);
   };
 
   return roomData ? (
     <section className="w-full overflow-hidden">
       <NavbarComponent isAuthenticated={isAuthenticated} />
-      <div className=" w-full h-[400px] flex border-1 border-gray-200 px-[2.5%] py-[10%] md:py-0 xl:px-[10%] md:pb-[2rem]  rounded shadow-xl shadow-gray-200 bg-white justify-center items-center md:h-[150px] md:sticky md:top-0 md:z-10">
+      <div className=" w-full h-[400px] flex border-1 border-gray-200 px-[2.5%] py-[10%] md:py-0 xl:px-[10%] md:pb-[2rem]  rounded shadow-xl shadow-gray-200 bg-white justify-center items-center md:h-[150px] md:sticky md:top-0 md:z-0">
         <SearchBox onDateChage={handleOnDateChange} />
       </div>
       <div className="w-full px-[5%] xl:px-[10%] flex flex-col justify-center items-center font-body">
@@ -181,7 +161,9 @@ export default function Search_result() {
                           <span className="border-x border-gray-500 mx-2 px-2 text-center">
                             {room.bed_type}
                           </span>
-                          <span className="text-center">{room.room_size}</span>
+                          <span className="text-center">
+                            {room.room_size} sqm
+                          </span>
                         </div>
                         <p className="w-full text-gray-700 mb-4 xl:text-[1.5rem]">
                           {room.room_description}
@@ -285,7 +267,7 @@ export default function Search_result() {
                             <span className="text-gray-500">|</span>
                             <span>{room.bed_type}</span>
                             <span className="text-gray-500">|</span>
-                            <span>{room.room_size}</span>
+                            <span>{room.room_size} sqm</span>
                           </div>
                           <p className="w-full text-gray-700">
                             {room.room_description}

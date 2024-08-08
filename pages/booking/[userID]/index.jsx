@@ -23,6 +23,7 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const Index = () => {
   const searchParams = useSearchParams();
@@ -63,6 +64,24 @@ const Index = () => {
       getBookingHistoryByUsername(user.username, page);
     }
   }, [user.username, page]);
+
+  const NoBookingHistory = () => {
+    return (
+      <div className="w-full h-[50vh] flex flex-col justify-center items-center gap-5">
+        <p className="text-2xl font-extrabold text-center">
+          You have no booking history.
+        </p>
+        <p className="text-center">
+          Go back to our{" "}
+          <a className="underline hover:text-primary-heading" href="/">
+            homepage
+          </a>{" "}
+          and start planning your next trip!
+        </p>
+      </div>
+    );
+  };
+
   return (
     <>
       <NavbarComponent isAuthenticated={isAuthenticated} />
@@ -70,7 +89,16 @@ const Index = () => {
         <h1 className="font-heading text-primary-heading text-[3rem] md:text-[5rem] w-full text-left">
           Booking History
         </h1>
-        {bookingHistory &&
+        {isLoading ? (
+          <div className="w-full h-[50vh] flex flex-col justify-center items-center">
+            <Skeleton className="w-[100px] h-[20px] rounded-full bg-slate-300" />
+          </div>
+        ) : isError || bookingHistory === null ? (
+          true
+        ) : !bookingHistory[0] ? (
+          <NoBookingHistory />
+        ) : (
+          bookingHistory &&
           bookingHistory.map((history, index) => {
             return (
               <Accordion
@@ -211,12 +239,13 @@ const Index = () => {
                     checkInDate={history.check_in}
                     bookingID={history.booking_id}
                     bookingStatus={history.status}
-                    roomID = {history.room_id}
+                    roomID={history.room_id}
                   />
                 </div>
               </Accordion>
             );
-          })}
+          })
+        )}
         <Pagination>
           <PaginationContent>
             <PaginationItem
