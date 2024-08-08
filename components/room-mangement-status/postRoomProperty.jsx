@@ -41,7 +41,7 @@ export default function PostRoomProperty({
       <div className="  pl-5 flex justify-between items-center col-span-2">
         {typeRoom}
       </div>
-      <div className="  pl-5 flex justify-between items-center ">
+      <div className="  pl-3 flex justify-between items-center ">
         {formatPriceNumber(price_per_night)}
       </div>
       <div className="  pl-5 flex justify-between items-center ">
@@ -49,7 +49,7 @@ export default function PostRoomProperty({
       </div>
       <div className="  pl-10 flex justify-between items-center ">{guest}</div>
       <div className="  pl-5 flex justify-between items-center ">{typeBed}</div>
-      <div className="  pl-5 flex justify-between items-center ">
+      <div className="  pl-10 flex justify-between items-center ">
         {sizeRoom}
       </div>
     </div>
