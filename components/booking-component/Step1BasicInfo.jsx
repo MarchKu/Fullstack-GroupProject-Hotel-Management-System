@@ -7,19 +7,12 @@ import useUserProfile from "@/hooks/use-user-profile";
 import { useBookingContext } from "@/contexts/booking";
 
 const Step1BasicInfo = ({ nextStep, prevStep }) => {
-  // const [bookingData, setBookingData] = useState();
-  const {
-    getBookingData,
-    bookingData,
-    deleteBookingData,
-    setTimeLeft,
-    timeLeft,
-  } = useBookingContext();
+  const { bookingData, discount, totalPrice, setTotalPrice, timeLeft } =
+    useBookingContext();
 
   //Get username from query parameter*/
   const router = useRouter();
   const { username, bookingID } = router.query;
-  const test = router.query;
 
   /*Get user profile */
   const { userData, getUserProfile, putUserProfile, isLoading, isError } =
@@ -36,6 +29,14 @@ const Step1BasicInfo = ({ nextStep, prevStep }) => {
     }
   }, [username]);
 
+  useEffect(() => {
+    if (bookingData) {
+      if (bookingData.total_price) {
+        setTotalPrice(Number(bookingData.total_price));
+      }
+    }
+  }, [bookingData]);
+
   const formatTime = (seconds) => {
     const minutes = Math.floor(seconds / 60);
     const remainingSeconds = seconds % 60;
@@ -50,8 +51,13 @@ const Step1BasicInfo = ({ nextStep, prevStep }) => {
   }
 
   const handleNext = () => {
-    // console.log(bookingData);
-    nextStep();
+    const query = {
+      username: `${username}`,
+      bookingID: bookingID,
+      bookingStep: 2,
+    };
+    router.push({ pathname: "/booking", query: query });
+    // nextStep();
   };
 
   const handlePrev = () => {
@@ -177,8 +183,8 @@ const Step1BasicInfo = ({ nextStep, prevStep }) => {
               />
             </div>
 
-            <div className=" md:pl-8 flex flex-col items-center md:absolute md:right-[5%] lg:right-[10%] xl:right-[15%] md:top-[445px]">
-              <div className="w-[358px] h-[428px] rounded bg-green-700 text-white">
+            <div className="md:pl-8 flex flex-col items-center md:absolute md:right-[5%] lg:right-[10%] xl:right-[15%] md:top-[445px]">
+              <div className="w-[358px] h-full min-h-[428px] rounded bg-green-700 text-white">
                 <div className="w-full h-[62px] p-4  rounded bg-green-800 flex justify-between">
                   <h3 className="font-semibold text-xl flex gap-4">
                     <BriefcaseBusiness className="text-gray-500" /> Booking
@@ -188,8 +194,8 @@ const Step1BasicInfo = ({ nextStep, prevStep }) => {
                     {formatTime(timeLeft)}
                   </p>
                 </div>
-                <div className="w-full h-[366px] px-5 pt-5 flex flex-col justify-between">
-                  <div className="flex justify-between">
+                <div className="w-full min-h-[366px] px-5 pt-5 flex flex-col">
+                  <div className="flex justify-between mb-8">
                     <div>
                       <p className="font-semibold">Check-in</p>
                       <p>After 2.00 PM</p>
@@ -199,14 +205,14 @@ const Step1BasicInfo = ({ nextStep, prevStep }) => {
                       <p>Before 12.00 PM</p>
                     </div>
                   </div>
-                  <div>
+                  <div className="mb-8">
                     <p>
                       {format(bookingData.check_in, "EEE, dd MMM yyyy")} -
                       {format(bookingData.check_out, "EEE, dd MMM yyyy")}
                     </p>
                     <p>2 Guests</p>
                   </div>
-                  <div className="flex justify-between">
+                  <div className="flex justify-between mb-4">
                     <p>{bookingData.type_name}</p>
                     <p className="font-semibold">
                       {bookingData.night > 1
@@ -230,11 +236,67 @@ const Step1BasicInfo = ({ nextStep, prevStep }) => {
                           )}
                     </p>
                   </div>
+                  {bookingData.standard_request && (
+                    <div className="mb-8">
+                      <ul className="flex flex-col gap-4 mb-4">
+                        {bookingData.standard_request.map((request, index) => (
+                          <li key={index} className="flex justify-between">
+                            <p className="text-gray-300"> {request} </p>
+                          </li>
+                        ))}
+                      </ul>
+                      <ul className="flex flex-col gap-4">
+                        {bookingData.special_request.map((request, index) => (
+                          <li key={index} className="flex justify-between">
+                            <p className="text-gray-300">
+                              {" "}
+                              {JSON.parse(request).name}{" "}
+                            </p>
+                            <p className="font-semibold">
+                              {request
+                                ? JSON.parse(request).price.toLocaleString(
+                                    "en-US",
+                                    {
+                                      minimumFractionDigits: 2,
+                                      maximumFractionDigits: 2,
+                                    }
+                                  )
+                                : ""}
+                            </p>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                  {bookingData.additional_request ? (
+                    <div className="mb-8">
+                      <p className="text-gray-300">
+                        {bookingData.additional_request}
+                      </p>
+                    </div>
+                  ) : (
+                    ""
+                  )}
+                  {discount ? (
+                    <div className="flex justify-between mb-8">
+                      <p className="text-gray-300">Promotion Code</p>
+                      <p className="font-semibold">
+                        {" "}
+                        -
+                        {discount.toLocaleString("en-US", {
+                          minimumFractionDigits: 2,
+                          maximumFractionDigits: 2,
+                        })}{" "}
+                      </p>
+                    </div>
+                  ) : (
+                    ""
+                  )}
                   <div className="flex justify-between border-t border-gray-600 h-[75px] items-center">
-                    <p>Total</p>
+                    <p className="text-gray-300">Total</p>
                     <p className="text-xl font-semibold">
                       THB{" "}
-                      {Number(bookingData.total_price).toLocaleString("en-US", {
+                      {Number(totalPrice).toLocaleString("en-US", {
                         minimumFractionDigits: 2,
                         maximumFractionDigits: 2,
                       })}
@@ -242,7 +304,7 @@ const Step1BasicInfo = ({ nextStep, prevStep }) => {
                   </div>
                 </div>
               </div>
-              <div className="w-[358px] h-[124px] py-6 pr-4 pl-10 mt-6 bg-gray-300 text-xs">
+              <div className="w-[358px] h-[124px] pt-5 pb-6 pr-4 pl-10 mt-6 bg-gray-300 text-xs">
                 <ul className="list-disc list-outside flex flex-col gap-6 text-green-600">
                   <li>
                     Cancel booking will get full refund if the cancelation

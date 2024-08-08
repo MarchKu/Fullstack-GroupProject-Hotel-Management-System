@@ -17,6 +17,9 @@ const Step2SpecialRequest = ({ nextStep, prevStep }) => {
   const [additionalRequests, setAdditionalRequest] = useState("");
   const [totalPrice, setTotalPrice] = useState();
 
+  const router = useRouter();
+  const { username, bookingID } = router.query;
+
   const standardRequestsList = [
     { name: "earlyCheckIn", label: "Early check-in" },
     { name: "lateCheckOut", label: "Late check-out" },
@@ -129,8 +132,20 @@ const Step2SpecialRequest = ({ nextStep, prevStep }) => {
     if (update) {
       if (step === "next") {
         nextStep();
+        const query = {
+          username: username,
+          bookingID: bookingID,
+          bookingStep: 3,
+        };
+        router.push({ pathname: "/booking", query: query });
       } else if (step === "prev") {
         prevStep();
+        const query = {
+          username: username,
+          bookingID: bookingID,
+          bookingStep: 1,
+        };
+        router.push({ pathname: "/booking", query: query });
       }
     }
   };

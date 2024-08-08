@@ -6,25 +6,32 @@ import NavbarComponent from "@/components/navigation-component/NavbarComponent";
 import { useRouter } from "next/router";
 import { useBookingContext } from "@/contexts/booking";
 import { useState, useEffect } from "react";
+import { number } from "zod";
 
 const booking = () => {
   const [step, setStep] = useState(1);
   const router = useRouter();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const { getBookingData, bookingData, deleteUncompleteBooking, setTimeLeft } =
-    useBookingContext();
+  const [previousQuery, setPreviousQuery] = useState({});
+  const {
+    getBookingData,
+    bookingData,
+    deleteUncompleteBooking,
+    searchData,
+    setTimeLeft,
+  } = useBookingContext();
 
-  const { bookingID } = router.query;
+  const { bookingID, bookingStep } = router.query;
 
   // set timeout booking
   useEffect(() => {
-    setTimeLeft(1000);
+    setTimeLeft(3000);
     const interval = setInterval(() => {
       setTimeLeft((prevTime) => {
         if (prevTime <= 1) {
+          redirectToSearchResult();
+
           clearInterval(interval);
-          deleteUncompleteBooking(bookingID);
-          router.back();
           return 0;
         }
         return prevTime - 1;
@@ -34,9 +41,26 @@ const booking = () => {
     return () => clearInterval(interval);
   }, [bookingID]);
 
-  useEffect(() => {
-    getBookingData(bookingID);
-  }, [bookingID]);
+  const redirectToSearchResult = async () => {
+    await deleteUncompleteBooking(bookingID);
+    const searchQuery = localStorage.getItem("searchData");
+    if (searchQuery) {
+      const parsedData = JSON.parse(searchQuery);
+      router.push({
+        pathname: "/search-result",
+        query: parsedData,
+      });
+    }
+  };
+
+  useEffect(
+    () => {
+      setStep(Number(bookingStep));
+      getBookingData(bookingID);
+    },
+    [bookingStep],
+    [bookingID]
+  );
 
   const nextStep = () => {
     setStep(step + 1);
@@ -56,8 +80,10 @@ const booking = () => {
   }, []);
 
   useEffect(() => {
-    const handleRouteChange = () => {
-      deleteUncompleteBooking(bookingID);
+    const handleRouteChange = (url) => {
+      if (!url.startsWith("/booking")) {
+        deleteUncompleteBooking(bookingID);
+      }
     };
 
     router.events.on("routeChangeStart", handleRouteChange);
@@ -65,7 +91,12 @@ const booking = () => {
     return () => {
       router.events.off("routeChangeStart", handleRouteChange);
     };
-  }, [bookingID]);
+  }, [router, bookingID]);
+
+  // Store the previous query parameters
+  useEffect(() => {
+    setPreviousQuery(router.query);
+  }, [router.query]);
 
   switch (step) {
     case 1:
