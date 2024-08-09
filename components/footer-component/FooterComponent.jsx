@@ -25,9 +25,9 @@ const FooterComponent = () => {
       <div className=" flex flex-col md:flex-row gap-6 md:gap-[30%] w-full max-w-[1440px] md:px-[8%]">
         <div className=" flex flex-col justify-start items-start text-[1.2rem] lg:text-[1.5rem] xl:text-[1.7rem] gap-10">
           <Image
-            src={hotelData.hotel_logo}
+            src={FooterLogo}
             alt="Neatly Logo"
-            className=""
+            className="w-full max-w-[180px]"
             width={100}
             height={100}
           />
