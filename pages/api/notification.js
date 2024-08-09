@@ -40,8 +40,6 @@ export default async function POST(req, res) {
         );
       }
       return res.status(200).json({ message: "Notification sent" });
-    } else {
-      return res.status(404).json({ message: "No check-in date matched" });
     }
   } catch (error) {
     console.log(error.message);

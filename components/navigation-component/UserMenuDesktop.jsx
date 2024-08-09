@@ -35,7 +35,7 @@ const UserMenuDesktop = (props) => {
               alt="User"
               width={40}
               height={40}
-              className="w-10 h-10 rounded-full object-contain"
+              className="w-10 h-10 rounded-full object-cover"
             />
             <h6 className="text-start text-wrap">{name}</h6>
           </div>

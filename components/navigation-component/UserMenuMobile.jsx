@@ -42,7 +42,7 @@ const UserMenuMobile = (props) => {
                 width={40}
                 height={40}
                 alt="user image"
-                className="rounded-full"
+                className="rounded-full object-cover"
               ></Image>
               <h6>{name}</h6>
             </div>

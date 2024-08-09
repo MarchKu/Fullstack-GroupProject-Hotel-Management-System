@@ -36,6 +36,7 @@
     --ring: 222.2 84% 4.9%;
 
     --radius: 0.5rem;
+    font-family: "Inter", sans-serif;
   }
 
   .dark {
@@ -77,5 +78,3 @@
     @apply bg-background text-foreground;
   }
 }
-
-
