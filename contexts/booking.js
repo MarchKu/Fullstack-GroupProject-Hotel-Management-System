@@ -26,21 +26,15 @@ function BookingContextProvider(props) {
         `http://localhost:3000/api/booking`,
         data
       );
-      localStorage.setItem("bookingId", JSON.stringify(result.data.bookingId));
       const query = {
         username: `${data.user_name}`,
         bookingID: result.data.bookingId,
+        bookingStep: 1,
       };
       await getBookingData(result.data.bookingId);
       router.push({ pathname: "/booking", query: query });
-      toastr["success"]("You are successfully booking");
-      setIsLoading(false);
-      setIsError(false);
     } catch (error) {
       console.log(error.message);
-      toastr["error"]("Booking Failed");
-      setIsLoading(false);
-      setIsError(true);
     }
   };
 
@@ -61,12 +55,10 @@ function BookingContextProvider(props) {
   };
 
   const updateBookingData = async (data) => {
-    console.log(data);
-
     try {
       await axios.patch(`http://localhost:3000/api/booking`, data);
       await getBookingData(data.booking_id);
-      return "succuss";
+      return true;
     } catch (error) {
       console.log(error.message);
     }

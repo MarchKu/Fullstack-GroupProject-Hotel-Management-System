@@ -7,7 +7,13 @@ import {
   PaymentElement,
 } from "@stripe/react-stripe-js";
 
-const CheckoutPage = ({ amount, billId, bookingId, paymentUpdate }) => {
+const CheckoutPage = ({
+  amount,
+  billId,
+  bookingId,
+  paymentUpdate,
+  username,
+}) => {
   const stripe = useStripe();
   const elements = useElements();
   const [errorMessage, setErrorMessage] = useState();
@@ -50,7 +56,7 @@ const CheckoutPage = ({ amount, billId, bookingId, paymentUpdate }) => {
       clientSecret,
       confirmParams: {
         // To step 4
-        return_url: `http://localhost:3000/payment-success?amount=${amount}&billId=${billId}&bookingId=${bookingId}`,
+        return_url: `http://localhost:3000/booking?username=${username}&bookingID=${bookingId}&bookingStep=4`,
       },
     });
 

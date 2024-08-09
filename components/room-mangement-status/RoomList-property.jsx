@@ -1,7 +1,8 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
-import PostRoomProperty from "./postRoomProperty";
+import PostRoomProperty from "./PostRoomProperty";
 import { useRouter } from "next/router";
+import Loading from "./Loading";
 
 export default function RoomList({ search }) {
   const room_per_page = 6;
@@ -96,7 +97,21 @@ export default function RoomList({ search }) {
   return (
     <div>
       {isLoading ? (
-        <p>Loading...</p>
+        <Loading
+          columns={8}
+          height="h-20"
+          colWidths={[
+            "w-28 h-16",
+            "w-16 h-6",
+            "",
+            "w-16 h-6",
+            "w-16 h-6",
+            "w-16 h-6",
+            "w-16 h-6",
+            "w-16 h-6",
+          ]}
+          colSpan={["", "col-span-2", "", "", "", "", "", ""]}
+        />
       ) : isError ? (
         <p>Error</p>
       ) : (

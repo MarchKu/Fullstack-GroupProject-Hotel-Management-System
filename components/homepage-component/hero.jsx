@@ -17,7 +17,7 @@ const Hero = () => {
           A Best Place for Your Neatly Experience
         </h1>
       </div>
-      <div className="w-full h-[50%] md:h-[15%] xl:h-[20%] md:px-[2.5%] px-[5%] py-[10%] md:py-[5%] xl:py-[3%] xl:px-10% bg-white rounded-lg">
+      <div className="w-full h-[50%] md:h-[15%] xl:h-[20%] md:px-[2.5%] px-[5%] py-[10%] md:py-[5%] xl:py-[3%] xl:px-10%  rounded-lg">
         <SearchBox onDateChage={() => true} />
       </div>
     </section>

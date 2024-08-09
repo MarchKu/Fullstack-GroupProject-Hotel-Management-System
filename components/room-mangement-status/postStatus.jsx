@@ -129,7 +129,9 @@ function ComboBoxCheckStatusResponsive({ status, onChange }) {
   const [selectedStatus, setSelectedStatus] = useState(null);
 
   useEffect(() => {
-    const initialStatus = statuses.find((s) => s.value === status);
+    const initialStatus = statuses.find(
+      (s) => s.value === status.toLowerCase()
+    );
     setSelectedStatus(initialStatus);
   }, [status]);
 
@@ -212,7 +214,7 @@ export default function PostStatus({ roomNumber, typeBed, typeRoom, status }) {
       <div className="  pl-5 flex justify-between items-center col-span-2">
         {typeBed}
       </div>
-      <div className="  pl-5 flex justify-between items-center col-span-2">
+      <div className="  pl-3 flex justify-between items-center col-span-2">
         <ComboBoxCheckStatusResponsive
           status={status}
           onChange={handleStatusChange}
