@@ -30,13 +30,12 @@ const UserMenuMobile = (props) => {
         <DrawerHeader>
           <DrawerTitle className="hidden">Navigation list</DrawerTitle>
           <DrawerDescription className="hidden">
-            Item on the list: Profile, Payment Method, Booking History, and Log
-            out
+            Item on the list: Profile, Booking History, and Log out
           </DrawerDescription>
         </DrawerHeader>
         <div>
           <Link href="/">
-            <div className="flex items-center w-[107px] gap-2 mb-4">
+            <div className="flex items-center w-full gap-2 mb-4">
               <Image
                 src={image}
                 width={40}
@@ -44,7 +43,12 @@ const UserMenuMobile = (props) => {
                 alt="user image"
                 className="rounded-full object-cover"
               ></Image>
-              <h6>{name}</h6>
+              <div
+                className="break-words "
+                style={{ width: "calc(100% - 40px - 8px)" }}
+              >
+                <h6 className="w-full">{name} </h6>
+              </div>
             </div>
           </Link>
 
@@ -54,12 +58,6 @@ const UserMenuMobile = (props) => {
             <div className="flex items-center w-[343px] gap-3 my-4">
               <Image src={profileIcon} alt="profile icon"></Image>
               <h6>Profile</h6>
-            </div>
-          </Link>
-          <Link href="/">
-            <div className="flex items-center w-[343px] gap-3 my-4">
-              <Image src={cardIcon} alt="card icon"></Image>
-              <h6>Payment Method</h6>
             </div>
           </Link>
           <Link href={`/booking/${username}?page=1`}>

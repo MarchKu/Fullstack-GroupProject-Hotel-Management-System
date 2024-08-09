@@ -48,10 +48,6 @@ const UserMenuDesktop = (props) => {
             <Image src={profileIcon} className="w-4 h-4" />
             <p>Profile</p>
           </MenubarItem>
-          <MenubarItem className="gap-3 px-2 cursor-pointer">
-            <Image src={cardIcon} className="w-4 h-4" />
-            <p>Payment Method</p>
-          </MenubarItem>
           <MenubarItem
             className="gap-3 px-2 cursor-pointer"
             onClick={() => router.push(`/booking/${username}?page=1`)}
