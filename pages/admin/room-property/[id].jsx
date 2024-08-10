@@ -9,7 +9,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, FormProvider } from "react-hook-form";
 import { Input } from "@/components/ui/input";
-import UploadMainImage from "@/components/admin-side/uploadMainImage";
+import UploadMainImage from "@/components/admin-side/UploadMainImage";
 import UploadimageGallery from "@/components/admin-side/UploadimageGallery";
 import { Textarea } from "@/components/ui/textarea";
 import { uploadFile } from "@/pages/api/upload";
