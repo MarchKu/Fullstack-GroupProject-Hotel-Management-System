@@ -47,9 +47,9 @@ const AmenityInput = ({ amenities, setAmenities, control, prevAmenities }) => {
     <section className="flex flex-col gap-6">
       {amenities.map((amenity, index) => (
         <div key={index} className="flex items-end gap-6">
-          <div className="flex items-center justify-center gap-[2px] h-full pt-2">
-            <Image src={DragButton} />
-            <Image src={DragButton} />
+          <div className="flex items-center justify-center h-full gap-[2px] pt-2">
+            <Image src={DragButton} alt="drag button" width={4} height={16} />
+            <Image src={DragButton} alt="drag button" width={4} height={16} />
           </div>
           <div className="w-full">
             <FormField
