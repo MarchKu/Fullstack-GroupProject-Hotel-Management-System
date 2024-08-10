@@ -3,6 +3,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { dateFormatter } from "@/hooks/useDateFormatter";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export default function BookingDetail() {
   const [bookingData, setBookingData] = useState([]);
@@ -80,7 +81,9 @@ export default function BookingDetail() {
           <div className="bg-white mt-12 mx-16 pb-10">
             <div className="h-screen flex flex-col gap-10 px-20 pt-10 overflow-scroll overflow-x-hidden">
               {isLoading ? (
-                <p>Loading...</p>
+                <div>
+                  <Skeleton className="h-screen px-20 pt-10 bg-slate-300" />
+                </div>
               ) : isError ? (
                 <p>Error</p>
               ) : (

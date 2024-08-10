@@ -2,10 +2,9 @@ import { Knock } from "@knocklabs/node";
 import connectionPool from "@/utils/connectionPool/db";
 import { addDays } from "date-fns";
 import { dateFormatter } from "@/hooks/useDateFormatter";
+import "dotenv/config";
 
-const knockClient = new Knock(
-  "sk_test_kseOJ5ZEM06R-g9oRoRQQMf-UBylVWu5wvyFigek1vU"
-);
+const knockClient = new Knock(process.env.KNOCK_SK);
 
 export default async function POST(req, res) {
   const currentDate = new Date();

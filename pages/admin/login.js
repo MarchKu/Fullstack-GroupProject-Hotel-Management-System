@@ -10,6 +10,7 @@ import {
 import Logo from "../../components/navigation-component/Logo";
 import Link from "next/link";
 import axios from "axios";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const login = () => {
   const [username, setUsername] = useState("");
@@ -49,7 +50,7 @@ const login = () => {
           <div className="flex justify-between text-[14px]  w-full">
             <div className="w-full flex items-center justify-between">
               {isLoading ? (
-                <p>Loading...</p>
+                <Skeleton className="w-[50px] h-[20px] rounded-full bg-slate-300" />
               ) : isError ? (
                 <p>Error</p>
               ) : (

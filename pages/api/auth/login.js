@@ -1,6 +1,7 @@
 import connectionPool from "@/utils/connectionPool/db";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import "dotenv/config";
 
 export default async function POST(req, res) {
   const user = { ...req.body };
@@ -39,7 +40,7 @@ export default async function POST(req, res) {
       username: userData.username,
       userId: userData.user_id,
     },
-    "ae1f83fefc225dcde470245736067d411c8220ffbd4a45317ee8d18e3a0653e9",
+    process.env.SECRET_KEY,
     { expiresIn: 900000 }
   );
 

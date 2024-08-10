@@ -1,13 +1,14 @@
 import * as pg from "pg";
+import "dotenv/config";
 
 const { Pool } = pg.default;
 
 const connectionPool = new Pool({
-  host: "aws-0-ap-southeast-1.pooler.supabase.com",
-  user: "postgres.mxhmryetxradarukkhgs",
-  database: "postgres",
-  password: "Fsd6-teal-neatly",
-  port: "6543",
+  host: process.env.SUPABASE_HOST,
+  user: process.env.SUPABASE_USER,
+  database: process.env.SUPABASE_DATABASE,
+  password: process.env.SUPABASE_PASSWORD,
+  port: process.env.SUPABASE_PORT,
 });
 
 export default connectionPool;

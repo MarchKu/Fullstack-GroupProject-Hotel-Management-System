@@ -86,7 +86,6 @@ export default function Profile() {
       });
     }
   }, [userData, form]);
-  ``;
 
   /* Handle submit */
 
@@ -200,11 +199,11 @@ export default function Profile() {
                 )}
               </div>
               <Button
-                  type="submit"
-                  className="text-[1.25rem] font-normal black md:hidden"
-                >
-                  Update Profile
-                </Button>
+                type="submit"
+                className="text-[1.25rem] font-normal black md:hidden"
+              >
+                Update Profile
+              </Button>
             </div>
           </form>
         </Form>
