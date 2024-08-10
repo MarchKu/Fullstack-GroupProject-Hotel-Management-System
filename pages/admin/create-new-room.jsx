@@ -12,7 +12,6 @@ import { Button } from "@/components/ui/button";
 import UploadMainImage from "@/components/admin-side/UploadMainImage";
 import UploadimageGallery from "@/components/admin-side/UploadimageGallery";
 import { Textarea } from "@/components/ui/textarea";
-import { closestCorners, DndContext } from "@dnd-kit/core";
 import {
   Select,
   SelectContent,
@@ -362,13 +361,11 @@ const CreateNewRoom = () => {
               <h2 className="text-xl font-semibold text-[#9AA1B9] pt-6 border-t-[1px]">
                 Room Amenities
               </h2>
-              <DndContext collisionDetection={closestCorners}>
-                <AmenityInput
-                  amenities={amenities}
-                  setAmenities={setAmenities}
-                  control={form.control}
-                />
-              </DndContext>
+              <AmenityInput
+                amenities={amenities}
+                setAmenities={setAmenities}
+                control={form.control}
+              />
             </article>
           </form>
         </Form>
