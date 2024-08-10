@@ -21,31 +21,31 @@ const Service = () => {
 
       <div className="w-full max-w-[1440px] font-body flex flex-wrap gap-4 justify-center items-center text-[1.25rem]">
         <div className="w-[144px] flex flex-col items-center gap-[19px]">
-          <Image src={spa} className="w-[60px]" />
+          <Image src={spa} className="w-[60px]" alt="spa" />
           <p className="w-[144px]  md:w-full">Spa</p>
         </div>
         <div className="w-[144px] flex flex-col items-center gap-[19px]">
-          <Image src={sauna} className="w-[60px]" />
+          <Image src={sauna} className="w-[60px]" alt="sauna" />
           <p className="w-full">Sauna</p>
         </div>
         <div className="w-[144px]  flex flex-col items-center gap-[19px]">
-          <Image src={fitness} className="w-[60px]" />
+          <Image src={fitness} className="w-[60px]" alt="fitness" />
           <p className=" md:w-full">Fitness</p>
         </div>
         <div className="w-[144px]  flex flex-col items-center gap-[19px]">
-          <Image src={lounge} className="w-[60px]" />
+          <Image src={lounge} className="w-[60px]" alt="arrival lounge" />
           <p className=" md:w-full">Arrival Lounge</p>
         </div>
         <div className="w-[144px]  flex flex-col items-center gap-[19px]">
-          <Image src={wifi} className="w-[60px]" />
+          <Image src={wifi} className="w-[60px]" alt="free wifi" />
           <p className="w-[144px]   md:w-full">Free Wifi</p>
         </div>
         <div className="w-[144px]  flex flex-col items-center gap-[19px]">
-          <Image src={parking} className="w-[60px]" />
+          <Image src={parking} className="w-[60px]" alt="parking" />
           <p className=" md:w-full">Parking</p>
         </div>
         <div className="w-[144px] flex flex-col items-center gap-[19px]">
-          <Image src={operation} className="w-[60px]" />
+          <Image src={operation} className="w-[60px]" alt="24 hour operation" />
           <p className=" md:w-full">24 hours operation</p>
         </div>
       </div>

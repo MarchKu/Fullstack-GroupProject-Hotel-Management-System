@@ -6,7 +6,7 @@ import NavbarComponent from "@/components/navigation-component/NavbarComponent";
 import FooterComponent from "@/components/footer-component/FooterComponent";
 import { useState, useEffect } from "react";
 
-function main() {
+function Main() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
@@ -22,4 +22,4 @@ function main() {
     </>
   );
 }
-export default main;
+export default Main;

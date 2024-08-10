@@ -125,15 +125,20 @@ export default function Search_result() {
               className="mt-12 pb-4 border-b border-gray-300 flex flex-col justify-center md:max-w-[1440px] md:h-[400px] md:flex-row md:justify-between md:items-center md:mt-0 md:pb-0"
             >
               <div className="relative md:w-[450px] md:h-[320px] borde">
-                <img
+                <Image
                   src={room.main_image ? room.main_image : { vector }}
                   onClick={() => handlePopUpRoomImage(index)}
                   alt="room image"
+                  width={450}
+                  height={320}
                   className="relative w-full h-full md:w-[100%] md:h-[100%] bg-center bg-cover md:rounded-lg bg-gray-300 object-cover object-center hover:cursor-pointer"
                 />
                 <Image
                   onClick={handlePopUpRoomImage}
                   src={vector}
+                  width={50}
+                  height={50}
+                  alt="vector"
                   className="absolute size-[3rem] bottom-0 left-0 bg-white p-2 rounded-md opacity-75 hover:opacity-90 hover:cursor-pointer"
                 />
               </div>
@@ -226,9 +231,11 @@ export default function Search_result() {
                                   className="w-full h-[60vw] md:object-cover md:w-full md:h-[460px] lg:h-[400px] bg-center bg-cover"
                                   key={index}
                                 >
-                                  <img
+                                  <Image
                                     className=" object-cover w-full h-[60vw] md:object-cover md:w-full md:h-[460px] lg:h-[400px]"
                                     src={img}
+                                    width={450}
+                                    height={320}
                                     alt={room.type_name}
                                   />
                                 </CarouselItem>
@@ -298,9 +305,12 @@ export default function Search_result() {
                                 key={index}
                                 className="lg:basis-1/3 lg:p-4"
                               >
-                                <img
+                                <Image
                                   className="w-full h-[60vw] object-cover md:h-[60vw] xl:h-[60vh] lg:object-cover"
                                   src={img}
+                                  width={450}
+                                  height={320}
+                                  alt={room.type_name}
                                 />
                               </CarouselItem>
                             ))

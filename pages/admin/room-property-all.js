@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Sidebar from "@/components/hotel-information/Sidebar";
 import NavbarRoom from "@/components/navigation-admin/NavbarRoom";
 import RoomList from "@/components/room-mangement-status/RoomList-property";
-export default function roomManagement() {
+export default function RoomManagement() {
   const [search, setSearch] = useState("");
   return (
     <div className=" flex">
