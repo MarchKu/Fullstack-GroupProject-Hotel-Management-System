@@ -14,7 +14,7 @@ const FooterComponent = () => {
 
   useEffect(() => {
     const getHotelData = async () => {
-      const result = await axios.get("http://localhost:3000/api/getHotelData");
+      const result = await axios.get("https://neatly-hotel.vercel.app/api/getHotelData");
       setHotelData(result.data.data);
     };
 

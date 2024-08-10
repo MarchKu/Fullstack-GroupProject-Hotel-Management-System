@@ -23,7 +23,7 @@ export default function RoomList({ search }) {
       try {
         setIsLoading(true);
         const result = await axios.get(
-          `http://localhost:3000/api/getRoomStatus-Admin?page=${page}&limit=${room_per_page}&search=${search}`
+          `https://neatly-hotel.vercel.app/api/getRoomStatus-Admin?page=${page}&limit=${room_per_page}&search=${search}`
         );
         const fetchedRooms = result.data.rooms;
         const totalRooms = result.data.total;

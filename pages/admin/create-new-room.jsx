@@ -12,6 +12,7 @@ import { Button } from "@/components/ui/button";
 import UploadMainImage from "@/components/admin-side/UploadMainImage";
 import UploadimageGallery from "@/components/admin-side/UploadimageGallery";
 import { Textarea } from "@/components/ui/textarea";
+import { closestCorners, DndContext } from "@dnd-kit/core";
 import {
   Select,
   SelectContent,
@@ -77,7 +78,9 @@ const createRoom = async (data) => {
 
 const CreateNewRoom = () => {
   const [isDisabled, setIsDisabled] = useState(false);
-  const [amenities, setAmenities] = useState([""]);
+  const [amenities, setAmenities] = useState([
+    { id: 1, value: "Add tests to homepage" },
+  ]);
 
   const form = useForm({
     resolver: zodResolver(createRoomSchema),
@@ -359,11 +362,13 @@ const CreateNewRoom = () => {
               <h2 className="text-xl font-semibold text-[#9AA1B9] pt-6 border-t-[1px]">
                 Room Amenities
               </h2>
-              <AmenityInput
-                amenities={amenities}
-                setAmenities={setAmenities}
-                control={form.control}
-              />
+              <DndContext collisionDetection={closestCorners}>
+                <AmenityInput
+                  amenities={amenities}
+                  setAmenities={setAmenities}
+                  control={form.control}
+                />
+              </DndContext>
             </article>
           </form>
         </Form>

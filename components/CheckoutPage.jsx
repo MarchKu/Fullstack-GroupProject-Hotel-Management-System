@@ -60,7 +60,7 @@ const CheckoutPage = ({
         clientSecret,
         confirmParams: {
           // To step 4
-          return_url: `http://localhost:3000/booking?username=${username}&bookingID=${bookingId}&bookingStep=4`,
+          return_url: `https://neatly-hotel.vercel.app/booking?username=${username}&bookingID=${bookingId}&bookingStep=4`,
         },
       });
 

@@ -139,7 +139,10 @@ const Step3PaymentMethod = ({ nextStep, prevStep }) => {
           console.log(data);
 
           try {
-            await axios.patch(`http://localhost:3000/api/booking`, data);
+            await axios.patch(
+              `https://neatly-hotel.vercel.app/api/booking`,
+              data
+            );
           } catch (error) {
             console.log(error.message);
           }

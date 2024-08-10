@@ -38,7 +38,7 @@ const Main = () => {
 
   useEffect(() => {
     const getHotelData = async () => {
-      const result = await axios.get("http://localhost:3000/api/getHotelData");
+      const result = await axios.get("https://neatly-hotel.vercel.app/api/getHotelData");
       setHotelData(result.data.data);
 
       reset({
@@ -65,7 +65,7 @@ const Main = () => {
 
   const updateHotelData = async (data) => {
     try {
-      await axios.post("http://localhost:3000/api/hotel/property", data, {
+      await axios.post("https://neatly-hotel.vercel.app/api/hotel/property", data, {
         headers: { "Content-Type": "multipart/form-data" },
       });
       toastr["success"]("Updated hotel information successfully");
