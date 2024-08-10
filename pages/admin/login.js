@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
-import loginBgDesktop from "../../public/login/loginBgDesktop.png"
-import loginBgMobile from "../../public/login/loginBg-mobile.png";
 import { useAuth } from "@/contexts/authentication";
 import {
   NavigationMenu,
@@ -70,14 +68,18 @@ const Login = () => {
       <main className="w-full md:max-w-[1440px] md:h-full flex md:flex-row flex-col items-center md:justify-center mx-auto gap-10 bg-[#F7F7FB]">
         <div className="w-full md:w-1/2 relative h-full max-w-[430px] md:max-w-[720px]">
           <Image
-            src={loginBgDesktop}
+            src={"/login/loginBg-desktop.png"}
             className="object-cover w-full h-full hidden md:block"
             alt="login background"
+            width={1920}
+            height={1080}
           />
           <Image
-            src={loginBgMobile}
+            src={"/login/loginBg-mobile.png"}
             className="object-cover w-full h-full md:hidden"
             alt="login background"
+            width={1920}
+            height={1080}
           />
         </div>
         <div className="w-full md:w-1/2 flex flex-col items-center justify-center ">

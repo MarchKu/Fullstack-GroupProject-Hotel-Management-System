@@ -1,7 +1,6 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
-import vector from "../../assets/search_result/vector.png";
 import { cn } from "@/lib/utils";
 import { X } from "lucide-react";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -135,7 +134,7 @@ export default function Search_result() {
                 />
                 <Image
                   onClick={handlePopUpRoomImage}
-                  src={vector}
+                  src={"/search_result/vector.svg"}
                   width={50}
                   height={50}
                   alt="vector"
