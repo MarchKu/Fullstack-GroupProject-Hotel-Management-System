@@ -6,20 +6,14 @@ import NavbarComponent from "@/components/navigation-component/NavbarComponent";
 import { useRouter } from "next/router";
 import { useBookingContext } from "@/contexts/booking";
 import { useState, useEffect } from "react";
-import { number } from "zod";
+import AlertRoomIsBooked from "@/components/booking-component/AlertRoomIsBooked";
 
 const booking = () => {
   const [step, setStep] = useState(1);
   const router = useRouter();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [previousQuery, setPreviousQuery] = useState({});
-  const {
-    getBookingData,
-    bookingData,
-    deleteUncompleteBooking,
-    searchData,
-    setTimeLeft,
-  } = useBookingContext();
+  const { getBookingData, bookingData, deleteUncompleteBooking, setTimeLeft } =
+    useBookingContext();
 
   const { bookingID, bookingStep } = router.query;
 
@@ -70,7 +64,7 @@ const booking = () => {
     if (step > 1) {
       setStep(step - 1);
     } else {
-      router.push("/search-result");
+      redirectToSearchResult();
     }
   };
 
@@ -93,26 +87,25 @@ const booking = () => {
     };
   }, [router, bookingID]);
 
-  // Store the previous query parameters
-  useEffect(() => {
-    setPreviousQuery(router.query);
-  }, [router.query]);
-
   switch (step) {
     case 1:
-      return bookingData ? (
+      return (
         <>
           <NavbarComponent isAuthenticated={isAuthenticated} />
-          <Step1BasicInfo nextStep={nextStep} prevStep={prevStep} />
+          <div className="w-screen flex justify-center">
+            <Step1BasicInfo nextStep={nextStep} prevStep={prevStep} />
+            <AlertRoomIsBooked />
+          </div>
         </>
-      ) : (
-        ""
       );
     case 2:
       return bookingData ? (
         <>
           <NavbarComponent isAuthenticated={isAuthenticated} />
-          <Step2SpecialRequest nextStep={nextStep} prevStep={prevStep} />
+          <div className="w-screen flex justify-center">
+            <Step2SpecialRequest nextStep={nextStep} prevStep={prevStep} />
+            <AlertRoomIsBooked />
+          </div>
         </>
       ) : (
         ""
@@ -121,7 +114,10 @@ const booking = () => {
       return (
         <>
           <NavbarComponent isAuthenticated={isAuthenticated} />
-          <Step3PaymentMethod nextStep={nextStep} prevStep={prevStep} />
+          <div className="w-screen flex justify-center">
+            <Step3PaymentMethod nextStep={nextStep} prevStep={prevStep} />
+            <AlertRoomIsBooked />
+          </div>
         </>
       );
     case 4:

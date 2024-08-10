@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import { useRouter } from "next/router";
 import axios from "axios";
+import format from "date-fns/format";
 import toastr from "toastr";
 
 const BookingContext = React.createContext();
@@ -17,6 +18,8 @@ function BookingContextProvider(props) {
   const [discount, setDiscount] = useState(null);
   const [codeError, setCodeError] = useState("");
   const [bookingData, setBookingData] = useState();
+  const [isRoomBooked, setIsRoomBooked] = useState(false);
+  const [testAlert, setTestAlert] = useState(false);
   const router = useRouter();
 
   const createBooking = async (data) => {
@@ -103,6 +106,32 @@ function BookingContextProvider(props) {
     }
   };
 
+  const checkRoomBooked = async () => {
+    try {
+      const newFormatDate = {
+        checkIn: format(bookingData.check_in, "EEE, dd MMM yyyy"),
+        checkOut: format(bookingData.check_out, "EEE, dd MMM yyyy"),
+      };
+      const result = await axios.get(
+        `http://localhost:3000/api/isRoomBooked?room_id=${bookingData.room_id}&check_in=${newFormatDate.checkIn}&check_out=${newFormatDate.checkOut}`
+      );
+      const isBooked = result.data[0].is_booked;
+
+      if (isBooked) {
+        setIsRoomBooked(isBooked);
+      } else {
+        setIsRoomBooked(isBooked);
+      }
+      return !isBooked;
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+  const testOpenAlert = () => {
+    setTestAlert(true);
+  };
+
   return (
     <BookingContext.Provider
       value={{
@@ -122,6 +151,12 @@ function BookingContextProvider(props) {
         setTotalPrice,
         timeLeft,
         setTimeLeft,
+        checkRoomBooked,
+        isRoomBooked,
+        setIsRoomBooked,
+        testOpenAlert,
+        testAlert,
+        setTestAlert,
       }}
     >
       {props.children}

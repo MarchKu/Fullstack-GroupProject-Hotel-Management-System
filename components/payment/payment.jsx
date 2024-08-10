@@ -18,15 +18,7 @@ export function Payment({ paymentUpdate, username }) {
   }
 
   return (
-    <main className="max-w-6xl mx-auto p-10 text-white text-center border m-10 rounded-md bg-gradient-to-tr from-blue-500 to-purple-500">
-      <div className="mb-10">
-        <h1 className="text-4xl font-extrabold mb-2">Sellers</h1>
-        <h2 className="text-2xl">
-          has requested
-          <span className="font-bold"> {parseInt(totalPrice, 10)} THB</span>
-        </h2>
-      </div>
-
+    <main className="w-full mx-auto lg:px-12 xl:px-10 mb-8  text-white text-center  rounded-md">
       <Elements
         stripe={stripePromise}
         options={{
@@ -41,6 +33,7 @@ export function Payment({ paymentUpdate, username }) {
           billId={bookingData.bill_id}
           bookingId={bookingData.booking_id}
           username={username}
+          bookingData={bookingData}
         />
       </Elements>
     </main>

@@ -6,6 +6,7 @@ import {
   useElements,
   PaymentElement,
 } from "@stripe/react-stripe-js";
+import { useBookingContext } from "@/contexts/booking";
 
 const CheckoutPage = ({
   amount,
@@ -19,6 +20,7 @@ const CheckoutPage = ({
   const [errorMessage, setErrorMessage] = useState();
   const [clientSecret, setClientSecret] = useState("");
   const [loading, setLoading] = useState(false);
+  const { checkRoomBooked, isRoomBooked } = useBookingContext();
 
   useEffect(() => {
     fetch("/api/create-payment-intent", {
@@ -39,37 +41,42 @@ const CheckoutPage = ({
     event.preventDefault();
     setLoading(true);
 
-    if (!stripe || !elements) {
-      return;
-    }
+    const isRoomAvailable = await checkRoomBooked();
+    if (isRoomAvailable) {
+      if (!stripe || !elements) {
+        return;
+      }
 
-    const { error: submitError } = await elements.submit();
+      const { error: submitError } = await elements.submit();
 
-    if (submitError) {
-      setErrorMessage(submitError.message);
+      if (submitError) {
+        setErrorMessage(submitError.message);
+        setLoading(false);
+        return;
+      }
+
+      const { error } = await stripe.confirmPayment({
+        elements,
+        clientSecret,
+        confirmParams: {
+          // To step 4
+          return_url: `http://localhost:3000/booking?username=${username}&bookingID=${bookingId}&bookingStep=4`,
+        },
+      });
+
+      if (error) {
+        // This point is only reached if there's an immediate error when
+        // confirming the payment. Show the error to your customer (for example, payment details incomplete)
+        setErrorMessage(error.message);
+      } else {
+        // The payment UI automatically closes with a success animation.
+        // Your customer is redirected to your `return_url`.
+      }
+
       setLoading(false);
-      return;
-    }
-
-    const { error } = await stripe.confirmPayment({
-      elements,
-      clientSecret,
-      confirmParams: {
-        // To step 4
-        return_url: `http://localhost:3000/booking?username=${username}&bookingID=${bookingId}&bookingStep=4`,
-      },
-    });
-
-    if (error) {
-      // This point is only reached if there's an immediate error when
-      // confirming the payment. Show the error to your customer (for example, payment details incomplete)
-      setErrorMessage(error.message);
     } else {
-      // The payment UI automatically closes with a success animation.
-      // Your customer is redirected to your `return_url`.
+      console.log("This room is already booked");
     }
-
-    setLoading(false);
   };
 
   if (!clientSecret || !stripe || !elements) {

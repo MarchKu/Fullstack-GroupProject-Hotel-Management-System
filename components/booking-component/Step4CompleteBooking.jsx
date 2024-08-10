@@ -30,7 +30,7 @@ const Step4CompleteBooking = () => {
         <div className="w-full  flex flex-col items-center gap-8 md:mt-8  md:w-[100%] md:p-8 bg-white">
           <div className="max-w-[738px] h-full min-h-[428px] rounded bg-green-700 text-white">
             <div className="w-full   py-8 px-4 md:px-32   rounded bg-green-800">
-              <h1 className="text-5xl text-center font-serif tracking-tighter font-medium mb-8">
+              <h1 className="text-5xl text-center font-heading font-normal mb-8">
                 Thank you for booking
               </h1>
               <p className="text-center ">
@@ -39,7 +39,7 @@ const Step4CompleteBooking = () => {
                 closer to your date of reservation
               </p>
             </div>
-            <div className="w-full min-h-[366px] px-10 pt-5 flex flex-col">
+            <div className="w-full min-h-[366px] px-4 md:px-10 pt-5 flex flex-col">
               <div className="flex flex-col gap-4 md:flex-row md:justify-between  mb-8 rounded-sm bg-green-600 p-6">
                 <div className="">
                   <p className="font-semibold">

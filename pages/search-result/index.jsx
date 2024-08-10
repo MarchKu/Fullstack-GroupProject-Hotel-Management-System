@@ -30,8 +30,8 @@ import { useRouter } from "next/router";
 import { useBookingContext } from "@/contexts/booking";
 
 export default function Search_result() {
-  const [isRoomdetailOpen, setIsRoomDetailOpen] = useState(false);
-  const [isRoomImgOpen, setIsRoomImgOpen] = useState(false);
+  const [openRoomDetail, setOpenRoomDetail] = useState({});
+  const [openRoomImg, setOpenRoomImg] = useState({});
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const router = useRouter();
   const { searchData, createBooking } = useBookingContext();
@@ -53,19 +53,18 @@ export default function Search_result() {
     setIsAuthenticated(Boolean(token));
   }, []);
 
-  //pop-up
-  const handlePopUpRoomDetail = () => {
-    setIsRoomDetailOpen(true);
+  //pop-up trigger
+  const handlePopUpRoomDetail = (index) => {
+    setOpenRoomDetail((prev) => ({ ...prev, [index]: !prev[index] }));
   };
 
-  const handlePopUpRoomImage = () => {
-    setIsRoomImgOpen(true);
+  const handlePopUpRoomImage = (index) => {
+    setOpenRoomImg((prev) => ({ ...prev, [index]: !prev[index] }));
   };
 
   // get room data
   const { roomData, getRoomDeta, isLoading, isError } = useVacantRoom();
 
-  // create booking
   const data = router.query;
   useEffect(() => {
     if (data) {
@@ -80,6 +79,7 @@ export default function Search_result() {
     return <h1>Error fetching data</h1>;
   }
 
+  // create booking
   const handleBookNow = (index) => {
     if (isAuthenticated) {
       let roomPrice;
@@ -122,12 +122,12 @@ export default function Search_result() {
           return (
             <div
               key={index}
-              className="mt-12 pb-4 border-b border-gray-300 flex flex-col justify-center md:max-w-[1120px] md:h-[400px] md:flex-row md:justify-between md:items-center md:mt-0 md:pb-0"
+              className="mt-12 pb-4 border-b border-gray-300 flex flex-col justify-center md:max-w-[1440px] md:h-[400px] md:flex-row md:justify-between md:items-center md:mt-0 md:pb-0"
             >
               <div className="relative md:w-[450px] md:h-[320px] borde">
                 <img
                   src={room.main_image ? room.main_image : { vector }}
-                  onClick={handlePopUpRoomImage}
+                  onClick={() => handlePopUpRoomImage(index)}
                   alt="room image"
                   className="relative w-full h-full md:w-[100%] md:h-[100%] bg-center bg-cover md:rounded-lg bg-gray-300 object-cover object-center hover:cursor-pointer"
                 />
@@ -183,7 +183,7 @@ export default function Search_result() {
                 <div className="w-[90%] flex flex-row  justify-end self-end ">
                   <Button
                     variant="ghost"
-                    onClick={handlePopUpRoomDetail}
+                    onClick={() => handlePopUpRoomDetail(index)}
                     className="w-40 text-orange-500 hover:text-orange-400 hover:bg-white"
                   >
                     Room Detail
@@ -198,8 +198,8 @@ export default function Search_result() {
                 </div>
 
                 <Dialog
-                  open={isRoomdetailOpen}
-                  onOpenChange={setIsRoomDetailOpen}
+                  open={openRoomDetail[index] || false}
+                  onOpenChange={() => handlePopUpRoomDetail(index)}
                 >
                   <DialogContent className="sm:max-w-[800px] h-[620px] ">
                     <DialogHeader className="h-[60px] px-4 md:px-20 border-b flex flex-row items-center">
@@ -275,7 +275,10 @@ export default function Search_result() {
                   </DialogContent>
                 </Dialog>
 
-                <Dialog open={isRoomImgOpen} onOpenChange={setIsRoomImgOpen}>
+                <Dialog
+                  open={openRoomImg[index] || false}
+                  onOpenChange={() => handlePopUpRoomImage(index)}
+                >
                   <DialogContent className="sm:max-w-[170vw] h-full">
                     <div className="flex justify-center items-center bg-black overflow-hidden">
                       <DialogClose className="h-0 absolute top-0 right-0 z-10">
@@ -293,10 +296,10 @@ export default function Search_result() {
                             room.gallery_images.map((img, index) => (
                               <CarouselItem
                                 key={index}
-                                className="xl:basis-1/3 xl:p-4"
+                                className="lg:basis-1/3 lg:p-4"
                               >
                                 <img
-                                  className="w-full h-[60vw] object-cover md: xl:h-[80vh] lg:object-cover"
+                                  className="w-full h-[60vw] object-cover md:h-[60vw] xl:h-[60vh] lg:object-cover"
                                   src={img}
                                 />
                               </CarouselItem>
