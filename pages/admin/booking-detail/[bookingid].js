@@ -88,9 +88,9 @@ export default function BookingDetail() {
               ) : isError ? (
                 <p>Error</p>
               ) : (
-                bookingData.map((item) => (
+                bookingData.map((item,index) => (
                   <>
-                    <div>
+                    <div key={index}>
                       <h1 className="text-gray-600 text-xl font-semibold p-1">
                         Customer name
                       </h1>
