@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useState, useEffect, useCallback } from "react";
-import PostRoomProperty from "./PostRoomProperty";
+import PostRoomProperty from "./postRoomProperty";
 import { useRouter } from "next/router";
 import Loading from "./Loading";
 import Image from "next/image";

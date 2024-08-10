@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
-import loginBgDesktop from "../../assets/login/loginBg-desktop.png";
-import loginBgMobile from "../../assets/login/loginBg-mobile.png";
+import loginBgDesktop from "../../public/login/loginBgDesktop.png"
+import loginBgMobile from "../../public/login/loginBg-mobile.png";
 import { useAuth } from "@/contexts/authentication";
 import {
   NavigationMenu,

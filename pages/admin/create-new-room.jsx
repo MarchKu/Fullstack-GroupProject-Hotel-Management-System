@@ -9,7 +9,7 @@ import axios from "axios";
 import toastr from "toastr";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import UploadMainImage from "@/components/admin-side/uploadMainImage";
+import UploadMainImage from "@/components/admin-side/UploadMainImage";
 import UploadimageGallery from "@/components/admin-side/UploadimageGallery";
 import { Textarea } from "@/components/ui/textarea";
 import {

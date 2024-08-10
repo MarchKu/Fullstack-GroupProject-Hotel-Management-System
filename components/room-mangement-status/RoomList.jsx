@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useState, useEffect, useCallback } from "react";
-import PostStatus from "./PostStatus";
+import PostStatus from "./postStatus";
 import Loading from "./Loading";
 import Image from "next/image";
 
