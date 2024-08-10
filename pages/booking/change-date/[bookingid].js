@@ -68,7 +68,7 @@ export default function ChangeDatePage() {
     try {
       setIsLoading(true);
       const res = await axios.get(
-        `http://localhost:3000/api/booking/${bookingId}`
+        `https://neatly-hotel.vercel.app/api/booking/${bookingId}`
       );
       setBookingData(res.data);
       setIsLoading(false);
@@ -81,10 +81,13 @@ export default function ChangeDatePage() {
 
   const changeBookingDataById = async (bookingId) => {
     try {
-      await axios.put(`http://localhost:3000/api/booking/${bookingId}`, {
-        check_in: dateFormatter(newCheckInDate),
-        check_out: dateFormatter(newCheckOutDate),
-      });
+      await axios.put(
+        `https://neatly-hotel.vercel.app/api/booking/${bookingId}`,
+        {
+          check_in: dateFormatter(newCheckInDate),
+          check_out: dateFormatter(newCheckOutDate),
+        }
+      );
       toastr["success"]("Change check-in and check-out date successfully");
       setTimeout(function () {
         window.history.back();
@@ -213,91 +216,91 @@ export default function ChangeDatePage() {
                             Booking date: {dateFormatter(item.created_at)}
                           </p>
                         </div>
-                      
-                      <div className="w-full h-auto md:mb-[1rem]">
-                        {" "}
-                        <p className="text-gray-800 font-semibold mb-2">
-                          Original Date
-                        </p>
-                        <span className="text-gray-700 font-normal">
-                          {dateFormatter(item.check_in)} -{" "}
-                        </span>
-                        <span className="text-gray-700 font-normal">
-                          {dateFormatter(item.check_out)}
-                        </span>
-                      </div>
-                      <div className="w-full h-auto md:mb-[1rem]">
-                        <p className="text-gray-800 font-semibold mb-[1rem]">
-                          Change Date
-                        </p>
-                        <div className="change-chk-in&out-date-picker flex flex-col lg:flex-row md:justify-around md:gap-[1rem]">
-                          <div className="w-full">
-                            <p className="p-1">Check In</p>
-                            <Popover>
-                              <PopoverTrigger asChild>
-                                <Button
-                                  variant={"outline"}
-                                  className="flex flex-row justify-between w-full text-[1rem]"
-                                >
-                                  {newCheckInDate ? (
-                                    dateFormatter(newCheckInDate)
-                                  ) : (
-                                    <span className="text-[1rem]">
-                                      {dateFormatter(item.check_in)}
-                                    </span>
-                                  )}
-                                  <CalendarIcon />
-                                </Button>
-                              </PopoverTrigger>
-                              <PopoverContent className="w-auto p-0">
-                                <Calendar
-                                  mode="single"
-                                  fromDate={addDays(new Date(), 1)}
-                                  selected={newCheckInDate}
-                                  onSelect={setNewCheckInDate}
-                                  initialFocus
-                                />
-                              </PopoverContent>
-                            </Popover>
-                          </div>
-                          <div className="hidden lg:block md:self-center">
-                            {" "}
-                            -{" "}
-                          </div>
-                          <div className="w-full">
-                            <p className="p-1">Check Out</p>
-                            <Popover>
-                              <PopoverTrigger asChild>
-                                <Button
-                                  className="flex flex-row justify-between w-full max-[320px]:text-sm text-base"
-                                  variant={"outline"}
-                                >
-                                  {newCheckOutDate ? (
-                                    dateFormatter(newCheckOutDate)
-                                  ) : (
-                                    <span className="max-[320px]:text-sm text-base">
-                                      {dateFormatter(item.check_out)}
-                                    </span>
-                                  )}
-                                  <CalendarIcon />
-                                </Button>
-                              </PopoverTrigger>
-                              <PopoverContent className="w-auto p-0">
-                                <Calendar
-                                  mode="single"
-                                  fromDate={addDays(
-                                    new Date(),
-                                    dateDifference(checkIn, checkOut) + 1
-                                  )}
-                                  selected={newCheckOutDate}
-                                  onSelect={setNewCheckOutDate}
-                                  initialFocus
-                                />
-                              </PopoverContent>
-                            </Popover>
+
+                        <div className="w-full h-auto md:mb-[1rem]">
+                          {" "}
+                          <p className="text-gray-800 font-semibold mb-2">
+                            Original Date
+                          </p>
+                          <span className="text-gray-700 font-normal">
+                            {dateFormatter(item.check_in)} -{" "}
+                          </span>
+                          <span className="text-gray-700 font-normal">
+                            {dateFormatter(item.check_out)}
+                          </span>
+                        </div>
+                        <div className="w-full h-auto md:mb-[1rem]">
+                          <p className="text-gray-800 font-semibold mb-[1rem]">
+                            Change Date
+                          </p>
+                          <div className="change-chk-in&out-date-picker flex flex-col lg:flex-row md:justify-around md:gap-[1rem]">
+                            <div className="w-full">
+                              <p className="p-1">Check In</p>
+                              <Popover>
+                                <PopoverTrigger asChild>
+                                  <Button
+                                    variant={"outline"}
+                                    className="flex flex-row justify-between w-full text-[1rem]"
+                                  >
+                                    {newCheckInDate ? (
+                                      dateFormatter(newCheckInDate)
+                                    ) : (
+                                      <span className="text-[1rem]">
+                                        {dateFormatter(item.check_in)}
+                                      </span>
+                                    )}
+                                    <CalendarIcon />
+                                  </Button>
+                                </PopoverTrigger>
+                                <PopoverContent className="w-auto p-0">
+                                  <Calendar
+                                    mode="single"
+                                    fromDate={addDays(new Date(), 1)}
+                                    selected={newCheckInDate}
+                                    onSelect={setNewCheckInDate}
+                                    initialFocus
+                                  />
+                                </PopoverContent>
+                              </Popover>
+                            </div>
+                            <div className="hidden lg:block md:self-center">
+                              {" "}
+                              -{" "}
+                            </div>
+                            <div className="w-full">
+                              <p className="p-1">Check Out</p>
+                              <Popover>
+                                <PopoverTrigger asChild>
+                                  <Button
+                                    className="flex flex-row justify-between w-full max-[320px]:text-sm text-base"
+                                    variant={"outline"}
+                                  >
+                                    {newCheckOutDate ? (
+                                      dateFormatter(newCheckOutDate)
+                                    ) : (
+                                      <span className="max-[320px]:text-sm text-base">
+                                        {dateFormatter(item.check_out)}
+                                      </span>
+                                    )}
+                                    <CalendarIcon />
+                                  </Button>
+                                </PopoverTrigger>
+                                <PopoverContent className="w-auto p-0">
+                                  <Calendar
+                                    mode="single"
+                                    fromDate={addDays(
+                                      new Date(),
+                                      dateDifference(checkIn, checkOut) + 1
+                                    )}
+                                    selected={newCheckOutDate}
+                                    onSelect={setNewCheckOutDate}
+                                    initialFocus
+                                  />
+                                </PopoverContent>
+                              </Popover>
+                            </div>
                           </div>
                         </div>
-                      </div>
                       </div>
                     </div>
                   </div>
@@ -306,7 +309,7 @@ export default function ChangeDatePage() {
                       className="text-orange-500 max-md:order-last max-md:mt-5 ml-1"
                       onClick={() => window.history.back()}
                     >
-                    Back
+                      Back
                     </button>
                     <Button onClick={toggleModal}>Confirm Change Date</Button>
                     <ConfirmModal show={showModal} handleClose={toggleModal} />

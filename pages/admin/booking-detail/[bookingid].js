@@ -30,7 +30,7 @@ export default function BookingDetail() {
     try {
       setIsLoading(true);
       const res = await axios.get(
-        `http://localhost:3000/api/booking/${bookingId}`,
+        `https://neatly-hotel.vercel.app/api/booking/${bookingId}`,
         { method: "GET" }
       );
       setBookingData(res.data);
@@ -68,7 +68,7 @@ export default function BookingDetail() {
                 />
               </svg>
             </Link>
-            {bookingData.map((item,index) => (
+            {bookingData.map((item, index) => (
               <p key={index}>
                 <span className="text-[#2A2E3F] text-xl font-semibold">
                   {item.full_name}
@@ -88,7 +88,7 @@ export default function BookingDetail() {
               ) : isError ? (
                 <p>Error</p>
               ) : (
-                bookingData.map((item,index) => (
+                bookingData.map((item, index) => (
                   <>
                     <div key={index}>
                       <h1 className="text-gray-600 text-xl font-semibold p-1">
@@ -187,10 +187,13 @@ export default function BookingDetail() {
                       </div>
                       <div>
                         {item.special_request ? (
-                          item.special_request.map((item,index) => {
+                          item.special_request.map((item, index) => {
                             const data = JSON.parse(item);
                             return (
-                              <div key={index} className="mb-5 flex flex-row justify-between">
+                              <div
+                                key={index}
+                                className="mb-5 flex flex-row justify-between"
+                              >
                                 <span className="text-base text-gray-900 font-normal">
                                   {data.name}
                                 </span>

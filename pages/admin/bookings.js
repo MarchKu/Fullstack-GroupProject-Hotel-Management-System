@@ -33,7 +33,7 @@ export default function AllBooking() {
     try {
       setIsLoading(true);
       const res = await axios.post(
-        "http://localhost:3000/api/booking/bookings",
+        "https://neatly-hotel.vercel.app/api/booking/bookings",
         {
           full_name: input,
         }

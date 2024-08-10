@@ -62,7 +62,7 @@ const createRoom = async (data) => {
       "Object.fromEntries(data).imageGallery: ",
       Object.fromEntries(data).imageGallery
     );
-    await axios.post("http://localhost:3000/api/hotel/rooms", data, {
+    await axios.post("https://neatly-hotel.vercel.app/api/hotel/rooms", data, {
       headers: { "Content-Type": "multipart/form-data" },
     });
     toastr["success"]("You are successfully registered");
