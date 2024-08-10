@@ -4,6 +4,10 @@ import multerMiddleware, {
   runMiddleware,
 } from "../../../middleware/multerMiddleware";
 import { uploadFile } from "../upload";
+import { Knock } from "@knocklabs/node";
+import "dotenv/config";
+
+const knockClient = new Knock(process.env.KNOCK_SK);
 
 export default async function POST(req, res) {
   await runMiddleware(req, res, multerMiddleware);
@@ -113,15 +117,14 @@ export default async function POST(req, res) {
       ]
     );
 
-    if (user.card_number && user.card_owner) {
-      await connectionPool.query(
-        ` 
-              INSERT INTO user_credit_cards (user_id, card_number, card_owner)
-              values ($1, $2, $3)`,
-        [userId, user.card_number, user.card_owner]
-      );
-    }
-
+    const knockId = `user-${userId}`;
+    await knockClient.users.identify(knockId, {
+      name: user.username,
+      avatar: imageUrl,
+    });
+    await knockClient.workflows.trigger("greeting-message", {
+      recipients: [knockId],
+    });
     return res.status(201).json({ message: "Regisgered Successfully" });
   } catch (error) {
     console.log(error.message);

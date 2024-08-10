@@ -8,7 +8,6 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel-about";
 import { Card, CardContent } from "@/components/ui/card";
-import { carouselAbout } from "@/utils/carousel-info-array/carousel-about";
 import { Button } from "@/components/ui/button";
 import useRoomData from "@/hooks/use-room-data";
 import { useEffect, useState } from "react";
@@ -31,11 +30,6 @@ const RoomDetail = () => {
   }, []);
 
   useEffect(() => {
-    console.log("user:", user);
-    console.log("user:", user.fullName);
-  }, [user]);
-
-  useEffect(() => {
     const token = localStorage.getItem("token");
     setIsAuthenticated(Boolean(token));
   }, []);
@@ -47,7 +41,6 @@ const RoomDetail = () => {
     const fetchData = async () => {
       if (id) {
         await getRoomDetailByID(id);
-        console.log(roomData);
       }
     };
     fetchData();
@@ -59,24 +52,57 @@ const RoomDetail = () => {
   if (isError) {
     return <h1>Error fetching data</h1>;
   }
+  const handleClick = () => {
+    const months = [
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "May",
+      "Jun",
+      "Jul",
+      "Aug",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dec",
+    ];
+    const daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+
+    const checkIn = new Date(new Date().setDate(new Date().getDate() + 1));
+    const checkInParams = `${daysOfWeek[checkIn.getDay()]}%2C+${String(
+      checkIn.getDate()
+    ).padStart(2, "0")}+${months[checkIn.getMonth()]}+${checkIn.getFullYear()}`;
+
+    const checkOut = new Date(new Date().setDate(new Date().getDate() + 2));
+    const checkOutParams = `${daysOfWeek[checkOut.getDay()]}%2C+${String(
+      checkOut.getDate()
+    ).padStart(2, "0")}+${
+      months[checkOut.getMonth()]
+    }+${checkOut.getFullYear()}`;
+
+    router.push(
+      `/search-result?check_in=${checkInParams}&check_out=${checkOutParams}&number_of_night=1&guests=2`
+    );
+  };
 
   return roomData ? (
-    <section className="w-full min-h-[1000px] h-[200vh] md:h-[150vh] md:min-h-[1600px] py-[5%] flex flex-col justify-start items-center overflow-hidden">
-      <div className="w-full h-[30%] md:h-[40%] ">
+    <section className="w-full h-auto md:min-h-screen pt-[2.5%] pb-[5%] px-[5%] flex flex-col justify-start items-center overflow-hidden">
+      <div className="w-screen h-[300px] md:h-[50vh] max-w-[1440px]">
         <Carousel
           opts={{
-            align: "start",
+            align: "center",
             loop: true,
           }}
-          className="w-screen h-full"
+          className="w-full h-full"
         >
-          <CarouselContent className="w-full h-full ">
+          <CarouselContent className="w-full h-full">
             {roomData.gallery_images.map((img, index) => (
               <CarouselItem key={index}>
                 <Card className="w-screen md:w-full h-full">
                   <CardContent className="w-full h-full flex items-center justify-center p-0">
                     <div
-                      className="size-full bg-center bg-cover bg-slate-300 bg-ble"
+                      className="size-full bg-center bg-cover bg-slate-300"
                       style={{ backgroundImage: `url(${img})` }}
                     ></div>
                   </CardContent>
@@ -88,18 +114,18 @@ const RoomDetail = () => {
           <CarouselNext />
         </Carousel>
       </div>
-      <div className="w-full h-[70%] md:h-[60%] pt-[5%] px-[5%] md:px-[15%] flex flex-col gap-[2.5%] md:gap-[5%]">
-        <h2 className="w-full h-[10%] text-[3rem] md:text-[4rem] xl:text-[6rem] text-start content-center font-heading text-primary-heading">
+      <div className="w-full max-w-[1440px] h-auto md:h-[60%] pt-[5%] px-[5%] xl:px-0 flex flex-col gap-[2.5%] md:gap-[5%]">
+        <h2 className="w-full h-auto text-[2.5rem] md:text-[4rem] xl:text-[5rem] text-start content-center font-heading text-primary-heading">
           {roomData.type_name}
         </h2>
         {/* Need to render */}
-        <div className="w-full h-[30%] flex flex-col md:flex-row items-center justify-between">
-          <div className="w-full md:w-[50%] h-full flex flex-col justify-between font-body md:text-[1.25rem] xl:text-[1.5rem] gap-[1.5rem] md:gap-[2rem]">
-            <p className="h-[80%] text-secondary-body">
+        <div className="w-full h-auto flex flex-col md:flex-row items-center justify-between py-[1.5rem]">
+          <div className="w-full md:w-[50%] h-full flex flex-col justify-between font-body md:gap-[2rem]">
+            <p className="h-auto text-secondary-body text-[0.8rem] lg:text-[1.25rem] ">
               {/* render data */}
               {roomData.room_description}
             </p>
-            <p className="h-[20%] text-secondary-body">
+            <p className="h-auto text-secondary-body text-[0.8rem] lg:text-[1.25rem] ">
               <span className="pr-2 md:pr-6">
                 {" "}
                 {roomData.room_capacity} Person
@@ -114,30 +140,32 @@ const RoomDetail = () => {
               </span>
             </p>
           </div>
-          <div className="w-full md:w-[50%] h-full flex md:flex-col justify-between items-end font-body pt-[1.5rem]">
+          <div className="w-full md:w-[50%] h-full flex md:flex-col justify-between items-end font-body">
             <div>
-              <p className="md:text-[1.25rem] text start md:text-end text-secondary-body xl:text-[1.5rem]">
+              <p className="text-start md:text-end text-secondary-body text-[0.8rem] md:text-[1.25rem] font-semibold">
                 <s>
                   {/* render data */}
-                  THB {roomData.current_price}
+                  THB{" "}
+                  {roomData.current_price.replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
                 </s>
-              </p>  
-              <p className="text-[1.25rem] md:text-[1.5rem] xl:text-[1.7rem]  font-bold">
+              </p>
+              <p className="text-[1.25rem] md:text-[1.5rem] xl:text-[1.7rem]  font-semibold">
                 {/* render data */}
-                THB {roomData.promotional_price}
+                THB{" "}
+                {roomData.promotion_price.replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
               </p>
             </div>
 
             {isAuthenticated ? (
               <Button
-                className="w-40 xl:w-[180px] rounded xl:text-[1.5rem]"
-                onClick={() => router.push("/booking")}
+                className="size-auto xl:text-[1.5rem] mt-[1rem]"
+                onClick={() => handleClick()}
               >
                 Book Now
               </Button>
             ) : (
               <Button
-                className="w-40 xl:w-[180px] rounded xl:text-[1.25rem]"
+                className="size-auto xl:text-[1.5rem] mt-[1rem]"
                 onClick={() => router.push("/login")}
               >
                 Book Now
@@ -146,17 +174,23 @@ const RoomDetail = () => {
           </div>
         </div>
         <hr />
-        <div className="w-full h-[60%]">
-          <h3 className="font-body font-bold text-[1.5rem]">Room Amenities</h3>
-          <div className="w-full flex flex-col md:flex-row md:flex-wrap text-[1rem] lg:text-[1.25rem] xl:text-[1.5rem] font-body pt-8 text-secondary-body">
+        <div className="w-full h-auto">
+          <h3 className="font-body font-bold text-[1.5rem] pt-[1.5rem]">
+            Room Amenities
+          </h3>
+          <div className="w-full flex flex-col md:flex-row md:flex-wrap text-[0.8rem] lg:text-[1.25rem] font-body pt-[1rem] text-secondary-body">
             {/* render data */}
-            {roomData.amenities.map((info, index) => {
-              return (
-                <li className="w-full md:w-[50%]" key={index}>
-                  {info}
-                </li>
-              );
-            })}
+            {roomData.amenities === null ? (
+              <div></div>
+            ) : (
+              roomData.amenities.map((info, index) => {
+                return (
+                  <li className="w-full md:w-[50%]" key={index}>
+                    {info}
+                  </li>
+                );
+              })
+            )}
           </div>
         </div>
       </div>

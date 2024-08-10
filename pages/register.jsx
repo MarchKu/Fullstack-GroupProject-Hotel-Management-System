@@ -5,7 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/formComponent";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import FormFieldComponent from "../components/ui/FormField";
 import DatePicker from "../components/ui/datePick";
 import CountryPicker from "../components/ui/countryPick";
@@ -109,10 +109,10 @@ export default function Register() {
   return (
     <>
       <NavbarComponent />
-      <div className="w-full h-full inset-0 bg-cover bg-no-repeat bg-center bg-[url('../public/img/bg-register_page.jpg')]">
-        <div className="w-full h-full flex justify-center items-center  bg-gradient-to-b from-[#00000099] to-transparent ">
-          <div className="relative w-full md:mt-14 md:mb-20 p-2 md:p-14 m-0 md:w-[45%] bg-[#F7F7FB] pt-10 md:rounded-lg">
-            <div className="  flex flex-col gap-5  font-body ">
+      <div className="w-full min-h-[93vh] h-[93vh] inset-0 bg-cover bg-no-repeat bg-center bg-[url('../public/img/bg-register_page.jpg')] flex flex-col justify-start md:justify-center">
+        <div className="w-full h-full md:h-[90%] flex justify-center items-center  bg-gradient-to-b from-[#00000099] to-transparent ">
+          <div className="w-full h-full md:mt-14 md:mb-20 p-[5%] md:p-14 m-0 md:w-[45%] bg-[#F7F7FB] pt-10 md:rounded-lg">
+            <div className="size-full flex flex-col justify-start gap-5  font-body ">
               <h1 className="text-7xl font-serif text-[#2F3E35] font-medium tracking-tighter">
                 Register
               </h1>

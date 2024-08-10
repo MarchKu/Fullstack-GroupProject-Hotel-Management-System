@@ -1,18 +1,28 @@
 import connectionPool from "@/utils/connectionPool/db";
+import multerMiddleware, { runMiddleware } from "@/middleware/multerMiddleware";
+import { uploadFile } from "../upload";
+import cors from "@/lib/cors";
 
-/* export default async function GET(req, res) {
-  
-} */
+export const config = {
+  api: {
+    bodyParser: false, // Disable body parsing, since we're handling FormData
+  },
+};
 
-export default async function handler(req, res) {
+async function handler(req, res) {
   if (req.method === "PUT") {
     try {
+      await runMiddleware(req, res, multerMiddleware);
+
       const { username } = req.query;
-      const userInput = req.body;
+      const userInput = { ...req.body };
+      const updatedData = { ...userInput, updated_at: new Date() };
+      const now = new Date();
+      /* Just for data check */
       const userInfo = await connectionPool.query(
         `
-      SELECT users.user_id
-      ,username,
+      SELECT users.user_id,
+      username,
       user_profile_id,
       full_name,
       email,
@@ -32,11 +42,24 @@ export default async function handler(req, res) {
           .status(404)
           .json({ message: "Invalid request cannot find user" });
       }
-      const updatedData = { ...userInput, updated_at: new Date() };
-      const userId = userInfo.id;
+      const userId = userInfo.rows[0].user_id;
 
-      await connectionPool.query(
-        `
+      if (req.file) {
+        /* If new profile picture added */
+        let upLoadResult;
+        const { buffer, mimetype } = req.file;
+
+        upLoadResult = await uploadFile(
+          buffer,
+          "user_uploads",
+          `profile_pictures/${username}${now}`,
+          mimetype
+        );
+
+        const imageUrl = upLoadResult.data.data.publicUrl;
+
+        await connectionPool.query(
+          `
       UPDATE user_profiles
     SET full_name = $1,
     id_number = $2,
@@ -46,42 +69,70 @@ export default async function handler(req, res) {
     updated_at = $6
     where user_id = $7
     `,
-        [
-          updatedData.full_name,
-          updatedData.id_number,
-          updatedData.date_of_birth,
-          updatedData.country,
-          updatedData.profile_picture,
-          updatedData.updated_at,
-          userId,
-        ]
-      );
+          [
+            updatedData.full_name,
+            updatedData.id_number,
+            updatedData.date_of_birth,
+            updatedData.country,
+            imageUrl,
+            updatedData.updated_at,
+            userId,
+          ]
+        );
 
-      await connectionPool.query(
-        `
+        await connectionPool.query(
+          `
       UPDATE users
-    SET email = $1
-    where username = &2
+    SET email = $1,
+    updated_at = $2
+    where username = $3
     `,
-        [updatedData.email, username]
-      );
-      return res.status(200).json({ message: "Update sucessfuly" });
+          [updatedData.email, updatedData.updated_at, username]
+        );
+        return res.status(200).json({ message: "Update sucessfuly" });
+      } else {
+        /* If no profile picture added */
+        await connectionPool.query(
+          `
+      UPDATE user_profiles
+    SET full_name = $1,
+    id_number = $2,
+    date_of_birth = $3,
+    country = $4,
+    updated_at = $5
+    where user_id = $6
+    `,
+          [
+            updatedData.full_name,
+            updatedData.id_number,
+            updatedData.date_of_birth,
+            updatedData.country,
+            updatedData.updated_at,
+            userId,
+          ]
+        );
+
+        await connectionPool.query(
+          `
+      UPDATE users
+    SET email = $1,
+    updated_at = $2
+    where username = $3
+    `,
+          [updatedData.email, updatedData.updated_at, username]
+        );
+        return res.status(200).json(updatedData);
+      }
     } catch (error) {
-      return res.status(500).json(error.message);
+      return res.status(500).json(error);
     }
   }
 
   if (req.method === "GET") {
     try {
       const { username } = req.query;
-      const userData = await connectionPool.query(
-        `select * from users where username = $1`,
-        [username]
-      );
-      if (!userData.rows[0] || !username) {
-        return res
-          .status(404)
-          .json({ message: "Invalid request user not found" });
+      if (!username) {
+        return res.status(400).json({ message: "Username is required" });
       }
       const userInfo = await connectionPool.query(
         `
@@ -97,13 +148,18 @@ export default async function handler(req, res) {
       FROM users
       inner join user_profiles
       on user_profiles.user_id = users.user_id
-      where username = $1
+      where username = $1 
       `,
         [username]
       );
+      if (userInfo.rows.length === 0) {
+        return res.status(404).json({ message: "User not found" });
+      }
       return res.status(200).json(userInfo.rows[0]);
     } catch (error) {
       return res.status(500).json(error.message);
     }
   }
 }
+
+export default cors(handler);

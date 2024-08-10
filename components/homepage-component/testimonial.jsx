@@ -15,11 +15,11 @@ import emblaCarouselAutoplay from "embla-carousel-autoplay";
 const Testimonial = () => {
   const carouselInfo = carouselTestimonial;
   return (
-    <section className="w-full min-h-[750px] h-[70vh] bg-green-200 flex flex-col gap-[2rem] py-[10%]">
-      <h2 className="w-full h-[20%] text-[3.5rem] md:text-[5rem] lg:text-[6rem] font-heading text-center content-center text-primary-heading">
+    <section className="w-full bg-green-200 flex flex-col items-center gap-10 md:gap-[72px] py-10 md:pb-[178px] px-4 md:pt-[125px]">
+      <h2 className="w-full max-w-[1440px] h-[20%] text-[44px] leading-[55px] md:text-[5rem] lg:text-[6rem] font-heading text-center content-center text-primary-heading">
         Our Customer Says
       </h2>
-      <div className="h-[80%]">
+      <div className="w-full pb-[128px] md:pb-10 max-w-[1440px]">
         <Carousel
           opts={{
             align: "start",
@@ -33,24 +33,26 @@ const Testimonial = () => {
             }),
           ]}
         >
-          <CarouselContent className="h-full">
+          <CarouselContent className="h-full select-none border-0">
             {carouselInfo.map((info, index) => (
-              <CarouselItem key={index}>
-                <Card className="size-full rounded-none bg-green-200 px-[5%] md:px-[10%]">
-                  <CardContent className="h-full flex items-center justify-between p-0">
-                    <div className="size-full flex flex-col justify-start items-center gap-10 pt-[5%]">
-                      <p className="w-full text-center text-[1.5rem] md:text-[1.7rem] xl:text-[2rem] font-body px-0 md:px-[10%] text-primary-heading">
+              <CarouselItem key={index} className="border-0">
+                <Card className="size-full rounded-none bg-green-200 border-0">
+                  <CardContent className="h-full flex items-center justify-between p-0 border-0">
+                    <div className="size-full flex flex-col justify-start items-center gap-8 border-0 shadow-none">
+                      <p className="w-full text-center text-xl font-body px-0 md:px-[10%] text-primary-heading">
                         {info.review}
                       </p>
-                      <div className="flex gap-5 justify-center items-center">
-                        <Avatar className="size-[3rem] md:size-[4rem]">
+                      <div className="flex gap-4 justify-center items-center">
+                        <Avatar className="size-8 md:size-[4rem]">
                           <AvatarImage
                             src={info.avatar}
                             className=" object-cover object-center"
                           />
                           <AvatarFallback>CN</AvatarFallback>
                         </Avatar>
-                        <p className="font-body text-[1.25rem] md:text-[1.5rem] text-gray-600">{info.name}</p>
+                        <p className="font-body text-base md:text-[1.5rem] text-gray-600">
+                          {info.name}
+                        </p>
                       </div>
                     </div>
                   </CardContent>

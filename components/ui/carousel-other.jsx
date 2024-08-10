@@ -150,7 +150,7 @@ const CarouselItem = React.forwardRef(({ className, ...props }, ref) => {
       role="group"
       aria-roledescription="slide"
       className={cn(
-        "min-w-0 shrink-0 grow-0 basis-3/4 md:basis-1/3",
+        "min-w-0 shrink-0 grow-0 basis-1/2",
         orientation === "horizontal" ? "pl-4" : "pt-4",
         className
       )}
@@ -172,7 +172,7 @@ const CarouselPrevious = React.forwardRef(
         className={cn(
           "absolute size-16 md:size-20 xl:size-28 rounded-full border-gray-600 bg-transparent",
           orientation === "horizontal"
-            ? "left-[25%] md:left-[35%] -bottom-[45%] xl:-bottom-[60%] -translate-y-1/2"
+            ? "left-[25%] md:left-[35%] top-[120%] -translate-y-1/2"
             : "-top-12 left-1/2 -translate-x-1/2 rotate-90",
           className
         )}
@@ -200,7 +200,7 @@ const CarouselNext = React.forwardRef(
         className={cn(
           "absolute size-16 md:size-20 xl:size-28 rounded-full border-gray-600 bg-transparent",
           orientation === "horizontal"
-            ? "right-[25%] md:right-[35%] -bottom-[45%] xl:-bottom-[60%] -translate-y-1/2"
+            ? "right-[25%] md:right-[35%] top-[120%] -translate-y-1/2"
             : "-bottom-12 left-1/2 -translate-x-1/2 rotate-90",
           className
         )}

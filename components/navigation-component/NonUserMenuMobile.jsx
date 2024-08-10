@@ -4,7 +4,7 @@ import { Drawer, DrawerContent, DrawerTrigger } from "../ui/drawer";
 import { MenuIcon } from "lucide-react";
 import { MenubarSeparator } from "../ui/menubar";
 
-const NonUserMenuMobile = () => {
+const NonUserMenuMobile = ({ hotelName }) => {
   return (
     <Drawer direction="right" className="md:hidden block">
       <DrawerTrigger>
@@ -14,7 +14,7 @@ const NonUserMenuMobile = () => {
         <div className="mt-12 mx-4">
           <div className="flex flex-col gap-12 mb-10">
             <Link href="/" className="mx-4">
-              About Neatly
+              About {hotelName}
             </Link>
             <Link href="/" className="mx-4">
               Service & Facilities
