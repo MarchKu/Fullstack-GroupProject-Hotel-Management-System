@@ -1,11 +1,6 @@
 import React, { useEffect } from "react";
-import img1 from "../../assets/room&suite/1.png";
-import img2 from "../../assets/room&suite/2.png";
-import img3 from "../../assets/room&suite/3.png";
-import img4 from "../../assets/room&suite/4.png";
-import img5 from "../../assets/room&suite/5.png";
-import img6 from "../../assets/room&suite/6.png";
-import arrow from "../../assets/room&suite/arrow.svg";
+import Image from "next/image";
+
 import Link from "next/link";
 
 const RoomSuite = () => {
@@ -22,7 +17,7 @@ const RoomSuite = () => {
         <div className="w-full grid gap-4 grid-cols-1 md:grid-cols-5">
           <div
             className="bg-slate-300 md:col-span-5 bg-center bg-cover bg-blend-multiply flex flex-col justify-end px-4 md:pl-[60px] pt-[138px] md:pt-[357px] pb-10 gap-2 md:gap-6"
-            style={{ backgroundImage: `url(${img1.src})` }}
+            style={{ backgroundImage: `url(/room&suite/1.png)` }}
           >
             <h3 className="font-heading text-white text-[32px] md:text-[44px] md:leading-[55px]">
               Superior Garden View
@@ -34,14 +29,19 @@ const RoomSuite = () => {
               >
                 Explore Room
                 <span>
-                  <img src={arrow.src} />
+                  <Image
+                    src="/room&suite/arrow.svg"
+                    alt="Arrow icon"
+                    width={20}
+                    height={20}
+                  />
                 </span>
               </Link>
             </div>
           </div>
           <div
             className="bg-slate-300 md:col-span-3 bg-center bg-cover bg-blend-multiply flex flex-col justify-end px-4 md:pl-[60px] pt-[138px] md:pt-[217px] pb-10 gap-2 md:gap-6"
-            style={{ backgroundImage: `url(${img2.src})` }}
+            style={{ backgroundImage: `url((/room&suite/2.png))` }}
           >
             <h3 className="font-heading text-white text-[32px] md:text-[44px] md:leading-[55px]">
               Deluxe
@@ -53,14 +53,19 @@ const RoomSuite = () => {
               >
                 Explore Room
                 <span>
-                  <img src={arrow.src} />
+                  <Image
+                    src="/room&suite/arrow.svg"
+                    alt="Arrow icon"
+                    width={20}
+                    height={20}
+                  />
                 </span>
               </Link>
             </div>
           </div>
           <div
             className="bg-slate-300 md:col-span-2 bg-center bg-cover bg-blend-multiply flex flex-col justify-end px-4 md:pl-[60px] pt-[138px] md:pt-[217px] pb-10 gap-2 md:gap-6"
-            style={{ backgroundImage: `url(${img3.src})` }}
+            style={{ backgroundImage: `url(/room&suite/3.png)` }}
           >
             <h3 className="font-heading text-white text-[32px] md:text-[44px] md:leading-[55px]">
               Superior
@@ -72,7 +77,12 @@ const RoomSuite = () => {
               >
                 Explore Room
                 <span>
-                  <img src={arrow.src} />
+                  <Image
+                    src="/room&suite/arrow.svg"
+                    alt="Arrow icon"
+                    width={20}
+                    height={20}
+                  />
                 </span>
               </Link>
             </div>
@@ -82,7 +92,7 @@ const RoomSuite = () => {
         <div className="w-full h-[50%] grid gap-4 grid-cols-1 md:grid-cols-7">
           <div
             className="bg-slate-300 md:row-span-2 md:col-span-3 bg-center bg-cover bg-blend-multiply flex flex-col justify-end px-4 md:pl-[60px] pt-[138px] pb-10 gap-2 md:gap-6"
-            style={{ backgroundImage: `url(${img4.src})` }}
+            style={{ backgroundImage: `url(/room&suite/4.png)` }}
           >
             <h3 className="font-heading text-white text-[32px] md:text-[44px]">
               Premier Sea View
@@ -94,14 +104,19 @@ const RoomSuite = () => {
               >
                 Explore Room
                 <span>
-                  <img src={arrow.src} />
+                  <Image
+                    src="/room&suite/arrow.svg"
+                    alt="Arrow icon"
+                    width={20}
+                    height={20}
+                  />
                 </span>
               </Link>
             </div>
           </div>
           <div
             className="bg-slate-300 md:col-span-4 bg-center bg-cover bg-blend-multiply flex flex-col justify-end px-4 md:pl-[60px] pt-[138px] pb-10 gap-2 md:gap-6"
-            style={{ backgroundImage: `url(${img5.src})` }}
+            style={{ backgroundImage: `url(/room&suite/5.png)` }}
           >
             <h3 className="font-heading text-white text-[32px] md:text-[44px]">
               Supreme
@@ -113,14 +128,19 @@ const RoomSuite = () => {
               >
                 Explore Room
                 <span>
-                  <img src={arrow.src} />
+                  <Image
+                    src="/room&suite/arrow.svg"
+                    alt="Arrow icon"
+                    width={20}
+                    height={20}
+                  />
                 </span>
               </Link>
             </div>
           </div>
           <div
             className="bg-slate-300 md:col-span-4 bg-center bg-cover bg-blend-multiply flex flex-col justify-end px-4 pt-[138px] md:pl-[60px] pb-10 gap-2 md:gap-6"
-            style={{ backgroundImage: `url(${img6.src})` }}
+            style={{ backgroundImage: `url(/room&suite/6.png)` }}
           >
             <h3 className="font-heading text-white text-[32px] md:text-[44px]">
               Suite
@@ -132,7 +152,12 @@ const RoomSuite = () => {
               >
                 Explore Room
                 <span>
-                  <img src={arrow.src} />
+                  <Image
+                    src="/room&suite/arrow.svg"
+                    alt="Arrow icon"
+                    width={20}
+                    height={20}
+                  />
                 </span>
               </Link>
             </div>

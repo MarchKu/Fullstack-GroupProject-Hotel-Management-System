@@ -8,6 +8,7 @@ import {
   FormMessage,
 } from "@/components/ui/formComponent";
 import { Input } from "@/components/ui/inputRegisterForm";
+import Image from "next/image";
 
 function FormFieldComponent({
   control,
@@ -33,9 +34,12 @@ function FormFieldComponent({
                 {...field}
               />
               {fieldState.invalid && (
-                <img
+                <Image
                   src="/img/error-trigger.svg"
                   className="absolute right-3 top-3"
+                  alt="error icon"
+                  width={18}
+                  height={18}
                 />
               )}
             </div>

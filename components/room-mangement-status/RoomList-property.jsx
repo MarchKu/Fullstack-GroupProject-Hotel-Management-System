@@ -1,8 +1,9 @@
 import axios from "axios";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import PostRoomProperty from "./PostRoomProperty";
 import { useRouter } from "next/router";
 import Loading from "./Loading";
+import Image from "next/image";
 
 export default function RoomList({ search }) {
   const room_per_page = 6;
@@ -17,32 +18,35 @@ export default function RoomList({ search }) {
     setCurrentPage(1);
   }, [search]);
 
+  const fetchRoomData = useCallback(
+    async (page) => {
+      try {
+        setIsLoading(true);
+        const result = await axios.get(
+          `http://localhost:3000/api/getRoomStatus-Admin?page=${page}&limit=${room_per_page}&search=${search}`
+        );
+        const fetchedRooms = result.data.rooms;
+        const totalRooms = result.data.total;
+        const calculatedTotalPages = Math.ceil(totalRooms / room_per_page);
+
+        setRoomData(fetchedRooms);
+
+        setTotalPages(calculatedTotalPages);
+        setIsLoading(false);
+        setIsError(false);
+      } catch (error) {
+        console.error(error);
+        setIsLoading(false);
+        setIsError(true);
+      }
+    },
+    [search]
+  );
+
   useEffect(() => {
     fetchRoomData(currentPage);
     setStartPage(Math.floor((currentPage - 1) / 5) * 5 + 1);
-  }, [currentPage, search]);
-
-  const fetchRoomData = async (page) => {
-    try {
-      setIsLoading(true);
-      const result = await axios.get(
-        `http://localhost:3000/api/getRoomStatus-Admin?page=${page}&limit=${room_per_page}&search=${search}`
-      );
-      const fetchedRooms = result.data.rooms;
-      const totalRooms = result.data.total;
-      const calculatedTotalPages = Math.ceil(totalRooms / room_per_page);
-
-      setRoomData(fetchedRooms);
-
-      setTotalPages(calculatedTotalPages);
-      setIsLoading(false);
-      setIsError(false);
-    } catch (error) {
-      console.error(error);
-      setIsLoading(false);
-      setIsError(true);
-    }
-  };
+  }, [currentPage, fetchRoomData, search]);
 
   const handlePageClick = (page) => {
     setCurrentPage(page);
@@ -132,15 +136,32 @@ export default function RoomList({ search }) {
         </div>
       )}
       <div className="flex justify-center m-6 gap-5">
-        {currentPage > 1 && (
+        {startPage === 1 && (
+          <button>
+            <Image
+              className="transform rotate-180 opacity-20"
+              src="/img/next.svg"
+              alt="Previous page"
+              width={16}
+              height={16}
+            />
+          </button>
+        )}
+        {startPage > 1 && (
           <button onClick={handlePrevPage}>
-            <img className="transform rotate-180" src="/img/next.svg" />
+            <Image
+              className="transform rotate-180"
+              src="/img/next.svg"
+              alt="Previous page"
+              width={16}
+              height={16}
+            />
           </button>
         )}
         {renderPageNumberButton()}
-        {currentPage < totalPages && (
+        {startPage + 4 < totalPages && (
           <button onClick={handleNextPage}>
-            <img src="/img/next.svg" />
+            <Image src="/img/next.svg" alt="Next page" width={16} height={16} />
           </button>
         )}
       </div>

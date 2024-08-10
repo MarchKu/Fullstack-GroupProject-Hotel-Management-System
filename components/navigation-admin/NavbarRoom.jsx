@@ -1,4 +1,5 @@
 import Router from "next/router";
+import Image from "next/image";
 
 export default function NavbarRoom({ title, setSearch }) {
   const router = Router;
@@ -11,7 +12,13 @@ export default function NavbarRoom({ title, setSearch }) {
         {title}
       </h1>
       <div className="relative   flex gap-6">
-        <img src="/img/search.svg" className="absolute left-2 top-3"></img>
+        <Image
+          src="/img/search.svg"
+          alt="Search Icon"
+          className="absolute left-2 top-3"
+          width={20}
+          height={20}
+        />
         <input
           className="border-[1px] border-[#D6D9E4] rounded-sm placeholder:font-body placeholder:text-[#9AA1B9] 
     placeholder:text-[16px] placeholder:font-normal tracking-tighter p-2 pl-10  w-80 "
