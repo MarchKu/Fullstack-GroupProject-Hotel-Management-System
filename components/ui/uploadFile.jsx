@@ -46,7 +46,7 @@ function InputFile({ control, name, type, label, id, description }) {
         <FormItem className="flex flex-col gap-5">
           <FormLabel
             htmlFor={id}
-            className="block text-xl tracking-tight font-semibold text-[#9AA1B9]"
+            className="pointer-events-none block text-xl tracking-tight font-semibold text-[#9AA1B9]"
           >
             {label}
           </FormLabel>

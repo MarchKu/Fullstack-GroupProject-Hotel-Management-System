@@ -1,5 +1,5 @@
 "use client";
-
+import { useState } from "react";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -14,8 +14,7 @@ import { useAuth } from "@/contexts/authentication";
 import NavbarComponent from "@/components/navigation-component/NavbarComponent";
 import { checkUniqueUser } from "../lib/checkUniqueUser";
 import { checkUniqueProfile } from "../lib/checkUniqueProfile";
-import useUserProfile from "@/hooks/use-user-profile";
-import useHotelData from "@/hooks/use-hotel-data";
+import LoadingForm from "../components/ui/LoadingForm";
 
 const minAge = 18;
 const registerSchema = z.object({
@@ -29,7 +28,6 @@ const registerSchema = z.object({
       },
       { message: "username already exists" }
     ),
-  //refine checkUniqueUsername
   password: z
     .string()
     .min(12, { message: "Password must be at least 12 characters." }),
@@ -70,36 +68,7 @@ const registerSchema = z.object({
 });
 
 export default function Register() {
-  const { userData, getUserProfile, putUserProfile, isLoading, isError } =
-    useUserProfile();
-  const { hotelData, getHotelData } = useHotelData();
-  const [user, setUser] = useState(null);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  useEffect(() => {
-    const fetchUserData = async () => {
-      const userData = localStorage.getItem("user");
-      if (userData) {
-        const parsedData = JSON.parse(userData);
-        setUser(parsedData);
-      }
-    };
-    fetchUserData();
-    getHotelData();
-  }, []);
-
-  /* Data fetching */
-  useEffect(() => {
-    if (user) {
-      getUserProfile(user.username);
-    }
-    console.log(userData);
-  }, [user]);
-
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    setIsAuthenticated(Boolean(token));
-  }, []);
-
+  const [isLoading, setIsLoading] = useState(false);
   const form = useForm({
     resolver: zodResolver(registerSchema),
     defaultValues: {
@@ -112,25 +81,29 @@ export default function Register() {
       country: "",
       profilepic: {},
     },
+    mode: "all",
   });
 
   const { register } = useAuth();
 
   const onSubmit = async (data) => {
-    //register(data);
+    try {
+      const formData = new FormData();
+      formData.append("username", data.username);
+      formData.append("password", data.password);
+      formData.append("email", data.email);
+      formData.append("full_name", data.fullName);
+      formData.append("id_number", data.idNumber);
+      formData.append("date_of_birth", data.dateBirth);
+      formData.append("country", data.country);
+      formData.append("profile_picture", data.profilepic);
 
-    const formData = new FormData();
-
-    formData.append("username", data.username);
-    formData.append("password", data.password);
-    formData.append("email", data.email);
-    formData.append("full_name", data.fullName);
-    formData.append("id_number", data.idNumber);
-    formData.append("date_of_birth", data.dateBirth);
-    formData.append("country", data.country);
-    formData.append("profile_picture", data.profilepic);
-
-    register(formData);
+      setIsLoading(true);
+      await register(formData);
+      setIsLoading(false);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (
@@ -147,12 +120,14 @@ export default function Register() {
                 Basic Information
               </h2>
 
-              <Form {...form}>
-                <form
-                  onSubmit={form.handleSubmit(onSubmit)}
-                  className="text-base font-normal flex flex-col h-full justify-between"
-                >
-                  <div className="w-full h-auto gap-3 md:grid md:grid-cols-2 ">
+              {isLoading ? (
+                <LoadingForm numberOfFields={5} />
+              ) : (
+                <Form {...form}>
+                  <form
+                    onSubmit={form.handleSubmit(onSubmit)}
+                    className="text-base font-normal gap-3 md:grid md:grid-cols-2 "
+                  >
                     <div className="md:col-span-2">
                       <FormFieldComponent
                         control={form.control}
@@ -197,7 +172,6 @@ export default function Register() {
                       label="Date of Birth"
                       placeholder="Enter your date of birth"
                     />
-
                     <CountryPicker
                       control={form.control}
                       name="country"
@@ -205,7 +179,7 @@ export default function Register() {
                       placeholder="Select your country"
                     />
                     <div className="col-span-2 border-b border-[#E4E6ED]"></div>
-                    <div className="">
+                    <div className="col-span-2">
                       <InputFile
                         control={form.control}
                         name="profilepic"
@@ -214,16 +188,15 @@ export default function Register() {
                         type="file"
                       />
                     </div>
-                  </div>
-
-                  <Button
-                    type="submit"
-                    className="mt-5 bg-[#C14817] w-full md:w-[50%]"
-                  >
-                    Register
-                  </Button>
-                </form>
-              </Form>
+                    <Button
+                      type="submit"
+                      className="mt-5 bg-[#C14817] w-full col-span-full md:col-span-1"
+                    >
+                      Register
+                    </Button>
+                  </form>
+                </Form>
+              )}
             </div>
           </div>
         </div>
