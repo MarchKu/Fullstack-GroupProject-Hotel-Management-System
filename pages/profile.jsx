@@ -108,6 +108,7 @@ export default function Profile() {
     const token = localStorage.getItem("token");
     setIsAuthenticated(Boolean(token));
   }, []);
+
   return (
     <>
       <NavbarComponent />

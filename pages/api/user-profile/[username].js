@@ -131,6 +131,9 @@ async function handler(req, res) {
   if (req.method === "GET") {
     try {
       const { username } = req.query;
+      if (!username) {
+        return res.status(400).json({ message: "Username is required" });
+      }
       const userInfo = await connectionPool.query(
         `
       SELECT users.user_id,
@@ -149,9 +152,9 @@ async function handler(req, res) {
       `,
         [username]
       );
-
-      res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
-
+      if (userInfo.rows.length === 0) {
+        return res.status(404).json({ message: "User not found" });
+      }
       return res.status(200).json(userInfo.rows[0]);
     } catch (error) {
       return res.status(500).json(error.message);

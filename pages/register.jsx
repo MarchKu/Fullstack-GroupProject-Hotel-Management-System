@@ -67,13 +67,6 @@ const registerSchema = z.object({
   profilepic: z.custom((file) => file instanceof File, {
     message: "Profile Picture is required.",
   }),
-  cardOwner: z.string().nonempty({ message: "Card Owner is required." }),
-  expiryDate: z.string().nonempty({ message: "Expiry Date is required." }),
-  cvv: z.string().nonempty({ message: "CVV is required." }),
-  cardnumber: z
-    .string()
-    .length(16, { message: "Credit Card must be 16 digits long." })
-    .regex(/^\d+$/, { message: "Credit Card must be numeric." }),
 });
 
 export default function Register() {
@@ -118,10 +111,6 @@ export default function Register() {
       dateBirth: "",
       country: "",
       profilepic: {},
-      cardnumber: "",
-      cardOwner: "",
-      expiryDate: "",
-      cvv: "",
     },
   });
 
@@ -140,8 +129,6 @@ export default function Register() {
     formData.append("date_of_birth", data.dateBirth);
     formData.append("country", data.country);
     formData.append("profile_picture", data.profilepic);
-    formData.append("card_number", data.cardnumber);
-    formData.append("card_owner", data.cardOwner);
 
     register(formData);
   };
@@ -149,10 +136,10 @@ export default function Register() {
   return (
     <>
       <NavbarComponent />
-      <div className="w-full h-full inset-0 bg-cover bg-no-repeat bg-center bg-[url('../public/img/bg-register_page.jpg')]">
-        <div className="w-full h-full flex justify-center items-center  bg-gradient-to-b from-[#00000099] to-transparent ">
-          <div className="relative w-full md:mt-14 md:mb-20 p-2 md:p-14 m-0 md:w-[45%] bg-[#F7F7FB] pt-10 md:rounded-lg">
-            <div className="  flex flex-col gap-5  font-body ">
+      <div className="w-full min-h-[93vh] h-[93vh] inset-0 bg-cover bg-no-repeat bg-center bg-[url('../public/img/bg-register_page.jpg')] flex flex-col justify-start md:justify-center">
+        <div className="w-full h-full md:h-[90%] flex justify-center items-center  bg-gradient-to-b from-[#00000099] to-transparent ">
+          <div className="w-full h-full md:mt-14 md:mb-20 p-[5%] md:p-14 m-0 md:w-[45%] bg-[#F7F7FB] pt-10 md:rounded-lg">
+            <div className="size-full flex flex-col justify-start gap-5  font-body ">
               <h1 className="text-7xl font-serif text-[#2F3E35] font-medium tracking-tighter">
                 Register
               </h1>
@@ -163,103 +150,75 @@ export default function Register() {
               <Form {...form}>
                 <form
                   onSubmit={form.handleSubmit(onSubmit)}
-                  className="text-base font-normal gap-3 md:grid md:grid-cols-2 "
+                  className="text-base font-normal flex flex-col h-full justify-between"
                 >
-                  <div className="md:col-span-2">
+                  <div className="w-full h-auto gap-3 md:grid md:grid-cols-2 ">
+                    <div className="md:col-span-2">
+                      <FormFieldComponent
+                        control={form.control}
+                        name="fullName"
+                        label="Full Name"
+                        type="text"
+                        placeholder="Enter your name and last name"
+                      />
+                    </div>
+
                     <FormFieldComponent
                       control={form.control}
-                      name="fullName"
-                      label="Full Name"
+                      name="username"
+                      label="Username"
                       type="text"
-                      placeholder="Enter your name and last name"
+                      placeholder="Enter your username"
                     />
+                    <FormFieldComponent
+                      control={form.control}
+                      name="email"
+                      label="Email"
+                      type="email"
+                      placeholder="Enter your email"
+                    />
+                    <FormFieldComponent
+                      control={form.control}
+                      name="password"
+                      label="Password"
+                      type="password"
+                      placeholder="Enter your password"
+                    />
+                    <FormFieldComponent
+                      control={form.control}
+                      name="idNumber"
+                      label="ID Number"
+                      type="text"
+                      placeholder="Enter your ID number"
+                    />
+                    <DatePicker
+                      control={form.control}
+                      name="dateBirth"
+                      label="Date of Birth"
+                      placeholder="Enter your date of birth"
+                    />
+
+                    <CountryPicker
+                      control={form.control}
+                      name="country"
+                      label="Country"
+                      placeholder="Select your country"
+                    />
+                    <div className="col-span-2 border-b border-[#E4E6ED]"></div>
+                    <div className="">
+                      <InputFile
+                        control={form.control}
+                        name="profilepic"
+                        label="Upload  Picture"
+                        id="profilepic"
+                        type="file"
+                      />
+                    </div>
                   </div>
 
-                  <FormFieldComponent
-                    control={form.control}
-                    name="username"
-                    label="Username"
-                    type="text"
-                    placeholder="Enter your username"
-                  />
-                  <FormFieldComponent
-                    control={form.control}
-                    name="email"
-                    label="Email"
-                    type="email"
-                    placeholder="Enter your email"
-                  />
-                  <FormFieldComponent
-                    control={form.control}
-                    name="password"
-                    label="Password"
-                    type="password"
-                    placeholder="Enter your password"
-                  />
-                  <FormFieldComponent
-                    control={form.control}
-                    name="idNumber"
-                    label="ID Number"
-                    type="text"
-                    placeholder="Enter your ID number"
-                  />
-                  <DatePicker
-                    control={form.control}
-                    name="dateBirth"
-                    label="Date of Birth"
-                    placeholder="Enter your date of birth"
-                  />
-
-                  <CountryPicker
-                    control={form.control}
-                    name="country"
-                    label="Country"
-                    placeholder="Select your country"
-                  />
-                  <div className="col-span-2 border-b border-[#E4E6ED]"></div>
-
-                  <InputFile
-                    control={form.control}
-                    name="profilepic"
-                    label="Upload  Picture"
-                    id="profilepic"
-                    type="file"
-                  />
-
-                  <h1 className="border-t pt-5 border-[#E4E6ED] text-xl col-span-2 font-semibold  tracking-tighter text-[#9AA1B9]">
-                    Credit Card
-                  </h1>
-                  <FormFieldComponent
-                    control={form.control}
-                    name="cardnumber"
-                    label="Card Number"
-                    type="text"
-                    placeholder="Enter your card number"
-                  />
-                  <FormFieldComponent
-                    control={form.control}
-                    name="cardOwner"
-                    label="Card Owner"
-                    type="text"
-                    placeholder="Enter your card name"
-                  />
-                  <FormFieldComponent
-                    control={form.control}
-                    name="expiryDate"
-                    label=" Expiry Date"
-                    type="text"
-                    placeholder="MM/YY"
-                  />
-                  <FormFieldComponent
-                    control={form.control}
-                    name="cvv"
-                    label="cvv"
-                    type="text"
-                    placeholder="CVC/CVV"
-                  />
                   <Button
                     type="submit"
-                    className="mt-5 bg-[#C14817] w-full md:col-span-1"
+                    className="mt-5 bg-[#C14817] w-full md:w-[50%]"
                   >
                     Register
                   </Button>

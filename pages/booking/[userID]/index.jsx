@@ -197,7 +197,7 @@ const Index = () => {
                             <AccordionContent className="bg-gray-200 px-[5%]">
                               <div className="flex justify-between">
                                 <h3>{history.type_name}</h3>
-                                <h3>{history.promotion_price}</h3>
+                                <h3>{history.promotion_price && history.promotion_price.replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</h3>
                               </div>
                             </AccordionContent>
                             {history.special_request !== null &&
@@ -210,7 +210,7 @@ const Index = () => {
                                   >
                                     <div className="flex justify-between">
                                       <h3>{data.name}</h3>
-                                      <h3>{data.price}</h3>
+                                      <h3>{data.price && history.promotion_price.replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</h3>
                                     </div>
                                   </AccordionContent>
                                 );
@@ -218,14 +218,14 @@ const Index = () => {
                             <AccordionContent className="bg-gray-200 px-[5%] border-b-[1px] border-gray-400">
                               <div className="flex justify-between">
                                 <h3>Promotion Code</h3>
-                                <h3>{history.promotion}</h3>
+                                <h3>{history.promotion && history.promotion.replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</h3>
                               </div>
                             </AccordionContent>
                             <AccordionContent className="bg-gray-200 px-[5%]">
                               <div className="flex justify-between pt-[1rem] items-center">
                                 <h3>Total</h3>
                                 <h3 className="font font-semibold text-[1.5rem]">
-                                  THB {history.total_price}
+                                  THB {history.total_price && history.total_price.replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
                                 </h3>
                               </div>
                             </AccordionContent>
