@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import { useRouter } from "next/router";
 import axios from "axios";
 import format from "date-fns/format";
@@ -41,7 +41,7 @@ function BookingContextProvider(props) {
     }
   };
 
-  const getBookingData = async (bookingId) => {
+  const getBookingData = useCallback(async (bookingId) => {
     try {
       setIsLoading(true);
       const result = await axios.get(
@@ -55,9 +55,9 @@ function BookingContextProvider(props) {
       setIsLoading(false);
       setIsError(true);
     }
-  };
+  }, []);
 
-  const updateBookingData = async (data) => {
+  const updateBookingData = useCallback(async (data) => {
     try {
       await axios.patch(`http://localhost:3000/api/booking`, data);
       await getBookingData(data.booking_id);
@@ -65,7 +65,7 @@ function BookingContextProvider(props) {
     } catch (error) {
       console.log(error.message);
     }
-  };
+  }, []);
 
   const deleteUncompleteBooking = async (bookingId) => {
     try {
@@ -106,7 +106,7 @@ function BookingContextProvider(props) {
     }
   };
 
-  const checkRoomBooked = async () => {
+  const checkRoomBooked = useCallback(async () => {
     try {
       const newFormatDate = {
         checkIn: format(bookingData.check_in, "EEE, dd MMM yyyy"),
@@ -126,7 +126,7 @@ function BookingContextProvider(props) {
     } catch (error) {
       console.log(error.message);
     }
-  };
+  }, [bookingData]);
 
   const testOpenAlert = () => {
     setTestAlert(true);

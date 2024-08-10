@@ -1,7 +1,7 @@
 import { Button } from "../ui/button";
 import { BriefcaseBusiness, Banknote, Check, CreditCard } from "lucide-react";
 import { format } from "date-fns";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/router";
 import { useBookingContext } from "@/contexts/booking";
 import { Payment } from "../payment/payment";
@@ -31,15 +31,19 @@ const Step3PaymentMethod = ({ nextStep, prevStep }) => {
 
   useEffect(() => {
     checkRoomBooked();
-  }, []);
+  }, [checkRoomBooked]);
 
-  useEffect(() => {
+  const setTotalPriceFunction = useCallback(() => {
     if (bookingData) {
       if (bookingData.total_price) {
         setTotalPrice(Number(bookingData.total_price));
       }
     }
   }, [bookingData]);
+
+  useEffect(() => {
+    setTotalPriceFunction();
+  }, [setTotalPriceFunction]);
 
   const handleSelectPayment = (method) => {
     setPayment(() => {
@@ -71,29 +75,30 @@ const Step3PaymentMethod = ({ nextStep, prevStep }) => {
     };
   };
 
-  const getPromotionDiscount = (code) => {
+  const getPromotionDiscount = useCallback((code) => {
     promotionCode(code);
-  };
+  }, []);
 
   const [tempDiscount, setTempDiscount] = useState(0);
-  const discountPrice = () => {
+  const discountPrice = useCallback(() => {
     if (discount && discount > 0) {
-      setTempDiscount(discount);
+      setTempDiscount(Number(discount));
       const newTatalPrice = totalPrice - discount;
       setTotalPrice(newTatalPrice);
     } else if (!discount && tempDiscount) {
       const newTatalPrice = totalPrice + tempDiscount;
       setTotalPrice(newTatalPrice);
+      setTempDiscount(0);
     }
-  };
-
-  useEffect(() => {
-    discountPrice();
   }, [discount]);
 
   useEffect(() => {
+    discountPrice();
+  }, [discountPrice]);
+
+  useEffect(() => {
     debounce(getPromotionDiscount(code), 1000, 4);
-  }, [code]);
+  }, [code, getPromotionDiscount]);
 
   const formatTime = (seconds) => {
     const minutes = Math.floor(seconds / 60);

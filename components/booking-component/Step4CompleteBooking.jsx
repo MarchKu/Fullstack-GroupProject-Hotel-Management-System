@@ -22,7 +22,7 @@ const Step4CompleteBooking = () => {
     if (update) {
       setLoading(true);
     }
-  }, [bookingID]);
+  }, [bookingID, updateBookingData]);
 
   return loading ? (
     <>

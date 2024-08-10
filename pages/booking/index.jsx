@@ -1,3 +1,4 @@
+"use client";
 import Step1BasicInfo from "@/components/booking-component/Step1BasicInfo";
 import Step2SpecialRequest from "@/components/booking-component/step2SpecialReques";
 import Step3PaymentMethod from "@/components/booking-component/Step3PaymentMethod";
@@ -5,10 +6,10 @@ import Step4CompleteBooking from "@/components/booking-component/Step4CompleteBo
 import NavbarComponent from "@/components/navigation-component/NavbarComponent";
 import { useRouter } from "next/router";
 import { useBookingContext } from "@/contexts/booking";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import AlertRoomIsBooked from "@/components/booking-component/AlertRoomIsBooked";
 
-const booking = () => {
+const Booking = () => {
   const [step, setStep] = useState(1);
   const router = useRouter();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -17,25 +18,7 @@ const booking = () => {
 
   const { bookingID, bookingStep } = router.query;
 
-  // set timeout booking
-  useEffect(() => {
-    setTimeLeft(300);
-    const interval = setInterval(() => {
-      setTimeLeft((prevTime) => {
-        if (prevTime <= 1) {
-          redirectToSearchResult();
-
-          clearInterval(interval);
-          return 0;
-        }
-        return prevTime - 1;
-      });
-    }, 1000);
-
-    return () => clearInterval(interval);
-  }, [bookingID]);
-
-  const redirectToSearchResult = async () => {
+  const redirectToSearchResult = useCallback(async () => {
     await deleteUncompleteBooking(bookingID);
     const searchQuery = localStorage.getItem("searchData");
     if (searchQuery) {
@@ -45,16 +28,36 @@ const booking = () => {
         query: parsedData,
       });
     }
-  };
+  }, [bookingID]);
 
-  useEffect(
-    () => {
-      setStep(Number(bookingStep));
-      getBookingData(bookingID);
-    },
-    [bookingStep],
-    [bookingID]
-  );
+  const setTimeLeftStart = useCallback(() => {
+    setTimeLeft(300);
+  }, []);
+
+  const setTimeLeftFunction = useCallback(() => {
+    setTimeLeft((prevTime) => {
+      if (prevTime <= 1) {
+        redirectToSearchResult();
+        return 0;
+      }
+      return prevTime - 1;
+    });
+  }, []);
+
+  // set timeout booking
+  useEffect(() => {
+    setTimeLeftStart();
+    const interval = setInterval(() => {
+      setTimeLeftFunction();
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [bookingID, setTimeLeftFunction, setTimeLeftStart]);
+
+  useEffect(() => {
+    setStep(Number(bookingStep));
+    getBookingData(bookingID);
+  }, [bookingStep, bookingID, getBookingData]);
 
   const nextStep = () => {
     setStep(step + 1);
@@ -85,7 +88,7 @@ const booking = () => {
     return () => {
       router.events.off("routeChangeStart", handleRouteChange);
     };
-  }, [router, bookingID]);
+  }, [router, bookingID, deleteUncompleteBooking]);
 
   switch (step) {
     case 1:
@@ -132,4 +135,4 @@ const booking = () => {
   }
 };
 
-export default booking;
+export default Booking;

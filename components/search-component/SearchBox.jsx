@@ -130,7 +130,7 @@ export function SearchBox({ onDateChage }) {
   }, [date]);
 
   return (
-    <div className="w-full px-8 max-w-[345px] bg-white flex rounded justify-center items-center md:max-lg:max-w-[100vw] md:max-lg:w-[100vw] md:max-w-full md:w-full md:max-w-ful md:h-[150px]">
+    <div className="w-full px-8 max-w-[345px] bg-white flex rounded justify-center items-center md:max-lg:w-[100vw] md:max-w-full md:w-full md:max-w-ful md:h-[150px]">
       <div className="w-full my-8 flex flex-col justify-between items-center gap-[22px] md:gap-[10px]  md:max-w-[1000px] md:flex-row md:justify-between  md:h-[76px] ">
         <div className="w-full flex flex-col justify-center items-center gap-4 md:w-[50%] md:gap-[10px] md:flex-row ">
           {/* Check in */}
