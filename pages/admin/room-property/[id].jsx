@@ -134,7 +134,7 @@ const EditRoomProperties = () => {
       imageGallery: roomProperties.gallery_images,
       amenity: roomProperties.amenities,
     });
-  }, [roomProperties]);
+  }, [roomProperties,form]);
 
   const UpdateRoom = async (formData) => {
     if (!(formData instanceof FormData)) {
