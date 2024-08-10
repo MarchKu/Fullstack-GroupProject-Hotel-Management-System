@@ -35,7 +35,7 @@ const UserMenuDesktop = (props) => {
               alt="User"
               width={40}
               height={40}
-              className="w-10 h-10 rounded-full object-contain"
+              className="w-10 h-10 rounded-full object-cover"
             />
             <h6 className="text-start text-wrap">{name}</h6>
           </div>
@@ -47,10 +47,6 @@ const UserMenuDesktop = (props) => {
           >
             <Image src={profileIcon} className="w-4 h-4" />
             <p>Profile</p>
-          </MenubarItem>
-          <MenubarItem className="gap-3 px-2 cursor-pointer">
-            <Image src={cardIcon} className="w-4 h-4" />
-            <p>Payment Method</p>
           </MenubarItem>
           <MenubarItem
             className="gap-3 px-2 cursor-pointer"

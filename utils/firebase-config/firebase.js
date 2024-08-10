@@ -1,14 +1,15 @@
 import { initializeApp } from "@firebase/app";
 import { getAuth } from "@firebase/auth";
 import { getFirestore } from "@firebase/firestore";
+import "dotenv/config";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyDvddOyt83Ox-AHUZ3IZ3Hq7ojxel6HJaw",
-  authDomain: "hotel-admin-management-s-fb94b.firebaseapp.com",
-  projectId: "hotel-admin-management-s-fb94b",
-  storageBucket: "hotel-admin-management-s-fb94b.appspot.com",
-  messagingSenderId: "97969916817",
-  appId: "1:97969916817:web:94ea9495c40aca5184e830",
+  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
+  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
 };
 
 export const app = initializeApp(firebaseConfig);

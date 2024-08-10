@@ -85,7 +85,6 @@ export default function Profile() {
       });
     }
   }, [userData, form]);
-  ``;
 
   /* Handle submit */
 

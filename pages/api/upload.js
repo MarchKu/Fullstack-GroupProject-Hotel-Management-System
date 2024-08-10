@@ -1,5 +1,5 @@
 import { createClient } from "@supabase/supabase-js";
-import nextConnect from 'next-connect';
+import "dotenv/config";
 
 const supabase = createClient(
   process.env.SUPABASE_PROJECT_URL,

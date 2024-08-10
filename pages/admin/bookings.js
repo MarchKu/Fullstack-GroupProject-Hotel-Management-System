@@ -19,6 +19,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { Input } from "@/components/ui/input";
 import { dateFormatter } from "@/hooks/useDateFormatter";
+import Loading from "@/components/room-mangement-status/Loading";
 
 export default function AllBooking() {
   const [bookingData, setBookingData] = useState([]);
@@ -105,12 +106,12 @@ export default function AllBooking() {
             />
           </div>
         </header>
-        <div className="bookings-table mt-12 mb-5 mx-10">
+        <div className="bookings-table mt-12 mb-5 mx-5">
           <Table>
-            <TableHeader className="bg-gray-300 text-sm">
+            <TableHeader className="bg-gray-300 text-sm leading-2">
               <TableRow>
                 <TableHead className="text-center">ID</TableHead>
-                <TableHead>Customer name</TableHead>
+                <TableHead className="text-nowrap">Customer name</TableHead>
                 <TableHead>Guest(s)</TableHead>
                 <TableHead>Room type</TableHead>
                 <TableHead>Amount</TableHead>
@@ -120,7 +121,26 @@ export default function AllBooking() {
               </TableRow>
             </TableHeader>
             {isLoading ? (
-              <p>Loading...</p>
+              <tbody>
+                <tr>
+                  <td colSpan={8}>
+                    <Loading
+                      columns={8}
+                      colWidths={[
+                        "w-16 h-6",
+                        "w-16 h-6",
+                        "w-16 h-6",
+                        "w-16 h-6",
+                        "w-16 h-6",
+                        "w-16 h-6",
+                        "w-16 h-6",
+                        "w-16 h-6",
+                      ]}
+                      height="h-20"
+                    />
+                  </td>
+                </tr>
+              </tbody>
             ) : isError ? (
               <p>Error</p>
             ) : (
@@ -131,7 +151,7 @@ export default function AllBooking() {
                 .map((item, index) => {
                   return (
                     <>
-                      <TableBody className="bg-white">
+                      <TableBody className="bg-white leading-2">
                         <TableRow key={index}>
                           <TableCell>
                             <a
@@ -140,13 +160,21 @@ export default function AllBooking() {
                               <p className="text-center">{item.booking_id}</p>
                             </a>
                           </TableCell>
-                          <TableCell className="">{item.full_name}</TableCell>
+                          <TableCell className="max-w-[15ch] truncate">
+                            {item.full_name}
+                          </TableCell>
                           <TableCell>{item.room_capacity}</TableCell>
-                          <TableCell>{item.type_name}</TableCell>
+                          <TableCell className="truncate">
+                            {item.type_name}
+                          </TableCell>
                           <TableCell>{item.amount_booking}</TableCell>
                           <TableCell>{item.bed_type}</TableCell>
-                          <TableCell>{dateFormatter(item.check_in)}</TableCell>
-                          <TableCell>{dateFormatter(item.check_out)}</TableCell>
+                          <TableCell className="truncate">
+                            {dateFormatter(item.check_in)}
+                          </TableCell>
+                          <TableCell className="truncate">
+                            {dateFormatter(item.check_out)}
+                          </TableCell>
                         </TableRow>
                       </TableBody>
                     </>

@@ -2,11 +2,10 @@ import { Button } from "../ui/button";
 import { BriefcaseBusiness, Banknote, Check, CreditCard } from "lucide-react";
 import { format } from "date-fns";
 import { useState, useEffect } from "react";
-import useBooking from "@/hooks/use-booking";
 import { useRouter } from "next/router";
 import { useBookingContext } from "@/contexts/booking";
 import { Payment } from "../payment/payment";
-import { el } from "date-fns/locale";
+import axios from "axios";
 
 const Step3PaymentMethod = ({ nextStep, prevStep }) => {
   const {
@@ -17,8 +16,6 @@ const Step3PaymentMethod = ({ nextStep, prevStep }) => {
     promotionCode,
     discount,
     codeError,
-    isLoading,
-    isError,
     totalPrice,
     setTotalPrice,
     timeLeft,
@@ -48,6 +45,14 @@ const Step3PaymentMethod = ({ nextStep, prevStep }) => {
       }
     });
   };
+
+  useEffect(() => {
+    if (payment === "Cash") {
+      setIsConfirmDisabled(false);
+    } else {
+      setIsConfirmDisabled(true);
+    }
+  }, [payment]);
 
   // Debounce function
   const debounce = (func, delay, minChars = 0) => {
@@ -85,26 +90,11 @@ const Step3PaymentMethod = ({ nextStep, prevStep }) => {
     debounce(getPromotionDiscount(code), 1000, 4);
   }, [code]);
 
-  if (isLoading) {
-    return <h1>Booking in Progress...</h1>;
-  }
-  if (isError) {
-    return <h1>Bookig Error</h1>;
-  }
-
   const formatTime = (seconds) => {
     const minutes = Math.floor(seconds / 60);
     const remainingSeconds = seconds % 60;
     return `${minutes}:${remainingSeconds < 10 ? "0" : ""}${remainingSeconds}`;
   };
-
-  useEffect(() => {
-    if (payment === "Cash") {
-      setIsConfirmDisabled(false);
-    } else {
-      setIsConfirmDisabled(true);
-    }
-  }, [payment]);
 
   const handleConfirm = () => {
     if (payment === "Cash") {
@@ -118,6 +108,12 @@ const Step3PaymentMethod = ({ nextStep, prevStep }) => {
       const updete = updateBookingData(data);
       if (updete) {
         nextStep();
+        const query = {
+          username: username,
+          bookingID: bookingID,
+          bookingStep: 4,
+        };
+        router.push({ pathname: "/booking", query: query });
       }
     } else if (payment === "Credit Card") {
       const data = {
@@ -142,6 +138,12 @@ const Step3PaymentMethod = ({ nextStep, prevStep }) => {
 
   const handlePrev = () => {
     prevStep();
+    const query = {
+      username: username,
+      bookingID: bookingID,
+      bookingStep: 2,
+    };
+    router.push({ pathname: "/booking", query: query });
   };
 
   return bookingData ? (
@@ -181,12 +183,12 @@ const Step3PaymentMethod = ({ nextStep, prevStep }) => {
           </div>
         </header>
 
-        <div className="w-full p-4 flex flex-col gap-8 md:mt-8 md:w-[45%] lg:w-[50%] xl:w-[60%] md:p-8 md:border bg-white">
+        <div className="w-full p-4 flex flex-col gap-8 md:mt-8 md:w-full lg:w-[55%] xl:w-[60%] md:p-8 md:border bg-white">
           <div className="flex flex-col">
-            <div className="mb-8 flex gap-12">
+            <div className="gap-4 mb-8 flex lg:gap-12">
               <button
                 onClick={() => handleSelectPayment("Credit Card")}
-                className={`w-[322px] h-[80px] text-xl font-semibold  px-4 py-2 rounded flex justify-center items-center shadow-lg ${
+                className={`w-[322px] lg:h-[80px] text-xl font-semibold  lg:px-4 py-2 rounded flex justify-center items-center shadow-lg ${
                   payment === "Credit Card"
                     ? "border border-orange-500 text-orange-500"
                     : "border border-gray-300 text-gray-600"
@@ -196,7 +198,7 @@ const Step3PaymentMethod = ({ nextStep, prevStep }) => {
               </button>
               <button
                 onClick={() => handleSelectPayment("Cash")}
-                className={`w-[322px] h-[80px] text-xl font-semibold  px-4 py-2 rounded flex justify-center items-center shadow-lg ${
+                className={`w-[322px] lg:h-[80px] text-xl font-semibold  px-4 py-2 rounded flex justify-center items-center shadow-lg ${
                   payment === "Cash"
                     ? "border border-orange-500 text-orange-500"
                     : "border border-gray-300 text-gray-600"
@@ -207,7 +209,7 @@ const Step3PaymentMethod = ({ nextStep, prevStep }) => {
             </div>
             {payment === "Credit Card" ? (
               <div>
-                <Payment paymentUpdate={handleConfirm} />
+                <Payment paymentUpdate={handleConfirm} username={username} />
               </div>
             ) : (
               ""
@@ -235,7 +237,7 @@ const Step3PaymentMethod = ({ nextStep, prevStep }) => {
             </div>
           </div>
 
-          <div className="md:pl-8 flex flex-col items-center md:absolute md:right-[5%] lg:right-[10%] xl:right-[15%] md:top-[445px]">
+          <div className="md:pl-8 flex flex-col items-center lg:absolute lg:right-[10%] xl:right-[15%] md:top-[445px]">
             <div className="w-[358px] h-full min-h-[428px] rounded bg-green-700 text-white">
               <div className="w-full h-[62px] p-4  rounded bg-green-800 flex justify-between">
                 <h3 className="font-semibold text-xl flex gap-4">

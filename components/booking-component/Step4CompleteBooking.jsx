@@ -6,9 +6,25 @@ import { format } from "date-fns";
 
 const Step4CompleteBooking = () => {
   const router = useRouter();
-  const { bookingData } = useBookingContext();
+  const { username, bookingID } = router.query;
+  const { bookingData, updateBookingData } = useBookingContext();
+  const [loading, setLoading] = useState(false);
 
-  return bookingData ? (
+  useEffect(() => {
+    const data = {
+      booking_id: bookingID,
+      payment_method: "Credit Card",
+      status: "success",
+    };
+    console.log(data);
+
+    const update = updateBookingData(data);
+    if (update) {
+      setLoading(true);
+    }
+  }, [bookingID]);
+
+  return loading ? (
     <>
       <div class="w-full pb-8 md:px-[5%] lg:px-[10%] md:pb-32">
         <div className="w-full  flex flex-col items-center gap-8 md:mt-8  md:w-[100%] md:p-8 bg-white">
@@ -104,16 +120,19 @@ const Step4CompleteBooking = () => {
               ) : (
                 ""
               )}
-              {bookingData.discount ? (
+              {bookingData.promotion_discount ? (
                 <div className="flex justify-between mb-8">
                   <p className="text-gray-300">Promotion Code</p>
                   <p className="font-semibold">
                     {" "}
                     -
-                    {bookingData.discount.toLocaleString("en-US", {
-                      minimumFractionDigits: 2,
-                      maximumFractionDigits: 2,
-                    })}{" "}
+                    {Number(bookingData.promotion_discount).toLocaleString(
+                      "en-US",
+                      {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2,
+                      }
+                    )}{" "}
                   </p>
                 </div>
               ) : (
@@ -135,7 +154,7 @@ const Step4CompleteBooking = () => {
           <div className="flex flex-col gap-4 md:flex-row">
             <button
               className="w-[320px] md:w-[200px] text-orange-500 order-2 md:order-1"
-              onClick={() => router.push("/booking/booking-history")}
+              onClick={() => router.push(`/booking/${username}?page=1`)}
             >
               Check Booking Detail
             </button>
