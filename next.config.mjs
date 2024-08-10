@@ -17,9 +17,6 @@ const nextConfig = {
 
     return config;
   },
-};
-
-module.exports = {
   crossOrigin: "anonymous",
 };
 
