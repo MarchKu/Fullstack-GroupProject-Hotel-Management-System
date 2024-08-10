@@ -187,10 +187,10 @@ export default function BookingDetail() {
                       </div>
                       <div>
                         {item.special_request ? (
-                          item.special_request.map((item) => {
+                          item.special_request.map((item,index) => {
                             const data = JSON.parse(item);
                             return (
-                              <div className="mb-5 flex flex-row justify-between">
+                              <div key={index} className="mb-5 flex flex-row justify-between">
                                 <span className="text-base text-gray-900 font-normal">
                                   {data.name}
                                 </span>
