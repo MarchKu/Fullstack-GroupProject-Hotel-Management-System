@@ -4,7 +4,10 @@ import withSvgr from "@svgr/webpack";
 const nextConfig = {
   reactStrictMode: true,
   images: {
-    domains: ["mxhmryetxradarukkhgs.supabase.co","kxwwyifritwgpylhvpqi.supabase.co"],
+    domains: [
+      "mxhmryetxradarukkhgs.supabase.co",
+      "kxwwyifritwgpylhvpqi.supabase.co",
+    ],
   },
   webpack(config, options) {
     config.module.rules.push({
@@ -14,6 +17,10 @@ const nextConfig = {
 
     return config;
   },
+};
+
+module.exports = {
+  crossOrigin: "anonymous",
 };
 
 export default nextConfig;
