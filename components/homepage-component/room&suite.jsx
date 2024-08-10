@@ -41,7 +41,7 @@ const RoomSuite = () => {
           </div>
           <div
             className="bg-slate-300 md:col-span-3 bg-center bg-cover bg-blend-multiply flex flex-col justify-end px-4 md:pl-[60px] pt-[138px] md:pt-[217px] pb-10 gap-2 md:gap-6"
-            style={{ backgroundImage: `url((/room&suite/2.png))` }}
+            style={{ backgroundImage: `url(/room&suite/2.png)` }}
           >
             <h3 className="font-heading text-white text-[32px] md:text-[44px] md:leading-[55px]">
               Deluxe
