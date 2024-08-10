@@ -11,7 +11,7 @@ export default function useVacantRoom() {
       if (searchData) {
         setIsLoading(true);
         const result = await axios.get(
-          `http://localhost:3000/api/searchVacantRoom?check_in=${searchData.check_in}&check_out=${searchData.check_out}&guests=${searchData.guests}`
+          `https://neatly-hotel.vercel.app/api/searchVacantRoom?check_in=${searchData.check_in}&check_out=${searchData.check_out}&guests=${searchData.guests}`
         );
         setRoomData(result.data);
         console.log(result.data);

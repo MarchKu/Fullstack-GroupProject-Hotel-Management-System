@@ -13,7 +13,7 @@ export default function useRoomData() {
     try {
       if (id) {
         setIsLoading(true);
-        const result = await axios.get(`http://localhost:3000/api/room/${id}`);
+        const result = await axios.get(`https://neatly-hotel.vercel.app/api/room/${id}`);
         setRoomData(result.data[0]);
         setIsLoading(false);
         setIsError(false)
@@ -28,7 +28,7 @@ export default function useRoomData() {
   const getAllRoomsData = async () =>{
     try{
       setIsLoading(true);
-        const result = await axios.get(`http://localhost:3000/api/rooms`);
+        const result = await axios.get(`https://neatly-hotel.vercel.app/api/rooms`);
         setRoomData(result.data);
         setIsLoading(false);
         setIsError(false)

@@ -9,7 +9,7 @@ export default function useUpdateRoomStatus() {
       console.log(
         `Sending update request for room ${roomId} with status ${newStatus}`
       );
-      await axios.put(`http://localhost:3000/api/updateRoomStatus-Admin/`, {
+      await axios.put(`https://neatly-hotel.vercel.app/api/updateRoomStatus-Admin/`, {
         room_id: roomId,
         status: newStatus,
       });
