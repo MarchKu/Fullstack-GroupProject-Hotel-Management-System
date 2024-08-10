@@ -1,4 +1,3 @@
-
 import React from "react";
 import {
   Carousel,
@@ -9,8 +8,7 @@ import {
 } from "@/components/ui/carousel-other";
 import { Card, CardContent } from "@/components/ui/card";
 import { carouselOther } from "@/utils/carousel-info-array/carousel-other";
-
-import arrow from "../../assets/room&suite/arrow.svg";
+import Image from "next/image";
 import Link from "next/link";
 
 const OtherRoom = () => {
@@ -23,7 +21,7 @@ const OtherRoom = () => {
       <Carousel
         opts={{
           align: "center",
-          loop: true, 
+          loop: true,
         }}
         className="w-full h-[60%] mt-[1.5rem] max-w-[1440px]"
       >
@@ -40,10 +38,18 @@ const OtherRoom = () => {
                       {img.category}
                     </h3>
                     <div className="flex gap-2 justify-start items-center text-[0.8rem] md:text-[1rem]">
-                      <Link href={`/rooms/${index+1}`} className="font-body text-white hover:underline">
+                      <Link
+                        href={`/rooms/${index + 1}`}
+                        className="font-body text-white hover:underline"
+                      >
                         Explore Room
                       </Link>
-                      <img src={arrow.src} />
+                      <Image
+                        src="/room&suite/arrow.svg"
+                        alt="Arrow icon"
+                        width={20}
+                        height={20}
+                      />
                     </div>
                   </div>
                 </CardContent>

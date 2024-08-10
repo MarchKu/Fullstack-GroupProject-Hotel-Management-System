@@ -1,4 +1,5 @@
 import * as React from "react";
+import Image from "next/image";
 
 export default function PostRoomProperty({
   image,
@@ -33,9 +34,11 @@ export default function PostRoomProperty({
       onClick={handleRoomClick}
     >
       <div className="pl-5 flex justify-between items-center">
-        <img
-          className=" bg-center bg-cover w-28 h-16 rounded-sm object-cover object-center "
+        <Image
+          className="bg-center bg-cover w-28 h-16 rounded-sm object-cover object-center"
           src={image}
+          alt={`Image of ${typeRoom}`}
+          layout="fill"
         />
       </div>
       <div className="  pl-5 flex justify-between items-center col-span-2">

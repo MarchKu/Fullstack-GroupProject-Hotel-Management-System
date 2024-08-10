@@ -10,7 +10,7 @@ export default function RoomManagement() {
       <div className=" bg-[#F6F7FC] md:w-full flex flex-col">
         <NavbarRoom title={"Room Management"} setSearch={setSearch} />
         <div className=" pl-14 pt-14 pr-14">
-          <div className=" h-10 grid grid-cols-7 font-body text-sm font-medium tracking-tighter text-[#424C6B]">
+          <div className="pointer-events-none h-10 grid grid-cols-7 font-body text-sm font-medium tracking-tighter text-[#424C6B]">
             <div className="bg-[#E4E6ED] pl-5 flex justify-between items-center ">
               Room no.
             </div>
