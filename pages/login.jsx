@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import NavbarComponent from "@/components/navigation-component/NavbarComponent";
-import loginBgDesktop from "../assets/login/loginBg-desktop.png";
-import loginBgMobile from "../assets/login/loginBg-mobile.png";
 import { useAuth } from "@/contexts/authentication";
 import useUserProfile from "@/hooks/use-user-profile";
 import useHotelData from "@/hooks/use-hotel-data";
+import Link from "next/link";
 
-const login = () => {
+const Login = () => {
   const { userData, getUserProfile, putUserProfile, isLoading, isError } =
     useUserProfile();
   const { hotelData, getHotelData } = useHotelData();
@@ -23,7 +22,7 @@ const login = () => {
     };
     fetchUserData();
     getHotelData();
-  }, []);
+  }, [getHotelData]);
 
   /* Data fetching */
   useEffect(() => {
@@ -36,7 +35,7 @@ const login = () => {
   useEffect(() => {
     const token = localStorage.getItem("token");
     setIsAuthenticated(Boolean(token));
-  }, []);
+  }, [user, getUserProfile, userData]);
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -57,11 +56,17 @@ const login = () => {
       <main className="w-full h-[93vh] md:h-[92.5vh] flex md:flex-row flex-col items-center md:justify-center mx-auto gap-10 bg-[#F7F7FB]">
         <div className="w-full h-[50%] md:h-full md:w-1/2">
           <Image
-            src={loginBgDesktop}
-            className="object-cover size-full hidden md:block"
+            src="/login/loginBg-desktop.png"
+            alt="Login background desktop"
+            className="object-cover w-full hidden md:block"
+            width={1920}
+            height={1080}
           />
           <Image
-            src={loginBgMobile}
+            src="/login/loginBg-mobile.png"
+            alt="Login background mobile"
+            width={1920}
+            height={1080}
             className="object-cover w-full md:hidden"
           />
         </div>
@@ -105,9 +110,12 @@ const login = () => {
                 </button>
                 <p>
                   Don’t have an account yet?{" "}
-                  <a href="/register" className="font-semibold text-[#E76B39]">
+                  <Link
+                    href="/register"
+                    className="font-semibold text-[#E76B39]"
+                  >
                     Register
-                  </a>
+                  </Link>
                 </p>
               </div>
             </div>
@@ -118,4 +126,4 @@ const login = () => {
   );
 };
 
-export default login;
+export default Login;

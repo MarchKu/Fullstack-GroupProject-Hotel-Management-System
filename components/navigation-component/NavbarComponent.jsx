@@ -83,12 +83,12 @@ const NavbarComponent = () => {
             {hotelData ? (
               <>
                 {/* <Logo hotelLogo={hotelData.hotel_logo} /> */}
-                <a href="/">
+                <Link href="/">
                   <div
                     className="w-[94px] h-[25px] md:w-[167px] md:h-[45px] bg-cover bg-center"
                     style={{ backgroundImage: `url(${hotelData.hotel_logo})` }}
                   ></div>
-                </a>
+                </Link>
                 <NavLinkDesktop hotelName={hotelData.hotel_name} />
               </>
             ) : (
@@ -121,12 +121,12 @@ const NavbarComponent = () => {
           <div className="flex items-center gap-6 text-[14px]">
             {hotelData ? (
               <>
-                <a href="/">
+                <Link href="/">
                   <div
                     className="w-[94px] h-[25px] md:w-[167px] md:h-[45px] bg-cover bg-center"
                     style={{ backgroundImage: `url(${hotelData.hotel_logo})` }}
                   ></div>
-                </a>
+                </Link>
                 <NavLinkDesktop hotelName={hotelData.hotel_name} />
                 <NonUserMenuMobile hotelName={hotelData.hotel_name} />
               </>
