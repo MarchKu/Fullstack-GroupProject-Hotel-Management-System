@@ -51,14 +51,14 @@ const Login = () => {
     login(data);
   };
   return (
-    <>
+    <main className="h-screen w-screen">
       <NavbarComponent />
-      <main className="w-full h-[93vh] md:h-[92.5vh] flex md:flex-row flex-col items-center md:justify-center mx-auto gap-10 bg-[#F7F7FB]">
-        <div className="w-full h-[50%] md:h-full md:w-1/2">
+      <main className="h-full flex md:flex-row flex-col items-center md:justify-center mx-auto gap-10 bg-[#F7F7FB]">
+        <div className="h-full w-full">
           <Image
             src="/login/loginBg-desktop.png"
             alt="Login background desktop"
-            className="object-cover w-full hidden md:block"
+            className="object-cover h-full w-full hidden md:block"
             width={1920}
             height={1080}
           />
@@ -67,7 +67,7 @@ const Login = () => {
             alt="Login background mobile"
             width={1920}
             height={1080}
-            className="object-cover w-full md:hidden"
+            className="object-cover h-full w-full md:hidden"
           />
         </div>
         <div className="w-full md:w-1/2 flex flex-col items-center justify-center font-body ">
@@ -122,7 +122,7 @@ const Login = () => {
           </form>
         </div>
       </main>
-    </>
+    </main>
   );
 };
 

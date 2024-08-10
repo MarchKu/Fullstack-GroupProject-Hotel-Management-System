@@ -106,12 +106,12 @@ export default function Register() {
   };
 
   return (
-    <>
+    <main className="h-screen w-screen ">
       <NavbarComponent />
-      <div className="w-full min-h-[93vh] h-[93vh] inset-0 bg-cover bg-no-repeat bg-center bg-[url('../public/img/bg-register_page.jpg')] flex flex-col justify-start md:justify-center">
-        <div className="w-full h-full md:h-[90%] flex justify-center items-center  bg-gradient-to-b from-[#00000099] to-transparent ">
-          <div className="w-full h-full md:mt-14 md:mb-20 p-[5%] md:p-14 m-0 md:w-[45%] bg-[#F7F7FB] pt-10 md:rounded-lg">
-            <div className="size-full flex flex-col justify-start gap-5  font-body ">
+      <div className="  inset-0 bg-cover bg-no-repeat bg-center bg-[url('/img/bg-register_page.jpg')] flex flex-col justify-start md:justify-center">
+        <div className="md:h-full flex justify-center items-center  bg-gradient-to-b from-[#00000099] to-transparent ">
+          <div className="w-full  max-w-3xl  md:mt-14 md:mb-20 p-[5%] md:p-14  bg-[#F7F7FB] pt-10 md:rounded-lg">
+            <div className="h-fit flex flex-col justify-start gap-5  font-body ">
               <h1 className="text-7xl font-serif text-[#2F3E35] font-medium tracking-tighter">
                 Register
               </h1>
@@ -125,7 +125,7 @@ export default function Register() {
                 <Form {...form}>
                   <form
                     onSubmit={form.handleSubmit(onSubmit)}
-                    className="text-base font-normal gap-3 md:grid md:grid-cols-2 "
+                    className="h-fit text-base font-normal gap-3 md:grid md:grid-cols-2 "
                   >
                     <div className="md:col-span-2">
                       <FormFieldComponent
@@ -178,7 +178,7 @@ export default function Register() {
                       placeholder="Select your country"
                     />
                     <div className="col-span-2 border-b border-[#E4E6ED]"></div>
-                    <div className="col-span-2">
+                    <div className="col-span-2 ">
                       <InputFile
                         control={form.control}
                         name="profilepic"
@@ -189,7 +189,7 @@ export default function Register() {
                     </div>
                     <Button
                       type="submit"
-                      className="mt-5 bg-[#C14817] w-full col-span-full md:col-span-1"
+                      className=" bg-[#C14817] w-full col-span-full md:col-span-1 block"
                     >
                       Register
                     </Button>
@@ -200,6 +200,6 @@ export default function Register() {
           </div>
         </div>
       </div>
-    </>
+    </main>
   );
 }
