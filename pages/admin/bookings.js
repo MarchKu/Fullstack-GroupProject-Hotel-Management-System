@@ -74,7 +74,7 @@ export default function AllBooking() {
 
   useEffect(() => {
     getBookingData();
-  }, [input]);
+  }, []);
 
   return (
     <div className="flex flex-row">
