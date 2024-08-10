@@ -12,14 +12,14 @@ const Service = () => {
   console.log(spa.displayImage);
   return (
     <section
-      className="w-full max-w-[1440px] px-4 py-10 bg-green-700 flex flex-col gap-10 justify-between items-start text-center text-white"
+      className="w-full md:h-[50vh] px-4 py-10 bg-green-700 flex flex-col gap-10 justify-start items-center text-center text-white"
       id="service"
     >
       <h2 className="w-full h-[30%] text-center content-center md:h-[50%] font-heading lg:text-[6rem] leading-[55px] text-[44px] md:text-[68px] md:leading-[85px]">
         Service & Facilities{" "}
       </h2>
 
-      <div className="w-full font-body flex flex-wrap gap-4 justify-center items-center text-[1.25rem]">
+      <div className="w-full max-w-[1440px] font-body flex flex-wrap gap-4 justify-center items-center text-[1.25rem]">
         <div className="w-[144px] flex flex-col items-center gap-[19px]">
           <Image src={spa} className="w-[60px]" />
           <p className="w-[144px]  md:w-full">Spa</p>

@@ -82,7 +82,7 @@ const RoomDetail = () => {
     }+${checkOut.getFullYear()}`;
 
     router.push(
-      `/search-result?check_in=${checkInParams}&check_out=${checkOutParams}&number_of_night=1`
+      `/search-result?check_in=${checkInParams}&check_out=${checkOutParams}&number_of_night=1&guests=2`
     );
   };
 
@@ -120,12 +120,12 @@ const RoomDetail = () => {
         </h2>
         {/* Need to render */}
         <div className="w-full h-auto flex flex-col md:flex-row items-center justify-between py-[1.5rem]">
-          <div className="w-full md:w-[50%] h-full flex flex-col justify-between font-body text-[0.8rem] lg:text-[1.25rem] xl:text-[1.5rem] gap-[1.5rem] md:gap-[2rem]">
-            <p className="h-auto text-secondary-body">
+          <div className="w-full md:w-[50%] h-full flex flex-col justify-between font-body md:gap-[2rem]">
+            <p className="h-auto text-secondary-body text-[0.8rem] lg:text-[1.25rem] ">
               {/* render data */}
               {roomData.room_description}
             </p>
-            <p className="h-auto text-secondary-body">
+            <p className="h-auto text-secondary-body text-[0.8rem] lg:text-[1.25rem] ">
               <span className="pr-2 md:pr-6">
                 {" "}
                 {roomData.room_capacity} Person
@@ -142,14 +142,14 @@ const RoomDetail = () => {
           </div>
           <div className="w-full md:w-[50%] h-full flex md:flex-col justify-between items-end font-body">
             <div>
-              <p className="md:text-[1.25rem] text start md:text-end text-secondary-body xl:text-[1.5rem]">
+              <p className="text-start md:text-end text-secondary-body text-[0.8rem] md:text-[1.25rem] font-semibold">
                 <s>
                   {/* render data */}
                   THB{" "}
                   {roomData.current_price.replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
                 </s>
               </p>
-              <p className="text-[1.25rem] md:text-[1.5rem] xl:text-[1.7rem]  font-bold">
+              <p className="text-[1.25rem] md:text-[1.5rem] xl:text-[1.7rem]  font-semibold">
                 {/* render data */}
                 THB{" "}
                 {roomData.promotion_price.replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
@@ -178,7 +178,7 @@ const RoomDetail = () => {
           <h3 className="font-body font-bold text-[1.5rem] pt-[1.5rem]">
             Room Amenities
           </h3>
-          <div className="w-full flex flex-col md:flex-row md:flex-wrap text-[0.8rem] lg:text-[1.25rem] xl:text-[1.5rem] font-body pt-[1rem] text-secondary-body">
+          <div className="w-full flex flex-col md:flex-row md:flex-wrap text-[0.8rem] lg:text-[1.25rem] font-body pt-[1rem] text-secondary-body">
             {/* render data */}
             {roomData.amenities === null ? (
               <div></div>

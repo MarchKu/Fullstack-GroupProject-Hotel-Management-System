@@ -54,23 +54,23 @@ const login = () => {
   return (
     <>
       <NavbarComponent />
-      <main className="w-full flex md:flex-row flex-col items-center md:justify-center mx-auto gap-10 bg-[#F7F7FB]">
-        <div className="w-full md:w-1/2 relative">
+      <main className="w-full h-[93vh] md:h-[92.5vh] flex md:flex-row flex-col items-center md:justify-center mx-auto gap-10 bg-[#F7F7FB]">
+        <div className="w-full h-[50%] md:h-full md:w-1/2">
           <Image
             src={loginBgDesktop}
-            className="object-cover w-full hidden md:block"
+            className="object-cover size-full hidden md:block"
           />
           <Image
             src={loginBgMobile}
             className="object-cover w-full md:hidden"
           />
         </div>
-        <div className="w-full md:w-1/2 flex flex-col items-center justify-center ">
+        <div className="w-full md:w-1/2 flex flex-col items-center justify-center font-body ">
           <form
             className="w-full md:max-w-[452px] px-4 md:px-10 pb-10 flex flex-col gap-10 md:gap-[60px]"
             onSubmit={handleSubmit}
           >
-            <h1 className="text-[44px] md:text-[68px] leading-[55px] md:leading-[85px] font-medium">
+            <h1 className="text-[44px] md:text-[68px] leading-[55px] md:leading-[85px] font-medium font-heading">
               Log In
             </h1>
             <div className="flex flex-col gap-10">

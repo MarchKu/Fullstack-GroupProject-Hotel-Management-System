@@ -1,6 +1,4 @@
 import * as pg from "pg";
-import "dotenv/config";
-
 const { Pool } = pg.default;
 
 const connectionPool = new Pool({
@@ -10,5 +8,6 @@ const connectionPool = new Pool({
   password: process.env.SUPABASE_PASSWORD,
   port: process.env.SUPABASE_PORT,
 });
+
 
 export default connectionPool;

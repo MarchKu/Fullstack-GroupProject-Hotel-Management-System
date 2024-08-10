@@ -58,15 +58,7 @@ function InputFile({ control, name, type, label, id, description }) {
             {...field}
           />
           <div className="flex gap-5 pb-10 pt-2">
-            <button
-              type="button"
-              onClick={() => document.getElementById(id)?.click()}
-              className="flex flex-col gap-2 items-center justify-center w-40  h-40 md:w-50 md:h-50 border border-transparent shadow-sm text-sm font-medium rounded-md text-[#E76B39] bg-[#F1F2F6] hover:bg-slate-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-            >
-              <img src="/img/icon-upload-pic.svg" />
-              Upload photo
-            </button>
-            {selectedFile && previewUrl && (
+            {selectedFile && previewUrl ? (
               <div>
                 <img
                   src={previewUrl}
@@ -80,6 +72,15 @@ function InputFile({ control, name, type, label, id, description }) {
                   <img src="/img/delete.svg" alt="Error Trigger" />
                 </button>
               </div>
+            ) : (
+              <button
+                type="button"
+                onClick={() => document.getElementById(id)?.click()}
+                className="flex flex-col gap-2 items-center justify-center w-40  h-40 md:w-50 md:h-50 border border-transparent shadow-sm text-sm font-medium rounded-md text-[#E76B39] bg-[#F1F2F6] hover:bg-slate-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+              >
+                <img src="/img/icon-upload-pic.svg" />
+                Upload photo
+              </button>
             )}
           </div>
           {description && (

@@ -11,13 +11,13 @@ import Link from "next/link";
 const RoomSuite = () => {
   return (
     <section
-      className="w-full max-w-[1440px] md:px-[10%] py-10 md:pb-[178px] flex flex-col justify-start items-center gap-10 md:gap-[72px]"
+      className="w-full px-[10%] md:px-[5%] py-[5%] md:pb-[178px] flex flex-col justify-start items-center gap-10 md:gap-[72px]"
       id="room&suite"
     >
       <h2 className="font-heading w-full text-center text-[44px] md:text-[6rem] text-primary-foreground text-primary-heading ">
         Rooms & Suits
       </h2>
-      <div className="w-full h-full flex flex-col gap-4">
+      <div className="w-full h-full flex flex-col gap-4 max-w-[1440px]">
         {/* First half */}
         <div className="w-full grid gap-4 grid-cols-1 md:grid-cols-5">
           <div
