@@ -41,7 +41,7 @@ export default async function handler(req, res) {
       const { bookingID } = req.query;
       const result = await connectionPool.query(
         `
-        select  b.booking_id, b.check_in, b.check_out, b.amount_booking, b.night, b.status, 
+        select  b.booking_id, b.check_in, b.check_out, b.amount_booking, b.night, b.status, b.room_id, 
         r.room_size, r.bed_type, r.room_capacity, r.current_price, r.promotion_price, rt.type_name,
         bl.bill_id, bl.standard_request, bl.special_request, bl.additional_request, bl.total_price, bl.promotion_discount 
         from booking b

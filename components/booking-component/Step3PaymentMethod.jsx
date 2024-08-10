@@ -19,6 +19,7 @@ const Step3PaymentMethod = ({ nextStep, prevStep }) => {
     totalPrice,
     setTotalPrice,
     timeLeft,
+    checkRoomBooked,
   } = useBookingContext();
 
   const [payment, setPayment] = useState();
@@ -27,6 +28,10 @@ const Step3PaymentMethod = ({ nextStep, prevStep }) => {
 
   const router = useRouter();
   const { username, bookingID } = router.query;
+
+  useEffect(() => {
+    checkRoomBooked();
+  }, []);
 
   useEffect(() => {
     if (bookingData) {
@@ -96,43 +101,46 @@ const Step3PaymentMethod = ({ nextStep, prevStep }) => {
     return `${minutes}:${remainingSeconds < 10 ? "0" : ""}${remainingSeconds}`;
   };
 
-  const handleConfirm = () => {
-    if (payment === "Cash") {
-      const data = {
-        booking_id: bookingData.booking_id,
-        status: "success",
-        total_price: totalPrice,
-        payment_method: "Cash",
-        promotion_discount: discount,
-      };
-      const updete = updateBookingData(data);
-      if (updete) {
-        nextStep();
-        const query = {
-          username: username,
-          bookingID: bookingID,
-          bookingStep: 4,
+  const handleConfirm = async () => {
+    const isRoomAvailable = await checkRoomBooked();
+    if (isRoomAvailable) {
+      if (payment === "Cash") {
+        const data = {
+          booking_id: bookingData.booking_id,
+          status: "success",
+          total_price: totalPrice,
+          payment_method: "Cash",
+          promotion_discount: discount,
         };
-        router.push({ pathname: "/booking", query: query });
-      }
-    } else if (payment === "Credit Card") {
-      const data = {
-        booking_id: bookingData.booking_id,
-        status: "pending",
-        total_price: totalPrice,
-        payment_method: "Credit Card",
-        promotion_discount: discount,
-      };
-      const updateBookingData = async () => {
-        console.log(data);
-
-        try {
-          await axios.patch(`http://localhost:3000/api/booking`, data);
-        } catch (error) {
-          console.log(error.message);
+        const updete = updateBookingData(data);
+        if (updete) {
+          nextStep();
+          const query = {
+            username: username,
+            bookingID: bookingID,
+            bookingStep: 4,
+          };
+          router.push({ pathname: "/booking", query: query });
         }
-      };
-      updateBookingData();
+      } else if (payment === "Credit Card") {
+        const data = {
+          booking_id: bookingData.booking_id,
+          status: "pending",
+          total_price: totalPrice,
+          payment_method: "Credit Card",
+          promotion_discount: discount,
+        };
+        const updateBookingData = async () => {
+          console.log(data);
+
+          try {
+            await axios.patch(`http://localhost:3000/api/booking`, data);
+          } catch (error) {
+            console.log(error.message);
+          }
+        };
+        updateBookingData();
+      }
     }
   };
 

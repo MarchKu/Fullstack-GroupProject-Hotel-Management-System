@@ -14,6 +14,8 @@ export default function useVacantRoom() {
           `http://localhost:3000/api/searchVacantRoom?check_in=${searchData.check_in}&check_out=${searchData.check_out}&guests=${searchData.guests}`
         );
         setRoomData(result.data);
+        console.log(result.data);
+
         setIsLoading(false);
         setIsError(false);
       }

@@ -33,6 +33,7 @@ export function Payment({ paymentUpdate, username }) {
           billId={bookingData.bill_id}
           bookingId={bookingData.booking_id}
           username={username}
+          bookingData={bookingData}
         />
       </Elements>
     </main>

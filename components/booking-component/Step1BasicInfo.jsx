@@ -5,11 +5,20 @@ import { format, parse } from "date-fns";
 import { useRouter } from "next/router";
 import useUserProfile from "@/hooks/use-user-profile";
 import { useBookingContext } from "@/contexts/booking";
+import axios from "axios";
+import AlertRoomIsBooked from "@/components/booking-component/AlertRoomIsBooked";
 
 const Step1BasicInfo = ({ nextStep, prevStep }) => {
-  const { bookingData, discount, totalPrice, setTotalPrice, timeLeft } =
-    useBookingContext();
+  const {
+    bookingData,
+    discount,
+    totalPrice,
+    setTotalPrice,
+    timeLeft,
+    checkRoomBooked,
+  } = useBookingContext();
 
+  const [alerOpen, setAlertOpen] = useState(false);
   //Get username from query parameter*/
   const router = useRouter();
   const { username, bookingID } = router.query;
@@ -17,6 +26,10 @@ const Step1BasicInfo = ({ nextStep, prevStep }) => {
   /*Get user profile */
   const { userData, getUserProfile, putUserProfile, isLoading, isError } =
     useUserProfile();
+
+  useEffect(() => {
+    checkRoomBooked();
+  }, []);
 
   useEffect(() => {
     if (username) {
@@ -66,9 +79,9 @@ const Step1BasicInfo = ({ nextStep, prevStep }) => {
 
   return (
     <div className="max-w-[1440px] w-full">
-      <div class="w-full p-4 lg:px-8 xl:px-28 pb-8 md:pb-32 ">
+      <div className="w-full p-4 lg:px-8 xl:px-28 pb-8 md:pb-32 ">
         <header className="py-8 px-4 md:p-0 md:pt-10 border-b border-gray-300">
-          <h1 class="text-4xl mb-6 font-heading md:text-[68px] font-medium text-green-800 ">
+          <h1 className="text-4xl mb-6 font-heading md:text-[68px] font-medium text-green-800 ">
             Booking Room
           </h1>
           <div className=" font-body w-full h-[200px] md:h-[146px] flex">
@@ -109,7 +122,7 @@ const Step1BasicInfo = ({ nextStep, prevStep }) => {
               </h3>
               <div>
                 <label
-                  htmlfor="full-name"
+                  htmlFor="full-name"
                   className="block text-muted-foreground mb-1"
                 >
                   Full Name
@@ -124,7 +137,7 @@ const Step1BasicInfo = ({ nextStep, prevStep }) => {
               </div>
               <div>
                 <label
-                  htmlfor="email"
+                  htmlFor="email"
                   className="block text-muted-foreground mb-1"
                 >
                   Email
@@ -139,7 +152,7 @@ const Step1BasicInfo = ({ nextStep, prevStep }) => {
               </div>
               <div>
                 <label
-                  htmlfor="id-number"
+                  htmlFor="id-number"
                   className="block text-muted-foreground mb-1"
                 >
                   ID Number
@@ -154,7 +167,7 @@ const Step1BasicInfo = ({ nextStep, prevStep }) => {
               </div>
               <div>
                 <label
-                  htmlfor="date-of-birth"
+                  htmlFor="date-of-birth"
                   className="block text-muted-foreground mb-1"
                 >
                   Date of Birth
@@ -169,7 +182,7 @@ const Step1BasicInfo = ({ nextStep, prevStep }) => {
               </div>
               <div>
                 <label
-                  htmlfor="country"
+                  htmlFor="country"
                   className="block text-muted-foreground mb-1"
                 >
                   Country

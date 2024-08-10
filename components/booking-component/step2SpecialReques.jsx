@@ -10,7 +10,8 @@ import useBooking from "@/hooks/use-booking";
 
 const Step2SpecialRequest = ({ nextStep, prevStep }) => {
   // const [bookingData, setBookingData] = useState();
-  const { bookingData, updateBookingData, timeLeft } = useBookingContext();
+  const { bookingData, updateBookingData, timeLeft, checkRoomBooked } =
+    useBookingContext();
 
   const [standardRequest, setStandardRequest] = useState([]);
   const [specialRequest, setSpecialRequest] = useState([]);
@@ -44,6 +45,10 @@ const Step2SpecialRequest = ({ nextStep, prevStep }) => {
     },
     { name: "breakfast", label: "Breakfast", price: 150 },
   ];
+
+  useEffect(() => {
+    checkRoomBooked();
+  }, []);
 
   useEffect(() => {
     if (bookingData) {
