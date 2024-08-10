@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { dateFormatter } from "@/hooks/useDateFormatter";
 import { Skeleton } from "@/components/ui/skeleton";
+import Link from "next/link";
 
 export default function BookingDetail() {
   const [bookingData, setBookingData] = useState([]);
@@ -53,7 +54,7 @@ export default function BookingDetail() {
         <Sidebar isAtBookingDetail={true} />
         <div className="w-full bg-gray-100">
           <header className="flex flex-row justify-start items-center gap-5 px-16 py-5 bg-white">
-            <a href="/admin/bookings">
+            <Link href="/admin/bookings">
               <svg
                 width="16"
                 height="16"
@@ -66,16 +67,16 @@ export default function BookingDetail() {
                   fill="#9AA1B9"
                 />
               </svg>
-            </a>
-            {bookingData.map((item) => (
-              <>
+            </Link>
+            {bookingData.map((item,index) => (
+              <p key={index}>
                 <span className="text-[#2A2E3F] text-xl font-semibold">
                   {item.full_name}
                 </span>
                 <span className="text-[#2A2E3F] text-xl font-normal">
                   {item.type_name}
                 </span>
-              </>
+              </p>
             ))}
           </header>
           <div className="bg-white mt-12 mx-16 pb-10">
