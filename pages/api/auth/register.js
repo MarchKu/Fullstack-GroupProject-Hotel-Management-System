@@ -5,10 +5,9 @@ import multerMiddleware, {
 } from "../../../middleware/multerMiddleware";
 import { uploadFile } from "../upload";
 import { Knock } from "@knocklabs/node";
+import "dotenv/config";
 
-const knockClient = new Knock(
-  "sk_test_kseOJ5ZEM06R-g9oRoRQQMf-UBylVWu5wvyFigek1vU"
-);
+const knockClient = new Knock(process.env.KNOCK_SK);
 
 export default async function POST(req, res) {
   await runMiddleware(req, res, multerMiddleware);

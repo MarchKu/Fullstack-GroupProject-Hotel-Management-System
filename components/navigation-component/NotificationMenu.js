@@ -9,6 +9,7 @@ import {
 } from "@knocklabs/react";
 
 import "@knocklabs/react/dist/index.css";
+import "dotenv/config";
 
 export default function NotificationMenu({ userId }) {
   const [isVisible, setIsVisible] = useState(false);
@@ -17,11 +18,8 @@ export default function NotificationMenu({ userId }) {
 
   return userId ? (
     <>
-      <KnockProvider
-        apiKey="pk_test_8y5Kv2yWEnzo3oHKg29G3Q7NgwfRoB6Dmkye1G7JUxE"
-        userId={userId}
-      >
-        <KnockFeedProvider feedId="5a838c50-e18f-40cb-aca8-a87479793059">
+      <KnockProvider apiKey={process.env.NEXT_PUBLIC_KNOCK_PK} userId={userId}>
+        <KnockFeedProvider feedId={process.env.NEXT_PUBLIC_KNOCK_FEED_ID}>
           <NotificationIconButton
             ref={notifButtonRef}
             onClick={() => {

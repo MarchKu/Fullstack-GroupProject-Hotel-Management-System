@@ -9,6 +9,15 @@ import { Form } from "@/components/ui/formComponent";
 import InputFile from "../ui/uploadFile";
 import FormFieldComponent from "../ui/FormField";
 import toastr from "toastr";
+import {
+  FormField,
+  FormItem,
+  FormLabel,
+  FormControl,
+  FormDescription,
+  FormMessage,
+} from "../ui/form";
+import { Textarea } from "../ui/textarea";
 
 const hotelSchema = z.object({
   hotelName: z.string().min(1),
@@ -43,7 +52,6 @@ const Main = () => {
       const admin = localStorage.getItem("admin");
       const parsedAdminData = JSON.parse(admin);
       const adminUsername = parsedAdminData.username;
-      console.log("adminUsername: ", adminUsername);
       setAdminData(adminUsername);
     };
 
@@ -53,8 +61,6 @@ const Main = () => {
 
   useEffect(() => {
     hotelData.hotel_logo ? setHasImage(true) : setHasImage(false);
-    console.log(adminData);
-    console.log(hotelData);
   }, [hotelData, adminData]);
 
   const updateHotelData = async (data) => {
@@ -74,6 +80,7 @@ const Main = () => {
     formData.append("hotelDescription", data.hotelDescription);
     formData.append("hotelLogo", data.hotelLogo);
     formData.append("adminUsername", adminData);
+    console.log("submit");
 
     updateHotelData(formData);
   };
@@ -104,12 +111,21 @@ const Main = () => {
             />
           </div>
           <div className="flex flex-col gap-1">
-            <FormFieldComponent
+            <FormField
               control={form.control}
               name="hotelDescription"
-              label="Hotel Description*"
-              type="textarea"
-              placeholder="Enter description"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Hotel Description</FormLabel>
+                  <FormControl>
+                    <Textarea
+                      placeholder="Enter Description"
+                      className="min-h-[150px] resize-none focus-visible:border-red"
+                      {...field}
+                    />
+                  </FormControl>
+                </FormItem>
+              )}
             />
           </div>
           <div className="flex flex-col gap-2">

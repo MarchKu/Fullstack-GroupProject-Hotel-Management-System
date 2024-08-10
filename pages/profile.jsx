@@ -70,7 +70,6 @@ export default function Profile() {
     if (user) {
       getUserProfile(user.username);
     }
-    console.log(userData);
   }, [user]);
 
   /* Set form default data to featching data */
@@ -86,7 +85,6 @@ export default function Profile() {
       });
     }
   }, [userData, form]);
-  ``;
 
   /* Handle submit */
 
@@ -97,9 +95,11 @@ export default function Profile() {
     formPayload.append("id_number", data.id_number);
     formPayload.append("date_of_birth", data.date_of_birth);
     formPayload.append("country", data.country);
-    formPayload.append("profile_picture", data.profile_picture);
-    console.log(Object.fromEntries(formPayload));
-    putUserProfile(user.username, formPayload);
+
+    if (data.profile_picture instanceof File) {
+      formPayload.append("profile_picture", data.profile_picture);
+    }
+    await putUserProfile(user.username, formPayload);
   };
 
   /* Nav Bar Authen */
@@ -107,6 +107,7 @@ export default function Profile() {
     const token = localStorage.getItem("token");
     setIsAuthenticated(Boolean(token));
   }, []);
+
   return (
     <>
       <NavbarComponent />
@@ -114,7 +115,7 @@ export default function Profile() {
         <div className="inline-block"></div>
         <div className="inline-block"></div>
       </div>
-      <section className="w-screen min-h-screen py-[10%] md:py-[5%] px-[5%] bg-gray-400 flex flex-col justify-start items-center overflow-hidden">
+      <section className="w-full min-h-[92vh] py-[10%] md:py-[5%] px-[5%] bg-gray-400 flex flex-col justify-start items-center overflow-hidden">
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
@@ -200,11 +201,11 @@ export default function Profile() {
                 )}
               </div>
               <Button
-                  type="submit"
-                  className="text-[1.25rem] font-normal black md:hidden"
-                >
-                  Update Profile
-                </Button>
+                type="submit"
+                className="text-[1.25rem] font-normal black md:hidden"
+              >
+                Update Profile
+              </Button>
             </div>
           </form>
         </Form>

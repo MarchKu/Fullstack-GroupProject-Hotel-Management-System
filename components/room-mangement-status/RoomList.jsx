@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
-import PostStatus from "./postStatus";
+import PostStatus from "./PostStatus";
+import Loading from "./Loading";
 
 const room_per_page = 10;
 
@@ -90,7 +91,19 @@ export default function RoomList({ search }) {
   return (
     <div>
       {isLoading ? (
-        <p>Loading...</p>
+        <Loading
+          columns={7}
+          colWidths={[
+            "w-14 h-6",
+            "w-14 h-6",
+            "",
+            "w-12 h-6",
+            "",
+            "w-10 h-6",
+            "",
+          ]}
+          colSpan={["", "col-span-2", "", "col-span-2", "", "col-span-2", ""]}
+        />
       ) : isError ? (
         <p>Error</p>
       ) : (

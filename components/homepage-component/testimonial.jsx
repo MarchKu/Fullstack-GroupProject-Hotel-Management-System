@@ -15,11 +15,11 @@ import emblaCarouselAutoplay from "embla-carousel-autoplay";
 const Testimonial = () => {
   const carouselInfo = carouselTestimonial;
   return (
-    <section className="w-full max-w-[1440px] bg-green-200 flex flex-col gap-10 md:gap-[72px] py-10 md:pb-[178px] px-4 md:pt-[125px]">
-      <h2 className="w-full h-[20%] text-[44px] leading-[55px] md:text-[5rem] lg:text-[6rem] font-heading text-center content-center text-primary-heading">
+    <section className="w-full bg-green-200 flex flex-col items-center gap-10 md:gap-[72px] py-10 md:pb-[178px] px-4 md:pt-[125px]">
+      <h2 className="w-full max-w-[1440px] h-[20%] text-[44px] leading-[55px] md:text-[5rem] lg:text-[6rem] font-heading text-center content-center text-primary-heading">
         Our Customer Says
       </h2>
-      <div className="pb-[128px] md:pb-10">
+      <div className="w-full pb-[128px] md:pb-10 max-w-[1440px]">
         <Carousel
           opts={{
             align: "start",
