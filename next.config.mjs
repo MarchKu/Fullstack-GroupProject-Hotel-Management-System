@@ -13,14 +13,11 @@ const nextConfig = {
     config.module.rules.push({
       test: /\.svg$/,
       use: ["@svgr/webpack"],
+      crossOrigin: "anonymous",
     });
 
     return config;
   },
-};
-
-module.exports = {
-  crossOrigin: "anonymous",
 };
 
 export default nextConfig;

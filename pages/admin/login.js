@@ -27,7 +27,9 @@ const Login = () => {
   const getHotelData = async () => {
     try {
       setIsLoading(true);
-      const result = await axios.get("http://localhost:3000/api/getHotelData");
+      const result = await axios.get(
+        "https://neatly-hotel.vercel.app/api/getHotelData"
+      );
       setHotelData(result.data.data);
       setIsLoading(false);
       setIsError(false);
