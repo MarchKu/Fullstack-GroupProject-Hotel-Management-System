@@ -32,7 +32,9 @@ const NavbarComponent = () => {
     };
 
     const getHotelData = async () => {
-      const result = await axios.get("http://localhost:3000/api/getHotelData");
+      const result = await axios.get(
+        "https://neatly-hotel.vercel.app/api/getHotelData"
+      );
       setHotelData(result.data.data);
     };
 
@@ -46,7 +48,7 @@ const NavbarComponent = () => {
     const getUserData = async (username) => {
       if (user) {
         const result = await axios.get(
-          `http://localhost:3000/api/user-profile/${username}`
+          `https://neatly-hotel.vercel.app/api/user-profile/${username}`
         );
         setUserData(result.data);
       }
@@ -58,7 +60,10 @@ const NavbarComponent = () => {
 
   const setNotification = async (data) => {
     try {
-      await axios.post("http://localhost:3000/api/notification", data);
+      await axios.post(
+        "https://neatly-hotel.vercel.app/api/notification",
+        data
+      );
     } catch (error) {
       console.log(error.message);
     }
@@ -118,30 +123,30 @@ const NavbarComponent = () => {
   const UnauthenticatedUser = (
     <NavigationMenu className="flex items-center min-h-[48px] md:min-h-[100px] h-[5vh] border-[1px] border-[#E4E6ED] justify-center w-full px-4">
       <div className="flex justify-between w-full">
-          <div className="flex items-center gap-6 text-[14px]">
-            {hotelData ? (
-              <>
-                <Link href="/">
-                  <div
-                    className="w-[94px] h-[25px] md:w-[167px] md:h-[45px] bg-cover bg-center"
-                    style={{ backgroundImage: `url(${hotelData.hotel_logo})` }}
-                  ></div>
-                </Link>
-                <NavLinkDesktop hotelName={hotelData.hotel_name} />
-                <NonUserMenuMobile hotelName={hotelData.hotel_name} />
-              </>
-            ) : (
-              <p>Loading...</p>
-            )}
-          </div>
-          <div className="hidden md:flex items-center justify-end">
-            <Link href="/login" legacyBehavior passHref>
-              <NavigationMenuLink className="text-[1rem] px-[14px] py-2 md:mx-4 font-semibold text-[#E76B39]">
-                <p className="whitespace-nowrap ">Log in</p>
-              </NavigationMenuLink>
-            </Link>
-          </div>
+        <div className="flex items-center gap-6 text-[14px]">
+          {hotelData ? (
+            <>
+              <Link href="/">
+                <div
+                  className="w-[94px] h-[25px] md:w-[167px] md:h-[45px] bg-cover bg-center"
+                  style={{ backgroundImage: `url(${hotelData.hotel_logo})` }}
+                ></div>
+              </Link>
+              <NavLinkDesktop hotelName={hotelData.hotel_name} />
+              <NonUserMenuMobile hotelName={hotelData.hotel_name} />
+            </>
+          ) : (
+            <p>Loading...</p>
+          )}
         </div>
+        <div className="hidden md:flex items-center justify-end">
+          <Link href="/login" legacyBehavior passHref>
+            <NavigationMenuLink className="text-[1rem] px-[14px] py-2 md:mx-4 font-semibold text-[#E76B39]">
+              <p className="whitespace-nowrap ">Log in</p>
+            </NavigationMenuLink>
+          </Link>
+        </div>
+      </div>
     </NavigationMenu>
   );
 
