@@ -1,6 +1,6 @@
 import { Button } from "../ui/button";
 import { BriefcaseBusiness } from "lucide-react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { format, parse } from "date-fns";
 import { useRouter } from "next/router";
 import useUserProfile from "@/hooks/use-user-profile";
@@ -29,7 +29,7 @@ const Step1BasicInfo = ({ nextStep, prevStep }) => {
 
   useEffect(() => {
     checkRoomBooked();
-  }, []);
+  }, [checkRoomBooked]);
 
   useEffect(() => {
     if (username) {
@@ -42,13 +42,17 @@ const Step1BasicInfo = ({ nextStep, prevStep }) => {
     }
   }, [username]);
 
-  useEffect(() => {
+  const setTotalPriceFunction = useCallback(() => {
     if (bookingData) {
       if (bookingData.total_price) {
         setTotalPrice(Number(bookingData.total_price));
       }
     }
   }, [bookingData]);
+
+  useEffect(() => {
+    setTotalPriceFunction();
+  }, [setTotalPriceFunction]);
 
   const formatTime = (seconds) => {
     const minutes = Math.floor(seconds / 60);
@@ -228,7 +232,7 @@ const Step1BasicInfo = ({ nextStep, prevStep }) => {
                       </div>
                       <div className="flex justify-between mb-4">
                         <p>{bookingData.type_name}</p>
-                        <p className="font-semibold">
+                        <p className="font-semibold text-right">
                           {bookingData.night > 1
                             ? `${bookingData.night} Nights x `
                             : ""}

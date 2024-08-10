@@ -3,10 +3,9 @@ import { Checkbox } from "@/components/ui/checkbox";
 
 import { BriefcaseBusiness } from "lucide-react";
 import { useState, useEffect } from "react";
-import { format, set } from "date-fns";
+import { format } from "date-fns";
 import { useBookingContext } from "@/contexts/booking";
 import { useRouter } from "next/router";
-import useBooking from "@/hooks/use-booking";
 
 const Step2SpecialRequest = ({ nextStep, prevStep }) => {
   // const [bookingData, setBookingData] = useState();
@@ -48,7 +47,7 @@ const Step2SpecialRequest = ({ nextStep, prevStep }) => {
 
   useEffect(() => {
     checkRoomBooked();
-  }, []);
+  }, [checkRoomBooked]);
 
   useEffect(() => {
     if (bookingData) {

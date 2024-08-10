@@ -299,7 +299,7 @@ export default function Search_result() {
                                 className="lg:basis-1/3 lg:p-4"
                               >
                                 <img
-                                  className="w-full h-[60vw] object-cover md:h-[60vw] xl:h-[60vh] lg:object-cover"
+                                  className="w-full h-[60vw] object-cover md:h-[60vw] xl:h-[80vh] lg:object-cover"
                                   src={img}
                                 />
                               </CarouselItem>
