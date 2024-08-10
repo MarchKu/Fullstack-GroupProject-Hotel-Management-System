@@ -9,6 +9,7 @@ import {
 import { Input } from "@/components/ui/inputRegisterForm";
 import { useFormContext } from "react-hook-form";
 import { FormControl } from "../ui/form";
+import Image from "next/image";
 import { set } from "date-fns";
 
 const UploadMainImage = ({ control, name, label, mainImage }) => {
@@ -72,10 +73,12 @@ const UploadMainImage = ({ control, name, label, mainImage }) => {
           <div className="flex gap-5 pb-10">
             {selectedFile && previewUrl ? (
               <div className="relative">
-                <img
+                <Image
                   src={previewUrl}
                   alt="Preview"
                   className="w-40 h-40 md:w-60 md:h-60 object-cover rounded-md border border-gray-200"
+                  width={240}
+                  height={240}
                 />
                 <button
                   type="button"
@@ -91,7 +94,12 @@ const UploadMainImage = ({ control, name, label, mainImage }) => {
                 onClick={() => uploadButtonRef.current.click()}
                 className="flex flex-col gap-2 items-center justify-center w-60 h-60 border border-transparent shadow-sm text-sm font-medium rounded-md text-[#E76B39] bg-[#F1F2F6] hover:bg-slate-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
               >
-                <img src="/img/icon-upload-pic.svg" alt="Upload" />
+                <Image
+                  src="/img/icon-upload-pic.svg"
+                  alt="Upload"
+                  width={40}
+                  height={40}
+                />
                 Upload photo
               </button>
             )}

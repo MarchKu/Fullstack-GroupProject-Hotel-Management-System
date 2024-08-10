@@ -1,6 +1,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { useSearchParams, useParams } from "next/navigation";
+import Image from "next/image";
 import NavbarComponent from "@/components/navigation-component/NavbarComponent";
 import FooterComponent from "@/components/footer-component/FooterComponent";
 import useBookingHistory from "@/hooks/use-booking-history";
@@ -8,6 +9,7 @@ import CheckDateBeforeModifie from "@/components/booking-history-component/Card-
 import { useRouter } from "next/router";
 import { Button } from "@/components/ui/button";
 import { format } from "date-fns";
+import Link from "next/link";
 import {
   Accordion,
   AccordionContent,
@@ -73,9 +75,9 @@ const Index = () => {
         </p>
         <p className="text-center">
           Go back to our{" "}
-          <a className="underline hover:text-primary-heading" href="/">
+          <Link className="underline hover:text-primary-heading" href="/">
             homepage
-          </a>{" "}
+          </Link>{" "}
           and start planning your next trip!
         </p>
       </div>
@@ -115,8 +117,10 @@ const Index = () => {
                   >
                     <div className="w-full h-auto flex flex-col md:flex-row border-b border-gray-300 mb-[1.5rem]">
                       <div className="w-full md:w-[40%] h-full md:h-[400px]">
-                        <img
+                        <Image
                           src={history.main_image}
+                          width={500}
+                          height={500}
                           alt="room image"
                           className="relative w-full h-full md:w-[90%] md:h-[90%] bg-center bg-cover md:rounded-lg bg-gray-300 object-cover object-center"
                         />
@@ -197,7 +201,13 @@ const Index = () => {
                             <AccordionContent className="bg-gray-200 px-[5%]">
                               <div className="flex justify-between">
                                 <h3>{history.type_name}</h3>
-                                <h3>{history.promotion_price && history.promotion_price.replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</h3>
+                                <h3>
+                                  {history.promotion_price &&
+                                    history.promotion_price.replace(
+                                      /\B(?=(\d{3})+(?!\d))/g,
+                                      ","
+                                    )}
+                                </h3>
                               </div>
                             </AccordionContent>
                             {history.special_request !== null &&
@@ -218,14 +228,25 @@ const Index = () => {
                             <AccordionContent className="bg-gray-200 px-[5%] border-b-[1px] border-gray-400">
                               <div className="flex justify-between">
                                 <h3>Promotion Code</h3>
-                                <h3>{history.promotion && history.promotion.replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</h3>
+                                <h3>
+                                  {history.promotion &&
+                                    history.promotion.replace(
+                                      /\B(?=(\d{3})+(?!\d))/g,
+                                      ","
+                                    )}
+                                </h3>
                               </div>
                             </AccordionContent>
                             <AccordionContent className="bg-gray-200 px-[5%]">
                               <div className="flex justify-between pt-[1rem] items-center">
                                 <h3>Total</h3>
                                 <h3 className="font font-semibold text-[1.5rem]">
-                                  THB {history.total_price && history.total_price.replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                                  THB{" "}
+                                  {history.total_price &&
+                                    history.total_price.replace(
+                                      /\B(?=(\d{3})+(?!\d))/g,
+                                      ","
+                                    )}
                                 </h3>
                               </div>
                             </AccordionContent>

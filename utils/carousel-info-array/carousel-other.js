@@ -1,33 +1,26 @@
-import img1 from "../../assets/room&suite/1.png";
-import img2 from "../../assets/room&suite/2.png";
-import img3 from "../../assets/room&suite/3.png";
-import img4 from "../../assets/room&suite/4.png";
-import img5 from "../../assets/room&suite/5.png";
-import img6 from "../../assets/room&suite/6.png";
-
 export const carouselOther = [
   {
-    image: img1.src,
+    image: "/room&suite/1.png",
     category: "Superior Garden View",
   },
   {
-    image: img2.src,
+    image: "/room&suite/2.png",
     category: "Deluxe",
   },
   {
-    image: img3.src,
+    image: "/room&suite/3.png",
     category: "Superior",
   },
   {
-    image: img4.src,
+    image: "/room&suite/4.png",
     category: "Premier Sea View",
   },
   {
-    image: img5.src,
+    image: "/room&suite/5.png",
     category: "Supreme",
   },
   {
-    image: img6.src,
+    image: "/room&suite/6.png",
     category: "Suite",
   },
 ];

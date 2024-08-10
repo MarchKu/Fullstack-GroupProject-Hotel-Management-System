@@ -56,7 +56,7 @@ function InputFile({ control, name, type, label, id, currentPic, isChange }) {
               <img
                 src={previewUrl}
                 alt="Preview"
-                className="object-cover object-center rounded-md border border-gray-200 "
+                className="w-40 h-40 md:w-52 md:h-52 object-cover rounded-md border border-gray-200 absolute"
               />
               <button
                 onClick={removeFile}
@@ -66,7 +66,7 @@ function InputFile({ control, name, type, label, id, currentPic, isChange }) {
               </button>
             </div>
           ) : !isChangePic ? (
-            <div>
+            <div className="size-52 relative">
               <img
                 src={previewUrl}
                 alt="Preview"

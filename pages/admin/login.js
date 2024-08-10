@@ -12,7 +12,7 @@ import Link from "next/link";
 import axios from "axios";
 import { Skeleton } from "@/components/ui/skeleton";
 
-const login = () => {
+const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [hotelData, setHotelData] = useState({});
@@ -72,10 +72,12 @@ const login = () => {
           <Image
             src={loginBgDesktop}
             className="object-cover w-full h-full hidden md:block"
+            alt="login background"
           />
           <Image
             src={loginBgMobile}
             className="object-cover w-full h-full md:hidden"
+            alt="login background"
           />
         </div>
         <div className="w-full md:w-1/2 flex flex-col items-center justify-center ">
@@ -131,4 +133,4 @@ const login = () => {
   );
 };
 
-export default login;
+export default Login;

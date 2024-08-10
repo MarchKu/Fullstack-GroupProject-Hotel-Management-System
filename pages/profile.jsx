@@ -196,7 +196,7 @@ export default function Profile() {
                     id="profile_picture"
                     type="file"
                     currentPic={userData.profile_picture}
-                    isChange="default"
+                    isChange= "default"
                   />
                 )}
               </div>
