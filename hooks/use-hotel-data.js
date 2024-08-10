@@ -8,7 +8,7 @@ export default function useHotelData() {
   const [isError, setIsError] = useState(false);
 
   const getHotelData = async () => {
-    const result = await axios.get("http://localhost:3000/api/getHotelData");
+    const result = await axios.get("https://neatly-hotel.vercel.app/api/getHotelData");
     try {
       if (result) {
         setHotelData(result.data);

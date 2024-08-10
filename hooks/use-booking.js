@@ -16,7 +16,7 @@ export default function useBooking() {
     try {
       setIsLoading(true);
       const result = await axios.post(
-        `http://localhost:3000/api/booking`,
+        `https://neatly-hotel.vercel.app/api/booking`,
         data
       );
       localStorage.setItem("bookingId", JSON.stringify(result.data.bookingId));
@@ -41,7 +41,7 @@ export default function useBooking() {
     try {
       setIsLoading(true);
       const result = await axios.get(
-        `http://localhost:3000/api/booking?bookingID=${bookingId}`
+        `https://neatly-hotel.vercel.app/api/booking?bookingID=${bookingId}`
       );
       setBookingData(result.data);
       setIsLoading(false);
@@ -55,7 +55,7 @@ export default function useBooking() {
 
   const updateBookingData = async (data) => {
     try {
-      await axios.patch(`http://localhost:3000/api/booking`, data);
+      await axios.patch(`https://neatly-hotel.vercel.app/api/booking`, data);
     } catch (error) {
       console.log(error.message);
     }
@@ -64,7 +64,7 @@ export default function useBooking() {
   const deleteBookingData = async () => {
     try {
       await axios.delete(
-        `http://localhost:3000/api/booking?bookingID=${bookingId}`
+        `https://neatly-hotel.vercel.app/api/booking?bookingID=${bookingId}`
       );
     } catch (error) {
       console.log(error.message);
@@ -74,7 +74,7 @@ export default function useBooking() {
   const promotionCode = async (code) => {
     try {
       const response = await axios.post(
-        `http://localhost:3000/api/promotion`,
+        `https://neatly-hotel.vercel.app/api/promotion`,
         code
       );
 
