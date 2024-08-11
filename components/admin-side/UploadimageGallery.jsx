@@ -22,9 +22,24 @@ const UploadimageGallery = ({ name, label, imageGallery, control }) => {
 
   useEffect(() => {
     // console.log(imageGallery);
+    let newImages;
     if (imageGallery) {
-      setSelectedFiles(imageGallery);
-      setPreviewUrls(imageGallery);
+      setSelectedFiles((prev) => {
+        const newFiles = imageGallery.map((file, index) => ({
+          id: index + 1,
+          file: file,
+        }));
+        newImages = [...prev, ...newFiles];
+        return [...prev, ...newFiles];
+      });
+      setPreviewUrls((prev) => {
+        const newPreviewUrls = imageGallery.map((file, index) => ({
+          id: index + 1,
+          file: file,
+        }));
+        return [...prev, ...newPreviewUrls];
+      });
+      setValue(name, newImages);
     }
   }, [imageGallery]);
 

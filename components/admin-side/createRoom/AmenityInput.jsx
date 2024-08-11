@@ -15,22 +15,27 @@ const AmenityInput = ({
   setAmenities,
   control,
   prevAmenities,
-  handleAddAmenity,
   handleInputChange,
   handleRemoveAmenity,
 }) => {
   const { setValue } = useFormContext();
 
   useEffect(() => {
+    let newAmenities;
     if (prevAmenities) {
-      setAmenities(prevAmenities);
-      setValue("amenities", prevAmenities);
+      setAmenities((prev) => {
+        const newAmenity = prevAmenities.map((amenity, index) => ({
+          id: index + 1,
+          value: amenity,
+        }));
+        newAmenities = [...newAmenity];
+        return [...newAmenity];
+      });
+      setValue("amenity", newAmenities);
     }
   }, [prevAmenities]);
 
   // console.log(amenities);
-
-  
 
   return (
     <section className="flex flex-col gap-6">

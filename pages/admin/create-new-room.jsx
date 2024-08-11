@@ -430,7 +430,6 @@ const CreateNewRoom = () => {
                 <AmenityInput
                   amenities={amenities}
                   control={form.control}
-                  handleAddAmenity={handleAddAmenity}
                   handleInputChange={handleInputChange}
                   handleRemoveAmenity={handleRemoveAmenity}
                 />
