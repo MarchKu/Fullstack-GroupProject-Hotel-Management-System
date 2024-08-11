@@ -101,7 +101,7 @@ const EditRoomProperties = () => {
       if (id) {
         try {
           const response = await axios.get(
-            `http://localhost:3000/api/room/${id}`
+            `https://neatly-hotel.vercel.app/api/room/${id}`
           );
           const roomData = response.data[0];
 
@@ -134,7 +134,7 @@ const EditRoomProperties = () => {
       imageGallery: roomProperties.gallery_images,
       amenity: roomProperties.amenities,
     });
-  }, [roomProperties,form]);
+  }, [roomProperties, form]);
 
   const UpdateRoom = async (formData) => {
     if (!(formData instanceof FormData)) {
@@ -178,9 +178,13 @@ const EditRoomProperties = () => {
       galleryImageUrls.forEach((url) => {
         formData.append("imageGallery", url);
       });
-      await axios.put(`http://localhost:3000/api/hotel/rooms/`, formData, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
+      await axios.put(
+        `https://neatly-hotel.vercel.app/api/hotel/rooms/`,
+        formData,
+        {
+          headers: { "Content-Type": "multipart/form-data" },
+        }
+      );
       toastr["success"]("You are successfully registered");
       setTimeout(function () {
         window.location.replace("/admin/create-new-room");
@@ -224,7 +228,7 @@ const EditRoomProperties = () => {
 
   const deleteRoom = async () => {
     try {
-      await axios.delete("http://localhost:3000/api/hotel/rooms", {
+      await axios.delete("https://neatly-hotel.vercel.app/api/hotel/rooms", {
         params: { id },
       });
       toastr["success"]("Room deleted successfully");
