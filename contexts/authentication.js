@@ -21,7 +21,7 @@ function AuthProvider(props) {
       );
       const token = result.data.token;
       localStorage.setItem("token", token);
-      document.cookie = `token=${token};expires= ${tokenTimeout}`;
+      document.cookie = `token=${token};expires= ${tokenTimeout.toUTCString()}`;
       const userDataFromToken = jwtDecode(token);
       localStorage.setItem("user", JSON.stringify(userDataFromToken));
       toastr["success"]("You are successfully logged in");
