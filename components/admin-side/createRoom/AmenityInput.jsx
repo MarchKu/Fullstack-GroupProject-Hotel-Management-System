@@ -31,9 +31,12 @@ const AmenityInput = ({
         newAmenities = [...newAmenity];
         return [...newAmenity];
       });
-      setValue("amenity", newAmenities);
     }
   }, [prevAmenities]);
+
+  useEffect(() => {
+    setValue("amenity", amenities);
+  }, [amenities]);
 
   // console.log(amenities);
 

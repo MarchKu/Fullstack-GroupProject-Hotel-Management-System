@@ -56,9 +56,10 @@ const createRoomSchema = z.object({
       message: "Main Image must be either a file or a URL string.",
     }
   ),
-  imageGallery: z
-    .array(
-      z.custom(
+  imageGallery: z.array(
+    z.object({
+      id: z.number(),
+      file: z.custom(
         (value) => {
           return (
             value instanceof File ||
@@ -66,14 +67,17 @@ const createRoomSchema = z.object({
           );
         },
         {
-          message: "Each image must be either a file or a URL string.",
+          message: "File must be a valid File object.",
         }
-      )
-    )
-    .min(4, {
-      message: "Please select at least 4 images.",
-    }),
-  amenity: z.array(z.string()),
+      ),
+    })
+  ),
+  amenity: z.array(
+    z.object({
+      id: z.number(),
+      value: z.string(),
+    })
+  ),
 });
 
 const EditRoomProperties = () => {
@@ -95,7 +99,7 @@ const EditRoomProperties = () => {
       roomDescription: "",
       mainImage: {},
       imageGallery: [],
-      amenity: [""],
+      amenity: [{ id: 1, value: "" }],
     },
   });
 
@@ -249,6 +253,8 @@ const EditRoomProperties = () => {
   };
 
   const onSubmit = async (data) => {
+    console.log("Data Submitted:", data);
+
     const formData = new FormData();
     formData.append("roomId", id);
     formData.append("roomTypeId", data.roomTypeId);
@@ -262,18 +268,18 @@ const EditRoomProperties = () => {
     formData.append("roomDescription", data.roomDescription);
     formData.append("mainImage", data.mainImage);
     for (let i = 0; i < data.imageGallery.length; i++) {
-      formData.append("imageGallery", data.imageGallery[i]);
+      formData.append("imageGallery", data.imageGallery[i].file);
     }
     for (let i = 0; i < data.amenity.length; i++) {
-      formData.append("amenity", data.amenity[i]);
+      formData.append("amenity", data.amenity[i].value);
     }
 
     console.log("Form Data Submitted:", Object.fromEntries(formData));
-    await UpdateRoom(formData);
+    // await UpdateRoom(formData);
   };
 
-  const imageGalleryWatch = form.watch("imageGallery");
-  console.log("imageGalleryWatch:", imageGalleryWatch);
+  const allFormData = form.watch();
+  console.log("All Form Data:", allFormData);
 
   const deleteRoom = async () => {
     try {

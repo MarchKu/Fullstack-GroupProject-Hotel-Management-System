@@ -49,6 +49,7 @@ const UploadimageGallery = ({ name, label, imageGallery, control }) => {
 
   useEffect(() => {
     console.log("selectedFiles: ", selectedFiles);
+    setValue(name, selectedFiles);
   }, [selectedFiles]);
 
   const handleFileChange = (event) => {
