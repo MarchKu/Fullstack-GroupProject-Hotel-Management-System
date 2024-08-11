@@ -88,7 +88,7 @@ const RoomDetail = () => {
 
   return roomData ? (
     <section className="w-full h-auto md:min-h-screen pt-[2.5%] pb-[5%] px-[5%] flex flex-col justify-start items-center overflow-hidden">
-      <div className="w-screen h-[300px] md:h-[50vh] max-w-[1440px]">
+      <div className="w-screen h-[400px] md:h-[50vh] max-w-[1440px]">
         <Carousel
           opts={{
             align: "center",
@@ -121,11 +121,11 @@ const RoomDetail = () => {
         {/* Need to render */}
         <div className="w-full h-auto flex flex-col md:flex-row items-center justify-between py-[1.5rem]">
           <div className="w-full md:w-[50%] h-full flex flex-col justify-between font-body md:gap-[2rem]">
-            <p className="h-auto text-secondary-body text-[0.8rem] lg:text-[1.25rem] ">
+            <p className="h-auto text-secondary-body text-[0.8rem] lg:text-[1rem] ">
               {/* render data */}
               {roomData.room_description}
             </p>
-            <p className="h-auto text-secondary-body text-[0.8rem] lg:text-[1.25rem] ">
+            <p className="h-auto text-secondary-body text-[0.8rem] lg:text-[1rem] ">
               <span className="pr-2 md:pr-6">
                 {" "}
                 {roomData.room_capacity} Person
@@ -178,7 +178,7 @@ const RoomDetail = () => {
           <h3 className="font-body font-bold text-[1.5rem] pt-[1.5rem]">
             Room Amenities
           </h3>
-          <div className="w-full flex flex-col md:flex-row md:flex-wrap text-[0.8rem] lg:text-[1.25rem] font-body pt-[1rem] text-secondary-body">
+          <div className="w-full flex flex-col md:flex-row md:flex-wrap text-[0.8rem] lg:text-[1rem] font-body pt-[1rem] text-secondary-body">
             {/* render data */}
             {roomData.amenities === null ? (
               <div></div>

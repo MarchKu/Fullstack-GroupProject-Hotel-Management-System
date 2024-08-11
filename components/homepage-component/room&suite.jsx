@@ -15,16 +15,16 @@ const RoomSuite = () => {
         {/* First half */}
         <div className="w-full grid gap-4 grid-cols-1 md:grid-cols-5">
           <div
-            className="bg-slate-300 md:col-span-5 bg-center bg-cover bg-blend-multiply flex flex-col justify-end px-4 md:pl-[60px] pt-[138px] md:pt-[357px] pb-10 gap-2 md:gap-6"
+            className="bg-slate-300 md:col-span-5 bg-center bg-cover bg-blend-multiply flex flex-col justify-end px-4 md:pl-[1.5rem] pt-[138px] md:pt-[357px] pb-[1.5rem]"
             style={{ backgroundImage: `url(/room&suite/1.png)` }}
           >
             <h3 className="font-heading text-white text-[32px] md:text-[44px] md:leading-[55px]">
               Superior Garden View
             </h3>
-            <div className="flex justify-start items-center">
+            <div className="w-full flex flex-row justify-start items-center">
               <Link
                 href="/rooms/1"
-                className="font-body text-white text-base hover:underline"
+                className="font-body text-white text-base hover:underline w-full flex items-center gap-[0.5rem]"
               >
                 Explore Room
                 <span>
@@ -39,7 +39,7 @@ const RoomSuite = () => {
             </div>
           </div>
           <div
-            className="bg-slate-300 md:col-span-3 bg-center bg-cover bg-blend-multiply flex flex-col justify-end px-4 md:pl-[60px] pt-[138px] md:pt-[217px] pb-10 gap-2 md:gap-6"
+            className="bg-slate-300 md:col-span-3 bg-center bg-cover bg-blend-multiply flex flex-col justify-end px-4 md:pl-[1.5rem] pt-[138px] md:pt-[217px] pb-[1.5rem] "
             style={{ backgroundImage: `url(/room&suite/2.png)` }}
           >
             <h3 className="font-heading text-white text-[32px] md:text-[44px] md:leading-[55px]">
@@ -48,7 +48,7 @@ const RoomSuite = () => {
             <div className="flex gap-2 justify-start items-center">
               <Link
                 href="/rooms/2"
-                className="font-body text-white text-base hover:underline"
+                className="font-body text-white text-base hover:underline w-full flex items-center gap-[0.5rem]"
               >
                 Explore Room
                 <span>
@@ -63,7 +63,7 @@ const RoomSuite = () => {
             </div>
           </div>
           <div
-            className="bg-slate-300 md:col-span-2 bg-center bg-cover bg-blend-multiply flex flex-col justify-end px-4 md:pl-[60px] pt-[138px] md:pt-[217px] pb-10 gap-2 md:gap-6"
+            className="bg-slate-300 md:col-span-2 bg-center bg-cover bg-blend-multiply flex flex-col justify-end px-4 md:pl-[1.5rem] pt-[138px] md:pt-[217px] pb-[1.5rem] "
             style={{ backgroundImage: `url(/room&suite/3.png)` }}
           >
             <h3 className="font-heading text-white text-[32px] md:text-[44px] md:leading-[55px]">
@@ -72,7 +72,7 @@ const RoomSuite = () => {
             <div className="flex justify-start items-center">
               <Link
                 href="/rooms/3"
-                className="font-body text-white text-base hover:underline"
+                className="font-body text-white text-base hover:underline w-full flex items-center gap-[0.5rem]"
               >
                 Explore Room
                 <span>
@@ -90,7 +90,7 @@ const RoomSuite = () => {
         {/* Second half */}
         <div className="w-full h-[50%] grid gap-4 grid-cols-1 md:grid-cols-7">
           <div
-            className="bg-slate-300 md:row-span-2 md:col-span-3 bg-center bg-cover bg-blend-multiply flex flex-col justify-end px-4 md:pl-[60px] pt-[138px] pb-10 gap-2 md:gap-6"
+            className="bg-slate-300 md:row-span-2 md:col-span-3 bg-center bg-cover bg-blend-multiply flex flex-col justify-end px-4 md:pl-[1.5rem] pt-[138px] pb-[1.5rem] "
             style={{ backgroundImage: `url(/room&suite/4.png)` }}
           >
             <h3 className="font-heading text-white text-[32px] md:text-[44px]">
@@ -99,7 +99,7 @@ const RoomSuite = () => {
             <div className="flex gap-2 justify-start items-center">
               <Link
                 href="/rooms/4"
-                className="font-body text-white text-base hover:underline"
+                className="font-body text-white text-base hover:underline w-full flex items-center gap-[0.5rem]"
               >
                 Explore Room
                 <span>
@@ -114,7 +114,7 @@ const RoomSuite = () => {
             </div>
           </div>
           <div
-            className="bg-slate-300 md:col-span-4 bg-center bg-cover bg-blend-multiply flex flex-col justify-end px-4 md:pl-[60px] pt-[138px] pb-10 gap-2 md:gap-6"
+            className="bg-slate-300 md:col-span-4 bg-center bg-cover bg-blend-multiply flex flex-col justify-end px-4 md:pl-[1.5rem] pt-[138px] pb-[1.5rem] "
             style={{ backgroundImage: `url(/room&suite/5.png)` }}
           >
             <h3 className="font-heading text-white text-[32px] md:text-[44px]">
@@ -123,7 +123,7 @@ const RoomSuite = () => {
             <div className="flex gap-2 justify-start items-center">
               <Link
                 href="/rooms/5"
-                className="font-body text-white text-base hover:underline"
+                className="font-body text-white text-base hover:underline w-full flex items-center gap-[0.5rem]"
               >
                 Explore Room
                 <span>
@@ -138,7 +138,7 @@ const RoomSuite = () => {
             </div>
           </div>
           <div
-            className="bg-slate-300 md:col-span-4 bg-center bg-cover bg-blend-multiply flex flex-col justify-end px-4 pt-[138px] md:pl-[60px] pb-10 gap-2 md:gap-6"
+            className="bg-slate-300 md:col-span-4 bg-center bg-cover bg-blend-multiply flex flex-col justify-end px-4 pt-[138px] md:pl-[1.5rem] pb-[1.5rem] "
             style={{ backgroundImage: `url(/room&suite/6.png)` }}
           >
             <h3 className="font-heading text-white text-[32px] md:text-[44px]">
@@ -147,7 +147,7 @@ const RoomSuite = () => {
             <div className="flex justify-start items-center">
               <Link
                 href="/rooms/6"
-                className="font-body text-white text-base hover:underline"
+                className="font-body text-white text-base hover:underline w-full flex items-center gap-[0.5rem]"
               >
                 Explore Room
                 <span>
