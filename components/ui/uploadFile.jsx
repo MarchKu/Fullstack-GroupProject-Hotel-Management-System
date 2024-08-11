@@ -31,7 +31,6 @@ function InputFile({ control, name, type, label, id, description }) {
     }
   };
 
-  // Update form context with the selected file URL
   const updateProfilePicUrl = (file) => {
     setValue(name, file);
   };
@@ -86,7 +85,12 @@ function InputFile({ control, name, type, label, id, description }) {
                 onClick={() => document.getElementById(id)?.click()}
                 className="flex flex-col gap-2  items-center justify-center w-40  h-40 md:w-50 md:h-50 border border-transparent shadow-sm text-sm font-medium rounded-md text-[#E76B39] bg-[#F1F2F6] hover:bg-slate-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
               >
-                <img src="/img/icon-upload-pic.svg" />
+                <Image
+                  src="/img/icon-upload-pic.svg"
+                  alt="Upload icon"
+                  width={40}
+                  height={40}
+                />
                 Upload photo
               </button>
             )}
