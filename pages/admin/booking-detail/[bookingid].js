@@ -48,7 +48,7 @@ export default function BookingDetail() {
   }, [bookingId]);
 
   return (
-    <>
+    <main className="w-screen h-screen">
       <div className="flex flex-row">
         <Sidebar isAtBookingDetail={true} />
         <div className="w-full bg-gray-100">
@@ -69,17 +69,21 @@ export default function BookingDetail() {
             </button>
             {bookingData.map((item, index) => (
               <p key={index}>
-                <span className="text-[#2A2E3F] text-xl font-semibold">
+                <span className="text-[#2A2E3F]  text-xl font-semibold">
                   {item.full_name}
                 </span>
+<<<<<<< HEAD
+                <span className="text-[#2A2E3F] px-3 text-xl font-normal">
+=======
                 <span className="text-[#2A2E3F] ml-5 text-xl font-normal">
+>>>>>>> 839b2ffea16c202ba69d772bd033e5bb9f81ab44
                   {item.type_name}
                 </span>
               </p>
             ))}
           </header>
-          <div className="bg-white mt-12 mx-16 pb-10">
-            <div className="h-screen flex flex-col gap-10 px-20 pt-10 overflow-scroll overflow-x-hidden">
+          <div className="bg-white mt-5 mx-16 rounded-md">
+            <div className="h-screen flex flex-col gap-5 px-20 pt-10 overflow-scroll overflow-x-hidden">
               {isLoading ? (
                 <div>
                   <Skeleton className="h-screen px-20 pt-10 bg-slate-300" />
@@ -241,6 +245,6 @@ export default function BookingDetail() {
           </div>
         </div>
       </div>
-    </>
+    </main>
   );
 }
