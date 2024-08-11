@@ -13,11 +13,11 @@ const About = ({ hotelName, hotelDescription }) => {
   const carouselImg = carouselAbout;
   return (
     <section
-      className="flex flex-col w-full justify-start items-center py-[10%] overflow-hidden"
+      className="flex flex-col w-full justify-start items-center px-[5%] py-[10%] overflow-hidden"
       id="about"
     >
-      <div className="size-full flex flex-col gap-[10vh]">
-        <div className="w-full h-auto flex flex-col gap-10 md:gap-[52px] px-[5%] md:px-[10%]">
+      <div className="size-full flex flex-col gap-[10vh] justify-center items-center">
+        <div className="w-full h-auto flex flex-col gap-10 md:gap-[52px] max-w-[1440px]">
           <h1 className="w-full h-auto font-heading text-primary-heading text-[4rem] md:text-[6rem]">
             {hotelName}
           </h1>

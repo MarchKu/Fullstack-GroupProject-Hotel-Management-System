@@ -45,16 +45,21 @@ const Login = () => {
 
   return (
     <>
-      <NavigationMenu className="flex items-center min-h-[48px] md:min-h-[100px] h-[5vh] border-[1px] border-[#E4E6ED] justify-center w-full">
-        <div className="flex justify-between w-full px-[5%] xl:px-[10%]">
+      <NavigationMenu className="flex items-center min-h-[48px] md:min-h-[100px] h-[5vh] border-[1px] border-[#E4E6ED] justify-center w-full px-4">
+        <div className="flex justify-between w-full">
           <div className="flex justify-between text-[14px]  w-full">
-            <div className="w-full flex items-center justify-between">
+            <div className="flex justify-between w-full items-center gap-6 text-[14px]">
               {isLoading ? (
                 <Skeleton className="w-[50px] h-[20px] rounded-full bg-slate-300" />
               ) : isError ? (
                 <p>Error</p>
               ) : (
-                <Logo hotelLogo={hotelData.hotel_logo} />
+                <Link href="/">
+                  <div
+                    className="w-[94px] h-[25px] md:w-[167px] md:h-[45px] bg-cover bg-center"
+                    style={{ backgroundImage: `url(${hotelData.hotel_logo})` }}
+                  ></div>
+                </Link>
               )}
             </div>
             <div className="flex items-center justify-end">
@@ -67,70 +72,54 @@ const Login = () => {
           </div>
         </div>
       </NavigationMenu>
-      <main className="w-full md:max-w-[1440px] md:h-full flex md:flex-row flex-col items-center md:justify-center mx-auto gap-10 bg-[#F7F7FB]">
-        <div className="w-full md:w-1/2 relative h-full max-w-[430px] md:max-w-[720px]">
-          <Image
-            src={"/login/loginBg-desktop.png"}
-            className="object-cover w-full h-full hidden md:block"
-            alt="login background"
-            width={1920}
-            height={1080}
-          />
-          <Image
-            src={"/login/loginBg-mobile.png"}
-            className="object-cover w-full h-full md:hidden"
-            alt="login background"
-            width={1920}
-            height={1080}
-          />
-        </div>
-        <div className="w-full md:w-1/2 flex flex-col items-center justify-center ">
-          <form
-            className="w-full md:max-w-[452px] px-4 md:px-10 pb-10 flex flex-col gap-10 md:gap-[60px]"
-            onSubmit={handleSubmit}
-          >
-            <h1 className="text-[44px] md:text-[68px] leading-[55px] md:leading-[85px] font-medium">
-              Log In
-            </h1>
-            <div className="flex flex-col gap-10">
-              <div className="flex flex-col gap-1">
-                <label htmlFor="">Username or Email</label>
-                <input
-                  type="text"
-                  className="w-full px-4 py-3 border-[#D6D9E4] border-[1px] rounded text-base"
-                  placeholder="Enter your username or email"
-                  onChange={(e) => {
-                    setUsername(e.target.value);
-                  }}
-                />
+      <main className="w-full min-h-[93vh] h-auto md:h-[93vh] flex md:flex-row flex-col items-center md:justify-center mx-auto gap-10 bg-[#F7F7FB]">
+        <div className="size-full flex flex-col md:flex-row">
+          <div
+            className="h-[250px] md:h-full w-full md:w-[45%] bg-cover bg-center"
+            style={{ backgroundImage: `url(/login/loginBg-desktop.png)` }}
+          ></div>
+          <div className="h-[60%] md:h-auto w-full md:w-[55%] flex flex-col items-center justify-center font-body ">
+            <form
+              className="w-full md:max-w-[452px] p-4 md:px-10 flex flex-col gap-10 md:gap-[60px]"
+              onSubmit={handleSubmit}
+            >
+              <h1 className="text-[44px] md:text-[68px] leading-[55px] md:leading-[85px] font-medium font-heading">
+                Log In
+              </h1>
+              <div className="flex flex-col gap-10">
+                <div className="flex flex-col gap-1">
+                  <label htmlFor="">Username or Email</label>
+                  <input
+                    type="text"
+                    className="w-full px-4 py-3 border-[#D6D9E4] border-[1px] rounded text-base"
+                    placeholder="Enter your username or email"
+                    onChange={(e) => {
+                      setUsername(e.target.value);
+                    }}
+                  />
+                </div>
+                <div className="flex flex-col gap-1">
+                  <label htmlFor="">Password</label>
+                  <input
+                    type="password"
+                    className="w-full px-4 py-3 border-[#D6D9E4] border-[1px] rounded text-base"
+                    placeholder="Enter your password"
+                    onChange={(e) => {
+                      setPassword(e.target.value);
+                    }}
+                  />
+                </div>
+                <div className="flex flex-col gap-4">
+                  <button
+                    type="submit"
+                    className="w-full px-8 py-4 bg-[#C14817] text-white rounded"
+                  >
+                    Log In
+                  </button>
+                </div>
               </div>
-              <div className="flex flex-col gap-1">
-                <label htmlFor="">Password</label>
-                <input
-                  type="password"
-                  className="w-full px-4 py-3 border-[#D6D9E4] border-[1px] rounded text-base"
-                  placeholder="Enter your password"
-                  onChange={(e) => {
-                    setPassword(e.target.value);
-                  }}
-                />
-              </div>
-              <div className="flex flex-col gap-4">
-                <button
-                  type="submit"
-                  className="w-full px-8 py-4 bg-[#C14817] text-white rounded"
-                >
-                  Log In
-                </button>
-                {/* <p>
-                  Don’t have an account yet?{" "}
-                  <a href="/register" className="font-semibold text-[#E76B39]">
-                    Register
-                  </a>
-                </p> */}
-              </div>
-            </div>
-          </form>
+            </form>
+          </div>
         </div>
       </main>
     </>

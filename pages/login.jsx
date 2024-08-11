@@ -59,9 +59,9 @@ const Login = () => {
             className="h-[250px] md:h-full w-full md:w-[45%] bg-cover bg-center"
             style={{ backgroundImage: `url(/login/loginBg-desktop.png)` }}
           ></div>
-          <div className="h-auto md:h-auto w-full md:w-[55%] flex flex-col items-center justify-center font-body ">
+          <div className="h-[60%] md:h-auto w-full md:w-[55%] flex flex-col items-center justify-center font-body ">
             <form
-              className="w-full md:max-w-[452px] px-4 md:px-10 py-4 flex flex-col gap-[1.5rem] md:gap-[60px]"
+              className="w-full md:max-w-[452px] p-4 md:px-10 flex flex-col gap-10 md:gap-[60px]"
               onSubmit={handleSubmit}
             >
               <h1 className="text-[44px] md:text-[68px] leading-[55px] md:leading-[85px] font-medium font-heading">
