@@ -36,7 +36,6 @@ import {
 } from "@/components/ui/form";
 import AmenityInput from "@/components/admin-side/createRoom/AmenityInput";
 import { closestCorners, DndContext } from "@dnd-kit/core";
-import { set } from "date-fns";
 import { arrayMove } from "@dnd-kit/sortable";
 
 const createRoomSchema = z.object({
@@ -52,15 +51,14 @@ const createRoomSchema = z.object({
   mainImage: z.custom((file) => file instanceof File, {
     message: "Main Image is required.",
   }),
-  imageGallery: z
-    .array(
-      z.custom((file) => file instanceof File, {
-        message: "Each image must be a file.",
-      })
-    )
-    .min(4, {
-      message: "please select at least 4 image.",
-    }),
+  imageGallery: z.array(
+    z.object({
+      id: z.number(),
+      file: z.custom((file) => file instanceof File, {
+        message: "File must be a valid File object.",
+      }),
+    })
+  ),
   amenity: z.array(
     z.object({
       id: z.number(),
@@ -121,7 +119,7 @@ const CreateNewRoom = () => {
     formData.append("roomDescription", data.roomDescription);
     formData.append("mainImage", data.mainImage);
     for (let i = 0; i < data.imageGallery.length; i++) {
-      formData.append("imageGallery", data.imageGallery[i]);
+      formData.append("imageGallery", data.imageGallery[i].file);
     }
 
     for (let i = 0; i < data.amenity.length; i++) {
@@ -132,8 +130,8 @@ const CreateNewRoom = () => {
     // createRoom(formData);
   };
 
-  const amenity = form.watch("amenity");
-  console.log("amenityWatch: ", amenity);
+  const imageGallery = form.watch("imageGallery");
+  console.log("imageGalleryWatch: ", imageGallery);
 
   const handleBackRooms = () => {
     window.location.replace("/admin/room-management");
@@ -346,7 +344,7 @@ const CreateNewRoom = () => {
               </div>
 
               {/* ---------- Price & Promotion ---------- */}
-              <div className="w-full flex gap-10 items-center">
+              <div className="w-full flex gap-10 items-end">
                 <div className="w-full">
                   <FormField
                     control={form.control}
@@ -417,6 +415,7 @@ const CreateNewRoom = () => {
               <UploadimageGallery
                 name="imageGallery"
                 label="Image Gallery(At least 4 pictures) *"
+                control={form.control}
               />
               {/* ---------- Amenity ---------- */}
 
