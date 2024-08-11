@@ -4,7 +4,12 @@ import React, { useState } from "react";
 import Sidebar from "@/components/admin-side/Sidebar";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm, FormProvider, useFormContext } from "react-hook-form";
+import {
+  useForm,
+  FormProvider,
+  useFormContext,
+  setValue,
+} from "react-hook-form";
 import axios from "axios";
 import toastr from "toastr";
 import { Input } from "@/components/ui/input";
@@ -30,6 +35,9 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import AmenityInput from "@/components/admin-side/createRoom/AmenityInput";
+import { closestCorners, DndContext } from "@dnd-kit/core";
+import { set } from "date-fns";
+import { arrayMove } from "@dnd-kit/sortable";
 
 const createRoomSchema = z.object({
   roomTypeId: z.string(),
@@ -116,10 +124,9 @@ const CreateNewRoom = () => {
       formData.append("imageGallery", data.imageGallery[i]);
     }
 
-    // for (let i = 0; i < data.amenity.length; i++) {
-    //   formData.append("amenity", data.amenity[i].value);
-    //   console.log(data.amenity[i]);
-    // }
+    for (let i = 0; i < data.amenity.length; i++) {
+      formData.append("amenity", data.amenity[i].value);
+    }
 
     console.log("Form Data Submitted:", Object.fromEntries(formData));
     // createRoom(formData);
@@ -140,13 +147,6 @@ const CreateNewRoom = () => {
         value: "",
       },
     ]);
-    // setValue("amenity", [
-    //   ...amenities,
-    //   {
-    //     id: amenities.length + 1,
-    //     value: "",
-    //   },
-    // ]);
   };
 
   const handleInputChange = (e, index) => {
@@ -167,6 +167,26 @@ const CreateNewRoom = () => {
     const updatedAmenities = amenities.filter((_, i) => i !== index);
     setAmenities(updatedAmenities);
     // setValue("amenity", updatedAmenities);
+  };
+
+  const getAmenityPosition = (id) => {
+    return amenities.findIndex((amenity) => amenity.id === id);
+  };
+
+  const handleDragEnd = (event) => {
+    const { active, over } = event;
+
+    if (active.id === over.id) return;
+
+    let updatedAmenities;
+    setAmenities((amenities) => {
+      const oldIndex = getAmenityPosition(active.id);
+      const newIndex = getAmenityPosition(over.id);
+      updatedAmenities = arrayMove(amenities, oldIndex, newIndex);
+
+      return arrayMove(amenities, oldIndex, newIndex);
+    });
+    form.setValue("amenity", updatedAmenities);
   };
 
   return (
@@ -403,13 +423,19 @@ const CreateNewRoom = () => {
               <h2 className="text-xl font-semibold text-[#9AA1B9] pt-6 border-t-[1px]">
                 Room Amenities
               </h2>
-              <AmenityInput
-                amenities={amenities}
-                control={form.control}
-                handleAddAmenity={handleAddAmenity}
-                handleInputChange={handleInputChange}
-                handleRemoveAmenity={handleRemoveAmenity}
-              />
+
+              <DndContext
+                collisionDetection={closestCorners}
+                onDragEnd={handleDragEnd}
+              >
+                <AmenityInput
+                  amenities={amenities}
+                  control={form.control}
+                  handleAddAmenity={handleAddAmenity}
+                  handleInputChange={handleInputChange}
+                  handleRemoveAmenity={handleRemoveAmenity}
+                />
+              </DndContext>
               <Button
                 onClick={handleAddAmenity}
                 className="w-1/4 bg-white text-[#E76B39] border-[1px] border-[#E76B39] hover:text-white"
