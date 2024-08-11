@@ -72,11 +72,7 @@ export default function BookingDetail() {
                 <span className="text-[#2A2E3F]  text-xl font-semibold">
                   {item.full_name}
                 </span>
-<<<<<<< HEAD
-                <span className="text-[#2A2E3F] px-3 text-xl font-normal">
-=======
                 <span className="text-[#2A2E3F] ml-5 text-xl font-normal">
->>>>>>> 839b2ffea16c202ba69d772bd033e5bb9f81ab44
                   {item.type_name}
                 </span>
               </p>
