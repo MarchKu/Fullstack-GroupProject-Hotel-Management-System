@@ -1,90 +1,53 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import Image from "next/image";
-import { useFormContext } from "react-hook-form";
-import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import DragButton from "@/assets/admin/drag.png";
+import { useFormContext } from "react-hook-form";
 import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
+  SortableContext,
+  verticalListSortingStrategy,
+} from "@dnd-kit/sortable";
 
-const AmenityInput = ({ amenities, setAmenities, control, prevAmenities }) => {
+import AmenityList from "./AmenityList";
+
+const AmenityInput = ({
+  amenities,
+  setAmenities,
+  control,
+  prevAmenities,
+  handleAddAmenity,
+  handleInputChange,
+  handleRemoveAmenity,
+}) => {
   const { setValue } = useFormContext();
 
   useEffect(() => {
     if (prevAmenities) {
       setAmenities(prevAmenities);
+      setValue("amenities", prevAmenities);
     }
   }, [prevAmenities]);
 
-  const handleAddAmenity = () => {
-    setAmenities([...amenities, ""]);
-  };
+  // console.log(amenities);
 
-  const handleRemoveAmenity = (index) => {
-    const list = [...amenities];
-    list.splice(index, 1);
-    setAmenities(list);
-    setValue("amenity", amenities);
-  };
-
-  const handleInputChange = (e, index) => {
-    const targetValue = e.target.value;
-    const list = [...amenities];
-    list[index] = targetValue;
-    setAmenities(list);
-    setValue("amenity", list);
-  };
+  
 
   return (
     <section className="flex flex-col gap-6">
-      {amenities.map((amenity, index) => (
-        <div key={index} className="flex items-end gap-6">
-          <div className="flex items-center justify-center h-full gap-[2px] pt-2">
-            <Image src={DragButton} alt="drag button" width={4} height={16} />
-            <Image src={DragButton} alt="drag button" width={4} height={16} />
-          </div>
-          <div className="w-full">
-            <FormField
-              control={control}
-              name="roomDescription"
-              render={({}) => (
-                <FormItem>
-                  <FormLabel>Amenity *</FormLabel>
-                  <FormControl>
-                    <Input
-                      value={amenity}
-                      onChange={(e) => handleInputChange(e, index)}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
-          <Button
-            type="button"
-            className=" text-[#E76B39] bg-white hover:bg-red hover:text-white"
-            onClick={() => handleRemoveAmenity(index)}
-          >
-            Delete
-          </Button>
-        </div>
-      ))}
-      <Button
-        onClick={handleAddAmenity}
-        className="w-1/4 bg-white text-[#E76B39] border-[1px] border-[#E76B39] hover:text-white"
-        type="button"
-      >
-        + Add Amenity
-      </Button>
+      <SortableContext items={amenities} strategy={verticalListSortingStrategy}>
+        {amenities.map((amenity, index) => (
+          <AmenityList
+            amenities={amenities}
+            id={amenity.id}
+            value={amenity.value}
+            index={index}
+            key={index}
+            control={control}
+            handleInputChange={handleInputChange}
+            handleRemoveAmenity={handleRemoveAmenity}
+          />
+        ))}
+      </SortableContext>
     </section>
   );
 };

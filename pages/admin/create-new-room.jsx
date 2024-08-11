@@ -53,7 +53,12 @@ const createRoomSchema = z.object({
     .min(4, {
       message: "please select at least 4 image.",
     }),
-  amenity: z.array(z.string()),
+  amenity: z.array(
+    z.object({
+      id: z.number(),
+      value: z.string(),
+    })
+  ),
 });
 
 const createRoom = async (data) => {
@@ -77,9 +82,7 @@ const createRoom = async (data) => {
 
 const CreateNewRoom = () => {
   const [isDisabled, setIsDisabled] = useState(false);
-  const [amenities, setAmenities] = useState([
-    { id: 1, value: "Add tests to homepage" },
-  ]);
+  const [amenities, setAmenities] = useState([{ id: 1, value: "" }]);
 
   const form = useForm({
     resolver: zodResolver(createRoomSchema),
@@ -93,11 +96,13 @@ const CreateNewRoom = () => {
       roomDescription: "",
       mainImage: {},
       imageGallery: [],
-      amenity: [""],
+      amenity: [{ id: 1, value: "" }],
     },
   });
 
   const onSubmit = async (data) => {
+    console.log("Data Submitted:", data);
+
     const formData = new FormData();
     formData.append("roomTypeId", data.roomTypeId);
     formData.append("roomSize", data.roomSize);
@@ -111,20 +116,57 @@ const CreateNewRoom = () => {
       formData.append("imageGallery", data.imageGallery[i]);
     }
 
-    for (let i = 0; i < data.amenity.length; i++) {
-      formData.append("amenity", data.amenity[i]);
-      console.log(data.amenity[i]);
-    }
+    // for (let i = 0; i < data.amenity.length; i++) {
+    //   formData.append("amenity", data.amenity[i].value);
+    //   console.log(data.amenity[i]);
+    // }
 
     console.log("Form Data Submitted:", Object.fromEntries(formData));
-    createRoom(formData);
+    // createRoom(formData);
   };
 
-  const imageGall = form.watch("imageGallery");
-  console.log("imageGallWatch: ", imageGall);
+  const amenity = form.watch("amenity");
+  console.log("amenityWatch: ", amenity);
 
   const handleBackRooms = () => {
     window.location.replace("/admin/room-management");
+  };
+
+  const handleAddAmenity = () => {
+    setAmenities([
+      ...amenities,
+      {
+        id: amenities.length + 1,
+        value: "",
+      },
+    ]);
+    // setValue("amenity", [
+    //   ...amenities,
+    //   {
+    //     id: amenities.length + 1,
+    //     value: "",
+    //   },
+    // ]);
+  };
+
+  const handleInputChange = (e, index) => {
+    const updatedAmenities = amenities.map((amenity, i) => {
+      if (index === i) {
+        return {
+          ...amenity,
+          value: e.target.value,
+        };
+      }
+      return amenity;
+    });
+    setAmenities(updatedAmenities);
+    // setValue("amenity", updatedAmenities);
+  };
+
+  const handleRemoveAmenity = (index) => {
+    const updatedAmenities = amenities.filter((_, i) => i !== index);
+    setAmenities(updatedAmenities);
+    // setValue("amenity", updatedAmenities);
   };
 
   return (
@@ -363,9 +405,18 @@ const CreateNewRoom = () => {
               </h2>
               <AmenityInput
                 amenities={amenities}
-                setAmenities={setAmenities}
                 control={form.control}
+                handleAddAmenity={handleAddAmenity}
+                handleInputChange={handleInputChange}
+                handleRemoveAmenity={handleRemoveAmenity}
               />
+              <Button
+                onClick={handleAddAmenity}
+                className="w-1/4 bg-white text-[#E76B39] border-[1px] border-[#E76B39] hover:text-white"
+                type="button"
+              >
+                + Add Amenity
+              </Button>
             </article>
           </form>
         </Form>
