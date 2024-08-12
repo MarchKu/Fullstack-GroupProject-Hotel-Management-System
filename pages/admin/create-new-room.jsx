@@ -127,7 +127,7 @@ const CreateNewRoom = () => {
     }
 
     console.log("Form Data Submitted:", Object.fromEntries(formData));
-    // createRoom(formData);
+    createRoom(formData);
   };
 
   const imageGallery = form.watch("imageGallery");
