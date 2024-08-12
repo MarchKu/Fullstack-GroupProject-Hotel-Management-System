@@ -15,9 +15,7 @@ import { Textarea } from "../ui/textarea";
 const hotelSchema = z.object({
   hotelName: z.string().min(1),
   hotelDescription: z.string().min(2),
-  hotelLogo: z.any((file) => file instanceof File || typeof file === "string", {
-    message: "Hotel Logo is required",
-  }),
+  hotelLogo: z.any(),
 });
 const Main = () => {
   const [hotelData, setHotelData] = useState({});
@@ -74,20 +72,11 @@ const Main = () => {
     }
   };
 
-  const updateHotelData = async (data) => {
-    try {
-      await axios.put(
-        `https://neatly-hotel.vercel.app/api/hotel/updateproperty`,
-        data
-      );
-      toastr["success"]("Updated hotel information successfully");
-    } catch (error) {
-      console.log(error);
-      toastr["error"]("Failed to update hotel information successfully");
-    }
-  };
-
   const onSubmit = async (data) => {
+    if (!hasImage && typeof data.hotelLogo === "string") {
+      form.setError("hotelLogo", { message: "Hotel Logo is required" });
+      return;
+    }
     const formData = new FormData();
     formData.append("hotelName", data.hotelName);
     formData.append("hotelDescription", data.hotelDescription);
@@ -95,15 +84,8 @@ const Main = () => {
 
     if (data.hotelLogo instanceof File) {
       formData.append("hotelLogo", data.hotelLogo);
-      createHotelData(formData);
-    } else {
-      updateHotelData({
-        hotelName: data.hotelName,
-        hotelDescription: data.hotelDescription,
-        adminUsername: adminData,
-        id: hotelData.hotel_property_id,
-      });
     }
+    createHotelData(formData);
   };
 
   return (
@@ -141,7 +123,7 @@ const Main = () => {
                   <FormControl>
                     <Textarea
                       placeholder="Enter Description"
-                      className="min-h-[150px] resize-none focus-visible:border-red"
+                      className="min-h-[150px] resize-none border-gray-400 focus-visible:border-red"
                       {...field}
                     />
                   </FormControl>
@@ -163,7 +145,7 @@ const Main = () => {
                   />
                   <button
                     className="absolute top-0 right-0 w-6 h-6 pb-[2px] rounded-full bg-[#B61515] text-white flex justify-center items-center"
-                    onClick={() => setHasImage(false)}
+                    onClick={() => setHasImage(!hasImage)}
                   >
                     x
                   </button>
