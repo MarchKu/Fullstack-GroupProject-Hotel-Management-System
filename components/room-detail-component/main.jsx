@@ -114,7 +114,7 @@ const RoomDetail = () => {
           <CarouselNext />
         </Carousel>
       </div>
-      <div className="w-full max-w-[1440px] h-auto md:h-[60%] pt-[5%] px-[5%] xl:px-0 flex flex-col gap-[2.5%] md:gap-[5%]">
+      <div className="w-full max-w-[1440px] h-auto md:h-[60%] pt-[5%] xl:pt-[2.5%] px-[5%] xl:px-0 flex flex-col gap-[2.5%] md:gap-[5%]">
         <h2 className="w-full h-auto text-[2.5rem] md:text-[4rem] xl:text-[5rem] text-start content-center font-heading text-primary-heading">
           {roomData.type_name}
         </h2>
@@ -142,18 +142,34 @@ const RoomDetail = () => {
           </div>
           <div className="w-full md:w-[50%] h-full flex md:flex-col justify-between items-end font-body">
             <div>
-              <p className="text-start md:text-end text-secondary-body text-[0.8rem] md:text-[1.25rem] font-semibold">
-                <s>
-                  {/* render data */}
+              {roomData.promotion_price ? (
+                <>
+                  <p className="text-start md:text-end text-secondary-body text-[0.8rem] md:text-[1.25rem] font-semibold">
+                    THB{" "}
+                    {roomData.current_price.replace(
+                      /\B(?=(\d{3})+(?!\d))/g,
+                      ","
+                    )}
+                  </p>
+                  <p className="text-[1.25rem] md:text-[1.5rem] xl:text-[1.7rem]  font-semibold">
+                    THB{" "}
+                    {roomData.promotion_price &&
+                      roomData.promotion_price.replace(
+                        /\B(?=(\d{3})+(?!\d))/g,
+                        ","
+                      )}
+                  </p>
+                </>
+              ) : (
+                <p className="text-[1.25rem] md:text-[1.5rem] xl:text-[1.7rem]  font-semibold">
                   THB{" "}
-                  {roomData.current_price.replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
-                </s>
-              </p>
-              <p className="text-[1.25rem] md:text-[1.5rem] xl:text-[1.7rem]  font-semibold">
-                {/* render data */}
-                THB{" "}
-                {roomData.promotion_price.replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
-              </p>
+                  {roomData.current_price &&
+                    roomData.current_price.replace(
+                      /\B(?=(\d{3})+(?!\d))/g,
+                      ","
+                    )}
+                </p>
+              )}
             </div>
 
             {isAuthenticated ? (
