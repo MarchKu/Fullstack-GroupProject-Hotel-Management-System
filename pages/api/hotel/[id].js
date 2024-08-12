@@ -14,7 +14,7 @@ export default async function PUT(req, res) {
         hotelProperties.hotelName,
         hotelProperties.hotelDescription,
         hotelProperties.adminUsername,
-        hotelProperties.id,
+        req.query.id,
       ]
     );
 
