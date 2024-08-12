@@ -117,7 +117,7 @@ export default function Register() {
   return (
     <main className="h-screen w-screen">
       <NavbarComponent />
-      <div className="inset-0 bg-cover bg-no-repeat bg-center bg-[url('/img/bg-register_page.jpg')] flex flex-col justify-start md:justify-center">
+      <div className=" min-[2560px]:h-full inset-0 bg-cover bg-no-repeat bg-center bg-[url('/img/bg-register_page.jpg')] flex flex-col justify-start md:justify-center">
         <div className="md:h-full flex justify-center items-center bg-gradient-to-b from-[#00000099] to-transparent">
           <div className="w-full max-w-3xl md:mt-14 md:mb-20 p-[5%] md:p-14 bg-[#F7F7FB] pt-10 md:rounded-lg">
             <div className="h-fit flex flex-col justify-start gap-5 font-body">
