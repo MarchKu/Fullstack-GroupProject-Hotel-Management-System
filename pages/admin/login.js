@@ -11,7 +11,7 @@ import axios from "axios";
 import { Skeleton } from "@/components/ui/skeleton";
 
 const Login = () => {
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [hotelData, setHotelData] = useState({});
   const [isLoading, setIsLoading] = useState(false);
@@ -21,7 +21,7 @@ const Login = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    adminLogin({ username, password });
+    adminLogin({ email, password });
   };
 
   const getHotelData = async () => {
@@ -88,13 +88,13 @@ const Login = () => {
               </h1>
               <div className="flex flex-col gap-10">
                 <div className="flex flex-col gap-1">
-                  <label htmlFor="">Username or Email</label>
+                  <label htmlFor="">Email</label>
                   <input
                     type="text"
                     className="w-full px-4 py-3 border-[#D6D9E4] border-[1px] rounded text-base"
-                    placeholder="Enter your username or email"
+                    placeholder="Enter your email"
                     onChange={(e) => {
-                      setUsername(e.target.value);
+                      setEmail(e.target.value);
                     }}
                   />
                 </div>
