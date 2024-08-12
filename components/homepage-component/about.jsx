@@ -22,7 +22,7 @@ const About = ({ hotelName, hotelDescription }) => {
             {hotelName}
           </h1>
           <div className="w-full h-auto font-body text-primary-heading xl:text-[1.25rem] pl-[20%]">
-            <p>{hotelDescription}</p>
+            <p className="whitespace-pre-wrap">{hotelDescription}</p>
           </div>
         </div>
         <div className="w-full h-[50vh] md:h-[60vh] xl:h-[50vh] flex justify-center items-center">
@@ -35,10 +35,7 @@ const About = ({ hotelName, hotelDescription }) => {
           >
             <CarouselContent className="w-full h-full">
               {carouselImg.map((img, index) => (
-                <CarouselItem
-                  key={index}
-                  
-                >
+                <CarouselItem key={index}>
                   <Card className="size-full">
                     <CardContent className="h-full justify-center p-0">
                       <div

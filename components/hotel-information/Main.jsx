@@ -9,20 +9,13 @@ import { Form } from "@/components/ui/formComponent";
 import InputFile from "../ui/uploadFile";
 import FormFieldComponent from "../ui/FormField";
 import toastr from "toastr";
-import {
-  FormField,
-  FormItem,
-  FormLabel,
-  FormControl,
-  FormDescription,
-  FormMessage,
-} from "../ui/form";
+import { FormField, FormItem, FormLabel, FormControl } from "../ui/form";
 import { Textarea } from "../ui/textarea";
 
 const hotelSchema = z.object({
   hotelName: z.string().min(1),
   hotelDescription: z.string().min(2),
-  hotelLogo: z.custom((file) => file instanceof File, {
+  hotelLogo: z.any((file) => file instanceof File || typeof file === "string", {
     message: "Hotel Logo is required",
   }),
 });
@@ -38,7 +31,9 @@ const Main = () => {
 
   useEffect(() => {
     const getHotelData = async () => {
-      const result = await axios.get("https://neatly-hotel.vercel.app/api/getHotelData");
+      const result = await axios.get(
+        "https://neatly-hotel.vercel.app/api/getHotelData"
+      );
       setHotelData(result.data.data);
 
       reset({
@@ -63,25 +58,45 @@ const Main = () => {
     hotelData.hotel_logo ? setHasImage(true) : setHasImage(false);
   }, [hotelData, adminData]);
 
-  const updateHotelData = async (data) => {
+  const createHotelData = async (data) => {
     try {
-      await axios.post("https://neatly-hotel.vercel.app/api/hotel/property", data, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
+      await axios.post(
+        "https://neatly-hotel.vercel.app/api/hotel/property",
+        data,
+        {
+          headers: { "Content-Type": "multipart/form-data" },
+        }
+      );
       toastr["success"]("Updated hotel information successfully");
     } catch (error) {
       console.log(error);
-      toastr["error"]("Failed to updat hotel information successfully");
+      toastr["error"]("Failed to update hotel information successfully");
     }
   };
+
+  const updateHotelData = async (data) => {
+    try {
+      await axios.put(
+        `https://neatly-hotel.vercel.app/api/hotel/${hotelData.hotel_property_id}`,
+        data
+      );
+      toastr["success"]("Updated hotel information successfully");
+    } catch (error) {
+      console.log(error);
+      toastr["error"]("Failed to update hotel information successfully");
+    }
+  };
+
   const onSubmit = async (data) => {
     const formData = new FormData();
     formData.append("hotelName", data.hotelName);
     formData.append("hotelDescription", data.hotelDescription);
-    formData.append("hotelLogo", data.hotelLogo);
     formData.append("adminUsername", adminData);
-    console.log("submit");
 
+    if (data.hotelLogo instanceof File) {
+      formData.append("hotelLogo", data.hotelLogo);
+      createHotelData(formData);
+    }
     updateHotelData(formData);
   };
 
@@ -149,13 +164,16 @@ const Main = () => {
                 </div>
               </>
             ) : (
-              <InputFile
-                control={form.control}
-                name="hotelLogo"
-                label="Hotel Logo*"
-                id="hotelLogo"
-                type="file"
-              />
+              <>
+                <label htmlFor="hotelLogo">Hotel logo *</label>
+                <InputFile
+                  className="object-contain"
+                  control={form.control}
+                  name="hotelLogo"
+                  id="hotelLogo"
+                  type="file"
+                />
+              </>
             )}
           </div>
         </section>

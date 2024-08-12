@@ -65,7 +65,7 @@ function InputFile({ control, name, type, label, id, description }) {
                   alt="Preview"
                   width={200}
                   height={150}
-                  className="w-40 h-40  md:w-50 md:h-50 object-cover rounded-md border border-gray-200"
+                  className="w-40 h-40  md:w-50 md:h-50 object-contain rounded-md border border-gray-200"
                 />
                 <button
                   onClick={removeFile}
