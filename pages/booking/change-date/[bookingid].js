@@ -188,7 +188,7 @@ export default function ChangeDatePage() {
     <>
       <NavbarComponent isAuthenticated={isAuthenticated} />
       {!bookingData ? (
-        <section className="w-full min-h-[92vh] h-[90vh] px-[5%] flex bg-[#E4E6ED] flex-col justify-start items-center font-body">
+        <section className="w-full min-h-[92vh] h-[90vh] px-[5%] flex flex-col justify-start items-center font-body">
           <div className="w-full h-full max-w-[1440px]">
             <div className="h-auto font-heading text-primary-heading text-[3rem] md:text-[4rem] xl:text-[5rem] w-full text-left content-center">
               <h1>Change Check-in</h1>
@@ -213,7 +213,7 @@ export default function ChangeDatePage() {
           </div>
         </section>
       ) : (
-        <section className="w-full min-h-[92vh] h-[90vh] px-[5%] flex flex-col bg-[#E4E6ED] justify-start items-center font-body">
+        <section className="w-full min-h-[92vh] h-[90vh] px-[5%] flex flex-col justify-start items-center font-body">
           <div className="w-full h-full max-w-[1440px]">
             <div className="h-auto font-heading text-primary-heading text-[3rem] md:text-[4rem] xl:text-[5rem] w-full text-left content-center">
               <h1>Change Check-in</h1>
