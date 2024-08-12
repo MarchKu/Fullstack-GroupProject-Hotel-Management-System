@@ -11,9 +11,9 @@ export default async function PUT(req, res) {
                   admin_username = $3
               WHERE hotel_property_id = $4`,
       [
-        hotelProperties.hotelName,
-        hotelProperties.hotelDescription,
-        hotelProperties.adminUsername,
+        hotelProperties.hotel_name,
+        hotelProperties.hotel_description,
+        hotelProperties.admin_username,
         hotelProperties.id,
       ]
     );
