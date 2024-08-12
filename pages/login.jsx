@@ -9,7 +9,6 @@ import Link from "next/link";
 const Login = () => {
   const { userData, getUserProfile, putUserProfile, isLoading, isError } =
     useUserProfile();
-  const { hotelData, getHotelData } = useHotelData();
   const [user, setUser] = useState(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   useEffect(() => {
@@ -21,8 +20,7 @@ const Login = () => {
       }
     };
     fetchUserData();
-    getHotelData();
-  }, [getHotelData]);
+  }, [userData]);
 
   /* Data fetching */
   useEffect(() => {
