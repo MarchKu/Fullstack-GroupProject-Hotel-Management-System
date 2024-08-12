@@ -18,9 +18,7 @@ const minAge = 18;
 
 const registerSchema = z.object({
   fullName: z.string().min(2),
-  username: z
-    .string()
-    .min(2, { message: "Username must be at least 2 characters." }),
+  username: z.string(),
   password: z
     .string()
     .min(12, { message: "Password must be at least 12 characters." }),
@@ -89,6 +87,18 @@ export default function Register() {
 
   const onValidate = async (values) => {
     const { username, email, idNumber } = values;
+    if (!username) {
+      form.setError("username", { message: "Username is required" });
+      return;
+    }
+    if (!email) {
+      form.setError("email", { message: "Email is required" });
+      return;
+    }
+    if (!idNumber) {
+      form.setError("idNumber", { message: "ID Number is required" });
+      return;
+    }
 
     if (username !== previousValues.username) {
       const isUsernameUnique = await checkUniqueUser("username", username);
