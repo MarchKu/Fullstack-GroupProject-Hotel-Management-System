@@ -279,7 +279,7 @@ const EditRoomProperties = () => {
     }
 
     console.log("Form Data Submitted:", Object.fromEntries(formData));
-    // await UpdateRoom(formData);
+    await UpdateRoom(formData);
   };
 
   const allFormData = form.watch();
