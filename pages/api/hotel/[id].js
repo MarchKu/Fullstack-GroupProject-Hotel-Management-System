@@ -6,9 +6,9 @@ export default async function PUT(req, res) {
   try {
     await connectionPool.query(
       `UPDATE hotel_properties
-              SET hotel_name = $1
-              SET hotel_description = $2
-              SET admin_username = $3
+              SET hotel_name = $1,
+                  hotel_description = $2,
+                  admin_username = $3
               WHERE hotel_property_id = $4`,
       [
         hotelProperties.hotelName,
