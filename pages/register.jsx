@@ -23,9 +23,7 @@ const registerSchema = z.object({
     .string()
     .min(12, { message: "Password must be at least 12 characters." }),
   email: z.string().email({ message: "Please enter a valid email address." }),
-  idNumber: z
-    .string()
-    .min(13, { message: "ID Number must be at least 13 digits." }),
+  idNumber: z.string(),
   dateBirth: z
     .date({
       message: "A date of birth is required.",
@@ -60,7 +58,7 @@ export default function Register() {
       country: "",
       profilepic: {},
     },
-    mode: "onBlur",
+    mode: "all",
   });
 
   const { register } = useAuth();
@@ -87,34 +85,40 @@ export default function Register() {
 
   const onValidate = async (values) => {
     const { username, email, idNumber } = values;
-    if (!username) {
+    if (!username || username === "" || username === null) {
       form.setError("username", { message: "Username is required" });
       return;
     }
-    if (!email) {
+    if (!email || email === "" || email === null) {
       form.setError("email", { message: "Email is required" });
       return;
     }
-    if (!idNumber) {
+    if (!idNumber || idNumber === "" || idNumber === null) {
       form.setError("idNumber", { message: "ID Number is required" });
       return;
     }
 
-    if (username !== previousValues.username) {
+    if (
+      username !== previousValues.username ||
+      username === previousValues.username
+    ) {
       const isUsernameUnique = await checkUniqueUser("username", username);
       if (!isUsernameUnique) {
         form.setError("username", { message: "Username already exists" });
       }
     }
 
-    if (email !== previousValues.email) {
+    if (email !== previousValues.email || email === previousValues.email) {
       const isEmailUnique = await checkUniqueUser("email", email);
       if (!isEmailUnique) {
         form.setError("email", { message: "Email already exists" });
       }
     }
 
-    if (idNumber !== previousValues.idNumber) {
+    if (
+      idNumber !== previousValues.idNumber ||
+      idNumber === previousValues.idNumber
+    ) {
       const isIdNumberUnique = await checkUniqueProfile("id_number", idNumber);
       if (!isIdNumberUnique) {
         form.setError("idNumber", { message: "ID Number already exists" });
