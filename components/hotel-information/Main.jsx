@@ -96,8 +96,13 @@ const Main = () => {
     if (data.hotelLogo instanceof File) {
       formData.append("hotelLogo", data.hotelLogo);
       createHotelData(formData);
+    } else {
+      updateHotelData({
+        hotelName: data.hotelName,
+        hotelDescription: data.hotelDescription,
+        adminUsername: adminData,
+      });
     }
-    updateHotelData(formData);
   };
 
   return (
