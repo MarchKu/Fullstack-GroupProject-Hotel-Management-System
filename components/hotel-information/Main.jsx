@@ -77,7 +77,7 @@ const Main = () => {
   const updateHotelData = async (data) => {
     try {
       await axios.put(
-        `https://neatly-hotel.vercel.app/api/hotel/${hotelData.hotel_property_id}`,
+        `https://neatly-hotel.vercel.app/api/hotel/updateproperty`,
         data
       );
       toastr["success"]("Updated hotel information successfully");
@@ -101,6 +101,7 @@ const Main = () => {
         hotelName: data.hotelName,
         hotelDescription: data.hotelDescription,
         adminUsername: adminData,
+        id: hotelData.hotel_property_id,
       });
     }
   };
