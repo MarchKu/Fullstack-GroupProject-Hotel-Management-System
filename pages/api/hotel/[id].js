@@ -2,6 +2,9 @@ import connectionPool from "@/utils/connectionPool/db";
 
 export default async function PUT(req, res) {
   const hotelProperties = { ...req.body };
+  const id = req.query.id;
+
+  console.log(id);
 
   try {
     await connectionPool.query(
@@ -14,7 +17,7 @@ export default async function PUT(req, res) {
         hotelProperties.hotelName,
         hotelProperties.hotelDescription,
         hotelProperties.adminUsername,
-        req.query.id,
+        id,
       ]
     );
 

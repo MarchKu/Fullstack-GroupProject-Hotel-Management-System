@@ -97,7 +97,7 @@ const Main = () => {
       formData.append("hotelLogo", data.hotelLogo);
       createHotelData(formData);
     } else {
-      updateHotelData({
+      await updateHotelData({
         hotelName: data.hotelName,
         hotelDescription: data.hotelDescription,
         adminUsername: adminData,
