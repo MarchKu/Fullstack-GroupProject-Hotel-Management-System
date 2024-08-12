@@ -16,7 +16,7 @@ function AuthProvider(props) {
     const tokenTimeout = addDays(currentDate, 15);
     try {
       const result = await axios.post(
-        "https://neatly-hotel.vercel.app/api/auth/login",
+        "http://localhost:3000/api/auth/login",
         data
       );
       const token = result.data.token;
