@@ -23,9 +23,7 @@ const registerSchema = z.object({
     .string()
     .min(12, { message: "Password must be at least 12 characters." }),
   email: z.string().email({ message: "Please enter a valid email address." }),
-  idNumber: z
-    .string()
-    .min(13, { message: "ID Number must be at least 13 digits." }),
+  idNumber: z.string(),
   dateBirth: z
     .date({
       message: "A date of birth is required.",
