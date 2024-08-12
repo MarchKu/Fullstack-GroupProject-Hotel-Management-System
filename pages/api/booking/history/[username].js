@@ -62,6 +62,7 @@ export default async function handler(req, res) {
       inner join users  
       on booking.user_id = users.user_id
       where username = $1
+      and (booking.status = 'success' or booking.status = 'cancelled')
       order by booking.created_at DESC
       offset $2 limit $3
       `,

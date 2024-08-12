@@ -243,13 +243,31 @@ const Index = () => {
                             <AccordionContent className="bg-gray-200 px-[5%]">
                               <div className="flex justify-between">
                                 <h3>{history.type_name}</h3>
-                                <h3>
-                                  {history.promotion_price &&
-                                    history.promotion_price.replace(
-                                      /\B(?=(\d{3})+(?!\d))/g,
-                                      ","
-                                    )}
-                                </h3>
+                                {history.promotion_price ? (
+                                  <>
+                                    <p>
+                                      {history.current_price.replace(
+                                        /\B(?=(\d{3})+(?!\d))/g,
+                                        ","
+                                      )}
+                                    </p>
+                                    <p>
+                                      {history.promotion_price &&
+                                        history.promotion_price.replace(
+                                          /\B(?=(\d{3})+(?!\d))/g,
+                                          ","
+                                        )}
+                                    </p>
+                                  </>
+                                ) : (
+                                  <p>
+                                    {history.current_price &&
+                                      history.current_price.replace(
+                                        /\B(?=(\d{3})+(?!\d))/g,
+                                        ","
+                                      )}
+                                  </p>
+                                )}
                               </div>
                             </AccordionContent>
                             {history.special_request !== null &&
@@ -271,11 +289,12 @@ const Index = () => {
                               <div className="flex justify-between">
                                 <h3>Promotion Code</h3>
                                 <h3>
-                                  {history.promotion &&
-                                    history.promotion.replace(
-                                      /\B(?=(\d{3})+(?!\d))/g,
-                                      ","
-                                    )}
+                                  {Number(history.promotion_discount) >= 1000
+                                    ? history.promotion_discount.replace(
+                                        /\B(?=(\d{3})+(?!\d))/g,
+                                        ","
+                                      )
+                                    : history.promotion_discount}
                                 </h3>
                               </div>
                             </AccordionContent>
