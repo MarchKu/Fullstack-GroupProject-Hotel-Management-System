@@ -21,13 +21,14 @@ function BookingContextProvider(props) {
   const [isRoomBooked, setIsRoomBooked] = useState(false);
   const [userData, setUserData] = useState();
   const router = useRouter();
-  const API_BASE_URL =
-    "http://localhost:3000" || "https://neatly-hotel.vercel.app";
 
   const createBooking = async (data) => {
     try {
       setIsLoading(true);
-      const result = await axios.post(`${API_BASE_URL}/api/booking`, data);
+      const result = await axios.post(
+        `https://neatly-hotel.vercel.app/api/booking`,
+        data
+      );
       const query = {
         username: `${data.user_name}`,
         bookingID: result.data.bookingId,
@@ -44,7 +45,7 @@ function BookingContextProvider(props) {
     try {
       setIsLoading(true);
       const result = await axios.get(
-        `${API_BASE_URL}/api/booking?bookingID=${bookingId}`
+        `https://neatly-hotel.vercel.app/api/booking?bookingID=${bookingId}`
       );
       setBookingData(result.data);
       setIsLoading(false);
@@ -58,7 +59,7 @@ function BookingContextProvider(props) {
 
   const updateBookingData = useCallback(async (data) => {
     try {
-      await axios.patch(`${API_BASE_URL}/api/booking`, data);
+      await axios.patch(`https://neatly-hotel.vercel.app/api/booking`, data);
       await getBookingData(data.booking_id);
       return true;
     } catch (error) {
@@ -69,7 +70,7 @@ function BookingContextProvider(props) {
   const deleteUncompleteBooking = async (bookingId) => {
     try {
       const response = await axios.get(
-        `${API_BASE_URL}/api/booking?bookingID=${bookingId}`
+        `https://neatly-hotel.vercel.app/api/booking?bookingID=${bookingId}`
       );
       const booking = response.data;
 
@@ -78,7 +79,7 @@ function BookingContextProvider(props) {
         booking.status === "Request Completed"
       ) {
         await axios.delete(
-          `${API_BASE_URL}/api/booking?bookingID=${bookingId}`
+          `https://neatly-hotel.vercel.app/api/booking?bookingID=${bookingId}`
         );
         console.log("Booking deleted successfully");
       }
@@ -90,7 +91,7 @@ function BookingContextProvider(props) {
   const promotionCode = async (code) => {
     try {
       const response = await axios.get(
-        `${API_BASE_URL}/api/promotion?code=${code}`
+        `https://neatly-hotel.vercel.app/api/promotion?code=${code}`
       );
       const data = response.data;
       if (data.valid) {
@@ -112,7 +113,7 @@ function BookingContextProvider(props) {
         checkOut: format(bookingData.check_out, "EEE, dd MMM yyyy"),
       };
       const result = await axios.get(
-        `${API_BASE_URL}/api/isRoomBooked?room_id=${bookingData.room_id}&check_in=${newFormatDate.checkIn}&check_out=${newFormatDate.checkOut}`
+        `https://neatly-hotel.vercel.app/api/isRoomBooked?room_id=${bookingData.room_id}&check_in=${newFormatDate.checkIn}&check_out=${newFormatDate.checkOut}`
       );
       const isBooked = result.data[0].is_booked;
 

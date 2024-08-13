@@ -8,14 +8,13 @@ export default function useUserProfile() {
   const [userData, setUserData] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
-  const API_BASE_URL = "http://localhost:3000";
 
   const getUserProfile = async (username) => {
     try {
       if (username) {
         setIsLoading(true);
         const result = await axios.get(
-          `${API_BASE_URL}/api/user-profile/${username}`,
+          `https://neatly-hotel.vercel.app/api/user-profile/${username}`,
           {
             headers: {
               "Cache-Control": "no-store",
@@ -37,7 +36,7 @@ export default function useUserProfile() {
     try {
       setIsLoading(true);
       const response = await axios.put(
-        `${API_BASE_URL}/api/user-profile/${username}`,
+        `https://neatly-hotel.vercel.app/api/user-profile/${username}`,
         data,
         {
           headers: { "Content-Type": "multipart/form-data" },

@@ -10,12 +10,12 @@ import { auth } from "@/utils/firebase-config/firebase.js";
 const AuthContext = React.createContext();
 
 function AuthProvider(props) {
-  const API_BASE_URL =
-    "http://localhost:3000" || "https://neatly-hotel.vercel.app";
-
   const login = async (data) => {
     try {
-      const result = await axios.post(`${API_BASE_URL}/api/auth/login`, data);
+      const result = await axios.post(
+        `https://neatly-hotel.vercel.app/api/auth/login`,
+        data
+      );
       const token = result.data.token;
       localStorage.setItem("token", token);
       document.cookie = `token=${token}`;
@@ -33,9 +33,13 @@ function AuthProvider(props) {
 
   const register = async (data) => {
     try {
-      await axios.post(`${API_BASE_URL}/api/auth/register`, data, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
+      await axios.post(
+        `https://neatly-hotel.vercel.app/api/auth/register`,
+        data,
+        {
+          headers: { "Content-Type": "multipart/form-data" },
+        }
+      );
       toastr["success"]("You are successfully registered");
       setTimeout(function () {
         window.location.replace("/login");
@@ -59,7 +63,7 @@ function AuthProvider(props) {
   const adminLogin = async (data) => {
     try {
       const result = await axios.post(
-        `${API_BASE_URL}/api/auth/adminlogin`,
+        `https://neatly-hotel.vercel.app/api/auth/adminlogin`,
         data
       );
       localStorage.setItem("admin", JSON.stringify(result.data.username));
