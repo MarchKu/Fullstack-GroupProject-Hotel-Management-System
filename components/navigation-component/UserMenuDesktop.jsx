@@ -16,6 +16,7 @@ import bookingIcon from "../../assets/Navigation/bookingIcon.png";
 import logoutIcon from "../../assets/Navigation/logoutIcon.png";
 import { useAuth } from "@/contexts/authentication";
 import { useRouter } from "next/router";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const UserMenuDesktop = (props) => {
   const { logout } = useAuth();
@@ -28,18 +29,23 @@ const UserMenuDesktop = (props) => {
   return (
     <Menubar className="hidden md:flex rounded-full border-0">
       <MenubarMenu>
-        <MenubarTrigger className="rounded-full p-2 w-full cursor-pointer hover:bg-slate-50">
-          <div className="flex gap-3 items-center ">
-            <Image
-              src={profileImage}
-              alt="User"
-              width={40}
-              height={40}
-              className="w-10 h-10 rounded-full object-cover"
-            />
-            <h6 className="text-start text-wrap">{name}</h6>
-          </div>
-        </MenubarTrigger>
+        {username ? (
+          <MenubarTrigger className="rounded-full p-2 w-full cursor-pointer hover:bg-slate-50">
+            <div className="flex gap-3 items-center ">
+              <Image
+                src={profileImage}
+                alt="User"
+                width={40}
+                height={40}
+                className="w-10 h-10 rounded-full object-cover"
+              />
+              <h6 className="text-start text-wrap">{name}</h6>
+            </div>
+          </MenubarTrigger>
+        ) : (
+          <Skeleton className="rounded-full p-2 w-full cursor-pointer" />
+        )}
+
         <MenubarContent className="w-[198px] px-[14px] py-2 md:mx-4">
           <MenubarItem
             className="gap-3 px-2 cursor-pointer"

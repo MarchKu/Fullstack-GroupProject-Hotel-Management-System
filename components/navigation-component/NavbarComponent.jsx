@@ -87,7 +87,6 @@ const NavbarComponent = () => {
           <div className="flex items-center gap-6">
             {hotelData ? (
               <>
-                {/* <Logo hotelLogo={hotelData.hotel_logo} /> */}
                 <Link href="/">
                   <div
                     className="w-[94px] h-[25px] md:w-[167px] md:h-[45px] bg-cover bg-center"
@@ -97,7 +96,7 @@ const NavbarComponent = () => {
                 <NavLinkDesktop hotelName={hotelData.hotel_name} />
               </>
             ) : (
-              <p>Loading...</p>
+              <Skeleton className="w-full md:w-[40%]  h-full"></Skeleton>
             )}
           </div>
         </div>

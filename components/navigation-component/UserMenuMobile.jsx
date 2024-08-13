@@ -17,6 +17,7 @@ import cardIcon from "../../assets/Navigation/cardIcon.png";
 import bookingIcon from "../../assets/Navigation/bookingIcon.png";
 import logoutIcon from "../../assets/Navigation/logoutIcon.png";
 import { useAuth } from "@/contexts/authentication";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const UserMenuMobile = (props) => {
   const { logout } = useAuth();
