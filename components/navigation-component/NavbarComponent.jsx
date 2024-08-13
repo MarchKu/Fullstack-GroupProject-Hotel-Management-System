@@ -14,6 +14,7 @@ import axios from "axios";
 import { useAuth } from "@/contexts/authentication";
 import UserImage from "../../assets/Navigation/UserImage.png";
 import NotificationMenu from "./NotificationMenu";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const NavbarComponent = () => {
   const [hotelData, setHotelData] = useState({});
@@ -96,7 +97,7 @@ const NavbarComponent = () => {
                 <NavLinkDesktop hotelName={hotelData.hotel_name} />
               </>
             ) : (
-              <Skeleton className="w-full md:w-[40%]  h-full"></Skeleton>
+              <Skeleton className="w-full md:w-[40%] h-full bg-slate-500"></Skeleton>
             )}
           </div>
         </div>

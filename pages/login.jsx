@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
-import NavbarComponent from "@/components/navigation-component/NavbarComponent";
 import { useAuth } from "@/contexts/authentication";
 import useUserProfile from "@/hooks/use-user-profile";
 import useHotelData from "@/hooks/use-hotel-data";
@@ -50,7 +49,6 @@ const Login = () => {
   };
   return (
     <>
-      <NavbarComponent />
       <main className="w-full min-h-[93vh] h-auto md:h-[93vh] flex md:flex-row flex-col items-center md:justify-center mx-auto gap-10 bg-[#F7F7FB]">
         <div className="size-full flex flex-col md:flex-row">
           <div

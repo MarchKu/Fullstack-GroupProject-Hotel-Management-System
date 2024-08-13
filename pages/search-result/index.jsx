@@ -21,7 +21,6 @@ import {
 
 import { SearchBox } from "@/components/search-component/SearchBox";
 import FooterComponent from "@/components/footer-component/FooterComponent";
-import NavbarComponent from "@/components/navigation-component/NavbarComponent";
 
 import useVacantRoom from "@/hooks/use-vacant-room";
 import { useState, useEffect } from "react";
@@ -111,7 +110,6 @@ export default function Search_result() {
 
   return roomData ? (
     <section className="flex flex-col items-center font-body">
-      <NavbarComponent isAuthenticated={isAuthenticated} />
       <div className=" w-full flex justify-center items-center border-1 border-gray-200  rounded shadow-md shadow-gray-300 bg-white md:h-[150px] md:sticky md:top-0 md:z-10 ">
         <SearchBox onDateChage={handleOnDateChange} />
       </div>

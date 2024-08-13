@@ -43,7 +43,7 @@ const UserMenuDesktop = (props) => {
             </div>
           </MenubarTrigger>
         ) : (
-          <Skeleton className="rounded-full p-2 w-full cursor-pointer" />
+          <Skeleton className="rounded-full p-2 w-full bg-slate-500" />
         )}
 
         <MenubarContent className="w-[198px] px-[14px] py-2 md:mx-4">

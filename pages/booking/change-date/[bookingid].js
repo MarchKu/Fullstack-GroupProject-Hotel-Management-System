@@ -1,4 +1,3 @@
-import NavbarComponent from "@/components/navigation-component/NavbarComponent";
 import { useRouter } from "next/router";
 import axios from "axios";
 import { useState, useEffect } from "react";
@@ -186,7 +185,6 @@ export default function ChangeDatePage() {
 
   return (
     <>
-      <NavbarComponent isAuthenticated={isAuthenticated} />
       {!bookingData ? (
         <section className="w-full min-h-[92vh] h-[90vh] px-[5%] flex flex-col justify-start items-center font-body">
           <div className="w-full h-full max-w-[1440px]">

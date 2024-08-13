@@ -94,7 +94,6 @@ const Booking = () => {
     case 1:
       return (
         <>
-          <NavbarComponent isAuthenticated={isAuthenticated} />
           <div className="w-screen flex justify-center">
             <Step1BasicInfo nextStep={nextStep} prevStep={prevStep} />
             <AlertRoomIsBooked />
@@ -104,7 +103,6 @@ const Booking = () => {
     case 2:
       return bookingData ? (
         <>
-          <NavbarComponent isAuthenticated={isAuthenticated} />
           <div className="w-screen flex justify-center">
             <Step2SpecialRequest nextStep={nextStep} prevStep={prevStep} />
             <AlertRoomIsBooked />
@@ -116,7 +114,6 @@ const Booking = () => {
     case 3:
       return (
         <>
-          <NavbarComponent isAuthenticated={isAuthenticated} />
           <div className="w-screen flex justify-center">
             <Step3PaymentMethod nextStep={nextStep} prevStep={prevStep} />
             <AlertRoomIsBooked />
@@ -126,7 +123,6 @@ const Booking = () => {
     case 4:
       return bookingData ? (
         <>
-          <NavbarComponent isAuthenticated={isAuthenticated} />
           <Step4CompleteBooking nextStep={nextStep} prevStep={prevStep} />
         </>
       ) : (

@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import NavbarComponent from "@/components/navigation-component/NavbarComponent";
 import FooterComponent from "@/components/footer-component/FooterComponent";
 import useBookingHistory from "@/hooks/use-booking-history";
 import Link from "next/link";
@@ -61,7 +60,6 @@ const BookingHistory = () => {
   };
   return (
     <>
-      <NavbarComponent isAuthenticated={isAuthenticated} />
       {!bookingHistory ? (
         <section className="w-full min-h-[92vh] h-[90vh] px-[5%] flex flex-col justify-start items-center font-body">
           <div className="w-full h-full max-w-[1440px]">

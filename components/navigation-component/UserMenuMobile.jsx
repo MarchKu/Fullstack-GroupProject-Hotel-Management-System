@@ -36,21 +36,25 @@ const UserMenuMobile = (props) => {
         </DrawerHeader>
         <div>
           <Link href="/">
-            <div className="flex items-center w-full gap-2 mb-4">
-              <Image
-                src={image}
-                width={40}
-                height={40}
-                alt="user image"
-                className="rounded-full object-cover"
-              ></Image>
-              <div
-                className="break-words "
-                style={{ width: "calc(100% - 40px - 8px)" }}
-              >
-                <h6 className="w-full">{name} </h6>
+            {username ? (
+              <div className="flex items-center w-full gap-2 mb-4">
+                <Image
+                  src={image}
+                  width={40}
+                  height={40}
+                  alt="user image"
+                  className="rounded-full object-cover"
+                ></Image>
+                <div
+                  className="break-words "
+                  style={{ width: "calc(100% - 40px - 8px)" }}
+                >
+                  <h6 className="w-full">{name} </h6>
+                </div>
               </div>
-            </div>
+            ) : (
+              <Skeleton className="rounded-full p-2 w-full bg-slate-500" />
+            )}
           </Link>
 
           <MenubarSeparator />

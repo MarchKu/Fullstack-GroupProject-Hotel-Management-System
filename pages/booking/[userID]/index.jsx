@@ -2,7 +2,6 @@
 import React, { useState, useEffect } from "react";
 import { useSearchParams, useParams } from "next/navigation";
 import Image from "next/image";
-import NavbarComponent from "@/components/navigation-component/NavbarComponent";
 import FooterComponent from "@/components/footer-component/FooterComponent";
 import useBookingHistory from "@/hooks/use-booking-history";
 import CheckDateBeforeModifie from "@/components/booking-history-component/Card-Footer";
@@ -86,7 +85,6 @@ const Index = () => {
 
   return (
     <>
-      <NavbarComponent isAuthenticated={isAuthenticated} />
       <section className="w-full md:min-h-[80vh] px-[5%]  md:px-[10%] flex flex-col justify-between items-center font-body py-[5%] xl:py-[1%]">
         <div className="w-full max-w-[1440px]">
           <h1 className="font-heading text-primary-heading text-[3rem] md:text-[5rem] w-full text-left">
