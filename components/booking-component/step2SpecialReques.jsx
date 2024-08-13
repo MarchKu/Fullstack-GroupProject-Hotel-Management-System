@@ -391,10 +391,10 @@ const Step2SpecialRequest = ({ nextStep, prevStep }) => {
                 >
                   Back
                 </button>
-                <Button className="w-[100px]" onClick={handleNext}>
+                <Button onClick={handleNext}>
                   <LoadingButton
                     type="button"
-                    className="w-full"
+                    className="w-auto"
                     isClick={isClicked}
                     loadingText="Processing..."
                     text="Next"
