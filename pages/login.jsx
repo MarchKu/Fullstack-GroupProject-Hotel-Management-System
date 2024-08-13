@@ -5,6 +5,8 @@ import useUserProfile from "@/hooks/use-user-profile";
 import useHotelData from "@/hooks/use-hotel-data";
 import Link from "next/link";
 import { set } from "date-fns";
+import { Button } from "@/components/ui/button";
+import LoadingButton from "@/components/loading-button/loading-button";
 
 const Login = () => {
   const { userData, getUserProfile, putUserProfile, isLoading, isError } =
@@ -12,6 +14,7 @@ const Login = () => {
   const [user, setUser] = useState(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isClicked, setIsClicked] = useState(false);
+
   useEffect(() => {
     const fetchUserData = async () => {
       const userData = localStorage.getItem("user");
@@ -28,7 +31,6 @@ const Login = () => {
     if (user) {
       getUserProfile(user.username);
     }
-    console.log(userData);
   }, [user]);
 
   useEffect(() => {
@@ -39,16 +41,18 @@ const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
-  const { login } = useAuth();
+  const { login, isLogginError } = useAuth();
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const data = {
       username,
       password,
     };
+    
     setIsClicked(true);
-    login(data);
+    await login(data);
+    setIsClicked(false);
   };
   return (
     <>
@@ -90,27 +94,19 @@ const Login = () => {
                   />
                 </div>
                 <div className="flex flex-col gap-4">
-                  <button
+                  <LoadingButton
                     type="submit"
                     className="w-full px-8 py-4 bg-[#C14817] text-white rounded"
-                  >
-                    {isClicked ? (
-                      <div className="flex items-center justify-center">
-                        <div
-                          className="inline-block h-4 w-4 animate-spin rounded-full border-4 border-solid border-current border-e-transparent align-[-0.125em] text-surface motion-reduce:animate-[spin_1.5s_linear_infinite] dark:text-white"
-                          role="status"
-                        ></div>
-                        <span className="ml-2">Logging in...</span>
-                      </div>
-                    ) : (
-                      "Log In"
-                    )}
-                  </button>
+                    isClick = {isClicked}
+                    loadingText="Logging in..."
+                    text="Logging in"
+                  />
                   <p>
                     Don’t have an account yet?{" "}
                     <Link
                       href="/register"
                       className="font-semibold text-[#E76B39]"
+                      
                     >
                       Register
                     </Link>

@@ -13,6 +13,7 @@ import { useState, useEffect } from "react";
 import useUserProfile from "@/hooks/use-user-profile";
 import useHotelData from "@/hooks/use-hotel-data";
 import { Skeleton } from "@/components/ui/skeleton";
+import LoadingButton from "@/components/loading-button/loading-button";
 
 /* Set schema */
 const profileSchema = z.object({
@@ -45,6 +46,7 @@ export default function Profile() {
   const { hotelData, getHotelData } = useHotelData();
   const [user, setUser] = useState(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isClicked, setIsClicked] = useState(false);
 
   /* Set default value */
   const form = useForm({
@@ -98,7 +100,9 @@ export default function Profile() {
     if (data.profile_picture instanceof File) {
       formPayload.append("profile_picture", data.profile_picture);
     }
+    setIsClicked(true)
     await putUserProfile(user.username, formPayload);
+    setIsClicked(false)
   };
 
   /* Nav Bar Authen */
@@ -124,12 +128,19 @@ export default function Profile() {
                 <h1 className="text-[4rem] md:[5rem] font-heading text-primary-heading">
                   Profile
                 </h1>
-                <Button
+                {/* <Button
                   type="submit"
                   className="text-[1.25rem] font-normal hidden md:block"
                 >
                   Update Profile
-                </Button>
+                </Button> */}
+                <LoadingButton
+                    type="submit"
+                    className="text-[1.25rem] font-normal hidden md:block"
+                    isClick = {isClicked}
+                    loadingText="Updating..."
+                    text="Update Profile"
+                  />
               </div>
 
               <div className="flex flex-col gap-[1rem] md:gap-[1.5rem] w-full h-auto mt-[1.5rem] md:mt-[2rem]">

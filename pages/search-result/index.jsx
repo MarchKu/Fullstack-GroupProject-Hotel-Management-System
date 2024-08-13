@@ -27,6 +27,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { useBookingContext } from "@/contexts/booking";
 
+
 export default function Search_result() {
   const [openRoomDetail, setOpenRoomDetail] = useState({});
   const [openRoomImg, setOpenRoomImg] = useState({});
@@ -34,6 +35,7 @@ export default function Search_result() {
   const router = useRouter();
   const { searchData, createBooking } = useBookingContext();
   const [user, setUser] = useState({});
+  const [isClicked, setIsClicked] = useState(false);
 
   useEffect(() => {
     const fetchUserData = async () => {

@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
 import toastr from "toastr";
@@ -27,7 +27,7 @@ function AuthProvider(props) {
       toastr["success"]("You are successfully logged in");
       setTimeout(function () {
         window.location.replace("/");
-      }, 1000);
+      }, 500);
     } catch (error) {
       console.log(error.message);
       toastr["error"]("Invalid username, email or password");
@@ -99,7 +99,7 @@ function AuthProvider(props) {
 
   return (
     <AuthContext.Provider
-      value={{ login, logout, register, adminLogin, adminLogout }}
+      value={{ login, logout, register, adminLogin, adminLogout}}
     >
       {props.children}
     </AuthContext.Provider>
@@ -107,4 +107,4 @@ function AuthProvider(props) {
 }
 const useAuth = () => React.useContext(AuthContext);
 
-export { AuthProvider, useAuth };
+export { AuthProvider, useAuth};
