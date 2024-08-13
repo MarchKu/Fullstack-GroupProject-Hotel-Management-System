@@ -82,7 +82,7 @@ const NavbarComponent = () => {
   }, [user]);
 
   const AuthenticatedUser = (
-    <NavigationMenu className="flex items-center min-h-[48px] md:min-h-[100px] h-[5vh] border-[1px] border-[#E4E6ED] justify-center w-full px-4">
+    <NavigationMenu className="flex items-center min-h-[48px] md:min-h-[100px] h-[5vh] border-b-[1px] border-[#E4E6ED] justify-center w-full px-4">
       {hotelData ? (
         <div className="flex justify-between w-full">
           <div className="flex justify-between text-[14px]">
@@ -137,10 +137,10 @@ const NavbarComponent = () => {
   );
 
   const UnauthenticatedUser = (
-    <NavigationMenu className="flex items-center min-h-[48px] md:min-h-[100px] h-[5vh] border-[1px] border-[#E4E6ED] justify-center w-full px-4">
+    <NavigationMenu className="flex items-center min-h-[48px] md:min-h-[100px] h-[5vh] border-b-[1px] border-[#E4E6ED] justify-center w-full px-4">
       {hotelData ? (
         <div className="flex justify-between w-full">
-          <div className="flex justify-between w-full items-center gap-6 text-[14px]">
+          <div className="flex justify-between w-full md:max-w-[517px] items-center gap-6 text-[14px]">
             {hotelData ? (
               <>
                 <Link href="/">
