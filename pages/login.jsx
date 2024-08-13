@@ -4,12 +4,14 @@ import { useAuth } from "@/contexts/authentication";
 import useUserProfile from "@/hooks/use-user-profile";
 import useHotelData from "@/hooks/use-hotel-data";
 import Link from "next/link";
+import { set } from "date-fns";
 
 const Login = () => {
   const { userData, getUserProfile, putUserProfile, isLoading, isError } =
     useUserProfile();
   const [user, setUser] = useState(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isClicked, setIsClicked] = useState(false);
   useEffect(() => {
     const fetchUserData = async () => {
       const userData = localStorage.getItem("user");
@@ -45,6 +47,7 @@ const Login = () => {
       username,
       password,
     };
+    setIsClicked(true);
     login(data);
   };
   return (
@@ -91,7 +94,17 @@ const Login = () => {
                     type="submit"
                     className="w-full px-8 py-4 bg-[#C14817] text-white rounded"
                   >
-                    Log In
+                    {isClicked ? (
+                      <div className="flex items-center justify-center">
+                        <div
+                          className="inline-block h-4 w-4 animate-spin rounded-full border-4 border-solid border-current border-e-transparent align-[-0.125em] text-surface motion-reduce:animate-[spin_1.5s_linear_infinite] dark:text-white"
+                          role="status"
+                        ></div>
+                        <span className="ml-2">Logging in...</span>
+                      </div>
+                    ) : (
+                      "Log In"
+                    )}
                   </button>
                   <p>
                     Don’t have an account yet?{" "}
