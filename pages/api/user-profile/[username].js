@@ -131,6 +131,8 @@ async function handler(req, res) {
   if (req.method === "GET") {
     try {
       const { username } = req.query;
+      console.log(username);
+
       if (!username) {
         return res.status(400).json({ message: "Username is required" });
       }

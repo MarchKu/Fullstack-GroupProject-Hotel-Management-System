@@ -6,13 +6,14 @@ export default function useBookingHistory() {
   const [totalPage, setTotalPage] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
+  const API_BASE_URL = "http://localhost:3000" || "${API_BASE_URL}";
 
   const getBookingHistoryByUsername = async (username, page) => {
     try {
       if (username) {
         setIsLoading(true);
         const result = await axios.get(
-          `https://neatly-hotel.vercel.app/api/booking/history/${username}?page=${page}`
+          `${API_BASE_URL}/api/booking/history/${username}?page=${page}`
         );
         setBookingHistory(result.data[0]);
         setTotalPage(result.data[1]);
@@ -30,7 +31,7 @@ export default function useBookingHistory() {
       if (bookingID) {
         setIsLoading(true);
         const result = await axios.put(
-          `https://neatly-hotel.vercel.app/api/booking/cancel/${bookingID}`
+          `${API_BASE_URL}/api/booking/cancel/${bookingID}`
         );
         setIsLoading(false);
         setIsError(false);
@@ -46,7 +47,7 @@ export default function useBookingHistory() {
       if (bookingID) {
         setIsLoading(true);
         const result = await axios.get(
-          `https://neatly-hotel.vercel.app/api/booking/cancel/${bookingID}`
+          `${API_BASE_URL}/api/booking/cancel/${bookingID}`
         );
         setBookingHistory(result.data);
         setIsLoading(false);

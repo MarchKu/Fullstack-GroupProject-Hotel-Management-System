@@ -21,6 +21,8 @@ const CheckoutPage = ({
   const [clientSecret, setClientSecret] = useState("");
   const [loading, setLoading] = useState(false);
   const { checkRoomBooked, isRoomBooked } = useBookingContext();
+  const API_BASE_URL =
+    "http://localhost:3000" || "https://neatly-hotel.vercel.app";
 
   useEffect(() => {
     fetch("/api/create-payment-intent", {
@@ -35,7 +37,7 @@ const CheckoutPage = ({
         setClientSecret(data.clientSecret);
         console.log("clientSecret:", data);
       });
-  }, [amount,billId]);
+  }, [amount, billId]);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -60,7 +62,7 @@ const CheckoutPage = ({
         clientSecret,
         confirmParams: {
           // To step 4
-          return_url: `https://neatly-hotel.vercel.app/booking?username=${username}&bookingID=${bookingId}&bookingStep=4`,
+          return_url: `${API_BASE_URL}/booking?username=${username}&bookingID=${bookingId}&bookingStep=4`,
         },
       });
 

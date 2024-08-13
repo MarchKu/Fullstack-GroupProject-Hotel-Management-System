@@ -18,7 +18,7 @@ const Hero = () => {
             A Best Place for Your Neatly Experience
           </h1>
         </div>
-        <div className="lg:w-[1200px] flex justify-center  rounded-lg">
+        <div className="w-full max-w-[340px] md:max-w-[1000px] lg:max-w-[1200px] lg:w-full flex justify-center bg-white rounded-md">
           <SearchBox onDateChage={() => true} />
         </div>
       </div>

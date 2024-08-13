@@ -192,8 +192,3 @@ export default async function handler(req, res) {
     }
   }
 }
-
-// standard_request: [...standardRequest],
-//       special_request: [...specialRequest],
-//       additional_request: additionalRequests,
-//       total_price: totalPrice,

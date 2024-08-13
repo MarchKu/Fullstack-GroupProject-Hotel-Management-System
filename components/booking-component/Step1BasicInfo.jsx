@@ -3,10 +3,8 @@ import { BriefcaseBusiness } from "lucide-react";
 import { useState, useEffect, useCallback } from "react";
 import { format, parse } from "date-fns";
 import { useRouter } from "next/router";
-import useUserProfile from "@/hooks/use-user-profile";
 import { useBookingContext } from "@/contexts/booking";
-import axios from "axios";
-import AlertRoomIsBooked from "@/components/booking-component/AlertRoomIsBooked";
+import LoadingBookingStep1 from "./bookignLoadingSkeleton/LoadingBookingStep1";
 
 const Step1BasicInfo = ({ nextStep, prevStep }) => {
   const {
@@ -16,31 +14,24 @@ const Step1BasicInfo = ({ nextStep, prevStep }) => {
     setTotalPrice,
     timeLeft,
     checkRoomBooked,
+    userData,
+    getUserData,
   } = useBookingContext();
 
-  const [alerOpen, setAlertOpen] = useState(false);
   //Get username from query parameter*/
   const router = useRouter();
   const { username, bookingID } = router.query;
 
-  /*Get user profile */
-  const { userData, getUserProfile, putUserProfile, isLoading, isError } =
-    useUserProfile();
+  useEffect(() => {
+    if (!userData) {
+      getUserData(username);
+    }
+  }, [getUserData]);
 
   useEffect(() => {
     checkRoomBooked();
-  }, [checkRoomBooked]);
-
-  useEffect(() => {
-    if (username) {
-      const fetchData = async () => {
-        if (username) {
-          await getUserProfile(username);
-        }
-      };
-      fetchData();
-    }
-  }, [username]);
+    console.log(bookingData);
+  }, []);
 
   const setTotalPriceFunction = useCallback(() => {
     if (bookingData) {
@@ -59,13 +50,6 @@ const Step1BasicInfo = ({ nextStep, prevStep }) => {
     const remainingSeconds = seconds % 60;
     return `${minutes}:${remainingSeconds < 10 ? "0" : ""}${remainingSeconds}`;
   };
-
-  if (isLoading) {
-    return <h1>Loading...</h1>;
-  }
-  if (isError) {
-    return <h1>Error fetching data</h1>;
-  }
 
   const handleNext = () => {
     const query = {
@@ -228,7 +212,7 @@ const Step1BasicInfo = ({ nextStep, prevStep }) => {
                           {format(bookingData.check_in, "EEE, dd MMM yyyy")} -
                           {format(bookingData.check_out, "EEE, dd MMM yyyy")}
                         </p>
-                        <p>2 Guests</p>
+                        <p>{bookingData.room_capacity} Guests</p>
                       </div>
                       <div className="flex justify-between mb-4">
                         <p>{bookingData.type_name}</p>
@@ -359,7 +343,7 @@ const Step1BasicInfo = ({ nextStep, prevStep }) => {
             </div>
           </div>
         ) : (
-          <h1>Loading...</h1>
+          <LoadingBookingStep1 />
         )}
       </div>
     </div>
