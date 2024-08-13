@@ -86,13 +86,13 @@ const NavbarComponent = () => {
       {hotelData ? (
         <div className="flex justify-between w-full">
           <div className="flex justify-between text-[14px]">
-            <div className="flex items-center gap-6">
+            <div className="flex items-center gap-6 max-w-[517px]">
               {hotelData ? (
                 <>
                   <Link href="/">
                     {hotelData.hotel_logo ? (
                       <div
-                        className="w-[94px] h-[25px] md:w-[167px] md:h-[45px] bg-cover bg-center"
+                        className="w-[94px] h-[25px] md:w-[167px] md:h-[45px] bg-cover bg-center shrink"
                         style={{
                           backgroundImage: `url(${hotelData.hotel_logo})`,
                         }}
