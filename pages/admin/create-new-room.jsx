@@ -129,7 +129,7 @@ const CreateNewRoom = () => {
     }
 
     console.log("Form Data Submitted:", Object.fromEntries(formData));
-    createRoom(formData);
+    await createRoom(formData);
   };
 
   const imageGallery = form.watch("imageGallery");
@@ -299,16 +299,16 @@ const CreateNewRoom = () => {
                             </SelectTrigger>
                             <SelectContent>
                               <SelectGroup>
-                                <SelectItem value="Single bed">
+                                <SelectItem value="single bed">
                                   Single bed
                                 </SelectItem>
-                                <SelectItem value="Double bed">
+                                <SelectItem value="double bed">
                                   Double bed
                                 </SelectItem>
-                                <SelectItem value="Double bed (King size)">
+                                <SelectItem value="double bed (king size)">
                                   Double bed (King size)
                                 </SelectItem>
-                                <SelectItem value="Twin bed">
+                                <SelectItem value="twin bed">
                                   Twin bed
                                 </SelectItem>
                               </SelectGroup>
