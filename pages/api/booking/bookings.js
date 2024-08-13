@@ -74,7 +74,9 @@ export default async function POST(req, res) {
       );
       return res.status(200).json({ data: result.rows, size: dataSize });
     }
-  } catch (error) {
-    console.log(error.message);
+  } catch {
+    return res
+      .status(500)
+      .json({ message: "Bad connection: Bad sever connection." });
   }
 }

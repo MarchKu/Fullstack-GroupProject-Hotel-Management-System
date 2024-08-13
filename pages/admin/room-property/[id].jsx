@@ -4,6 +4,7 @@ import axios from "axios";
 import toastr from "toastr";
 import Image from "next/image";
 import Sidebar from "@/components/admin-side/Sidebar";
+import { Button } from "@/components/ui/button";
 import { useRouter } from "next/router";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -31,6 +32,8 @@ import {
 } from "@/components/ui/form";
 import AmenityInput from "@/components/admin-side/createRoom/AmenityInput";
 import backIcon from "@/assets/admin/arrow_back.png";
+import { closestCorners, DndContext } from "@dnd-kit/core";
+import { arrayMove } from "@dnd-kit/sortable";
 
 const createRoomSchema = z.object({
   roomTypeId: z.string(),
@@ -53,9 +56,10 @@ const createRoomSchema = z.object({
       message: "Main Image must be either a file or a URL string.",
     }
   ),
-  imageGallery: z
-    .array(
-      z.custom(
+  imageGallery: z.array(
+    z.object({
+      id: z.number(),
+      file: z.custom(
         (value) => {
           return (
             value instanceof File ||
@@ -63,14 +67,17 @@ const createRoomSchema = z.object({
           );
         },
         {
-          message: "Each image must be either a file or a URL string.",
+          message: "File must be a valid File object.",
         }
-      )
-    )
-    .min(4, {
-      message: "Please select at least 4 images.",
-    }),
-  amenity: z.array(z.string()),
+      ),
+    })
+  ),
+  amenity: z.array(
+    z.object({
+      id: z.number(),
+      value: z.string(),
+    })
+  ),
 });
 
 const EditRoomProperties = () => {
@@ -92,7 +99,7 @@ const EditRoomProperties = () => {
       roomDescription: "",
       mainImage: {},
       imageGallery: [],
-      amenity: [""],
+      amenity: [{ id: 1, value: "" }],
     },
   });
 
@@ -101,7 +108,7 @@ const EditRoomProperties = () => {
       if (id) {
         try {
           const response = await axios.get(
-            `http://localhost:3000/api/room/${id}`
+            `https://neatly-hotel.vercel.app/api/room/${id}`
           );
           const roomData = response.data[0];
 
@@ -134,7 +141,7 @@ const EditRoomProperties = () => {
       imageGallery: roomProperties.gallery_images,
       amenity: roomProperties.amenities,
     });
-  }, [roomProperties,form]);
+  }, [roomProperties, form]);
 
   const UpdateRoom = async (formData) => {
     if (!(formData instanceof FormData)) {
@@ -178,9 +185,13 @@ const EditRoomProperties = () => {
       galleryImageUrls.forEach((url) => {
         formData.append("imageGallery", url);
       });
-      await axios.put(`http://localhost:3000/api/hotel/rooms/`, formData, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
+      await axios.put(
+        `https://neatly-hotel.vercel.app/api/hotel/rooms/`,
+        formData,
+        {
+          headers: { "Content-Type": "multipart/form-data" },
+        }
+      );
       toastr["success"]("You are successfully registered");
       setTimeout(function () {
         window.location.replace("/admin/create-new-room");
@@ -195,7 +206,59 @@ const EditRoomProperties = () => {
     window.location.replace("/admin/room-property-all");
   };
 
+  const handleAddAmenity = () => {
+    setAmenities([
+      ...amenities,
+      {
+        id: amenities.length + 1,
+        value: "",
+      },
+    ]);
+  };
+
+  const handleInputChange = (e, index) => {
+    const updatedAmenities = amenities.map((amenity, i) => {
+      if (index === i) {
+        return {
+          ...amenity,
+          value: e.target.value,
+        };
+      }
+      return amenity;
+    });
+    setAmenities(updatedAmenities);
+    // setValue("amenity", updatedAmenities);
+  };
+
+  const handleRemoveAmenity = (index) => {
+    const updatedAmenities = amenities.filter((_, i) => i !== index);
+    setAmenities(updatedAmenities);
+    // setValue("amenity", updatedAmenities);
+  };
+
+  const getAmenityPosition = (id) => {
+    return amenities.findIndex((amenity) => amenity.id === id);
+  };
+
+  const handleDragEnd = (event) => {
+    const { active, over } = event;
+
+    if (active.id === over.id) return;
+
+    let updatedAmenities;
+    setAmenities((amenities) => {
+      const oldIndex = getAmenityPosition(active.id);
+      const newIndex = getAmenityPosition(over.id);
+      updatedAmenities = arrayMove(amenities, oldIndex, newIndex);
+
+      return arrayMove(amenities, oldIndex, newIndex);
+    });
+    form.setValue("amenity", updatedAmenities);
+  };
+
   const onSubmit = async (data) => {
+    console.log("Data Submitted:", data);
+
     const formData = new FormData();
     formData.append("roomId", id);
     formData.append("roomTypeId", data.roomTypeId);
@@ -209,22 +272,22 @@ const EditRoomProperties = () => {
     formData.append("roomDescription", data.roomDescription);
     formData.append("mainImage", data.mainImage);
     for (let i = 0; i < data.imageGallery.length; i++) {
-      formData.append("imageGallery", data.imageGallery[i]);
+      formData.append("imageGallery", data.imageGallery[i].file);
     }
     for (let i = 0; i < data.amenity.length; i++) {
-      formData.append("amenity", data.amenity[i]);
+      formData.append("amenity", data.amenity[i].value);
     }
 
     console.log("Form Data Submitted:", Object.fromEntries(formData));
     await UpdateRoom(formData);
   };
 
-  const promotionWatch = form.watch("promotionPrice");
-  console.log("promotionWatch:", promotionWatch);
+  const allFormData = form.watch();
+  console.log("All Form Data:", allFormData);
 
   const deleteRoom = async () => {
     try {
-      await axios.delete("http://localhost:3000/api/hotel/rooms", {
+      await axios.delete("https://neatly-hotel.vercel.app/api/hotel/rooms", {
         params: { id },
       });
       toastr["success"]("Room deleted successfully");
@@ -480,12 +543,27 @@ const EditRoomProperties = () => {
               <h2 className="text-xl font-semibold text-[#9AA1B9] pt-6 border-t-[1px]">
                 Room Amenities
               </h2>
-              <AmenityInput
-                amenities={amenities}
-                setAmenities={setAmenities}
-                control={form.control}
-                prevAmenities={roomProperties.amenities}
-              />
+
+              <DndContext
+                collisionDetection={closestCorners}
+                onDragEnd={handleDragEnd}
+              >
+                <AmenityInput
+                  amenities={amenities}
+                  setAmenities={setAmenities}
+                  control={form.control}
+                  handleInputChange={handleInputChange}
+                  handleRemoveAmenity={handleRemoveAmenity}
+                  prevAmenities={roomProperties.amenities}
+                />
+              </DndContext>
+              <Button
+                onClick={handleAddAmenity}
+                className="w-1/4 bg-white text-[#E76B39] border-[1px] border-[#E76B39] hover:text-white"
+                type="button"
+              >
+                + Add Amenity
+              </Button>
             </article>
             <div className="flex justify-end w-full px-[3%] py-[34px]">
               <button

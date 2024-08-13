@@ -88,7 +88,7 @@ const RoomDetail = () => {
 
   return roomData ? (
     <section className="w-full h-auto md:min-h-screen pt-[2.5%] pb-[5%] px-[5%] flex flex-col justify-start items-center overflow-hidden">
-      <div className="w-screen h-[300px] md:h-[50vh] max-w-[1440px]">
+      <div className="w-screen h-[400px] md:h-[50vh] max-w-[1440px]">
         <Carousel
           opts={{
             align: "center",
@@ -114,18 +114,18 @@ const RoomDetail = () => {
           <CarouselNext />
         </Carousel>
       </div>
-      <div className="w-full max-w-[1440px] h-auto md:h-[60%] pt-[5%] px-[5%] xl:px-0 flex flex-col gap-[2.5%] md:gap-[5%]">
+      <div className="w-full max-w-[1440px] h-auto md:h-[60%] pt-[5%] xl:pt-[2.5%] px-[5%] xl:px-0 flex flex-col gap-[2.5%] md:gap-[5%]">
         <h2 className="w-full h-auto text-[2.5rem] md:text-[4rem] xl:text-[5rem] text-start content-center font-heading text-primary-heading">
           {roomData.type_name}
         </h2>
         {/* Need to render */}
         <div className="w-full h-auto flex flex-col md:flex-row items-center justify-between py-[1.5rem]">
           <div className="w-full md:w-[50%] h-full flex flex-col justify-between font-body md:gap-[2rem]">
-            <p className="h-auto text-secondary-body text-[0.8rem] lg:text-[1.25rem] ">
+            <p className="h-auto text-secondary-body text-[0.8rem] lg:text-[1rem] ">
               {/* render data */}
               {roomData.room_description}
             </p>
-            <p className="h-auto text-secondary-body text-[0.8rem] lg:text-[1.25rem] ">
+            <p className="h-auto text-secondary-body text-[0.8rem] lg:text-[1rem] ">
               <span className="pr-2 md:pr-6">
                 {" "}
                 {roomData.room_capacity} Person
@@ -142,18 +142,34 @@ const RoomDetail = () => {
           </div>
           <div className="w-full md:w-[50%] h-full flex md:flex-col justify-between items-end font-body">
             <div>
-              <p className="text-start md:text-end text-secondary-body text-[0.8rem] md:text-[1.25rem] font-semibold">
-                <s>
-                  {/* render data */}
+              {roomData.promotion_price ? (
+                <>
+                  <p className="text-start md:text-end text-secondary-body text-[0.8rem] md:text-[1.25rem] font-semibold">
+                    THB{" "}
+                    {roomData.current_price.replace(
+                      /\B(?=(\d{3})+(?!\d))/g,
+                      ","
+                    )}
+                  </p>
+                  <p className="text-[1.25rem] md:text-[1.5rem] xl:text-[1.7rem]  font-semibold">
+                    THB{" "}
+                    {roomData.promotion_price &&
+                      roomData.promotion_price.replace(
+                        /\B(?=(\d{3})+(?!\d))/g,
+                        ","
+                      )}
+                  </p>
+                </>
+              ) : (
+                <p className="text-[1.25rem] md:text-[1.5rem] xl:text-[1.7rem]  font-semibold">
                   THB{" "}
-                  {roomData.current_price.replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
-                </s>
-              </p>
-              <p className="text-[1.25rem] md:text-[1.5rem] xl:text-[1.7rem]  font-semibold">
-                {/* render data */}
-                THB{" "}
-                {roomData.promotion_price.replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
-              </p>
+                  {roomData.current_price &&
+                    roomData.current_price.replace(
+                      /\B(?=(\d{3})+(?!\d))/g,
+                      ","
+                    )}
+                </p>
+              )}
             </div>
 
             {isAuthenticated ? (
@@ -178,7 +194,7 @@ const RoomDetail = () => {
           <h3 className="font-body font-bold text-[1.5rem] pt-[1.5rem]">
             Room Amenities
           </h3>
-          <div className="w-full flex flex-col md:flex-row md:flex-wrap text-[0.8rem] lg:text-[1.25rem] font-body pt-[1rem] text-secondary-body">
+          <div className="w-full flex flex-col md:flex-row md:flex-wrap text-[0.8rem] lg:text-[1rem] font-body pt-[1rem] text-secondary-body">
             {/* render data */}
             {roomData.amenities === null ? (
               <div></div>

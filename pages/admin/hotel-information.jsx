@@ -20,10 +20,8 @@ const HotelInformation = () => {
   //   getAdminData();
   // }, []);
 
-  
-
   return (
-    <div className="w-full flex bg-blue-500">
+    <div className="w-full flex bg-[#2F3E35]">
       <Sidebar />
       <Main />
     </div>

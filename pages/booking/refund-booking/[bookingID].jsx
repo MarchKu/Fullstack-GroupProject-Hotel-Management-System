@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import NavbarComponent from "@/components/navigation-component/NavbarComponent";
 import FooterComponent from "@/components/footer-component/FooterComponent";
 import useBookingHistory from "@/hooks/use-booking-history";
 import Link from "next/link";
@@ -16,7 +15,7 @@ import {
   DialogFooter,
   DialogClose,
 } from "@/components/ui/dialog";
-import { Skeleton } from "@/components/ui/skeleton"
+import { Skeleton } from "@/components/ui/skeleton";
 
 const BookingHistory = () => {
   const router = useRouter();
@@ -55,56 +54,37 @@ const BookingHistory = () => {
 
   const cancleClick = () => {
     if (bookingID) {
-      /* cancelBooking(bookingID); */
+      cancelBooking(bookingID);
       setIsCancel(true);
     }
   };
   return (
     <>
-      <NavbarComponent isAuthenticated={isAuthenticated} />
       {!bookingHistory ? (
-        <section className="w-full min-h-[92vh] h-[90vh] px-[5%] flex flex-col justify-start items-center">
+        <section className="w-full min-h-[92vh] h-[90vh] px-[5%] flex flex-col justify-start items-center font-body">
           <div className="w-full h-full max-w-[1440px]">
             <h1 className="h-auto font-heading text-primary-heading text-[3rem] md:text-[4rem] xl:text-[5rem] w-full text-left content-center">
-              Request a Refund
+              Cancel Booking
             </h1>
-            <div className="w-full h-full md:h-auto py-[5%] flex flex-col justify-center items-center md:justify-center md:items-center md:py-[2rem]">
-              <div className="w-full h-full flex flex-col md: justify-between md:flex-row border-b border-gray-300 mb-[1.5rem]">
-                <div className="w-full md:w-[45%] h-[50%] md:h-[400px]">
-                  <Skeleton className="w-full h-[50%] md:h-[400px]" />
-                </div>
-
+            <div className="w-full h-full md:h-auto py-[5%] flex flex-col justify-center items-center md:justify-center md:items-center md:py-[2rem] ">
+              <div className="w-full h-full flex flex-col md: justify-between md:flex-row mb-[1.5rem]gap-[10%]">
+                <Skeleton className="w-full md:w-[45%] h-[50%] md:h-[400px]"></Skeleton>
                 <div className="h-auto md:h-full w-full md:w-[50%]">
                   <div className="py-[5%] size-full flex flex-col md:w-full md:h-full md:justify-start gap-[1rem] md:gap-[2rem]">
                     <div className="w-full flex flex-col xl:flex-row xl:justify-between  xl:items-center gap-[1rem] md:gap-0">
-                      <Skeleton className="w-[100px] h-[20px] rounded-full" />
-                      <Skeleton className="w-[500px] h-[20px] rounded-full" />
+                      <Skeleton className="h-[1.5rem] md:h-[2rem] w-[30%]"></Skeleton>
+                      <Skeleton className="h-[1.5rem] md:h-[2rem] w-[60%]"></Skeleton>
                     </div>
-                    <div className="w-full flex flex-col xl:flex-row gap-[1rem] font-body xl:justify-between">
-                      <div className="w-full xl:w-[70%] flex flex-col text-gray-700 gap-[1rem]">
-
-                        <p>2 Guests</p>
-                      </div>
-                      <div className="w-full xl:w-[30%] flex flex-col  xl:text-right ">
-                        <p>Total refund</p>
-                        <p className="text-[1.5rem] font-semibold">
-
-                        </p>
-                      </div>
-                    </div>
+                    <Skeleton className="h-[1.5rem] md:h-[2rem] w-full"></Skeleton>
+                    <Skeleton className="h-[1.5rem] md:h-[2rem] w-full"></Skeleton>
+                    <Skeleton className="h-[1.5rem] md:h-[2rem] w-full"></Skeleton>
                   </div>
                 </div>
-              </div>
-              <div className="w-full flex flex-col md:flex-row justify-between items-center md:pl-[5%] gap-[1rem] md:gap-0">
-                <button>
-                  Back
-                </button>
-                
               </div>
             </div>
           </div>
         </section>
-      ) : !isCancel ? (
+      ) : !isCancel && bookingHistory ? (
         <section className="w-full min-h-[92vh] h-[90vh] px-[5%] flex flex-col justify-start items-center font-body">
           <div className="w-full h-full max-w-[1440px]">
             <h1 className="h-auto font-heading text-primary-heading text-[3rem] md:text-[4rem] xl:text-[5rem] w-full text-left content-center">
@@ -206,7 +186,8 @@ const BookingHistory = () => {
             </div>
           </div>
         </section>
-      ) :isCancel && (
+      ) : (
+        isCancel && (
           <section className="w-full h-auto px-[5%] flex flex-col justify-start items-center font-body pb-[5%] md:pt-[5%] md:min-h-[1000px]">
             <div className="w-full max-w-[1440px] lg:w-[70%] xl:w-[50%] h-auto pb-[10%] md:pb-[5%] flex flex-col ">
               <div className="w-full h-auto md:h-[40%] bg-green-800 flex flex-col justify-center items-center p-[5%] ">
@@ -268,7 +249,8 @@ const BookingHistory = () => {
               <Button>Back to home</Button>
             </button>
           </section>
-        )}
+        )
+      )}
     </>
   );
 };

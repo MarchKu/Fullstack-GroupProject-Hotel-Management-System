@@ -26,12 +26,13 @@ function FormFieldComponent({
         <FormItem>
           <FormLabel>{label}</FormLabel>
           <FormControl>
-            <div className="flex relative ">
+            <div className="flex relative w-full ">
               <Input
                 type={type}
                 placeholder={placeholder}
                 hasError={fieldState.invalid}
                 {...field}
+                className="w-full "
               />
               {fieldState.invalid && (
                 <Image

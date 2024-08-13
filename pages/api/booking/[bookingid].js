@@ -22,12 +22,16 @@ export default async function handler(req, res) {
         [bookingId]
       );
       if (!result.rows[0]) {
-        return res.status(404).json({ message: "Booking ID not found" });
+        return res.status(400).json({ message: "Booking ID not found" });
       } else {
-        return res.status(200).json(result.rows);
+        return res
+          .status(200)
+          .json(result.rows);
       }
-    } catch (error) {
-      return res.status(500).json({ message: error.message });
+    } catch {
+      return res
+        .status(500)
+        .json({ message: "Bad connection: Bad sever connection." });
     }
   } else if (req.method === "PUT") {
     const data = { ...req.body };
@@ -51,7 +55,7 @@ export default async function handler(req, res) {
 
     if (checkDate.rows[0]) {
       return res
-        .status(401)
+        .status(400)
         .json({ message: "Invalid check-in or check-out date" });
     } else {
       try {
@@ -63,10 +67,12 @@ export default async function handler(req, res) {
           [data.check_in, data.check_out, bookingId]
         );
         return res
-          .status(201)
+          .status(200)
           .json({ message: "Change check-in and check-out date successfully" });
-      } catch (error) {
-        return res.status(500).json({ message: error.message });
+      } catch {
+        return res
+          .status(500)
+          .json({ message: "Bad connection: Bad sever connection." });
       }
     }
   } else {

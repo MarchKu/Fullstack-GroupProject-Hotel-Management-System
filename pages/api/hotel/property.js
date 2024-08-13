@@ -25,7 +25,7 @@ export default async function POST(req, res) {
 
     let upLoadResult;
 
-    if (hotelPropertiesId) {
+    if (req.file) {
       const { buffer, mimetype } = req.file;
 
       upLoadResult = await uploadLogo(
@@ -34,17 +34,17 @@ export default async function POST(req, res) {
         `hotel_images/${hotelProperties.hotelName}`,
         mimetype
       );
-    }
 
-    const imageUrl = upLoadResult.data.data.publicUrl;
+      const imageUrl = upLoadResult.data.data.publicUrl;
 
-    await connectionPool.query(
-      ` 
+      await connectionPool.query(
+        ` 
             UPDATE hotel_properties
             SET hotel_logo = $1
             WHERE hotel_property_id = $2`,
-      [imageUrl, hotelPropertiesId]
-    );
+        [imageUrl, hotelPropertiesId]
+      );
+    }
 
     return res.status(201).json({ message: "Edit successfully" });
   } catch (error) {

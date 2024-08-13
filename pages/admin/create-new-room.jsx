@@ -4,7 +4,12 @@ import React, { useState } from "react";
 import Sidebar from "@/components/admin-side/Sidebar";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm, FormProvider, useFormContext } from "react-hook-form";
+import {
+  useForm,
+  FormProvider,
+  useFormContext,
+  setValue,
+} from "react-hook-form";
 import axios from "axios";
 import toastr from "toastr";
 import { Input } from "@/components/ui/input";
@@ -30,6 +35,8 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import AmenityInput from "@/components/admin-side/createRoom/AmenityInput";
+import { closestCorners, DndContext } from "@dnd-kit/core";
+import { arrayMove } from "@dnd-kit/sortable";
 
 const createRoomSchema = z.object({
   roomTypeId: z.string(),
@@ -44,16 +51,20 @@ const createRoomSchema = z.object({
   mainImage: z.custom((file) => file instanceof File, {
     message: "Main Image is required.",
   }),
-  imageGallery: z
-    .array(
-      z.custom((file) => file instanceof File, {
-        message: "Each image must be a file.",
-      })
-    )
-    .min(4, {
-      message: "please select at least 4 image.",
-    }),
-  amenity: z.array(z.string()),
+  imageGallery: z.array(
+    z.object({
+      id: z.number(),
+      file: z.custom((file) => file instanceof File, {
+        message: "File must be a valid File object.",
+      }),
+    })
+  ),
+  amenity: z.array(
+    z.object({
+      id: z.number(),
+      value: z.string(),
+    })
+  ),
 });
 
 const createRoom = async (data) => {
@@ -77,9 +88,7 @@ const createRoom = async (data) => {
 
 const CreateNewRoom = () => {
   const [isDisabled, setIsDisabled] = useState(false);
-  const [amenities, setAmenities] = useState([
-    { id: 1, value: "Add tests to homepage" },
-  ]);
+  const [amenities, setAmenities] = useState([{ id: 1, value: "" }]);
 
   const form = useForm({
     resolver: zodResolver(createRoomSchema),
@@ -93,11 +102,13 @@ const CreateNewRoom = () => {
       roomDescription: "",
       mainImage: {},
       imageGallery: [],
-      amenity: [""],
+      amenity: [{ id: 1, value: "" }],
     },
   });
 
   const onSubmit = async (data) => {
+    console.log("Data Submitted:", data);
+
     const formData = new FormData();
     formData.append("roomTypeId", data.roomTypeId);
     formData.append("roomSize", data.roomSize);
@@ -108,23 +119,72 @@ const CreateNewRoom = () => {
     formData.append("roomDescription", data.roomDescription);
     formData.append("mainImage", data.mainImage);
     for (let i = 0; i < data.imageGallery.length; i++) {
-      formData.append("imageGallery", data.imageGallery[i]);
+      formData.append("imageGallery", data.imageGallery[i].file);
     }
 
     for (let i = 0; i < data.amenity.length; i++) {
-      formData.append("amenity", data.amenity[i]);
-      console.log(data.amenity[i]);
+      formData.append("amenity", data.amenity[i].value);
     }
 
     console.log("Form Data Submitted:", Object.fromEntries(formData));
     createRoom(formData);
   };
 
-  const imageGall = form.watch("imageGallery");
-  console.log("imageGallWatch: ", imageGall);
+  const imageGallery = form.watch("imageGallery");
+  console.log("imageGalleryWatch: ", imageGallery);
 
   const handleBackRooms = () => {
     window.location.replace("/admin/room-management");
+  };
+
+  const handleAddAmenity = () => {
+    setAmenities([
+      ...amenities,
+      {
+        id: amenities.length + 1,
+        value: "",
+      },
+    ]);
+  };
+
+  const handleInputChange = (e, index) => {
+    const updatedAmenities = amenities.map((amenity, i) => {
+      if (index === i) {
+        return {
+          ...amenity,
+          value: e.target.value,
+        };
+      }
+      return amenity;
+    });
+    setAmenities(updatedAmenities);
+    // setValue("amenity", updatedAmenities);
+  };
+
+  const handleRemoveAmenity = (index) => {
+    const updatedAmenities = amenities.filter((_, i) => i !== index);
+    setAmenities(updatedAmenities);
+    // setValue("amenity", updatedAmenities);
+  };
+
+  const getAmenityPosition = (id) => {
+    return amenities.findIndex((amenity) => amenity.id === id);
+  };
+
+  const handleDragEnd = (event) => {
+    const { active, over } = event;
+
+    if (active.id === over.id) return;
+
+    let updatedAmenities;
+    setAmenities((amenities) => {
+      const oldIndex = getAmenityPosition(active.id);
+      const newIndex = getAmenityPosition(over.id);
+      updatedAmenities = arrayMove(amenities, oldIndex, newIndex);
+
+      return arrayMove(amenities, oldIndex, newIndex);
+    });
+    form.setValue("amenity", updatedAmenities);
   };
 
   return (
@@ -284,7 +344,7 @@ const CreateNewRoom = () => {
               </div>
 
               {/* ---------- Price & Promotion ---------- */}
-              <div className="w-full flex gap-10 items-center">
+              <div className="w-full flex gap-10 items-end">
                 <div className="w-full">
                   <FormField
                     control={form.control}
@@ -355,17 +415,32 @@ const CreateNewRoom = () => {
               <UploadimageGallery
                 name="imageGallery"
                 label="Image Gallery(At least 4 pictures) *"
+                control={form.control}
               />
               {/* ---------- Amenity ---------- */}
 
               <h2 className="text-xl font-semibold text-[#9AA1B9] pt-6 border-t-[1px]">
                 Room Amenities
               </h2>
-              <AmenityInput
-                amenities={amenities}
-                setAmenities={setAmenities}
-                control={form.control}
-              />
+
+              <DndContext
+                collisionDetection={closestCorners}
+                onDragEnd={handleDragEnd}
+              >
+                <AmenityInput
+                  amenities={amenities}
+                  control={form.control}
+                  handleInputChange={handleInputChange}
+                  handleRemoveAmenity={handleRemoveAmenity}
+                />
+              </DndContext>
+              <Button
+                onClick={handleAddAmenity}
+                className="w-1/4 bg-white text-[#E76B39] border-[1px] border-[#E76B39] hover:text-white"
+                type="button"
+              >
+                + Add Amenity
+              </Button>
             </article>
           </form>
         </Form>

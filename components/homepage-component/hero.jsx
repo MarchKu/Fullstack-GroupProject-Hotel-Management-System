@@ -9,7 +9,7 @@ import { SearchBox } from "../search-component/SearchBox";
 const Hero = () => {
   return (
     <section
-      className="w-full h-screen md:h-[80vh] flex flex-col justify-center items-center gap-[57px] md:gap-[124px] px-4 pb-[46px]  bg-center bg-cover bg-slate-300 bg-blend-multiply "
+      className="w-full min-h-[92vh] md:h-[92vh] flex flex-col justify-center items-center gap-[57px] md:gap-[124px] px-4 pb-[46px]  bg-center bg-cover bg-slate-300 bg-blend-multiply overflow-hidden"
       style={{ backgroundImage: `url(${background.src})` }}
     >
       <div className="size-full max-w-[1440px] flex flex-col justify-center items-center gap-[1.5rem] md:gap-[10%]">

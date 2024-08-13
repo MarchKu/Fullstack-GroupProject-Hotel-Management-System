@@ -14,6 +14,7 @@ import axios from "axios";
 import { useAuth } from "@/contexts/authentication";
 import UserImage from "../../assets/Navigation/UserImage.png";
 import NotificationMenu from "./NotificationMenu";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const NavbarComponent = () => {
   const [hotelData, setHotelData] = useState({});
@@ -81,72 +82,97 @@ const NavbarComponent = () => {
   }, [user]);
 
   const AuthenticatedUser = (
-    <NavigationMenu className="flex items-center min-h-[48px] md:min-h-[100px] h-[5vh] border-[1px] border-[#E4E6ED] justify-center w-full px-4">
-      <div className="flex justify-between w-full">
-        <div className="flex justify-between text-[14px]">
-          <div className="flex items-center gap-6">
-            {hotelData ? (
+    <NavigationMenu className="flex items-center min-h-[48px] md:min-h-[100px] h-[5vh] border-b-[1px] border-[#E4E6ED] justify-center w-full px-4">
+      {hotelData ? (
+        <div className="flex justify-between w-full">
+          <div className="flex justify-between text-[14px]">
+            <div className="flex items-center gap-6 max-w-[517px]">
+              {hotelData ? (
+                <>
+                  <Link href="/">
+                    {hotelData.hotel_logo ? (
+                      <div
+                        className="w-[94px] h-[25px] md:w-[167px] md:h-[45px] bg-cover bg-center shrink"
+                        style={{
+                          backgroundImage: `url(${hotelData.hotel_logo})`,
+                        }}
+                      ></div>
+                    ) : (
+                      <Skeleton className="w-[94px] h-[25px] md:w-[167px] md:h-[45px] bg-cover bg-center bg-slate-200" />
+                    )}
+                  </Link>
+                  <NavLinkDesktop hotelName={hotelData.hotel_name} />
+                </>
+              ) : (
+                <Skeleton className="w-full md:w-[40%] h-full bg-slate-500" />
+              )}
+            </div>
+          </div>
+          <div className="flex items-center">
+            {/* <Notification /> */}
+            {userData ? (
               <>
-                {/* <Logo hotelLogo={hotelData.hotel_logo} /> */}
-                <Link href="/">
-                  <div
-                    className="w-[94px] h-[25px] md:w-[167px] md:h-[45px] bg-cover bg-center"
-                    style={{ backgroundImage: `url(${hotelData.hotel_logo})` }}
-                  ></div>
-                </Link>
-                <NavLinkDesktop hotelName={hotelData.hotel_name} />
+                <NotificationMenu userId={userId} />
+
+                <UserMenuMobile
+                  image={userData?.profile_picture}
+                  name={userData?.full_name}
+                  username={userData?.username}
+                />
+                <UserMenuDesktop
+                  image={userData?.profile_picture}
+                  name={userData?.full_name}
+                  username={userData?.username}
+                />
               </>
             ) : (
-              <p>Loading...</p>
+              <Skeleton className="rounded-full bg-slate-200" />
             )}
           </div>
         </div>
-        <div className="flex items-center">
-          {/* <Notification /> */}
-          <NotificationMenu userId={userId} />
-
-          <UserMenuMobile
-            image={userData?.profile_picture}
-            name={userData?.full_name}
-            username={userData?.username}
-          />
-          <UserMenuDesktop
-            image={userData?.profile_picture}
-            name={userData?.full_name}
-            username={userData?.username}
-          />
-        </div>
-      </div>
+      ) : (
+        <Skeleton className="flex justify-between w-full bg-slate-200" />
+      )}
     </NavigationMenu>
   );
 
   const UnauthenticatedUser = (
-    <NavigationMenu className="flex items-center min-h-[48px] md:min-h-[100px] h-[5vh] border-[1px] border-[#E4E6ED] justify-center w-full px-4">
-      <div className="flex justify-between w-full">
-        <div className="flex items-center gap-6 text-[14px]">
-          {hotelData ? (
-            <>
-              <Link href="/">
-                <div
-                  className="w-[94px] h-[25px] md:w-[167px] md:h-[45px] bg-cover bg-center"
-                  style={{ backgroundImage: `url(${hotelData.hotel_logo})` }}
-                ></div>
-              </Link>
-              <NavLinkDesktop hotelName={hotelData.hotel_name} />
-              <NonUserMenuMobile hotelName={hotelData.hotel_name} />
-            </>
-          ) : (
-            <p>Loading...</p>
-          )}
+    <NavigationMenu className="flex items-center min-h-[48px] md:min-h-[100px] h-[5vh] border-b-[1px] border-[#E4E6ED] justify-center w-full px-4">
+      {hotelData ? (
+        <div className="flex justify-between w-full">
+          <div className="flex justify-between w-full md:max-w-[517px] items-center gap-6 text-[14px]">
+            {hotelData ? (
+              <>
+                <Link href="/">
+                  {hotelData.hotel_logo ? (
+                    <div
+                      className="w-[94px] h-[25px] md:w-[167px] md:h-[45px] bg-cover bg-center"
+                      style={{
+                        backgroundImage: `url(${hotelData.hotel_logo})`,
+                      }}
+                    ></div>
+                  ) : (
+                    <Skeleton className="w-[94px] h-[25px] md:w-[167px] md:h-[45px] bg-cover bg-center bg-slate-200" />
+                  )}
+                </Link>
+                <NavLinkDesktop hotelName={hotelData.hotel_name} />
+                <NonUserMenuMobile hotelName={hotelData.hotel_name} />
+              </>
+            ) : (
+              <Skeleton className=" bg-slate-200" />
+            )}
+          </div>
+          <div className="hidden md:flex items-center justify-end">
+            <Link href="/login" legacyBehavior passHref>
+              <NavigationMenuLink className="text-[1rem] px-[14px] py-2 md:mx-4 font-semibold text-[#E76B39]">
+                <p className="whitespace-nowrap ">Log in</p>
+              </NavigationMenuLink>
+            </Link>
+          </div>
         </div>
-        <div className="hidden md:flex items-center justify-end">
-          <Link href="/login" legacyBehavior passHref>
-            <NavigationMenuLink className="text-[1rem] px-[14px] py-2 md:mx-4 font-semibold text-[#E76B39]">
-              <p className="whitespace-nowrap ">Log in</p>
-            </NavigationMenuLink>
-          </Link>
-        </div>
-      </div>
+      ) : (
+        <Skeleton className="flex justify-between w-full bg-slate-200" />
+      )}
     </NavigationMenu>
   );
 

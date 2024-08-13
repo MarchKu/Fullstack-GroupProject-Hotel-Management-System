@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import NavbarComponent from "@/components/navigation-component/NavbarComponent";
 import FooterComponent from "@/components/footer-component/FooterComponent";
 import useBookingHistory from "@/hooks/use-booking-history";
 import Link from "next/link";
@@ -16,6 +15,7 @@ import {
   DialogFooter,
   DialogClose,
 } from "@/components/ui/dialog";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const BookingHistory = () => {
   const router = useRouter();
@@ -60,9 +60,30 @@ const BookingHistory = () => {
   };
   return (
     <>
-      <NavbarComponent isAuthenticated={isAuthenticated} />
       {!bookingHistory ? (
-        <div>Loading</div>
+        <section className="w-full min-h-[92vh] h-[90vh] px-[5%] flex flex-col justify-start items-center font-body">
+          <div className="w-full h-full max-w-[1440px]">
+            <h1 className="h-auto font-heading text-primary-heading text-[3rem] md:text-[4rem] xl:text-[5rem] w-full text-left content-center">
+              Cancel Booking
+            </h1>
+            <div className="w-full h-full md:h-auto py-[5%] flex flex-col justify-center items-center md:justify-center md:items-center md:py-[2rem] ">
+              <div className="w-full h-full flex flex-col md: justify-between md:flex-row mb-[1.5rem]gap-[10%]">
+                <Skeleton className="w-full md:w-[45%] h-[50%] md:h-[400px]"></Skeleton>
+                <div className="h-auto md:h-full w-full md:w-[50%]">
+                  <div className="py-[5%] size-full flex flex-col md:w-full md:h-full md:justify-start gap-[1rem] md:gap-[2rem]">
+                    <div className="w-full flex flex-col xl:flex-row xl:justify-between  xl:items-center gap-[1rem] md:gap-0">
+                    <Skeleton className="h-[1.5rem] md:h-[2rem] w-[30%]"></Skeleton>
+                    <Skeleton className="h-[1.5rem] md:h-[2rem] w-[60%]"></Skeleton>
+                    </div>
+                    <Skeleton className="h-[1.5rem] md:h-[2rem] w-full"></Skeleton>
+                    <Skeleton className="h-[1.5rem] md:h-[2rem] w-full"></Skeleton>
+                    <Skeleton className="h-[1.5rem] md:h-[2rem] w-full"></Skeleton>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
       ) : !isCancel && bookingHistory ? (
         <section className="w-full min-h-[92vh] h-[90vh] px-[5%] flex flex-col justify-start items-center font-body">
           <div className="w-full h-full max-w-[1440px]">

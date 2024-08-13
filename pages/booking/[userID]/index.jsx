@@ -2,7 +2,6 @@
 import React, { useState, useEffect } from "react";
 import { useSearchParams, useParams } from "next/navigation";
 import Image from "next/image";
-import NavbarComponent from "@/components/navigation-component/NavbarComponent";
 import FooterComponent from "@/components/footer-component/FooterComponent";
 import useBookingHistory from "@/hooks/use-booking-history";
 import CheckDateBeforeModifie from "@/components/booking-history-component/Card-Footer";
@@ -69,7 +68,7 @@ const Index = () => {
 
   const NoBookingHistory = () => {
     return (
-      <div className="w-full h-[50vh] flex flex-col justify-center items-center gap-5">
+      <div className="w-full min-h-[82vh] h-[82vh] flex flex-col justify-center items-center gap-5">
         <p className="text-2xl font-extrabold text-center">
           You have no booking history.
         </p>
@@ -86,18 +85,59 @@ const Index = () => {
 
   return (
     <>
-      <NavbarComponent isAuthenticated={isAuthenticated} />
       <section className="w-full md:min-h-[80vh] px-[5%]  md:px-[10%] flex flex-col justify-between items-center font-body py-[5%] xl:py-[1%]">
         <div className="w-full max-w-[1440px]">
           <h1 className="font-heading text-primary-heading text-[3rem] md:text-[5rem] w-full text-left">
             Booking History
           </h1>
-          {isLoading ? (
-            <div className="w-full h-[50vh] flex flex-col justify-center items-center">
-              <Skeleton className="w-[100px] h-[20px] rounded-full bg-slate-300" />
-            </div>
-          ) : isError || bookingHistory === null ? (
-            true
+          {isLoading || bookingHistory === null ? (
+            <>
+              <div className="py-[5%] flex flex-col justify-center items-center w-full h-full md:h-[60%] md:justify-center md:items-center md:py-[2rem]">
+                <div className="w-full h-auto flex flex-col md:flex-row  mb-[1.5rem] gap-[10%]">
+                  <Skeleton className="w-full md:w-[40%]  h-full md:h-[400px]"></Skeleton>
+                  <div className="h-[55%] md:h-full md:w-[60%]">
+                    <div className="pt-[5%] size-full flex flex-col md:w-full md:h-full md:justify-start gap-[2rem]">
+                      <div className="w-full flex flex-col lg:flex-row justify-between text-gray-800 items-start lg:items-center">
+                        <Skeleton className="h-[1.5rem] md:h-[2rem] w-[20%]"></Skeleton>
+                        <Skeleton className="h-[1.5rem] md:h-[2rem] w-[70%]"></Skeleton>
+                      </div>
+                      <Skeleton className="h-[1.5rem] md:h-[2rem] w-full"></Skeleton>
+                      <Skeleton className="h-[1.5rem] md:h-[2rem] w-full"></Skeleton>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="py-[5%] flex flex-col justify-center items-center w-full h-full md:h-[60%] md:justify-center md:items-center md:py-[2rem]">
+                <div className="w-full h-auto flex flex-col md:flex-row  mb-[1.5rem] gap-[10%]">
+                  <Skeleton className="w-full md:w-[40%]  h-full md:h-[400px]"></Skeleton>
+                  <div className="h-[55%] md:h-full md:w-[60%]">
+                    <div className="pt-[5%] size-full flex flex-col md:w-full md:h-full md:justify-start gap-[2rem]">
+                      <div className="w-full flex flex-col lg:flex-row justify-between text-gray-800 items-start lg:items-center">
+                        <Skeleton className="h-[1.5rem] md:h-[2rem] w-[20%]"></Skeleton>
+                        <Skeleton className="h-[1.5rem] md:h-[2rem] w-[70%]"></Skeleton>
+                      </div>
+                      <Skeleton className="h-[1.5rem] md:h-[2rem] w-full"></Skeleton>
+                      <Skeleton className="h-[1.5rem] md:h-[2rem] w-full"></Skeleton>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="py-[5%] flex flex-col justify-center items-center w-full h-full md:h-[60%] md:justify-center md:items-center md:py-[2rem]">
+                <div className="w-full h-auto flex flex-col md:flex-row  mb-[1.5rem] gap-[10%]">
+                  <Skeleton className="w-full md:w-[40%]  h-full md:h-[400px]"></Skeleton>
+                  <div className="h-[55%] md:h-full md:w-[60%]">
+                    <div className="pt-[5%] size-full flex flex-col md:w-full md:h-full md:justify-start gap-[2rem]">
+                      <div className="w-full flex flex-col lg:flex-row justify-between text-gray-800 items-start lg:items-center">
+                        <Skeleton className="h-[1.5rem] md:h-[2rem] w-[20%]"></Skeleton>
+                        <Skeleton className="h-[1.5rem] md:h-[2rem] w-[70%]"></Skeleton>
+                      </div>
+                      <Skeleton className="h-[1.5rem] md:h-[2rem] w-full"></Skeleton>
+                      <Skeleton className="h-[1.5rem] md:h-[2rem] w-full"></Skeleton>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </>
           ) : !bookingHistory[0] ? (
             <NoBookingHistory />
           ) : (
@@ -201,13 +241,23 @@ const Index = () => {
                             <AccordionContent className="bg-gray-200 px-[5%]">
                               <div className="flex justify-between">
                                 <h3>{history.type_name}</h3>
-                                <h3>
-                                  {history.promotion_price &&
-                                    history.promotion_price.replace(
-                                      /\B(?=(\d{3})+(?!\d))/g,
-                                      ","
-                                    )}
-                                </h3>
+                                {history.promotion_price ? (
+                                  <p>
+                                    {history.promotion_price &&
+                                      history.promotion_price.replace(
+                                        /\B(?=(\d{3})+(?!\d))/g,
+                                        ","
+                                      )}
+                                  </p>
+                                ) : (
+                                  <p>
+                                    {history.current_price &&
+                                      history.current_price.replace(
+                                        /\B(?=(\d{3})+(?!\d))/g,
+                                        ","
+                                      )}
+                                  </p>
+                                )}
                               </div>
                             </AccordionContent>
                             {history.special_request !== null &&
@@ -229,11 +279,12 @@ const Index = () => {
                               <div className="flex justify-between">
                                 <h3>Promotion Code</h3>
                                 <h3>
-                                  {history.promotion &&
-                                    history.promotion.replace(
-                                      /\B(?=(\d{3})+(?!\d))/g,
-                                      ","
-                                    )}
+                                  {Number(history.promotion_discount) >= 1000
+                                    ? history.promotion_discount.replace(
+                                        /\B(?=(\d{3})+(?!\d))/g,
+                                        ","
+                                      )
+                                    : history.promotion_discount}
                                 </h3>
                               </div>
                             </AccordionContent>

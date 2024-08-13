@@ -38,7 +38,8 @@ export default function PostRoomProperty({
           className="bg-center bg-cover w-28 h-16 rounded-sm object-cover object-center"
           src={image}
           alt={`Image of ${typeRoom}`}
-          layout="fill"
+          width={60}
+          height={50}
         />
       </div>
       <div className="  pl-5 flex justify-between items-center col-span-2">

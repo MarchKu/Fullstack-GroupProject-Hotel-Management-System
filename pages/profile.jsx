@@ -9,7 +9,6 @@ import FormFieldComponent from "@/components/ui/FormField";
 import DatePicker from "@/components/ui/datePick";
 import CountryPicker from "@/components/ui/countryPick";
 import InputFile from "@/components/ui/uploadFile-profile";
-import NavbarComponent from "@/components/navigation-component/NavbarComponent";
 import { useState, useEffect } from "react";
 import useUserProfile from "@/hooks/use-user-profile";
 import useHotelData from "@/hooks/use-hotel-data";
@@ -110,7 +109,6 @@ export default function Profile() {
 
   return (
     <>
-      <NavbarComponent />
       <div className="flex flex-col">
         <div className="inline-block"></div>
         <div className="inline-block"></div>
@@ -188,7 +186,7 @@ export default function Profile() {
               </div>
               <hr className="bg-gray-500 border-none h-[2px] my-[1.5rem]" />
               <div className="w-full h-auto">
-                {userData !== null && (
+                {userData ? (
                   <InputFile
                     control={form.control}
                     name="profile_picture"
@@ -196,8 +194,15 @@ export default function Profile() {
                     id="profile_picture"
                     type="file"
                     currentPic={userData.profile_picture}
-                    isChange= "default"
+                    isChange="default"
                   />
+                ) : (
+                  <>
+                    <h3 className="text-sm font-semibold leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 w-full h-auto text-[1.25rem] md:text-[1.7rem]  text-[#9AA1B9] content-end pb-[1.5rem]">
+                      Profile upload
+                    </h3>
+                    <Skeleton className="size-52"></Skeleton>
+                  </>
                 )}
               </div>
               <Button

@@ -3,7 +3,6 @@ import { useRouter } from "next/router";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
-import NavbarComponent from "@/components/navigation-component/NavbarComponent";
 import { useBookingContext } from "@/contexts/booking";
 import format from "date-fns/format";
 
@@ -64,7 +63,6 @@ export default function PaymentSuccess() {
   }
   return bookingData ? (
     <>
-      <NavbarComponent />
       <div class="w-full pb-8 md:px-[5%] lg:px-[10%] md:pb-32">
         <div className="w-full  flex flex-col items-center gap-8 md:mt-8  md:w-[100%] md:p-8 bg-white">
           <div className="max-w-[738px] h-full min-h-[428px] rounded bg-green-700 text-white">

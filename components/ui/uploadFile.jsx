@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/formComponent";
 import { Input } from "@/components/ui/inputRegisterForm";
 import { useFormContext } from "react-hook-form";
+import Image from "next/image";
 
 function InputFile({ control, name, type, label, id, description }) {
   const { setValue } = useFormContext();
@@ -30,7 +31,6 @@ function InputFile({ control, name, type, label, id, description }) {
     }
   };
 
-  // Update form context with the selected file URL
   const updateProfilePicUrl = (file) => {
     setValue(name, file);
   };
@@ -59,26 +59,38 @@ function InputFile({ control, name, type, label, id, description }) {
           />
           <div className="flex gap-5 pb-10 pt-2">
             {selectedFile && previewUrl ? (
-              <div>
-                <img
+              <div className="relative  ">
+                <Image
                   src={previewUrl}
                   alt="Preview"
-                  className="w-40 h-40 md:w-52 md:h-52 object-cover rounded-md border border-gray-200 absolute"
+                  width={200}
+                  height={150}
+                  className="w-40 h-40  md:w-50 md:h-50 object-contain rounded-md border border-gray-200"
                 />
                 <button
                   onClick={removeFile}
-                  className="relative w-20 left-[8.5rem] bottom-5  md:left-[11.5rem] md:bottom-5"
+                  className="w-10 h-10 absolute bottom-[8.5rem] right-0 left-[8.8rem]  flex items-center justify-center bg-red-500 text-white rounded-full hover:bg-red-600 focus:outline-none"
                 >
-                  <img src="/img/delete.svg" alt="Error Trigger" />
+                  <Image
+                    src="/img/delete.svg"
+                    alt="Error Trigger"
+                    width={40}
+                    height={40}
+                  />
                 </button>
               </div>
             ) : (
               <button
                 type="button"
                 onClick={() => document.getElementById(id)?.click()}
-                className="flex flex-col gap-2 items-center justify-center w-40  h-40 md:w-50 md:h-50 border border-transparent shadow-sm text-sm font-medium rounded-md text-[#E76B39] bg-[#F1F2F6] hover:bg-slate-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                className="flex flex-col gap-2  items-center justify-center w-40  h-40 md:w-50 md:h-50 border border-transparent shadow-sm text-sm font-medium rounded-md text-[#E76B39] bg-[#F1F2F6] hover:bg-slate-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
               >
-                <img src="/img/icon-upload-pic.svg" />
+                <Image
+                  src="/img/icon-upload-pic.svg"
+                  alt="Upload icon"
+                  width={40}
+                  height={40}
+                />
                 Upload photo
               </button>
             )}
@@ -88,7 +100,6 @@ function InputFile({ control, name, type, label, id, description }) {
               {description}
             </FormDescription>
           )}
-
           <FormMessage />
         </FormItem>
       )}

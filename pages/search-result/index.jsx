@@ -21,7 +21,6 @@ import {
 
 import { SearchBox } from "@/components/search-component/SearchBox";
 import FooterComponent from "@/components/footer-component/FooterComponent";
-import NavbarComponent from "@/components/navigation-component/NavbarComponent";
 
 import useVacantRoom from "@/hooks/use-vacant-room";
 import { useState, useEffect } from "react";

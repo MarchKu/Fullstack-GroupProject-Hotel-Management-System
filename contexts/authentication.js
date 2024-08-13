@@ -6,11 +6,14 @@ import { jwtDecode } from "jwt-decode";
 import toastr from "toastr";
 import "toastr/build/toastr.min.css";
 import { auth } from "@/utils/firebase-config/firebase.js";
+import addDays from "date-fns/addDays";
 
 const AuthContext = React.createContext();
 
 function AuthProvider(props) {
   const login = async (data) => {
+    const currentDate = new Date();
+    const tokenTimeout = addDays(currentDate, 15);
     try {
       const result = await axios.post(
         `https://neatly-hotel.vercel.app/api/auth/login`,
@@ -18,7 +21,7 @@ function AuthProvider(props) {
       );
       const token = result.data.token;
       localStorage.setItem("token", token);
-      document.cookie = `token=${token}`;
+      document.cookie = `token=${token};expires= ${tokenTimeout.toUTCString()}`;
       const userDataFromToken = jwtDecode(token);
       localStorage.setItem("user", JSON.stringify(userDataFromToken));
       toastr["success"]("You are successfully logged in");

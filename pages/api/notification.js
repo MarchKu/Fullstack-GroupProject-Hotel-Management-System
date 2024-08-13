@@ -40,8 +40,9 @@ export default async function POST(req, res) {
       }
       return res.status(200).json({ message: "Notification sent" });
     }
-  } catch (error) {
-    console.log(error.message);
-    return res.status(500).json({ message: "Internal server error" });
+  } catch {
+    return res
+      .status(500)
+      .json({ message: "Bad connection: Bad sever connection." });
   }
 }

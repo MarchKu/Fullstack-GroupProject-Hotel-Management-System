@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { dateFormatter } from "@/hooks/useDateFormatter";
 import { Skeleton } from "@/components/ui/skeleton";
-import Link from "next/link";
 
 export default function BookingDetail() {
   const [bookingData, setBookingData] = useState([]);
@@ -49,12 +48,12 @@ export default function BookingDetail() {
   }, [bookingId]);
 
   return (
-    <>
+    <main className="w-screen h-screen">
       <div className="flex flex-row">
         <Sidebar isAtBookingDetail={true} />
         <div className="w-full bg-gray-100">
           <header className="flex flex-row justify-start items-center gap-5 px-16 py-5 bg-white">
-            <Link href="/admin/bookings">
+            <button onClick={() => window.location.replace("/admin/bookings")}>
               <svg
                 width="16"
                 height="16"
@@ -67,20 +66,20 @@ export default function BookingDetail() {
                   fill="#9AA1B9"
                 />
               </svg>
-            </Link>
+            </button>
             {bookingData.map((item, index) => (
               <p key={index}>
-                <span className="text-[#2A2E3F] text-xl font-semibold">
+                <span className="text-[#2A2E3F]  text-xl font-semibold">
                   {item.full_name}
                 </span>
-                <span className="text-[#2A2E3F] text-xl font-normal">
+                <span className="text-[#2A2E3F] ml-5 text-xl font-normal">
                   {item.type_name}
                 </span>
               </p>
             ))}
           </header>
-          <div className="bg-white mt-12 mx-16 pb-10">
-            <div className="h-screen flex flex-col gap-10 px-20 pt-10 overflow-scroll overflow-x-hidden">
+          <div className="bg-white mt-5 mx-16 rounded-md">
+            <div className="h-screen flex flex-col gap-5 px-20 pt-10 overflow-scroll overflow-x-hidden">
               {isLoading ? (
                 <div>
                   <Skeleton className="h-screen px-20 pt-10 bg-slate-300" />
@@ -242,6 +241,6 @@ export default function BookingDetail() {
           </div>
         </div>
       </div>
-    </>
+    </main>
   );
 }

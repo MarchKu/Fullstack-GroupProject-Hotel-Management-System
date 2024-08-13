@@ -9,22 +9,13 @@ import { Form } from "@/components/ui/formComponent";
 import InputFile from "../ui/uploadFile";
 import FormFieldComponent from "../ui/FormField";
 import toastr from "toastr";
-import {
-  FormField,
-  FormItem,
-  FormLabel,
-  FormControl,
-  FormDescription,
-  FormMessage,
-} from "../ui/form";
+import { FormField, FormItem, FormLabel, FormControl } from "../ui/form";
 import { Textarea } from "../ui/textarea";
 
 const hotelSchema = z.object({
   hotelName: z.string().min(1),
   hotelDescription: z.string().min(2),
-  hotelLogo: z.custom((file) => file instanceof File, {
-    message: "Hotel Logo is required",
-  }),
+  hotelLogo: z.any(),
 });
 const Main = () => {
   const [hotelData, setHotelData] = useState({});
@@ -38,7 +29,9 @@ const Main = () => {
 
   useEffect(() => {
     const getHotelData = async () => {
-      const result = await axios.get("https://neatly-hotel.vercel.app/api/getHotelData");
+      const result = await axios.get(
+        "https://neatly-hotel.vercel.app/api/getHotelData"
+      );
       setHotelData(result.data.data);
 
       reset({
@@ -63,26 +56,36 @@ const Main = () => {
     hotelData.hotel_logo ? setHasImage(true) : setHasImage(false);
   }, [hotelData, adminData]);
 
-  const updateHotelData = async (data) => {
+  const createHotelData = async (data) => {
     try {
-      await axios.post("https://neatly-hotel.vercel.app/api/hotel/property", data, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
+      await axios.post(
+        "https://neatly-hotel.vercel.app/api/hotel/property",
+        data,
+        {
+          headers: { "Content-Type": "multipart/form-data" },
+        }
+      );
       toastr["success"]("Updated hotel information successfully");
     } catch (error) {
       console.log(error);
-      toastr["error"]("Failed to updat hotel information successfully");
+      toastr["error"]("Failed to update hotel information successfully");
     }
   };
+
   const onSubmit = async (data) => {
+    if (!hasImage && typeof data.hotelLogo === "string") {
+      form.setError("hotelLogo", { message: "Hotel Logo is required" });
+      return;
+    }
     const formData = new FormData();
     formData.append("hotelName", data.hotelName);
     formData.append("hotelDescription", data.hotelDescription);
-    formData.append("hotelLogo", data.hotelLogo);
     formData.append("adminUsername", adminData);
-    console.log("submit");
 
-    updateHotelData(formData);
+    if (data.hotelLogo instanceof File) {
+      formData.append("hotelLogo", data.hotelLogo);
+    }
+    createHotelData(formData);
   };
 
   return (
@@ -120,7 +123,7 @@ const Main = () => {
                   <FormControl>
                     <Textarea
                       placeholder="Enter Description"
-                      className="min-h-[150px] resize-none focus-visible:border-red"
+                      className="min-h-[150px] resize-none border-gray-400 focus-visible:border-red"
                       {...field}
                     />
                   </FormControl>
@@ -142,20 +145,23 @@ const Main = () => {
                   />
                   <button
                     className="absolute top-0 right-0 w-6 h-6 pb-[2px] rounded-full bg-[#B61515] text-white flex justify-center items-center"
-                    onClick={() => setHasImage(false)}
+                    onClick={() => setHasImage(!hasImage)}
                   >
                     x
                   </button>
                 </div>
               </>
             ) : (
-              <InputFile
-                control={form.control}
-                name="hotelLogo"
-                label="Hotel Logo*"
-                id="hotelLogo"
-                type="file"
-              />
+              <>
+                <label htmlFor="hotelLogo">Hotel logo *</label>
+                <InputFile
+                  className="object-contain"
+                  control={form.control}
+                  name="hotelLogo"
+                  id="hotelLogo"
+                  type="file"
+                />
+              </>
             )}
           </div>
         </section>

@@ -14,66 +14,6 @@ export default async function POST(req, res) {
 
   const user = { ...req.body };
 
-  if (
-    !user.username ||
-    !user.password ||
-    !user.email ||
-    !user.full_name ||
-    !user.id_number ||
-    !user.date_of_birth ||
-    !user.country ||
-    !req.file
-  ) {
-    return res.status(401).json({ message: "Missing data, please try again." });
-  }
-
-  const checkUsername = await connectionPool.query(
-    `
-    SELECT *
-    FROM users
-    INNER JOIN user_profiles
-    ON user_profiles.user_id = users.user_id
-    WHERE username = $1
-    `,
-    [user.username]
-  );
-  const checkEmail = await connectionPool.query(
-    `
-    SELECT *
-    FROM users
-    INNER JOIN user_profiles
-    ON user_profiles.user_id = users.user_id
-    WHERE email = $1
-    `,
-    [user.email]
-  );
-  const checkIdNumber = await connectionPool.query(
-    `
-    SELECT *
-    FROM users
-    INNER JOIN user_profiles
-    ON user_profiles.user_id = users.user_id
-    WHERE id_number = $1
-    `,
-    [user.id_number]
-  );
-
-  if (checkUsername.rows[0]) {
-    return res
-      .status(409)
-      .json({ message: "User with this username already exists" });
-  }
-  if (checkEmail.rows[0]) {
-    return res
-      .status(409)
-      .json({ message: "This email is linked to another account." });
-  }
-  if (checkIdNumber.rows[0]) {
-    return res
-      .status(409)
-      .json({ message: "This ID number is not available." });
-  }
-
   try {
     const salt = await bcrypt.genSalt(10);
 
@@ -126,8 +66,10 @@ export default async function POST(req, res) {
       recipients: [knockId],
     });
     return res.status(201).json({ message: "Regisgered Successfully" });
-  } catch (error) {
-    console.log(error.message);
+  } catch {
+    return res
+      .status(500)
+      .json({ message: "Bad connection: Bad sever connection." });
   }
 }
 

@@ -1,53 +1,28 @@
-"use client";
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/formComponent";
-import React, { useState, useEffect } from "react";
 import FormFieldComponent from "../components/ui/FormField";
 import DatePicker from "../components/ui/datePick";
 import CountryPicker from "../components/ui/countryPick";
 import InputFile from "@/components/ui/uploadFile";
 import { useAuth } from "@/contexts/authentication";
-import NavbarComponent from "@/components/navigation-component/NavbarComponent";
 import { checkUniqueUser } from "../lib/checkUniqueUser";
 import { checkUniqueProfile } from "../lib/checkUniqueProfile";
 import LoadingForm from "../components/ui/LoadingForm";
 
 const minAge = 18;
+
 const registerSchema = z.object({
   fullName: z.string().min(2),
-  username: z
-    .string()
-    .min(2, { message: "Username must be at least 2 characters." })
-    .refine(
-      async (username) => {
-        return await checkUniqueUser("username", username);
-      },
-      { message: "username already exists" }
-    ),
+  username: z.string(),
   password: z
     .string()
     .min(12, { message: "Password must be at least 12 characters." }),
-  email: z
-    .string()
-    .email({ message: "Please enter a valid email address." })
-    .refine(
-      async (email) => {
-        return await checkUniqueUser("email", email);
-      },
-      { message: "username already exists" }
-    ),
-  idNumber: z
-    .string()
-    .min(13, { message: "ID Number must be at least 13 digits." })
-    .refine(
-      async (idNumber) => {
-        return await checkUniqueProfile("id_number", idNumber);
-      },
-      { message: "ID Number already exists" }
-    ),
+  email: z.string().email({ message: "Please enter a valid email address." }),
+  idNumber: z.string(),
   dateBirth: z
     .date({
       message: "A date of birth is required.",
@@ -68,6 +43,8 @@ const registerSchema = z.object({
 
 export default function Register() {
   const [isLoading, setIsLoading] = useState(false);
+  const [previousValues, setPreviousValues] = useState({});
+
   const form = useForm({
     resolver: zodResolver(registerSchema),
     defaultValues: {
@@ -105,13 +82,57 @@ export default function Register() {
     }
   };
 
+  const onValidate = async (values) => {
+    const { username, email, idNumber } = values;
+    if (!username || username === "" || username === null) {
+      form.setError("username", { message: "Username is required" });
+      return;
+    }
+    if (!email || email === "" || email === null) {
+      form.setError("email", { message: "Email is required" });
+      return;
+    }
+    if (!idNumber || idNumber === "" || idNumber === null) {
+      form.setError("idNumber", { message: "ID Number is required" });
+      return;
+    }
+
+    if (
+      username !== previousValues.username ||
+      username === previousValues.username
+    ) {
+      const isUsernameUnique = await checkUniqueUser("username", username);
+      if (!isUsernameUnique) {
+        form.setError("username", { message: "Username already exists" });
+      }
+    }
+
+    if (email !== previousValues.email || email === previousValues.email) {
+      const isEmailUnique = await checkUniqueUser("email", email);
+      if (!isEmailUnique) {
+        form.setError("email", { message: "Email already exists" });
+      }
+    }
+
+    if (
+      idNumber !== previousValues.idNumber ||
+      idNumber === previousValues.idNumber
+    ) {
+      const isIdNumberUnique = await checkUniqueProfile("id_number", idNumber);
+      if (!isIdNumberUnique) {
+        form.setError("idNumber", { message: "ID Number already exists" });
+      }
+    }
+
+    setPreviousValues({ username, email, idNumber });
+  };
+
   return (
-    <>
-      <NavbarComponent />
-      <div className="w-full min-h-[93vh] h-[93vh] inset-0 bg-cover bg-no-repeat bg-center bg-[url('../public/img/bg-register_page.jpg')] flex flex-col justify-start md:justify-center">
-        <div className="w-full h-full md:h-[90%] flex justify-center items-center  bg-gradient-to-b from-[#00000099] to-transparent ">
-          <div className="w-full h-full md:mt-14 md:mb-20 p-[5%] md:p-14 m-0 md:w-[45%] bg-[#F7F7FB] pt-10 md:rounded-lg">
-            <div className="size-full flex flex-col justify-start gap-5  font-body ">
+    <main className="h-screen w-screen">
+      <div className=" min-[2560px]:h-full inset-0 bg-cover bg-no-repeat bg-center bg-[url('/img/bg-register_page.jpg')] flex flex-col justify-start md:justify-center">
+        <div className="md:h-full flex justify-center items-center bg-gradient-to-b from-[#00000099] to-transparent">
+          <div className="w-full max-w-3xl md:mt-14 md:mb-20 p-[5%] md:p-14 bg-[#F7F7FB] pt-10 md:rounded-lg">
+            <div className="h-fit flex flex-col justify-start gap-5 font-body">
               <h1 className="text-7xl font-serif text-[#2F3E35] font-medium tracking-tighter">
                 Register
               </h1>
@@ -125,7 +146,8 @@ export default function Register() {
                 <Form {...form}>
                   <form
                     onSubmit={form.handleSubmit(onSubmit)}
-                    className="text-base font-normal gap-3 md:grid md:grid-cols-2 "
+                    onBlur={() => onValidate(form.getValues())}
+                    className="h-fit text-base font-normal gap-3 md:grid md:grid-cols-2"
                   >
                     <div className="md:col-span-2">
                       <FormFieldComponent
@@ -182,14 +204,14 @@ export default function Register() {
                       <InputFile
                         control={form.control}
                         name="profilepic"
-                        label="Upload  Picture"
+                        label="Upload Picture"
                         id="profilepic"
                         type="file"
                       />
                     </div>
                     <Button
                       type="submit"
-                      className="mt-5 bg-[#C14817] w-full col-span-full md:col-span-1"
+                      className="bg-[#C14817] w-full col-span-full md:col-span-1 block"
                     >
                       Register
                     </Button>
@@ -200,6 +222,6 @@ export default function Register() {
           </div>
         </div>
       </div>
-    </>
+    </main>
   );
 }
