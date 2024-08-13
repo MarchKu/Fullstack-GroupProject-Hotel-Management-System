@@ -14,6 +14,7 @@ import axios from "axios";
 import toastr from "toastr";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { uploadFile } from "@/pages/api/upload";
 import UploadMainImage from "@/components/admin-side/UploadMainImage";
 import UploadimageGallery from "@/components/admin-side/UploadimageGallery";
 import { Textarea } from "@/components/ui/textarea";
@@ -68,14 +69,49 @@ const createRoomSchema = z.object({
 });
 
 const createRoom = async (data) => {
+  if (!(data instanceof FormData)) {
+    console.error("Expected FormData instance");
+    return;
+  }
+  const imageGallery = data.getAll("imageGallery");
+  // console.log("imageGallery: ", imageGallery);
+  if (!Array.isArray(imageGallery)) {
+    console.error("imageGallery is not an array:", imageGallery);
+    return;
+  }
+  const galleryImageUrls = [];
+  const imageFile = imageGallery.filter((item) => item instanceof File);
+  console.log("imageFile:", imageFile);
+
   try {
-    console.log(
-      "Object.fromEntries(data).imageGallery: ",
-      Object.fromEntries(data).imageGallery
-    );
-    await axios.post("https://neatly-hotel.vercel.app/api/hotel/rooms", data, {
-      headers: { "Content-Type": "multipart/form-data" },
+    const uploadPromises = imageFile.map(async (file, index) => {
+      const buffer = await file.arrayBuffer();
+      const mimetype = file.type;
+
+      const uploadResult = await uploadFile(
+        buffer,
+        "admin_uploads",
+        `room_images/image_gallery/${roomProperties.room_id}/${
+          index + 1
+        }`,
+        mimetype
+      );
+
+      return uploadResult.data.data.publicUrl;
     });
+    const uploadedUrls = await Promise.all(uploadPromises);
+    galleryImageUrls.push(...uploadedUrls);
+    formData.delete("imageGallery");
+    galleryImageUrls.forEach((url) => {
+      formData.append("imageGallery", url);
+    });
+    await axios.post(
+      `https://neatly-hotel.vercel.app/api/hotel/rooms/`,
+      formData,
+      {
+        headers: { "Content-Type": "multipart/form-data" },
+      }
+    );
     toastr["success"]("You are successfully registered");
     setTimeout(function () {
       window.location.replace("/admin/create-new-room");
@@ -84,6 +120,22 @@ const createRoom = async (data) => {
     console.log(error.message);
     toastr["error"]("Registration Failed");
   }
+  // try {
+  //   console.log(
+  //     "Object.fromEntries(data).imageGallery: ",
+  //     Object.fromEntries(data).imageGallery
+  //   );
+  //   await axios.post("https://neatly-hotel.vercel.app/api/hotel/rooms", data, {
+  //     headers: { "Content-Type": "multipart/form-data" },
+  //   });
+  //   toastr["success"]("You are successfully registered");
+  //   setTimeout(function () {
+  //     window.location.replace("/admin/create-new-room");
+  //   }, 1000);
+  // } catch (error) {
+  //   console.log(error.message);
+  //   toastr["error"]("Registration Failed");
+  // }
 };
 
 const CreateNewRoom = () => {
@@ -96,7 +148,7 @@ const CreateNewRoom = () => {
     defaultValues: {
       roomTypeId: "1",
       roomSize: "32",
-      bedType: "Single bed",
+      bedType: "single bed",
       guest: "2",
       pricePerNight: "0",
       promotionPrice: "0",
