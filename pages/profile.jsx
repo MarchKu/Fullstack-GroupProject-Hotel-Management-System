@@ -100,9 +100,9 @@ export default function Profile() {
     if (data.profile_picture instanceof File) {
       formPayload.append("profile_picture", data.profile_picture);
     }
-    setIsClicked(true)
+    setIsClicked(true);
     await putUserProfile(user.username, formPayload);
-    setIsClicked(false)
+    setIsClicked(false);
   };
 
   /* Nav Bar Authen */
@@ -128,19 +128,13 @@ export default function Profile() {
                 <h1 className="text-[4rem] md:[5rem] font-heading text-primary-heading">
                   Profile
                 </h1>
-                {/* <Button
+                <LoadingButton
                   type="submit"
                   className="text-[1.25rem] font-normal hidden md:block"
-                >
-                  Update Profile
-                </Button> */}
-                <LoadingButton
-                    type="submit"
-                    className="text-[1.25rem] font-normal hidden md:block"
-                    isClick = {isClicked}
-                    loadingText="Updating..."
-                    text="Update Profile"
-                  />
+                  isClick={isClicked}
+                  loadingText="Updating..."
+                  text="Update Profile"
+                />
               </div>
 
               <div className="flex flex-col gap-[1rem] md:gap-[1.5rem] w-full h-auto mt-[1.5rem] md:mt-[2rem]">
@@ -216,12 +210,13 @@ export default function Profile() {
                   </>
                 )}
               </div>
-              <Button
+              <LoadingButton
                 type="submit"
                 className="text-[1.25rem] font-normal black md:hidden"
-              >
-                Update Profile
-              </Button>
+                isClick={isClicked}
+                loadingText="Updating..."
+                text="Update Profile"
+              />
             </div>
           </form>
         </Form>

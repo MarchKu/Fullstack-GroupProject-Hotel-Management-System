@@ -20,6 +20,7 @@ export default async function handler(req, res) {
       inner join users
       on booking.user_id = users.user_id
       where users.username = $1
+      and (booking.status = 'success' or booking.status = 'cancelled')
       `,
         [username]
       );

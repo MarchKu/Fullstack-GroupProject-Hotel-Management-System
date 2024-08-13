@@ -25,16 +25,14 @@ import {
   PaginationPrevious,
 } from "@/components/ui/pagination";
 import { Skeleton } from "@/components/ui/skeleton";
+import LoadingButton from "@/components/loading-button/loading-button";
 
 const Index = () => {
   const searchParams = useSearchParams();
-  const params = useParams();
   const page = searchParams.get("page");
 
   const router = useRouter();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [isOverAday, setIsoverAday] = useState(true);
-  const [isHidden, setHidden] = useState("");
   const [user, setUser] = useState({});
   const {
     bookingHistory,

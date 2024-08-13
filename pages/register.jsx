@@ -13,6 +13,7 @@ import { checkUniqueUser } from "../lib/checkUniqueUser";
 import { checkUniqueProfile } from "../lib/checkUniqueProfile";
 import LoadingForm from "../components/ui/LoadingForm";
 
+
 const minAge = 18;
 
 const registerSchema = z.object({
@@ -44,6 +45,7 @@ const registerSchema = z.object({
 export default function Register() {
   const [isLoading, setIsLoading] = useState(false);
   const [previousValues, setPreviousValues] = useState({});
+  const [isClicked, setIsClicked] = useState(false);
 
   const form = useForm({
     resolver: zodResolver(registerSchema),
@@ -73,9 +75,11 @@ export default function Register() {
       formData.append("date_of_birth", data.dateBirth);
       formData.append("country", data.country);
       formData.append("profile_picture", data.profilepic);
-
+      
       setIsLoading(true);
+      setIsClicked(true)
       await register(formData);
+      setIsClicked(false)
       setIsLoading(false);
     } catch (err) {
       console.log(err);

@@ -6,6 +6,7 @@ import { format } from "date-fns";
 import { useBookingContext } from "@/contexts/booking";
 import { useRouter } from "next/router";
 import LoadingBookingStep2 from "./bookignLoadingSkeleton/LoadingBookingStep2";
+import LoadingButton from "../loading-button/loading-button";
 
 const Step2SpecialRequest = ({ nextStep, prevStep }) => {
   const { bookingData, updateBookingData, timeLeft, checkRoomBooked } =
@@ -15,6 +16,7 @@ const Step2SpecialRequest = ({ nextStep, prevStep }) => {
   const [specialRequest, setSpecialRequest] = useState([]);
   const [additionalRequests, setAdditionalRequest] = useState("");
   const [totalPrice, setTotalPrice] = useState();
+  const [isClicked, setIsClicked] = useState(false);
 
   const router = useRouter();
   const { username, bookingID } = router.query;
@@ -140,6 +142,7 @@ const Step2SpecialRequest = ({ nextStep, prevStep }) => {
           bookingID: bookingID,
           bookingStep: 3,
         };
+        setIsClicked(false);
         router.push({ pathname: "/booking", query: query });
       } else if (step === "prev") {
         prevStep();
@@ -153,8 +156,9 @@ const Step2SpecialRequest = ({ nextStep, prevStep }) => {
     }
   };
 
-  const handleNext = () => {
-    updateRequest("next");
+  const handleNext = async () => {
+    setIsClicked(true);
+    await updateRequest("next");
   };
 
   const handlePrev = () => {
@@ -388,7 +392,13 @@ const Step2SpecialRequest = ({ nextStep, prevStep }) => {
                   Back
                 </button>
                 <Button className="w-[100px]" onClick={handleNext}>
-                  Next
+                  <LoadingButton
+                    type="button"
+                    className="w-full"
+                    isClick={isClicked}
+                    loadingText="Processing..."
+                    text="Next"
+                  />
                 </Button>
               </div>
             </div>

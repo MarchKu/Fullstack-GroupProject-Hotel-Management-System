@@ -28,7 +28,7 @@ import { useRouter } from "next/router";
 import { useBookingContext } from "@/contexts/booking";
 import SearchResultLoading from "@/components/search-component/SearchResultLoading";
 import format from "date-fns/format";
-
+import LoadingButton from "@/components/loading-button/loading-button";
 
 export default function Search_result() {
   const [openRoomDetail, setOpenRoomDetail] = useState({});
@@ -37,7 +37,7 @@ export default function Search_result() {
   const router = useRouter();
   const { searchData, createBooking } = useBookingContext();
   const [user, setUser] = useState({});
-  const [isClicked, setIsClicked] = useState(false);
+  const [loadingStates, setLoadingStates] = useState({});
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -72,10 +72,10 @@ export default function Search_result() {
     if (data) {
       getRoomDeta(data);
     }
-  }, [data]);
+  }, []);
 
   // create booking
-  const handleBookNow = (index) => {
+  const handleBookNow = async (index) => {
     if (isAuthenticated) {
       let roomPrice;
       if (roomData[index].promotion_price) {
@@ -96,9 +96,18 @@ export default function Search_result() {
         discount_price: 0,
         status: "Booking Initiated",
       };
-      createBooking(data);
+      await createBooking(data);
     } else {
       router.push("/login");
+    }
+  };
+
+  const handleButtonClick = async (index) => {
+    setLoadingStates((prev) => ({ ...prev, [index]: true }));
+    try {
+      await handleBookNow(index);
+    } finally {
+      setLoadingStates((prev) => ({ ...prev, [index]: false }));
     }
   };
 
@@ -115,9 +124,6 @@ export default function Search_result() {
 
   return (
     <section className="flex flex-col items-center font-body">
-      <div className="z-20 w-full">
-        <NavbarComponent isAuthenticated={isAuthenticated} />
-      </div>
       <div className=" w-full flex justify-center items-center bg-white rounded shadow-lg md:h-[120px] md:sticky md:top-0 md:z-10 ">
         <SearchBox />
       </div>
@@ -231,12 +237,21 @@ export default function Search_result() {
                     >
                       Room Detail
                     </Button>
-
                     <Button
-                      className="w-40 rounded"
-                      onClick={() => handleBookNow(index)}
+                      onClick={() => handleButtonClick(index)}
+                      disabled={loadingStates[index]}
                     >
-                      Book Now
+                      {loadingStates[index] ? (
+                        <div>
+                          <div
+                            className="inline-block h-4 w-4 animate-spin rounded-full border-4 border-solid border-current border-e-transparent align-[-0.125em] text-surface motion-reduce:animate-[spin_1.5s_linear_infinite] dark:text-white"
+                            role="status"
+                          ></div>
+                          <span className="ml-2">Processing...</span>
+                        </div>
+                      ) : (
+                        <span className="ml-2">Book Now</span>
+                      )}
                     </Button>
                   </div>
 
