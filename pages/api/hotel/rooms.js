@@ -100,31 +100,28 @@ export default async function handler(req, res) {
         if (req.files["imageGallery"] && req.files["imageGallery"].length > 0) {
           const galleryImages = req.files["imageGallery"];
 
-          const uploadPromises = galleryImages.map((image, index) => {
-            const { buffer, mimetype } = image;
-            return uploadFile(
+          for (let i = 0; i < galleryImages.length; i++) {
+            const { buffer, mimetype } = galleryImages[i];
+
+            const galleryImageResult = await uploadFile(
               buffer,
               "admin_uploads",
-              `room_images/image_gallery/${roomId}/${index}`,
+              `room_images/image_gallery/${roomId}/${i}`,
               mimetype
-            ).then((galleryImageResult) => {
-              if (galleryImageResult.success) {
-                return galleryImageResult.data.data.publicUrl;
-              } else {
-                throw new Error(`Error uploading gallery image ${index}`);
-              }
-            });
-          });
-
-          try {
-            const uploadedGalleryImagesUrls = await Promise.all(uploadPromises);
-            await connectionPool.query(
-              `UPDATE rooms SET gallery_images = $1 WHERE room_id = $2`,
-              [uploadedGalleryImagesUrls, roomId]
             );
-          } catch (error) {
-            return res.status(500).json({ error: error.message });
+
+            if (galleryImageResult.success) {
+              galleryImageUrls.push(galleryImageResult.data.data.publicUrl);
+            } else {
+              return res
+                .status(500)
+                .json({ error: `Error uploading gallery image ${i}` });
+            }
           }
+          await connectionPool.query(
+            `UPDATE rooms SET gallery_images = $1 WHERE room_id = $2`,
+            [galleryImageUrls, roomId]
+          );
         }
       }
 
@@ -132,8 +129,8 @@ export default async function handler(req, res) {
         .status(201)
         .json({ message: "Registered Successfully", data: roomData.rows[0] });
     } catch (error) {
-      console.error("Error processing request: ", error);
-      return res.status(500).json({ error: "Internal Server Error" });
+      console.error("Error:", error.message, error.stack);
+      return res.status(500).json({ message: "Internal Server Error" });
     }
   } else if (req.method === "PUT") {
     await runMiddleware(req, res, uploadFilesMulter);
