@@ -244,21 +244,13 @@ const Index = () => {
                               <div className="flex justify-between">
                                 <h3>{history.type_name}</h3>
                                 {history.promotion_price ? (
-                                  <>
-                                    <p>
-                                      {history.current_price.replace(
+                                  <p>
+                                    {history.promotion_price &&
+                                      history.promotion_price.replace(
                                         /\B(?=(\d{3})+(?!\d))/g,
                                         ","
                                       )}
-                                    </p>
-                                    <p>
-                                      {history.promotion_price &&
-                                        history.promotion_price.replace(
-                                          /\B(?=(\d{3})+(?!\d))/g,
-                                          ","
-                                        )}
-                                    </p>
-                                  </>
+                                  </p>
                                 ) : (
                                   <p>
                                     {history.current_price &&
