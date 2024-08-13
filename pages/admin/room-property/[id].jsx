@@ -34,6 +34,7 @@ import AmenityInput from "@/components/admin-side/createRoom/AmenityInput";
 import backIcon from "@/assets/admin/arrow_back.png";
 import { closestCorners, DndContext } from "@dnd-kit/core";
 import { arrayMove } from "@dnd-kit/sortable";
+import { set } from "date-fns";
 
 const createRoomSchema = z.object({
   roomTypeId: z.string(),
@@ -84,6 +85,7 @@ const EditRoomProperties = () => {
   const router = useRouter();
   const [isChecked, setIsChecked] = useState(false);
   const [amenities, setAmenities] = useState([""]);
+  const [isClicked, setIsClicked] = useState(false);
   const [roomProperties, setRoomProperties] = useState({});
   const { id } = router.query;
 
@@ -258,6 +260,7 @@ const EditRoomProperties = () => {
 
   const onSubmit = async (data) => {
     console.log("Data Submitted:", data);
+    setIsClicked(true);
 
     const formData = new FormData();
     formData.append("roomId", id);
@@ -278,7 +281,7 @@ const EditRoomProperties = () => {
       formData.append("amenity", data.amenity[i].value);
     }
 
-    console.log("Form Data Submitted:", Object.fromEntries(formData));
+    // console.log("Form Data Submitted:", Object.fromEntries(formData));
     await UpdateRoom(formData);
   };
 
@@ -286,11 +289,13 @@ const EditRoomProperties = () => {
   console.log("All Form Data:", allFormData);
 
   const deleteRoom = async () => {
+    setIsClicked(true);
     try {
       await axios.delete("https://neatly-hotel.vercel.app/api/hotel/rooms", {
         params: { id },
       });
       toastr["success"]("Room deleted successfully");
+      window.location.replace("/admin/room-property-all");
 
       // await axios.delete(`http://localhost:3000/api/hotel/rooms/${id}`);
       // toastr["success"]("Room deleted successfully");
@@ -323,9 +328,18 @@ const EditRoomProperties = () => {
               </div>
               <button
                 type="submit"
-                className="bg-[#C14817] text-white font-semibold rounded px-8 py-4"
+                className="bg-[#C14817] text-white font-semibold rounded px-8 py-4 w-full max-w-[120px] h-[56px]"
               >
-                Update
+                {isClicked ? (
+                  <div className="flex items-center justify-center">
+                    <div
+                      className="inline-block h-4 w-4 animate-spin rounded-full border-4 border-solid border-current border-e-transparent align-[-0.125em] text-surface motion-reduce:animate-[spin_1.5s_linear_infinite] dark:text-white"
+                      role="status"
+                    ></div>
+                  </div>
+                ) : (
+                  "Update"
+                )}
               </button>
             </article>
             <article className="w-full flex flex-col gap-10 mx-[60px] mt-10 px-20 pt-10 pb-[60px]  bg-white">
@@ -568,10 +582,20 @@ const EditRoomProperties = () => {
             <div className="flex justify-end w-full px-[3%] py-[34px]">
               <button
                 type="button"
-                className=" hover:bg-red hover:text-white py-2 px-4 rounded-xl"
+                className=" hover:bg-red hover:text-white py-2 px-4 rounded-xl w-full max-w-[133px]"
                 onClick={deleteRoom}
               >
-                Delete Room
+                {isClicked ? (
+                  <div className="flex items-center justify-center">
+                    <div
+                      className="inline-block h-4 w-4 animate-spin rounded-full border-4 border-solid border-current border-e-transparent align-[-0.125em] text-surface motion-reduce:animate-[spin_1.5s_linear_infinite] dark:text-white"
+                      role="status"
+                    ></div>
+                    <span className="ml-2">Deleting...</span>
+                  </div>
+                ) : (
+                  "Delete Room"
+                )}
               </button>
             </div>
           </form>

@@ -89,6 +89,7 @@ const createRoom = async (data) => {
 const CreateNewRoom = () => {
   const [isDisabled, setIsDisabled] = useState(false);
   const [amenities, setAmenities] = useState([{ id: 1, value: "" }]);
+  const [isClicked, setIsClicked] = useState(false);
 
   const form = useForm({
     resolver: zodResolver(createRoomSchema),
@@ -107,6 +108,7 @@ const CreateNewRoom = () => {
   });
 
   const onSubmit = async (data) => {
+    setIsClicked(true);
     console.log("Data Submitted:", data);
 
     const formData = new FormData();
@@ -199,16 +201,25 @@ const CreateNewRoom = () => {
             <article className="w-full flex items-center gap-4 bg-white px-[60px] py-[25px] ">
               <h1 className="w-full font-semibold text-xl">Create New Room</h1>
               <button
-                className="bg-white text-[#E76B39] font-semibold rounded border-[1px] border-[#E76B39] px-8 py-4"
+                className="bg-white text-[#E76B39] font-semibold rounded border-[1px] border-[#E76B39] px-8 py-4 w-full max-w-[120px] h-full max-h-[58px]"
                 onClick={handleBackRooms}
               >
                 Cancel
               </button>
               <button
                 type="submit"
-                className="bg-[#C14817] text-white font-semibold rounded px-8 py-4"
+                className="bg-[#C14817] text-white font-semibold rounded w-full max-w-[120px] h-full max-h-[58px] px-8 py-4"
               >
-                Create
+                {isClicked ? (
+                  <div className="flex items-center justify-center">
+                    <div
+                      className="inline-block h-4 w-4 animate-spin rounded-full border-4 border-solid border-current border-e-transparent align-[-0.125em] text-surface motion-reduce:animate-[spin_1.5s_linear_infinite] dark:text-white"
+                      role="status"
+                    ></div>
+                  </div>
+                ) : (
+                  "Create"
+                )}
               </button>
             </article>
             <article className="w-full flex flex-col gap-10 mx-[60px] mt-10 px-20 pt-10 pb-[60px]  bg-white">
