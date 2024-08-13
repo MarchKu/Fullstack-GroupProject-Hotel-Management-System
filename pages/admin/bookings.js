@@ -42,6 +42,7 @@ export default function AllBooking() {
       setSize(res.data.size);
       setIsLoading(false);
       setIsError(false);
+      setPage(1);
     } catch (error) {
       console.log(error.message);
       setIsError(true);
