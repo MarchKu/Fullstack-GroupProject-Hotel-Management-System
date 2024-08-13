@@ -7,7 +7,7 @@ import background from "../../assets/hero/hero-pic.png";
 import { SearchBox } from "../search-component/SearchBox";
 
 const Hero = () => {
-  return (  
+  return (
     <section
       className="w-full min-h-[92vh] md:h-[92vh] flex flex-col justify-center items-center gap-[57px] md:gap-[124px] px-4 pb-[46px]  bg-center bg-cover bg-slate-300 bg-blend-multiply overflow-hidden"
       style={{ backgroundImage: `url(${background.src})` }}
@@ -18,7 +18,7 @@ const Hero = () => {
             A Best Place for Your Neatly Experience
           </h1>
         </div>
-        <div className="lg:w-[1200px] flex justify-center rounded-lg">
+        <div className="w-full max-w-[340px] md:max-w-[1000px] lg:max-w-[1200px] lg:w-full flex justify-center bg-white rounded-md">
           <SearchBox onDateChage={() => true} />
         </div>
       </div>

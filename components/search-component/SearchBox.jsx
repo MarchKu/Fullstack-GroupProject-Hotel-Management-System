@@ -10,7 +10,7 @@ import {
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import { Calendar } from "@/components/ui/calendar";
+import { Calendar } from "@/components/ui/calendarForSearchBox";
 import {
   Popover,
   PopoverContent,
@@ -22,39 +22,50 @@ import { useBookingContext } from "@/contexts/booking";
 
 import { Arrow } from "@radix-ui/react-popover";
 const PopoverArrow = Arrow;
+import { useMediaQuery } from "@/hooks/use-media-query";
 
-export function SearchBox({ onDateChage }) {
+export function SearchBox() {
+  const isMobile = useMediaQuery("(max-width: 767px)");
   const router = useRouter();
   const [date, setDate] = React.useState({
     from: addDays(new Date(), 1),
     to: addDays(new Date(), 2),
   });
-
   const { setSearchData } = useBookingContext();
-
   const [room, setRoom] = React.useState(1);
   const [guests, setGuests] = React.useState(2);
-
   const [isCheckInOpen, setIsCheckInOpen] = React.useState(false);
   const [isCheckOutOpen, setIsCheckOutOpen] = React.useState(false);
   const [isRoomGuestsOpen, setIsRoomGuestsOpen] = React.useState(false);
 
-  const handleCheckInSelect = (selectedDate) => {
-    if (date.from < selectedDate || selectedDate > date.to) {
-      setDate({ from: selectedDate, to: addDays(selectedDate, 1) });
+  const handleCheckInSelect = (...selectedDate) => {
+    if (selectedDate[1] >= date.to) {
+      setDate({ from: selectedDate[1], to: addDays(selectedDate[1], 1) });
     } else {
-      let newDate = { ...date, from: selectedDate };
-      setDate(newDate);
+      if (selectedDate[2]) {
+        let newDate = { ...date, from: selectedDate[1] };
+        setDate(newDate);
+      } else {
+        let newDate = { ...date, from: selectedDate[0] };
+        setDate(newDate);
+      }
     }
-    if (selectedDate !== undefined) {
+    if (selectedDate[1] !== undefined) {
       setIsCheckInOpen(false);
       setIsCheckOutOpen(true);
     }
   };
 
-  const handleCheckOutSelect = (selectedDate) => {
-    let newDate = { ...date, to: selectedDate };
-    setDate(newDate);
+  const handleCheckOutSelect = (...selectedDate) => {
+    if (selectedDate[1] > date.from) {
+      if (selectedDate[2]) {
+        let newDate = { ...date, to: selectedDate[1] };
+        setDate(newDate);
+      } else {
+        let newDate = { ...date, to: selectedDate[0] };
+        setDate(newDate);
+      }
+    }
   };
 
   const handleRoom = (number) => {
@@ -105,11 +116,8 @@ export function SearchBox({ onDateChage }) {
       number_of_night: dateRange(date.from, date.to),
       guests: guests,
     };
-
-    router.push({ pathname: "/search-result", query: newDateData });
-
     storeSearchData();
-    onDateChage(newDateData);
+    router.push({ pathname: "/search-result", query: newDateData });
   };
 
   const dataFromParam = { ...router.query };
@@ -130,9 +138,9 @@ export function SearchBox({ onDateChage }) {
   }, [date]);
 
   return (
-    <div className="w-full px-8 max-w-[345px] bg-white flex rounded justify-center items-center md:max-lg:w-[100vw] md:max-w-full md:w-full md:max-w-ful md:h-[150px]">
-      <div className="w-full my-8 flex flex-col justify-between items-center gap-[22px] md:gap-[10px]  md:max-w-[1000px] md:flex-row md:justify-between  md:h-[76px] ">
-        <div className="w-full flex flex-col justify-center items-center gap-4 md:w-[50%] md:gap-[10px] md:flex-row ">
+    <div className="w-full px-4 py-6 max-w-[345px] flex rounded justify-center items-center md:max-lg:w-[100vw] md:max-w-full md:w-full md:max-w-ful">
+      <div className="w-full  flex flex-col justify-between items-center gap-[22px] md:gap-[10px]  md:max-w-[1000px] md:flex-row md:justify-between  md:h-[76px] ">
+        <div className="w-full flex flex-col justify-center items-center gap-4 min-[800px]:w-[50%] md:gap-[22px] min-[830px]:gap-[10px] md:flex-row ">
           {/* Check in */}
 
           <Popover open={isCheckInOpen} onOpenChange={setIsCheckInOpen}>
@@ -152,7 +160,7 @@ export function SearchBox({ onDateChage }) {
                   ) : (
                     <span>Pick a date</span>
                   )}
-                  <CalendarIcon className="mr-2 h-4 w-4" />
+                  <CalendarIcon className=" mr-2 h-4 w-4 md:hidden min-[900px]:flex" />
                 </Button>
               </div>
             </PopoverTrigger>
@@ -169,7 +177,7 @@ export function SearchBox({ onDateChage }) {
                 fromMonth={new Date()}
                 selected={date}
                 onSelect={handleCheckInSelect}
-                numberOfMonths={2}
+                numberOfMonths={isMobile ? 1 : 2}
                 disabled={{ before: new Date() }}
                 classNames={{
                   caption_label: "text-sm font-medium text-gray-800",
@@ -184,7 +192,7 @@ export function SearchBox({ onDateChage }) {
             </PopoverContent>
           </Popover>
 
-          <p className="hidden min-[800px]:flex"> - </p>
+          <p className="hidden min-[830px]:flex"> - </p>
 
           {/* Check out */}
 
@@ -205,7 +213,7 @@ export function SearchBox({ onDateChage }) {
                   ) : (
                     <span>Pick a date</span>
                   )}
-                  <CalendarIcon className="mr-2 h-4 w-4" />
+                  <CalendarIcon className="mr-2 h-4 w-4 md:hidden min-[900px]:flex" />
                 </Button>
               </div>
             </PopoverTrigger>
@@ -217,11 +225,11 @@ export function SearchBox({ onDateChage }) {
               <Calendar
                 initialFocus
                 mode="single"
-                defaultMonth={new Date()}
+                defaultMonth={date.from}
                 fromMonth={new Date()}
                 selected={date}
                 onSelect={handleCheckOutSelect}
-                numberOfMonths={2}
+                numberOfMonths={isMobile ? 1 : 2}
                 disabled={{ before: date.from }}
                 classNames={{
                   caption_label: "text-sm font-medium text-gray-800",
@@ -238,14 +246,14 @@ export function SearchBox({ onDateChage }) {
         </div>
 
         {/* Room & Guests */}
-        <div className="w-full md:max-w-[240px]">
+        <div className="w-full md:w-auto lg:w-full lg:max-w-[240px]">
           <h3 className="text-gray-900">Room & Guests</h3>
           <Popover onOpenChange={setIsRoomGuestsOpen}>
             <PopoverTrigger asChild>
               <Button
                 variant="outline"
                 className={cn(
-                  "w-full h-12 justify-between text-left font-normal text-gray-600 text-base md:max-w-[240px]",
+                  "w-full h-12 justify-between text-left font-normal text-gray-600 text-base lg:max-w-[240px]",
                   isRoomGuestsOpen ? "bg-gray-200" : "bg-white"
                 )}
               >
@@ -253,7 +261,7 @@ export function SearchBox({ onDateChage }) {
                 {isRoomGuestsOpen ? <ChevronUp /> : <ChevronDown />}
               </Button>
             </PopoverTrigger>
-            <PopoverContent className="w-[240px] text-gray-700 text-base">
+            <PopoverContent className="h-full max-w-[240px] text-gray-700 text-base">
               <div className="flex flex-col gap-2">
                 <div className="w-full flex justify-between items-center">
                   <p>Room</p>

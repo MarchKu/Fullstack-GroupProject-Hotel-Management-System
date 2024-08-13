@@ -3,11 +3,12 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { useBookingContext } from "@/contexts/booking";
 import { format } from "date-fns";
+import LoadingBookingStep4 from "./bookignLoadingSkeleton/LoadingBookingStep4";
 
 const Step4CompleteBooking = () => {
   const router = useRouter();
   const { username, bookingID } = router.query;
-  const { bookingData, updateBookingData } = useBookingContext();
+  const { bookingData, updateBookingData, setDiscount } = useBookingContext();
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -16,15 +17,14 @@ const Step4CompleteBooking = () => {
       payment_method: "Credit Card",
       status: "success",
     };
-    console.log(data);
-
     const update = updateBookingData(data);
     if (update) {
       setLoading(true);
     }
+    setDiscount(0);
   }, [bookingID, updateBookingData]);
 
-  return loading ? (
+  return (
     <>
       <div class="w-full pb-8 md:px-[5%] lg:px-[10%] md:pb-32">
         <div className="w-full  flex flex-col items-center gap-8 md:mt-8  md:w-[100%] md:p-8 bg-white">
@@ -39,116 +39,123 @@ const Step4CompleteBooking = () => {
                 closer to your date of reservation
               </p>
             </div>
-            <div className="w-full min-h-[366px] px-4 md:px-10 pt-5 flex flex-col">
-              <div className="flex flex-col gap-4 md:flex-row md:justify-between  mb-8 rounded-sm bg-green-600 p-6">
-                <div className="">
+            {loading ? (
+              <div className="w-full min-h-[366px] px-4 md:px-10 pt-5 flex flex-col">
+                <div className="flex flex-col gap-4 md:flex-row md:justify-between  mb-8 rounded-sm bg-green-600 p-6">
+                  <div>
+                    <p className="font-semibold">
+                      {format(bookingData.check_in, "EEE, dd MMM yyyy")} -
+                      {format(bookingData.check_out, "EEE, dd MMM yyyy")}
+                    </p>
+                    <p>{bookingData.room_capacity} Guests</p>
+                  </div>
+                  <div className="flex items-center gap-4">
+                    <div>
+                      <p className="font-semibold">Check-in</p>
+                      <p>After 2.00 PM</p>
+                    </div>
+                    <div>
+                      <p className="font-semibold">Check-out</p>
+                      <p>Before 12.00 PM</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex justify-between mb-4">
+                  <p className="text-gray-300">{bookingData.type_name}</p>
                   <p className="font-semibold">
-                    {format(bookingData.check_in, "EEE, dd MMM yyyy")} -
-                    {format(bookingData.check_out, "EEE, dd MMM yyyy")}
+                    {bookingData.night > 1
+                      ? `${bookingData.night} Nights x `
+                      : ""}
+
+                    {bookingData.promotion_price
+                      ? Number(bookingData.promotion_price).toLocaleString(
+                          "en-US",
+                          {
+                            minimumFractionDigits: 2,
+                            maximumFractionDigits: 2,
+                          }
+                        )
+                      : Number(bookingData.current_price).toLocaleString(
+                          "en-US",
+                          {
+                            minimumFractionDigits: 2,
+                            maximumFractionDigits: 2,
+                          }
+                        )}
                   </p>
-                  <p>2 Guests</p>
                 </div>
-                <div className="flex items-center gap-4">
-                  <div>
-                    <p className="font-semibold">Check-in</p>
-                    <p>After 2.00 PM</p>
-                  </div>
-                  <div>
-                    <p className="font-semibold">Check-out</p>
-                    <p>Before 12.00 PM</p>
-                  </div>
-                </div>
-              </div>
-
-              <div className="flex justify-between mb-4">
-                <p className="text-gray-300">{bookingData.type_name}</p>
-                <p className="font-semibold">
-                  {bookingData.night > 1
-                    ? `${bookingData.night} Nights x `
-                    : ""}
-
-                  {bookingData.promotion_price
-                    ? Number(bookingData.promotion_price).toLocaleString(
-                        "en-US",
-                        {
-                          minimumFractionDigits: 2,
-                          maximumFractionDigits: 2,
-                        }
-                      )
-                    : Number(bookingData.current_price).toLocaleString(
-                        "en-US",
-                        {
-                          minimumFractionDigits: 2,
-                          maximumFractionDigits: 2,
-                        }
-                      )}
-                </p>
-              </div>
-              <div className="mb-8">
-                <ul className="flex flex-col gap-4 mb-4">
-                  {bookingData.standard_request.map((request, index) => (
-                    <li key={index} className="flex justify-between">
-                      <p className="text-gray-300"> {request} </p>
-                    </li>
-                  ))}
-                </ul>
-                <ul className="flex flex-col gap-4">
-                  {bookingData.special_request.map((request, index) => (
-                    <li key={index} className="flex justify-between">
-                      <p className="text-gray-300">
-                        {" "}
-                        {JSON.parse(request).name}{" "}
-                      </p>
-                      <p className="font-semibold">
-                        {request
-                          ? JSON.parse(request).price.toLocaleString("en-US", {
-                              minimumFractionDigits: 2,
-                              maximumFractionDigits: 2,
-                            })
-                          : ""}
-                      </p>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-              {bookingData.additional_request ? (
                 <div className="mb-8">
-                  <p className="text-gray-300">
-                    {bookingData.additional_request}
+                  <ul className="flex flex-col gap-4 mb-4">
+                    {bookingData.standard_request.map((request, index) => (
+                      <li key={index} className="flex justify-between">
+                        <p className="text-gray-300"> {request} </p>
+                      </li>
+                    ))}
+                  </ul>
+                  <ul className="flex flex-col gap-4">
+                    {bookingData.special_request.map((request, index) => (
+                      <li key={index} className="flex justify-between">
+                        <p className="text-gray-300">
+                          {" "}
+                          {JSON.parse(request).name}{" "}
+                        </p>
+                        <p className="font-semibold">
+                          {request
+                            ? JSON.parse(request).price.toLocaleString(
+                                "en-US",
+                                {
+                                  minimumFractionDigits: 2,
+                                  maximumFractionDigits: 2,
+                                }
+                              )
+                            : ""}
+                        </p>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+                {bookingData.additional_request ? (
+                  <div className="mb-8">
+                    <p className="text-gray-300">
+                      {bookingData.additional_request}
+                    </p>
+                  </div>
+                ) : (
+                  ""
+                )}
+                {bookingData.promotion_discount ? (
+                  <div className="flex justify-between mb-8">
+                    <p className="text-gray-300">Promotion Code</p>
+                    <p className="font-semibold">
+                      {" "}
+                      -
+                      {Number(bookingData.promotion_discount).toLocaleString(
+                        "en-US",
+                        {
+                          minimumFractionDigits: 2,
+                          maximumFractionDigits: 2,
+                        }
+                      )}{" "}
+                    </p>
+                  </div>
+                ) : (
+                  ""
+                )}
+                <div className="flex justify-between border-t border-gray-600 h-[75px] items-center">
+                  <p className="text-gray-300">Total</p>
+                  <p className="text-xl font-semibold">
+                    THB{" "}
+                    {Number(bookingData.total_price).toLocaleString("en-US", {
+                      minimumFractionDigits: 2,
+                      maximumFractionDigits: 2,
+                    })}
                   </p>
                 </div>
-              ) : (
-                ""
-              )}
-              {bookingData.promotion_discount ? (
-                <div className="flex justify-between mb-8">
-                  <p className="text-gray-300">Promotion Code</p>
-                  <p className="font-semibold">
-                    {" "}
-                    -
-                    {Number(bookingData.promotion_discount).toLocaleString(
-                      "en-US",
-                      {
-                        minimumFractionDigits: 2,
-                        maximumFractionDigits: 2,
-                      }
-                    )}{" "}
-                  </p>
-                </div>
-              ) : (
-                ""
-              )}
-              <div className="flex justify-between border-t border-gray-600 h-[75px] items-center">
-                <p className="text-gray-300">Total</p>
-                <p className="text-xl font-semibold">
-                  THB{" "}
-                  {Number(bookingData.total_price).toLocaleString("en-US", {
-                    minimumFractionDigits: 2,
-                    maximumFractionDigits: 2,
-                  })}
-                </p>
               </div>
-            </div>
+            ) : (
+              LoadingBookingStep4
+            )}
           </div>
 
           <div className="flex flex-col gap-4 md:flex-row">
@@ -168,8 +175,6 @@ const Step4CompleteBooking = () => {
         </div>
       </div>
     </>
-  ) : (
-    <p>Loading...</p>
   );
 };
 

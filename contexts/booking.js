@@ -19,7 +19,7 @@ function BookingContextProvider(props) {
   const [codeError, setCodeError] = useState("");
   const [bookingData, setBookingData] = useState();
   const [isRoomBooked, setIsRoomBooked] = useState(false);
-  const [testAlert, setTestAlert] = useState(false);
+  const [userData, setUserData] = useState();
   const router = useRouter();
 
   const createBooking = async (data) => {
@@ -128,9 +128,14 @@ function BookingContextProvider(props) {
     }
   }, [bookingData]);
 
-  const testOpenAlert = () => {
-    setTestAlert(true);
-  };
+  const getUserData = useCallback(async (username) => {
+    if (username) {
+      const result = await axios.get(
+        `https://neatly-hotel.vercel.app/api/user-profile/${username}`
+      );
+      setUserData(result.data);
+    }
+  }, []);
 
   return (
     <BookingContext.Provider
@@ -144,6 +149,7 @@ function BookingContextProvider(props) {
         deleteUncompleteBooking,
         promotionCode,
         discount,
+        setDiscount,
         codeError,
         isLoading,
         isError,
@@ -154,9 +160,8 @@ function BookingContextProvider(props) {
         checkRoomBooked,
         isRoomBooked,
         setIsRoomBooked,
-        testOpenAlert,
-        testAlert,
-        setTestAlert,
+        getUserData,
+        userData,
       }}
     >
       {props.children}

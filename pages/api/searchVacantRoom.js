@@ -2,6 +2,9 @@ import connectionPool from "@/utils/connectionPool/db";
 
 export default async function GET(req, res) {
   const searchData = { ...req.query };
+  if (!searchData.check_in || !searchData.check_out || !searchData.guests) {
+    return res.status(400).json({ message: "Missing required parameters" });
+  }
   try {
     const result = await connectionPool.query(
       `SELECT 
@@ -12,9 +15,10 @@ export default async function GET(req, res) {
         ON r.room_type_id = rt.room_type_id
        WHERE r.room_id NOT IN (SELECT b.room_id
                                FROM booking b
-                               WHERE (
+                               WHERE ( 
                                b.check_in < $2 AND
-                               b.check_out > $1) 
+                               b.check_out > $1
+                               ) AND b.status = 'success' 
                               ) AND r.room_capacity >= $3
        ORDER BY r.room_id ASC`,
       [searchData.check_in, searchData.check_out, searchData.guests]
