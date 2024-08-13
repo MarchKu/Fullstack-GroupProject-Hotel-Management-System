@@ -9,7 +9,6 @@ import FormFieldComponent from "@/components/ui/FormField";
 import DatePicker from "@/components/ui/datePick";
 import CountryPicker from "@/components/ui/countryPick";
 import InputFile from "@/components/ui/uploadFile-profile";
-import NavbarComponent from "@/components/navigation-component/NavbarComponent";
 import { useState, useEffect } from "react";
 import useUserProfile from "@/hooks/use-user-profile";
 import useHotelData from "@/hooks/use-hotel-data";
@@ -110,7 +109,6 @@ export default function Profile() {
 
   return (
     <>
-      <NavbarComponent />
       <div className="flex flex-col">
         <div className="inline-block"></div>
         <div className="inline-block"></div>

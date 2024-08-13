@@ -6,7 +6,6 @@ import Service from "@/components/homepage-component/service";
 import RoomSuite from "@/components/homepage-component/room&suite";
 import Testimonial from "@/components/homepage-component/testimonial";
 import FooterComponent from "@/components/footer-component/FooterComponent";
-import NavbarComponent from "@/components/navigation-component/NavbarComponent";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import useUserProfile from "@/hooks/use-user-profile";
@@ -45,7 +44,6 @@ export default function Home() {
 
   return (
     <section className="flex flex-col items-center">
-      <NavbarComponent />
       <Hero />
       {hotelData ? (
         <About
