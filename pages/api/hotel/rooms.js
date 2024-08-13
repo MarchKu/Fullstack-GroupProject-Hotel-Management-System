@@ -20,7 +20,6 @@ export default async function handler(req, res) {
       promotionPrice: parseInt(req.body.promotionPrice),
       roomDescription: req.body.roomDescription,
       amenity: req.body.amenity,
-      imageGallery: req.body.imageGallery,
     };
     console.log("room: ", room);
     if (
@@ -36,6 +35,7 @@ export default async function handler(req, res) {
         .status(400)
         .json({ message: "Missing data, please try again." });
     }
+    let formatRoomAmentity;
     console.log(typeof room.amenity);
     console.log(room.amenity);
     if (typeof room.amenity === "string" && room.amenity !== "") {
@@ -46,8 +46,8 @@ export default async function handler(req, res) {
     console.log("formatRoomAmentity: ", room.amenity);
 
     try {
-      const query = `INSERT INTO rooms (room_type_id, room_size, bed_type, room_capacity, current_price, promotion_price, room_description, amenities, status, gallery_images)
-                   VALUES ($1, $2, $3, $4, $5, $6, $7, $8, 'Vacant', $9)
+      const query = `INSERT INTO rooms (room_type_id, room_size, bed_type, room_capacity, current_price, promotion_price, room_description, amenities, status)
+                   VALUES ($1, $2, $3, $4, $5, $6, $7, $8, 'Vacant')
                    RETURNING room_id`;
 
       const values = [
@@ -59,7 +59,6 @@ export default async function handler(req, res) {
         room.promotionPrice,
         room.roomDescription,
         room.amenity,
-        room.imageGallery,
       ];
 
       const roomData = await connectionPool.query(query, values);
@@ -68,7 +67,7 @@ export default async function handler(req, res) {
       console.log("roomId", roomId);
 
       let mainImageUrl;
-      // const galleryImageUrls = [];
+      const galleryImageUrls = [];
 
       if (roomId) {
         // Process main image
@@ -98,43 +97,40 @@ export default async function handler(req, res) {
         }
 
         // Process image gallery
-        // if (req.files["imageGallery"] && req.files["imageGallery"].length > 0) {
-        //   const galleryImages = req.files["imageGallery"];
+        if (req.files["imageGallery"] && req.files["imageGallery"].length > 0) {
+          const galleryImages = req.files["imageGallery"];
 
-        //   const uploadPromises = galleryImages.map((image, index) => {
-        //     const { buffer, mimetype } = image;
-        //     return uploadFile(
-        //       buffer,
-        //       "admin_uploads",
-        //       `room_images/image_gallery/${roomId}/${index}`,
-        //       mimetype
-        //     ).then((galleryImageResult) => {
-        //       if (galleryImageResult.success) {
-        //         return galleryImageResult.data.data.publicUrl;
-        //       } else {
-        //         throw new Error(`Error uploading gallery image ${index}`);
-        //       }
-        //     });
-        //   });
+          for (let i = 0; i < galleryImages.length; i++) {
+            const { buffer, mimetype } = galleryImages[i];
 
-        //   try {
-        //     const uploadedGalleryImagesUrls = await Promise.all(uploadPromises);
-        //     await connectionPool.query(
-        //       `UPDATE rooms SET gallery_images = $1 WHERE room_id = $2`,
-        //       [uploadedGalleryImagesUrls, roomId]
-        //     );
-        //   } catch (error) {
-        //     return res.status(500).json({ error: error.message });
-        //   }
-        // }
+            const galleryImageResult = await uploadFile(
+              buffer,
+              "admin_uploads",
+              `room_images/image_gallery/${roomId}/${i}`,
+              mimetype
+            );
+
+            if (galleryImageResult.success) {
+              galleryImageUrls.push(galleryImageResult.data.data.publicUrl);
+            } else {
+              return res
+                .status(500)
+                .json({ error: `Error uploading gallery image ${i}` });
+            }
+          }
+          await connectionPool.query(
+            `UPDATE rooms SET gallery_images = $1 WHERE room_id = $2`,
+            [galleryImageUrls, roomId]
+          );
+        }
       }
 
       return res
         .status(201)
         .json({ message: "Registered Successfully", data: roomData.rows[0] });
     } catch (error) {
-      console.error("Error processing request: ", error);
-      return res.status(500).json({ error: "Internal Server Error" });
+      console.error("Error:", error.message, error.stack);
+      return res.status(500).json({ message: "Internal Server Error" });
     }
   } else if (req.method === "PUT") {
     await runMiddleware(req, res, uploadFilesMulter);

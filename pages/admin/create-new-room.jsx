@@ -14,7 +14,6 @@ import axios from "axios";
 import toastr from "toastr";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { uploadFile } from "@/pages/api/upload";
 import UploadMainImage from "@/components/admin-side/UploadMainImage";
 import UploadimageGallery from "@/components/admin-side/UploadimageGallery";
 import { Textarea } from "@/components/ui/textarea";
@@ -69,49 +68,14 @@ const createRoomSchema = z.object({
 });
 
 const createRoom = async (data) => {
-  if (!(data instanceof FormData)) {
-    console.error("Expected FormData instance");
-    return;
-  }
-  const imageGallery = data.getAll("imageGallery");
-  // console.log("imageGallery: ", imageGallery);
-  if (!Array.isArray(imageGallery)) {
-    console.error("imageGallery is not an array:", imageGallery);
-    return;
-  }
-  const galleryImageUrls = [];
-  const imageFile = imageGallery.filter((item) => item instanceof File);
-  console.log("imageFile:", imageFile);
-
   try {
-    const uploadPromises = imageFile.map(async (file, index) => {
-      const buffer = await file.arrayBuffer();
-      const mimetype = file.type;
-
-      const uploadResult = await uploadFile(
-        buffer,
-        "admin_uploads",
-        `room_images/image_gallery/${roomProperties.room_id}/${
-          index + 1
-        }`,
-        mimetype
-      );
-
-      return uploadResult.data.data.publicUrl;
-    });
-    const uploadedUrls = await Promise.all(uploadPromises);
-    galleryImageUrls.push(...uploadedUrls);
-    formData.delete("imageGallery");
-    galleryImageUrls.forEach((url) => {
-      formData.append("imageGallery", url);
-    });
-    await axios.post(
-      `https://neatly-hotel.vercel.app/api/hotel/rooms/`,
-      formData,
-      {
-        headers: { "Content-Type": "multipart/form-data" },
-      }
+    console.log(
+      "Object.fromEntries(data).imageGallery: ",
+      Object.fromEntries(data).imageGallery
     );
+    await axios.post("https://neatly-hotel.vercel.app/api/hotel/rooms", data, {
+      headers: { "Content-Type": "multipart/form-data" },
+    });
     toastr["success"]("You are successfully registered");
     setTimeout(function () {
       window.location.replace("/admin/create-new-room");
@@ -120,35 +84,18 @@ const createRoom = async (data) => {
     console.log(error.message);
     toastr["error"]("Registration Failed");
   }
-  // try {
-  //   console.log(
-  //     "Object.fromEntries(data).imageGallery: ",
-  //     Object.fromEntries(data).imageGallery
-  //   );
-  //   await axios.post("https://neatly-hotel.vercel.app/api/hotel/rooms", data, {
-  //     headers: { "Content-Type": "multipart/form-data" },
-  //   });
-  //   toastr["success"]("You are successfully registered");
-  //   setTimeout(function () {
-  //     window.location.replace("/admin/create-new-room");
-  //   }, 1000);
-  // } catch (error) {
-  //   console.log(error.message);
-  //   toastr["error"]("Registration Failed");
-  // }
 };
 
 const CreateNewRoom = () => {
   const [isDisabled, setIsDisabled] = useState(false);
   const [amenities, setAmenities] = useState([{ id: 1, value: "" }]);
-  const [isClicked, setIsClicked] = useState(false);
 
   const form = useForm({
     resolver: zodResolver(createRoomSchema),
     defaultValues: {
       roomTypeId: "1",
       roomSize: "32",
-      bedType: "single bed",
+      bedType: "Single bed",
       guest: "2",
       pricePerNight: "0",
       promotionPrice: "0",
@@ -160,7 +107,6 @@ const CreateNewRoom = () => {
   });
 
   const onSubmit = async (data) => {
-    setIsClicked(true);
     console.log("Data Submitted:", data);
 
     const formData = new FormData();
@@ -181,7 +127,7 @@ const CreateNewRoom = () => {
     }
 
     console.log("Form Data Submitted:", Object.fromEntries(formData));
-    await createRoom(formData);
+    createRoom(formData);
   };
 
   const imageGallery = form.watch("imageGallery");
@@ -253,25 +199,16 @@ const CreateNewRoom = () => {
             <article className="w-full flex items-center gap-4 bg-white px-[60px] py-[25px] ">
               <h1 className="w-full font-semibold text-xl">Create New Room</h1>
               <button
-                className="bg-white text-[#E76B39] font-semibold rounded border-[1px] border-[#E76B39] px-8 py-4 w-full max-w-[120px] h-full max-h-[58px]"
+                className="bg-white text-[#E76B39] font-semibold rounded border-[1px] border-[#E76B39] px-8 py-4"
                 onClick={handleBackRooms}
               >
                 Cancel
               </button>
               <button
                 type="submit"
-                className="bg-[#C14817] text-white font-semibold rounded w-full max-w-[120px] h-full max-h-[58px] px-8 py-4"
+                className="bg-[#C14817] text-white font-semibold rounded px-8 py-4"
               >
-                {isClicked ? (
-                  <div className="flex items-center justify-center">
-                    <div
-                      className="inline-block h-4 w-4 animate-spin rounded-full border-4 border-solid border-current border-e-transparent align-[-0.125em] text-surface motion-reduce:animate-[spin_1.5s_linear_infinite] dark:text-white"
-                      role="status"
-                    ></div>
-                  </div>
-                ) : (
-                  "Create"
-                )}
+                Create
               </button>
             </article>
             <article className="w-full flex flex-col gap-10 mx-[60px] mt-10 px-20 pt-10 pb-[60px]  bg-white">
@@ -351,16 +288,16 @@ const CreateNewRoom = () => {
                             </SelectTrigger>
                             <SelectContent>
                               <SelectGroup>
-                                <SelectItem value="single bed">
+                                <SelectItem value="Single bed">
                                   Single bed
                                 </SelectItem>
-                                <SelectItem value="double bed">
+                                <SelectItem value="Double bed">
                                   Double bed
                                 </SelectItem>
-                                <SelectItem value="double bed (king size)">
+                                <SelectItem value="Double bed (King size)">
                                   Double bed (King size)
                                 </SelectItem>
-                                <SelectItem value="twin bed">
+                                <SelectItem value="Twin bed">
                                   Twin bed
                                 </SelectItem>
                               </SelectGroup>
