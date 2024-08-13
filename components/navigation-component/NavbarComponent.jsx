@@ -98,30 +98,36 @@ const NavbarComponent = () => {
                         }}
                       ></div>
                     ) : (
-                      <Skeleton className="w-[94px] h-[25px] md:w-[167px] md:h-[45px] bg-cover bg-center bg-slate-200"></Skeleton>
+                      <Skeleton className="w-[94px] h-[25px] md:w-[167px] md:h-[45px] bg-cover bg-center bg-slate-200" />
                     )}
                   </Link>
                   <NavLinkDesktop hotelName={hotelData.hotel_name} />
                 </>
               ) : (
-                <Skeleton className="w-full md:w-[40%] h-full bg-slate-500"></Skeleton>
+                <Skeleton className="w-full md:w-[40%] h-full bg-slate-500" />
               )}
             </div>
           </div>
           <div className="flex items-center">
             {/* <Notification /> */}
-            <NotificationMenu userId={userId} />
+            {userData ? (
+              <>
+                <NotificationMenu userId={userId} />
 
-            <UserMenuMobile
-              image={userData?.profile_picture}
-              name={userData?.full_name}
-              username={userData?.username}
-            />
-            <UserMenuDesktop
-              image={userData?.profile_picture}
-              name={userData?.full_name}
-              username={userData?.username}
-            />
+                <UserMenuMobile
+                  image={userData?.profile_picture}
+                  name={userData?.full_name}
+                  username={userData?.username}
+                />
+                <UserMenuDesktop
+                  image={userData?.profile_picture}
+                  name={userData?.full_name}
+                  username={userData?.username}
+                />
+              </>
+            ) : (
+              <Skeleton className="rounded-full bg-slate-200" />
+            )}
           </div>
         </div>
       ) : (
@@ -146,7 +152,7 @@ const NavbarComponent = () => {
                       }}
                     ></div>
                   ) : (
-                    <Skeleton className="w-[94px] h-[25px] md:w-[167px] md:h-[45px] bg-cover bg-center bg-slate-200"></Skeleton>
+                    <Skeleton className="w-[94px] h-[25px] md:w-[167px] md:h-[45px] bg-cover bg-center bg-slate-200" />
                   )}
                 </Link>
                 <NavLinkDesktop hotelName={hotelData.hotel_name} />

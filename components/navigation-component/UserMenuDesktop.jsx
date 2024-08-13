@@ -39,7 +39,12 @@ const UserMenuDesktop = (props) => {
                 height={40}
                 className="w-10 h-10 rounded-full object-cover"
               />
-              <h6 className="text-start text-wrap">{name}</h6>
+              <h6
+                className="text-start text-wrap break-words"
+                style={{ width: "calc(100% - 40px)" }}
+              >
+                {name}
+              </h6>
             </div>
           </MenubarTrigger>
         ) : (
