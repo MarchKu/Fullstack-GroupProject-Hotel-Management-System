@@ -30,6 +30,19 @@ const Booking = () => {
     }
   }, [bookingID]);
 
+  useEffect(() => {
+    const handleUnload = () => {
+      const url = `/api/deleteBooking?bookingID=${bookingID}`;
+      navigator.sendBeacon(url);
+    };
+
+    window.addEventListener("unload", handleUnload);
+
+    return () => {
+      window.removeEventListener("unload", handleUnload);
+    };
+  }, [bookingID]);
+
   const setTimeLeftStart = useCallback(() => {
     setTimeLeft(300);
   }, []);

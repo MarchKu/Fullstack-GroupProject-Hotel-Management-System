@@ -16,7 +16,7 @@ function AuthProvider(props) {
     const tokenTimeout = addDays(currentDate, 15);
     try {
       const result = await axios.post(
-        "https://neatly-hotel.vercel.app/api/auth/login",
+        `https://neatly-hotel.vercel.app/api/auth/login`,
         data
       );
       const token = result.data.token;
@@ -37,7 +37,7 @@ function AuthProvider(props) {
   const register = async (data) => {
     try {
       await axios.post(
-        "https://neatly-hotel.vercel.app/api/auth/register",
+        `https://neatly-hotel.vercel.app/api/auth/register`,
         data,
         {
           headers: { "Content-Type": "multipart/form-data" },
@@ -66,7 +66,7 @@ function AuthProvider(props) {
   const adminLogin = async (data) => {
     try {
       const result = await axios.post(
-        "https://neatly-hotel.vercel.app/api/auth/adminlogin",
+        `https://neatly-hotel.vercel.app/api/auth/adminlogin`,
         data
       );
       localStorage.setItem("admin", JSON.stringify(result.data.username));

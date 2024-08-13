@@ -35,7 +35,7 @@ const CheckoutPage = ({
         setClientSecret(data.clientSecret);
         console.log("clientSecret:", data);
       });
-  }, [amount,billId]);
+  }, [amount, billId]);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
