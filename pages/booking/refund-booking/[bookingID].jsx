@@ -55,7 +55,7 @@ const BookingHistory = () => {
 
   const cancleClick = () => {
     if (bookingID) {
-      /* cancelBooking(bookingID); */
+      cancelBooking(bookingID);
       setIsCancel(true);
     }
   };
