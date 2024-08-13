@@ -26,7 +26,7 @@ const UserMenuDesktop = (props) => {
   useEffect(() => {
     setProfileImage(image);
   }, [image]);
-  return (
+  return image ? (
     <Menubar className="hidden md:flex rounded-full border-0">
       <MenubarMenu>
         {username ? (
@@ -72,6 +72,8 @@ const UserMenuDesktop = (props) => {
         </MenubarContent>
       </MenubarMenu>
     </Menubar>
+  ) : (
+    <Skeleton className="hidden md:flex rounded-full border-0 bg-slate-200" />
   );
 };
 
