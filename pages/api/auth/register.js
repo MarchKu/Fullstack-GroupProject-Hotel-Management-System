@@ -12,6 +12,8 @@ const knockClient = new Knock(process.env.KNOCK_SK);
 export default async function POST(req, res) {
   await runMiddleware(req, res, multerMiddleware);
 
+  const user = { ...req.body };
+
   try {
     const salt = await bcrypt.genSalt(10);
 
