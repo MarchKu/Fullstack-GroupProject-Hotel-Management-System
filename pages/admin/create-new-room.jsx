@@ -95,7 +95,7 @@ const CreateNewRoom = () => {
     defaultValues: {
       roomTypeId: "1",
       roomSize: "32",
-      bedType: "Single bed",
+      bedType: "single bed",
       guest: "2",
       pricePerNight: "0",
       promotionPrice: "0",
