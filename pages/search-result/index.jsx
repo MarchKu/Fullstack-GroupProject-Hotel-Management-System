@@ -72,7 +72,7 @@ export default function Search_result() {
     if (data) {
       getRoomDeta(data);
     }
-  }, []);
+  }, [data]);
 
   // create booking
   const handleBookNow = async (index) => {
@@ -113,9 +113,9 @@ export default function Search_result() {
 
   const RoomIsFullyBooked = () => {
     return (
-      <div className="w-full h-[50vh] flex flex-col justify-center items-center gap-5">
-        <p className="text-2xl font-extrabold text-center">
-          Unfortunately, the room you’re looking for is fully booked. <br />{" "}
+      <div className="w-full h-[70vh] flex flex-col justify-center items-center gap-5">
+        <p className="text-2xl font-extrabold text-center"> 
+          Unfortunately, the room you’re looking for is not available for your request. <br />{" "}
           Please try different dates.
         </p>
       </div>
@@ -129,10 +129,8 @@ export default function Search_result() {
       </div>
       {/* room search result */}
       <div className="w-full mb-12 flex flex-col items-center md:mt-12 md:mb-28 md:z-0">
-        {isLoading ? (
+        {isLoading || roomData === null ? (
           <SearchResultLoading />
-        ) : isError || roomData === null ? (
-          true
         ) : !roomData[0] ? (
           <RoomIsFullyBooked />
         ) : (
@@ -152,14 +150,30 @@ export default function Search_result() {
                     height={320}
                     className="relative w-full h-full max-h-[300px] min-[400px]:max-h-[470px] md:max-h-full md:h-full xl:max-h-[470px]  xl:w-[100%] xl:h-[100%] bg-center bg-cover md:rounded-md bg-gray-300 object-cover object-center hover:cursor-pointer"
                   />
-                  <Image
+
+                  <svg
                     onClick={() => handlePopUpRoomImage(index)}
-                    src={"/search_result/vector.png"}
-                    width={60}
-                    height={60}
-                    alt="vector"
+                    width="60"
+                    height="60"
+                    viewBox="0 0 40 40"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
                     className="absolute size-[3rem] bottom-0 left-0 min-[767px]:left-4 min-[1472px]:left-0  bg-white p-2 rounded-md opacity-75 hover:opacity-90 hover:cursor-pointer"
-                  />
+                  >
+                    <g opacity="0.6">
+                      <path
+                        d="M0 0H36C38.2091 0 40 1.79086 40 4V40H0V0Z"
+                        fill="white"
+                      />
+                      <path
+                        d="M10.25 23.75L15.409 18.591C15.6179 18.3821 15.866 18.2163 16.139 18.1033C16.4119 17.9902 16.7045 17.932 17 17.932C17.2955 17.932 17.5881 17.9902 17.861 18.1033C18.134 18.2163 18.3821 18.3821 18.591 18.591L23.75 23.75M22.25 22.25L23.659 20.841C23.8679 20.6321 24.116 20.4663 24.389 20.3533C24.6619 20.2402 24.9545 20.182 25.25 20.182C25.5455 20.182 25.8381 20.2402 26.111 20.3533C26.384 20.4663 26.6321 20.6321 26.841 20.841L29.75 23.75M11.75 27.5H28.25C28.6478 27.5 29.0294 27.342 29.3107 27.0607C29.592 26.7794 29.75 26.3978 29.75 26V14C29.75 13.6022 29.592 13.2206 29.3107 12.9393C29.0294 12.658 28.6478 12.5 28.25 12.5H11.75C11.3522 12.5 10.9706 12.658 10.6893 12.9393C10.408 13.2206 10.25 13.6022 10.25 14V26C10.25 26.3978 10.408 26.7794 10.6893 27.0607C10.9706 27.342 11.3522 27.5 11.75 27.5ZM22.25 16.25H22.258V16.258H22.25V16.25ZM22.625 16.25C22.625 16.3495 22.5855 16.4448 22.5152 16.5152C22.4448 16.5855 22.3495 16.625 22.25 16.625C22.1505 16.625 22.0552 16.5855 21.9848 16.5152C21.9145 16.4448 21.875 16.3495 21.875 16.25C21.875 16.1505 21.9145 16.0552 21.9848 15.9848C22.0552 15.9145 22.1505 15.875 22.25 15.875C22.3495 15.875 22.4448 15.9145 22.5152 15.9848C22.5855 16.0552 22.625 16.1505 22.625 16.25V16.25Z"
+                        stroke="#646D89"
+                        stroke-width="1.5"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                    </g>
+                  </svg>
                 </div>
 
                 <div className="p-4  flex flex-col basis-[60%] md:h-[300px] xl:h-[400px] md:justify-between md:pl-8 xl:pl-16">
